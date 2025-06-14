@@ -34,8 +34,8 @@ def translate(text):
             translated = translator.translate(text, dest='zh-cn')
             print(f"翻译结果: {translated.text}")
             return translated.text
-        except Exception:
-            print(f"翻译失败，10秒后重试")
+        except Exception as e:
+            print(f"翻译失败:{e}，10秒后重试")
             sleep(10)  # 请求过于频繁时等待10秒
             print(f"正在重新翻译")
 
@@ -92,7 +92,7 @@ def main():
     """
     启用自动生成中文注释功能需要安装googletrans库
     pip install googletrans==4.0.0-rc1
-    如果出现httpcore._exceptions.ConnectTimeout: timed out，应该是谷歌被墙了
+    如果出现"目标计算机积极拒绝"或者"The handshake operation timed out"，应该是被墙了或者请求过于频繁被封了
     可以使用代理或VPN翻墙，或者使用其他翻译服务
     例如：deepl、百度翻译等
     """
