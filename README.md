@@ -1,28 +1,28 @@
 # Steamworks.NET
 
-_Steamworks.NET_ is a C# Wrapper for Valve's Steamworks API, it can be used either with Unity or your C# based Application.
+_Steamworks.NET_ 这是一个针对 Valve 公司 Steamworks API 的 C# 语言封装库，它既可以与 Unity 软件配合使用，也可以与基于 C# 开发的应用程序一起使用。
 
-_Steamworks.NET_ was designed to be as close as possible to the original C++ API, as such the documentation provided from Valve largely covers usage of _Steamworks.NET_.
-Niceties and C# Idioms can be easily implemented on top of _Steamworks.NET_.
+_Steamworks.NET_ 其设计初衷是尽可能贴近原始的 C++ API，因此 Valve 提供的文档在很大程度上涵盖了 _Steamworks.NET_ 使用方法。
+“优雅的编程技巧和 C# 语句习惯”可以轻松地在 _Steamworks.NET_ 基础上实现。
 
-_Steamworks.NET_ fully supports Windows (32 and 64 bit), OSX, and Linux. Currently building against Steamworks SDK 1.61.
+_Steamworks.NET_ 完全支持 Windows（32 位和 64 位）、OSX 和 Linux 系统。目前基于 Steamworks SDK 1.61 进行开发。
 
 * Author: [Riley Labrecque](https://github.com/rlabrecque)
 * License: [MIT](https://www.opensource.org/licenses/mit-license.php)
-* [Documentation](https://steamworks.github.io/)
-* [Discussion Thread](https://steamcommunity.com/groups/steamworks/discussions/0/666827974770212954/)
-* [Reporting Issues](https://github.com/rlabrecque/Steamworks.NET/issues)
-  Note that only Steamworks.NET specific issues should be reported, general API questions/issues should be asked on the [Steamworks discussion board](http://steamcommunity.com/groups/steamworks/discussions).
+* [文档](https://steamworks.github.io/)
+* [论坛](https://steamcommunity.com/groups/steamworks/discussions/0/666827974770212954/)
+* [报告问题](https://github.com/rlabrecque/Steamworks.NET/issues)
+请注意，仅需报告与 Steamworks.NET 相关的具体问题，一般性的 API 问题/疑问应向 [Steamworks discussion board](http://steamcommunity.com/groups/steamworks/discussions) 提出。
 
 [![Support via Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YFZZER8VNXKRC)
 
-## Installation
+## 安装
 
-You can find the installation instructions [here](https://steamworks.github.io/installation/).
+您可以[在这](https://steamworks.github.io/installation/)找到安装说明。
 
-## Samples
+## 例子
 
-Check out these sample projects to get started:
+查看以下这些示例项目以开始操作吧：
 
 * [Steamworks.NET Example](https://github.com/rlabrecque/Steamworks.NET-Example)
 * [Steamworks.NET Test](https://github.com/rlabrecque/Steamworks.NET-Test)

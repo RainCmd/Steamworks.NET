@@ -17,6 +17,7 @@ g_TypeConversionDict = {
     "const char **": "IntPtr",
 
     # This is for CallbackMsg_t
+    # 这是为了 CallbackMsg_t
     "HSteamUser": "int"
 }
 
@@ -47,15 +48,18 @@ g_CustomPackSize = {
 
 g_SkippedStructs = (
     # Lingering PS3 stuff.
+    # PS3 相关的东西还没处理完。
     "PSNGameBootInviteResult_t",
     "PS3TrophiesInstalled_t",
 
     # We remap these ISteamController structs to ISteamInput
+    # 我们将这些 ISteamController 结构映射到 ISteamInput
     "ControllerAnalogActionData_t",
     "ControllerDigitalActionData_t",
     "ControllerMotionData_t",
 
     # String formatting functions. We just use .ToString() instead.
+    # 字符串格式化函数。我们只使用 .ToString()。
     "SteamNetworkingIdentityRender",
     "SteamNetworkingIPAddrRender",
     "SteamNetworkingPOPIDRender",
@@ -79,6 +83,7 @@ g_SpecialFieldTypes = {
     },
 
     # These two are returned by a function and the struct needs to be blittable.
+    # 这两项是由一个函数返回的，并且该结构体需要具备可复制性。
     "InputAnalogActionData_t": {
         "bActive": "byte", # Originally bool
     },

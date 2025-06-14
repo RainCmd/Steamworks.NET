@@ -5,10 +5,13 @@ from SteamworksParser import steamworksparser
 
 g_SkippedFiles = (
     # We don't currently support the following interfaces because they don't provide a factory of their own.
+    # 我们目前不支持以下接口，因为它们没有提供自己的工厂。
     # You are expected to call GetISteamGeneric to get them.
+    # 您需要调用GetISteamGeneric来获取它们。
     "isteamappticket.h",
     "isteamgamecoordinator.h",
     # PS3 is not supported.
+    # PS3不受支持。
     "isteamps3overlayrenderer.h",
 )
 
@@ -22,6 +25,7 @@ g_SkippedInterfaces = (
 
 g_TypeDict = {
     # Built in types
+    # 内置类型
     "char*": "IntPtr",
     "char *": "IntPtr",
     "char **": "out IntPtr",
@@ -51,6 +55,7 @@ g_TypeDict = {
     "intptr_t": "IntPtr",
 
     # Only used in FileLoadDialogResponse
+    # 仅在“FileLoadDialogResponse”中使用
     "const char **": "IntPtr",
 
     "RTime32": "uint",
@@ -846,12 +851,15 @@ def parse_args(strEntryPoint, args):
                 else:
                     args_with_explicit_count[arg.name] = argattribute.value
 
-
-        if arg.type == "MatchMakingKeyValuePair_t **":  # TODO: Fixme - Small Hack... We do this because MatchMakingKeyValuePair's have ARRAY_COUNT() and two **'s, things get broken :(
+        # TODO: Fixme - Small Hack... We do this because MatchMakingKeyValuePair's have ARRAY_COUNT() and two **'s, things get broken :(
+        # 缺陷说明 - 一个小改进……我们这样做是因为“匹配项键值对”类具有 ARRAY_COUNT() 函数和两个 ** 符号，结果出现了问题 ：(
+        if arg.type == "MatchMakingKeyValuePair_t **":  
             argtype = "IntPtr"
 
         # We skip byte[] because it is a primitive type that C# can essentially mmap and get a great perf increase while marshalling.
+        # 我们不使用 byte[] 类型，因为它是基本数据类型，C# 可以对其进行映射操作，并在进行数据转换时显著提高性能。
         # We need to do this for other primitive types eventually but that will require more testing to make sure nothing breaks.
+        # 我们最终还需要对其他原始类型进行同样的操作，但这需要进行更多的测试，以确保不会出现任何问题。
         if argtype.endswith("[]") and argtype != "byte[]":
             argtype = "[In, Out] " + argtype
         elif argtype == "bool":

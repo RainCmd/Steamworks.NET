@@ -13,7 +13,9 @@ class InternalConstant:
 
 g_TypeDict = {
     # Not a bug... But, it's a giant hack.
+    # 这不是什么漏洞……不过，这可真是个巨大的漏洞利用手段。
     # The issue is that most of these are used as the MarshalAs SizeConst in C# amongst other things and C# wont auto convert them.
+    # 问题在于，其中大多数都被用作 C# 中的“MarshalAs SizeConst”之类的功能，但 C# 不会自动对其进行转换。
     "uint16": "ushort",
 
     "uint32": "int",
@@ -67,6 +69,7 @@ g_SkippedDefines = (
     "S_OVERRIDE",
 
     # We just create multiple versions of this struct, Valve renamed them.
+    # 我们只是为这个结构体创建了多个版本，而Valve将其重新命名了。
     "ControllerAnalogActionData_t",
     "ControllerDigitalActionData_t",
     "ControllerMotionData_t",

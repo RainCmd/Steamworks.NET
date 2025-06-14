@@ -33,11 +33,15 @@ g_FlagEnums = (
 
 g_SkippedEnums = {
     # This is defined within CGameID and we handwrote CGameID including this.
+    # 这是在“CGameID”中定义的，我们还亲手编写了“CGameID”并将其包含在内。
     "EGameIDType": "steamclientpublic.h",
 
     # Valve redefined these twice, and ifdef decided which one to use. :(
+    # Valve重新定义了这两个枚举两次，并且使用了ifdef来决定使用哪一个。:(
     # We use the newer ones from isteaminput.h and skip the ones in
+    # 我们使用 isteaminput.h 中的较新的版本，并跳过那些版本。
     # isteamcontroller.h because it is deprecated.
+    # isteamcontroller.h 因为它已被弃用。
     "EXboxOrigin": "isteamcontroller.h",
     "ESteamInputType": "isteamcontroller.h",
 }

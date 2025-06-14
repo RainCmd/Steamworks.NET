@@ -12,7 +12,7 @@
 
 #include "steam_api_common.h"
 
-const int k_cubAppProofOfPurchaseKeyMax = 240;			// max supported length of a legacy cd key 
+const int k_cubAppProofOfPurchaseKeyMax = 240;			// max supported length of a legacy cd key
 
 
 //-----------------------------------------------------------------------------
