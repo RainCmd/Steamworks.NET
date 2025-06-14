@@ -617,12 +617,11 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Return the number of chats (friends or chat rooms) with unread messages.</para>
-		/// <para>/ A "priority" message is one that would generate some sort of toast or</para>
-		/// <para>/ notification, and depends on user settings.</para>
-		/// <para>/</para>
-		/// <para>/ You can register for UnreadChatMessagesChanged_t callbacks to know when this</para>
-		/// <para>/ has potentially changed.</para>
+		/// <para> Return the number of chats (friends or chat rooms) with unread messages.</para>
+		/// <para> A "priority" message is one that would generate some sort of toast or</para>
+		/// <para> notification, and depends on user settings.</para>
+		/// <para> You can register for UnreadChatMessagesChanged_t callbacks to know when this</para>
+		/// <para> has potentially changed.</para>
 		/// </summary>
 		public static int GetNumChatsWithUnreadPriorityMessages() {
 			InteropHelp.TestIfAvailableClient();

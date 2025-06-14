@@ -147,7 +147,10 @@ def parse(struct):
         if type(comment) is steamworksparser.BlankLine:
             continue
         lines.append("\t" + comment)
-        # Rain TODO: 结构体声明前的注释
+    if g_translate_text:
+        text = g_translate_text(struct.c.rawprecomments)
+        if text:
+            lines.append("\t" + text)
 
     structname = struct.name
 
@@ -184,7 +187,10 @@ def parse(struct):
                 lines.append("\t\t")
             else:
                 lines.append("\t" + comment)
-                # Rain TODO: 成员结尾的注释，后面没有成员了
+        if g_translate_text:
+            text = g_translate_text(struct.endcomments.rawprecomments)
+            if text:
+                lines.append("\t" + text)
 
     lines.append("\t}")
     lines.append("")
@@ -198,7 +204,10 @@ def parse_field(field, structname):
             lines.append("\t\t")
         else:
             lines.append("\t" + comment)
-            # Rain TODO: 字段前面的注释
+    if g_translate_text:
+        text = g_translate_text(field.c.rawprecomments)
+        if text:
+            lines.append("\t" + text)
 
     fieldtype = g_TypeConversionDict.get(field.type, field.type)
     fieldtype = g_SpecialFieldTypes.get(structname, dict()).get(field.name, fieldtype)
@@ -210,7 +219,10 @@ def parse_field(field, structname):
     comment = ""
     if field.c.rawlinecomment:
         comment = field.c.rawlinecomment
-        # Rain TODO: 字段和属性行结尾的注释
+        if g_translate_text:
+            text = g_translate_text(field.c.rawlinecomment, True)
+            if text:
+                comment += " " + text
 
     if field.arraysize:
         constantsstr = ""

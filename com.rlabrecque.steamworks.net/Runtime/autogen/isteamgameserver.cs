@@ -17,8 +17,8 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	public static class SteamGameServer {
 		/// <summary>
-		/// <para>/ Game product identifier.  This is currently used by the master server for version checking purposes.</para>
-		/// <para>/ It's a required field, but will eventually will go away, and the AppID will be used for this purpose.</para>
+		/// <para> Game product identifier.  This is currently used by the master server for version checking purposes.</para>
+		/// <para> It's a required field, but will eventually will go away, and the AppID will be used for this purpose.</para>
 		/// </summary>
 		public static void SetProduct(string pszProduct) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -28,8 +28,8 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Description of the game.  This is a required field and is displayed in the steam server browser....for now.</para>
-		/// <para>/ This is a required field, but it will go away eventually, as the data should be determined from the AppID.</para>
+		/// <para> Description of the game.  This is a required field and is displayed in the steam server browser....for now.</para>
+		/// <para> This is a required field, but it will go away eventually, as the data should be determined from the AppID.</para>
 		/// </summary>
 		public static void SetGameDescription(string pszGameDescription) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -39,10 +39,9 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ If your game is a "mod," pass the string that identifies it.  The default is an empty string, meaning</para>
-		/// <para>/ this application is the original game, not a mod.</para>
-		/// <para>/</para>
-		/// <para>/ @see k_cbMaxGameServerGameDir</para>
+		/// <para> If your game is a "mod," pass the string that identifies it.  The default is an empty string, meaning</para>
+		/// <para> this application is the original game, not a mod.</para>
+		/// <para> @see k_cbMaxGameServerGameDir</para>
 		/// </summary>
 		public static void SetModDir(string pszModDir) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -52,7 +51,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Is this is a dedicated server?  The default value is false.</para>
+		/// <para> Is this is a dedicated server?  The default value is false.</para>
 		/// </summary>
 		public static void SetDedicatedServer(bool bDedicated) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -61,12 +60,11 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Login</para>
-		/// <para>/ Begin process to login to a persistent game server account</para>
-		/// <para>/</para>
-		/// <para>/ You need to register for callbacks to determine the result of this operation.</para>
-		/// <para>/ @see SteamServersConnected_t</para>
-		/// <para>/ @see SteamServerConnectFailure_t</para>
-		/// <para>/ @see SteamServersDisconnected_t</para>
+		/// <para> Begin process to login to a persistent game server account</para>
+		/// <para> You need to register for callbacks to determine the result of this operation.</para>
+		/// <para> @see SteamServersConnected_t</para>
+		/// <para> @see SteamServerConnectFailure_t</para>
+		/// <para> @see SteamServersDisconnected_t</para>
 		/// </summary>
 		public static void LogOn(string pszToken) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -76,10 +74,9 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Login to a generic, anonymous account.</para>
-		/// <para>/</para>
-		/// <para>/ Note: in previous versions of the SDK, this was automatically called within SteamGameServer_Init,</para>
-		/// <para>/ but this is no longer the case.</para>
+		/// <para> Login to a generic, anonymous account.</para>
+		/// <para> Note: in previous versions of the SDK, this was automatically called within SteamGameServer_Init,</para>
+		/// <para> but this is no longer the case.</para>
 		/// </summary>
 		public static void LogOnAnonymous() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -87,7 +84,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Begin process of logging game server out of steam</para>
+		/// <para> Begin process of logging game server out of steam</para>
 		/// </summary>
 		public static void LogOff() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -113,8 +110,8 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Returns true if the master server has requested a restart.</para>
-		/// <para>/ Only returns true once per request.</para>
+		/// <para> Returns true if the master server has requested a restart.</para>
+		/// <para> Only returns true once per request.</para>
 		/// </summary>
 		public static bool WasRestartRequested() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -123,7 +120,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Server state.  These properties may be changed at any time.</para>
-		/// <para>/ Max player count that will be reported to server browser and client queries</para>
+		/// <para> Max player count that will be reported to server browser and client queries</para>
 		/// </summary>
 		public static void SetMaxPlayerCount(int cPlayersMax) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -131,7 +128,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Number of bots.  Default value is zero</para>
+		/// <para> Number of bots.  Default value is zero</para>
 		/// </summary>
 		public static void SetBotPlayerCount(int cBotplayers) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -139,9 +136,8 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Set the name of server as it will appear in the server browser</para>
-		/// <para>/</para>
-		/// <para>/ @see k_cbMaxGameServerName</para>
+		/// <para> Set the name of server as it will appear in the server browser</para>
+		/// <para> @see k_cbMaxGameServerName</para>
 		/// </summary>
 		public static void SetServerName(string pszServerName) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -151,9 +147,8 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Set name of map to report in the server browser</para>
-		/// <para>/</para>
-		/// <para>/ @see k_cbMaxGameServerMapName</para>
+		/// <para> Set name of map to report in the server browser</para>
+		/// <para> @see k_cbMaxGameServerMapName</para>
 		/// </summary>
 		public static void SetMapName(string pszMapName) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -163,7 +158,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Let people know if your server will require a password</para>
+		/// <para> Let people know if your server will require a password</para>
 		/// </summary>
 		public static void SetPasswordProtected(bool bPasswordProtected) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -171,17 +166,15 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Spectator server port to advertise.  The default value is zero, meaning the</para>
-		/// <para>/ service is not used.  If your server receives any info requests on the LAN,</para>
-		/// <para>/ this is the value that will be placed into the reply for such local queries.</para>
-		/// <para>/</para>
-		/// <para>/ This is also the value that will be advertised by the master server.</para>
-		/// <para>/ The only exception is if your server is using a FakeIP.  Then then the second</para>
-		/// <para>/ fake port number (index 1) assigned to your server will be listed on the master</para>
-		/// <para>/ server as the spectator port, if you set this value to any nonzero value.</para>
-		/// <para>/</para>
-		/// <para>/ This function merely controls the values that are advertised -- it's up to you to</para>
-		/// <para>/ configure the server to actually listen on this port and handle any spectator traffic</para>
+		/// <para> Spectator server port to advertise.  The default value is zero, meaning the</para>
+		/// <para> service is not used.  If your server receives any info requests on the LAN,</para>
+		/// <para> this is the value that will be placed into the reply for such local queries.</para>
+		/// <para> This is also the value that will be advertised by the master server.</para>
+		/// <para> The only exception is if your server is using a FakeIP.  Then then the second</para>
+		/// <para> fake port number (index 1) assigned to your server will be listed on the master</para>
+		/// <para> server as the spectator port, if you set this value to any nonzero value.</para>
+		/// <para> This function merely controls the values that are advertised -- it's up to you to</para>
+		/// <para> configure the server to actually listen on this port and handle any spectator traffic</para>
 		/// </summary>
 		public static void SetSpectatorPort(ushort unSpectatorPort) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -189,9 +182,8 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Name of the spectator server.  (Only used if spectator port is nonzero.)</para>
-		/// <para>/</para>
-		/// <para>/ @see k_cbMaxGameServerMapName</para>
+		/// <para> Name of the spectator server.  (Only used if spectator port is nonzero.)</para>
+		/// <para> @see k_cbMaxGameServerMapName</para>
 		/// </summary>
 		public static void SetSpectatorServerName(string pszSpectatorServerName) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -201,7 +193,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Call this to clear the whole list of key/values that are sent in rules queries.</para>
+		/// <para> Call this to clear the whole list of key/values that are sent in rules queries.</para>
 		/// </summary>
 		public static void ClearAllKeyValues() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -209,7 +201,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Call this to add/update a key/value pair.</para>
+		/// <para> Call this to add/update a key/value pair.</para>
 		/// </summary>
 		public static void SetKeyValue(string pKey, string pValue) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -220,10 +212,9 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Sets a string defining the "gametags" for this server, this is optional, but if it is set</para>
-		/// <para>/ it allows users to filter in the matchmaking/server-browser interfaces based on the value</para>
-		/// <para>/</para>
-		/// <para>/ @see k_cbMaxGameServerTags</para>
+		/// <para> Sets a string defining the "gametags" for this server, this is optional, but if it is set</para>
+		/// <para> it allows users to filter in the matchmaking/server-browser interfaces based on the value</para>
+		/// <para> @see k_cbMaxGameServerTags</para>
 		/// </summary>
 		public static void SetGameTags(string pchGameTags) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -233,10 +224,9 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Sets a string defining the "gamedata" for this server, this is optional, but if it is set</para>
-		/// <para>/ it allows users to filter in the matchmaking/server-browser interfaces based on the value</para>
-		/// <para>/</para>
-		/// <para>/ @see k_cbMaxGameServerGameData</para>
+		/// <para> Sets a string defining the "gamedata" for this server, this is optional, but if it is set</para>
+		/// <para> it allows users to filter in the matchmaking/server-browser interfaces based on the value</para>
+		/// <para> @see k_cbMaxGameServerGameData</para>
 		/// </summary>
 		public static void SetGameData(string pchGameData) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -246,7 +236,7 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Region identifier.  This is an optional field, the default value is empty, meaning the "world" region</para>
+		/// <para> Region identifier.  This is an optional field, the default value is empty, meaning the "world" region</para>
 		/// </summary>
 		public static void SetRegion(string pszRegion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -256,14 +246,13 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/ Indicate whether you wish to be listed on the master server list</para>
-		/// <para>/ and/or respond to server browser / LAN discovery packets.</para>
-		/// <para>/ The server starts with this value set to false.  You should set all</para>
-		/// <para>/ relevant server parameters before enabling advertisement on the server.</para>
-		/// <para>/</para>
-		/// <para>/ (This function used to be named EnableHeartbeats, so if you are wondering</para>
-		/// <para>/ where that function went, it's right here.  It does the same thing as before,</para>
-		/// <para>/ the old name was just confusing.)</para>
+		/// <para> Indicate whether you wish to be listed on the master server list</para>
+		/// <para> and/or respond to server browser / LAN discovery packets.</para>
+		/// <para> The server starts with this value set to false.  You should set all</para>
+		/// <para> relevant server parameters before enabling advertisement on the server.</para>
+		/// <para> (This function used to be named EnableHeartbeats, so if you are wondering</para>
+		/// <para> where that function went, it's right here.  It does the same thing as before,</para>
+		/// <para> the old name was just confusing.)</para>
 		/// </summary>
 		public static void SetAdvertiseServerActive(bool bActive) {
 			InteropHelp.TestIfAvailableGameServer();

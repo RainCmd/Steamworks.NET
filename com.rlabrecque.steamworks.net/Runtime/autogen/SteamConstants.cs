@@ -162,32 +162,32 @@ namespace Steamworks {
 		public const int k_iSteamRemotePlayCallbacks = 5700;
 		public const int k_iSteamChatCallbacks = 5900;
 		public const int k_iSteamTimelineCallbacks = 6000;
-		/// Pass to SteamGameServer_Init to indicate that the same UDP port will be used for game traffic
-		/// UDP queries for server browser pings and LAN discovery.  In this case, Steam will not open up a
-		/// socket to handle server browser queries, and you must use ISteamGameServer::HandleIncomingPacket
-		/// and ISteamGameServer::GetNextOutgoingPacket to handle packets related to server discovery on your socket.
+		// Pass to SteamGameServer_Init to indicate that the same UDP port will be used for game traffic
+		// UDP queries for server browser pings and LAN discovery.  In this case, Steam will not open up a
+		// socket to handle server browser queries, and you must use ISteamGameServer::HandleIncomingPacket
+		// and ISteamGameServer::GetNextOutgoingPacket to handle packets related to server discovery on your socket.
 		public const ushort STEAMGAMESERVER_QUERY_PORT_SHARED = 0xffff;
 		public const int k_unSteamAccountIDMask = -1;
 		public const int k_unSteamAccountInstanceMask = 0x000FFFFF;
 		public const int k_unSteamUserDefaultInstance = 1; // fixed instance for all individual users
 		public const int k_cchGameExtraInfoMax = 64;
 		public const int k_nSteamEncryptedAppTicketSymmetricKeyLen = 32;
-		/// Port number(s) assigned to us.  Only the first entries will contain
-		/// nonzero values.  Entries corresponding to ports beyond what was
-		/// allocated for you will be zero.
-		///
-		/// (NOTE: At the time of this writing, the maximum number of ports you may
-		/// request is 4.)
+		// Port number(s) assigned to us.  Only the first entries will contain
+		// nonzero values.  Entries corresponding to ports beyond what was
+		// allocated for you will be zero.
+		//
+		// (NOTE: At the time of this writing, the maximum number of ports you may
+		// request is 4.)
 		public const int k_nMaxReturnPorts = 8;
-		/// Max length of diagnostic error message
+		// Max length of diagnostic error message
 		public const int k_cchMaxSteamNetworkingErrMsg = 1024;
-		/// Max length, in bytes (including null terminator) of the reason string
-		/// when a connection is closed.
+		// Max length, in bytes (including null terminator) of the reason string
+		// when a connection is closed.
 		public const int k_cchSteamNetworkingMaxConnectionCloseReason = 128;
-		/// Max length, in bytes (include null terminator) of debug description
-		/// of a connection.
+		// Max length, in bytes (include null terminator) of debug description
+		// of a connection.
 		public const int k_cchSteamNetworkingMaxConnectionDescription = 128;
-		/// Max length of the app's part of the description
+		// Max length of the app's part of the description
 		public const int k_cchSteamNetworkingMaxConnectionAppName = 32;
 		public const int k_nSteamNetworkConnectionInfoFlags_Unauthenticated = 1; // We don't have a certificate for the remote host.
 		public const int k_nSteamNetworkConnectionInfoFlags_Unencrypted = 2; // Information is being sent out over a wire unencrypted (by this library)
@@ -198,9 +198,9 @@ namespace Steamworks {
 		//
 		// Network messages
 		//
-		/// Max size of a single message that we can SEND.
-		/// Note: We might be wiling to receive larger messages,
-		/// and our peer might, too.
+		// Max size of a single message that we can SEND.
+		// Note: We might be wiling to receive larger messages,
+		// and our peer might, too.
 		public const int k_cbMaxSteamNetworkingSocketsMessageSizeSend = 512 * 1024;
 		//
 		// Flags used to set options for message sending
@@ -303,13 +303,13 @@ namespace Steamworks {
 		// exactly as a transport replacement for UDP-style datagrams only), you may not need to
 		// know when an underlying connection fails, and so you may not need this notification.
 		public const int k_nSteamNetworkingSend_AutoRestartBrokenSession = 32;
-		/// Max possible length of a ping location, in string format.  This is
-		/// an extremely conservative worst case value which leaves room for future
-		/// syntax enhancements.  Most strings in practice are a lot shorter.
-		/// If you are storing many of these, you will very likely benefit from
-		/// using dynamic memory.
+		// Max possible length of a ping location, in string format.  This is
+		// an extremely conservative worst case value which leaves room for future
+		// syntax enhancements.  Most strings in practice are a lot shorter.
+		// If you are storing many of these, you will very likely benefit from
+		// using dynamic memory.
 		public const int k_cchMaxSteamNetworkingPingLocationString = 1024;
-		/// Special values that are returned by some functions that return a ping.
+		// Special values that are returned by some functions that return a ping.
 		public const int k_nSteamNetworkingPing_Failed = -1;
 		public const int k_nSteamNetworkingPing_Unknown = -2;
 		// Bitmask of types to share

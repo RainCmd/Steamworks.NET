@@ -55,7 +55,6 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>/////</para>
 		/// <para> Game lobby functions</para>
 		/// <para> Get a list of relevant lobbies</para>
 		/// <para> this is an asynchronous request</para>

@@ -75,7 +75,10 @@ def main(parser, translate_text = None):
                 if type(comment) is steamworksparser.BlankLine:
                     continue
                 lines.append("\t" + comment)
-                # Rain TODO:枚举类型声明前的注释
+            if g_translate_text:
+                text = g_translate_text(enum.c.rawprecomments)
+                if text:
+                    lines.append("\t" + text)
 
             if enum.name in g_FlagEnums:
                 lines.append("\t[Flags]")
@@ -88,7 +91,10 @@ def main(parser, translate_text = None):
                         lines.append("")
                     else:
                         lines.append("\t" + comment)
-                        # Rain TODO:枚举element前面的注释
+                if g_translate_text:
+                    text = g_translate_text(field.c.rawprecomments)
+                    if text:
+                        lines.append("\t" + text)
                 line = "\t\t" + field.name
                 if field.value:
                     if "<<" in field.value and enum.name not in g_FlagEnums:
@@ -108,7 +114,10 @@ def main(parser, translate_text = None):
                     line += value
                 if field.c.rawlinecomment:
                     line += field.c.rawlinecomment
-                    # Rain TODO:枚举element行结尾注释
+                    if g_translate_text:
+                        text = g_translate_text(field.c.rawlinecomment, True)
+                        if text:
+                            line += " " + text
                 lines.append(line)
 
             for comment in enum.endcomments.rawprecomments:
@@ -116,7 +125,10 @@ def main(parser, translate_text = None):
                     lines.append("")
                 else:
                     lines.append("\t" + comment)
-                    # Rain TODO:枚举结尾的注释，后面没有element了
+            if g_translate_text:
+                text = g_translate_text(enum.endcomments.rawprecomments)
+                if text:
+                    lines.append("\t" + text)
 
             lines.append("\t}")
             lines.append("")

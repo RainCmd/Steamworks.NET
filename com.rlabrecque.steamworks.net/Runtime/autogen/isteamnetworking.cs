@@ -17,7 +17,6 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	public static class SteamNetworking {
 		/// <summary>
-		/// <para>//////////////////////////////////////////////////////////////////////////////////////////</para>
 		/// <para> UDP-style (connectionless) networking interface.  These functions send messages using</para>
 		/// <para> an API organized around the destination.  Reliable and unreliable messages are supported.</para>
 		/// <para> For a more TCP-style interface (meaning you have a connection handle), see the functions below.</para>
@@ -115,7 +114,6 @@ namespace Steamworks {
 		}
 
 		/// <summary>
-		/// <para>//////////////////////////////////////////////////////////////////////////////////////////</para>
 		/// <para> LISTEN / CONNECT connection-oriented interface functions</para>
 		/// <para> These functions are more like a client-server TCP API.  One side is the "server"</para>
 		/// <para> and "listens" for incoming connections, which then must be "accepted."  The "client"</para>
@@ -126,7 +124,6 @@ namespace Steamworks {
 		/// <para> Both methods can send both reliable and unreliable methods.</para>
 		/// <para> These APIs are deprecated, and may be removed in a future version of the Steamworks</para>
 		/// <para> SDK.  See ISteamNetworkingSockets.</para>
-		/// <para>//////////////////////////////////////////////////////////////////////////////////////////</para>
 		/// <para> creates a socket and listens others to connect</para>
 		/// <para> will trigger a SocketStatusCallback_t callback on another client connecting</para>
 		/// <para> nVirtualP2PPort is the unique ID that the client will connect to, in case you have multiple ports</para>

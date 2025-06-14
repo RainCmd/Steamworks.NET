@@ -154,12 +154,12 @@ def main(parser, translate_text = None):
     lines = []
     constants = parse(parser)
     for constant in constants:
-        text = ""
         for precomment in constant.precomments:
             lines.append("//" + precomment)
-            text += precomment + " "
-        if g_translate_text and text != "":
-            lines.append("// " + g_translate_text(text))
+        if g_translate_text:
+            text = g_translate_text(constant.precomments)
+            if text:
+                lines.append("// " + text)
         lines.append("public const " + constant.type + " " + constant.name + constant.spacing + "= " + constant.value + ";" + constant.comment)
 
     with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamConstants.cs", "wb") as out:
@@ -222,7 +222,9 @@ def parse_constants(parser):
                 comment = " //" + constant.c.linecomment
                 # 常量申明的行尾注释
                 if g_translate_text:
-                    comment = f"""{comment} {g_translate_text(constant.c.linecomment, "zh-cn")}""" 
+                    text = g_translate_text(constant.c.linecomment)
+                    if text:
+                        comment += " " + text
 
 
             constanttype = constant.type
