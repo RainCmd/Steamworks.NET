@@ -102,7 +102,11 @@ g_ExplicitStructs = {
     }
 }
 
-def main(parser):
+g_translate_text = None
+
+def main(parser, translate_text = None):
+    global g_translate_text
+    g_translate_text = translate_text
     try:
         os.makedirs("../com.rlabrecque.steamworks.net/Runtime/autogen/")
     except OSError:
@@ -143,6 +147,7 @@ def parse(struct):
         if type(comment) is steamworksparser.BlankLine:
             continue
         lines.append("\t" + comment)
+        # Rain TODO: 结构体声明前的注释
 
     structname = struct.name
 
@@ -179,6 +184,7 @@ def parse(struct):
                 lines.append("\t\t")
             else:
                 lines.append("\t" + comment)
+                # Rain TODO: 成员结尾的注释，后面没有成员了
 
     lines.append("\t}")
     lines.append("")
@@ -192,6 +198,7 @@ def parse_field(field, structname):
             lines.append("\t\t")
         else:
             lines.append("\t" + comment)
+            # Rain TODO: 字段前面的注释
 
     fieldtype = g_TypeConversionDict.get(field.type, field.type)
     fieldtype = g_SpecialFieldTypes.get(structname, dict()).get(field.name, fieldtype)
@@ -203,6 +210,7 @@ def parse_field(field, structname):
     comment = ""
     if field.c.rawlinecomment:
         comment = field.c.rawlinecomment
+        # Rain TODO: 字段和属性行结尾的注释
 
     if field.arraysize:
         constantsstr = ""

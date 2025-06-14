@@ -551,8 +551,11 @@ HEADER = None
 g_NativeMethods = []
 g_Output = []
 g_Typedefs = None
+g_translate_text = None
 
-def main(parser):
+def main(parser, translate_text = None):
+    global g_translate_text
+    g_translate_text = translate_text
     try:
         os.makedirs("../com.rlabrecque.steamworks.net/Runtime/autogen/")
     except OSError:
@@ -800,10 +803,15 @@ def parse_func(f, interface, func):
 
     if comments:
         g_Output.append("\t\t/// <summary>")
+        trans_src = ""
         for c in comments:
             c = c.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')#.replace('/*', '').replace('*/', '')
             if c:
                 g_Output.append("\t\t/// <para>" + c + "</para>")
+                trans_src += c + " "
+        if g_translate_text and trans_src != "":
+            c = g_translate_text(trans_src)
+            g_Output.append("\t\t/// <para>" + c + "</para>")
         g_Output.append("\t\t/// </summary>")
     g_Output.append("\t\tpublic static " + wrapperreturntype + " " + func.name.rstrip("0") + "(" + wrapperargs + ") {")
 

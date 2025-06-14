@@ -148,8 +148,11 @@ g_ReadOnlyValues = {
     ]),
 }
 
+g_translate_text = None
 
-def main(parser):
+def main(parser, translate_text = None):
+    global g_translate_text
+    g_translate_text = translate_text
     with open("templates/header.txt", "r") as f:
         HEADER = f.read()
 
