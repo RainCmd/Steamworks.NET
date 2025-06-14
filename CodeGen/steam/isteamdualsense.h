@@ -1,4 +1,4 @@
-/* SIE CONFIDENTIAL
+﻿/* SIE CONFIDENTIAL
  * $PSLibId$
  * Copyright (C) 2019 Sony Interactive Entertainment Inc.
  * All Rights Reserved.

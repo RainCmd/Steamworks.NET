@@ -1,4 +1,4 @@
-//========= Copyright 1996-2022, Valve LLC, All rights reserved. ============
+﻿//========= Copyright 1996-2022, Valve LLC, All rights reserved. ============
 
 #ifndef STEAMTYPES_H
 #define STEAMTYPES_H

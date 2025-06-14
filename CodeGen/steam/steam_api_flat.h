@@ -1,4 +1,4 @@
-//====== Copyright Valve Corporation, All rights reserved. ====================
+﻿//====== Copyright Valve Corporation, All rights reserved. ====================
 //
 // Purpose: Header for "flat" SteamAPI. Use this for binding to other languages.
 // This file is auto-generated, do not edit it.

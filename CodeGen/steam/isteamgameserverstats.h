@@ -1,4 +1,4 @@
-//====== Copyright � Valve Corporation, All rights reserved. =======
+﻿//====== Copyright ï¿½ Valve Corporation, All rights reserved. =======
 //
 // Purpose: interface for game servers to steam stats and achievements
 //
