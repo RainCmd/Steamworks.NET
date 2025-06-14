@@ -29,8 +29,6 @@ def translate(text):
     global count
     count += 1
     print(f"正在翻译第 {count} 个文本: {text}")
-    return "临时测试:《" + text + "》"
-
     while True:
         try:
             translated = translator.translate(text, dest='zh-cn')
@@ -39,7 +37,8 @@ def translate(text):
         except Exception:
             print(f"翻译失败，10秒后重试")
             sleep(10)  # 请求过于频繁时等待10秒
-            print(f"正在重新翻译第 {count} 个文本: {text}")
+            print(f"正在重新翻译")
+
 def translate_text(text, forceTrim = False):
     if isinstance(text, list):
         if len(text) == 0:
