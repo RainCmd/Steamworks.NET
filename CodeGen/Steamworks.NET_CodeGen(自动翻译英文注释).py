@@ -5,12 +5,10 @@ from src import enums
 from src import structs
 from src import typedefs
 
-from time import sleep
-from googletrans import Translator
 import re
+import requests
 
 count = 0
-translator = Translator()
 def get_prefix(text):
     match = re.match(r'^\s*//+\s*', text)
     if match:
@@ -29,15 +27,22 @@ def translate(text):
     global count
     count += 1
     print(f"正在翻译第 {count} 个文本: {text}")
-    while True:
-        try:
-            translated = translator.translate(text, dest='zh-cn')
-            print(f"翻译结果: {translated.text}")
-            return translated.text
-        except Exception as e:
-            print(f"翻译失败:{e}，10秒后重试")
-            sleep(10)  # 请求过于频繁时等待10秒
-            print(f"正在重新翻译")
+    url = "http://localhost:11434/api/generate"
+    data = {
+        "model": "gemma3:4b",
+        "prompt": text,
+        "stream": False,
+        "options":{
+            "temperature": 0.1,
+            "top_p": 0.6,
+            "top_k": 10,
+        },
+        "system": "你是一个翻译助手，任何发送给你的内容都直接翻译为简体中文并输出，不要输出其他任何多余内容。请注意，Steam是软件名，保留英文原文，Valve是公司名，也保留英文原文。",
+    }
+    response = requests.post(url, json=data)
+    result = response.json().get("response", "")
+    print(f"翻译结果: {result}")
+    return result.replace("\n", " ").strip()
 
 def translate_text(text, forceTrim = False):
     if isinstance(text, list):
@@ -77,7 +82,7 @@ def translate_text(text, forceTrim = False):
         if not forceTrim and prefix:
             return "\n".join(result)
         else:
-            return " ".join(result)
+            return result
     
     if is_nothing(text):
         return ""
@@ -89,13 +94,6 @@ def translate_text(text, forceTrim = False):
         return text
 
 def main():
-    """
-    启用自动生成中文注释功能需要安装googletrans库
-    pip install googletrans==4.0.0-rc1
-    如果出现"目标计算机积极拒绝"或者"The handshake operation timed out"，应该是被墙了或者请求过于频繁被封了
-    可以使用代理或VPN翻墙，或者使用其他翻译服务
-    例如：deepl、百度翻译等
-    """
     steam_path = "steam/"
 
     steamworksparser.Settings.fake_gameserver_interfaces = True

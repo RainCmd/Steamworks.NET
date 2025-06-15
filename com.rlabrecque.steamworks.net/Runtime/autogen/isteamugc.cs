@@ -18,7 +18,7 @@ namespace Steamworks {
 	public static class SteamUGC {
 		/// <summary>
 		/// <para> Query UGC associated with a user. Creator app id or consumer app id must be valid and be set to the current running app. unPage should start at 1.</para>
-		/// <para>查询与用户关联的UGC。创建者应用程序ID或消费者应用程序ID必须有效，并设置为当前运行应用程序。不符号应从1开始。</para>
+		/// <para>查询与用户相关的 UGC 需要提供有效的 Creator app id 或 Consumer app id，并且设置为当前运行的 App。 unPage 必须从 1 开始。</para>
 		/// </summary>
 		public static UGCQueryHandle_t CreateQueryUserUGCRequest(AccountID_t unAccountID, EUserUGCList eListType, EUGCMatchingUGCType eMatchingUGCType, EUserUGCListSortOrder eSortOrder, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint unPage) {
 			InteropHelp.TestIfAvailableClient();
@@ -27,7 +27,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Query for all matching UGC. Creator app id or consumer app id must be valid and be set to the current running app. unPage should start at 1.</para>
-		/// <para>查询所有匹配的UGC。创建者应用程序ID或消费者应用程序ID必须有效，并设置为当前运行应用程序。不符号应从1开始。</para>
+		/// <para>查询所有匹配的UGC。创作者App ID或消费者App ID必须有效且设置为当前运行的App。unPage应从1开始。</para>
 		/// </summary>
 		public static UGCQueryHandle_t CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint unPage) {
 			InteropHelp.TestIfAvailableClient();
@@ -36,7 +36,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Query for all matching UGC using the new deep paging interface. Creator app id or consumer app id must be valid and be set to the current running app. pchCursor should be set to NULL or "*" to get the first result set.</para>
-		/// <para>查询使用新的Deep Paging界面对所有匹配UGC的匹配。创建者应用程序ID或消费者应用程序ID必须有效，并设置为当前运行应用程序。PCHCURSOR应设置为null或“*”以获取第一个结果集。</para>
+		/// <para>使用新的深度分页接口查询所有匹配的UGC。创作者App ID或消费者App ID必须有效且设置为当前运行的App。pchCursor应设置为NULL或“*”以获取第一结果集。</para>
 		/// </summary>
 		public static UGCQueryHandle_t CreateQueryAllUGCRequest(EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, AppId_t nCreatorAppID, AppId_t nConsumerAppID, string pchCursor = null) {
 			InteropHelp.TestIfAvailableClient();
@@ -47,7 +47,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Query for the details of the given published file ids (the RequestUGCDetails call is deprecated and replaced with this)</para>
-		/// <para>查询给定已发布的文件ID的详细信息（请求reactermugcdetails呼叫已弃用并替换为此）</para>
+		/// <para>查询给定已发布文件ID的详细信息（RequestUGCDetails调用已弃用，现在使用此方法）</para>
 		/// </summary>
 		public static UGCQueryHandle_t CreateQueryUGCDetailsRequest(PublishedFileId_t[] pvecPublishedFileID, uint unNumPublishedFileIDs) {
 			InteropHelp.TestIfAvailableClient();
@@ -56,7 +56,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Send the query to Steam</para>
-		/// <para>将查询发送到蒸汽</para>
+		/// <para>Send the query to Steam</para>
 		/// </summary>
 		public static SteamAPICall_t SendQueryUGCRequest(UGCQueryHandle_t handle) {
 			InteropHelp.TestIfAvailableClient();
@@ -65,7 +65,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Retrieve an individual result after receiving the callback for querying UGC</para>
-		/// <para>收到回调以查询UGC后检索个人结果</para>
+		/// <para>Retrieve an individual result after receiving the callback for querying UGC</para>
 		/// </summary>
 		public static bool GetQueryUGCResult(UGCQueryHandle_t handle, uint index, out SteamUGCDetails_t pDetails) {
 			InteropHelp.TestIfAvailableClient();
@@ -159,7 +159,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Return the first value matching the pchKey. Note that a key may map to multiple values.  Returns false if there was an error or no matching value was found.</para>
-		/// <para>返回与Pchkey匹配的第一个值。请注意，键可能会映射到多个值。如果发现错误或没有匹配值，则返回错误。</para>
+		/// <para>返回第一个匹配 pchKey 的值。注意一个键可能映射到多个值。如果未找到匹配的值，则返回 false。</para>
 		/// </summary>
 		public static bool GetQueryUGCKeyValueTag(UGCQueryHandle_t handle, uint index, string pchKey, out string pchValue, uint cchValueSize) {
 			InteropHelp.TestIfAvailableClient();
@@ -174,7 +174,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Some items can specify that they have a version that is valid for a range of game versions (Steam branch)</para>
-		/// <para>有些项目可以指定它们具有适用于一系列游戏版本的版本（Steam Branch）</para>
+		/// <para>某些项目可以指定它们具有对游戏版本范围的有效版本（Steam 分支）。</para>
 		/// </summary>
 		public static uint GetNumSupportedGameVersions(UGCQueryHandle_t handle, uint index) {
 			InteropHelp.TestIfAvailableClient();
@@ -203,7 +203,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Release the request to free up memory, after retrieving results</para>
-		/// <para>释放释放内存的请求，在检索结果后</para>
+		/// <para>Release the request to free up memory, after retrieving results</para>
 		/// </summary>
 		public static bool ReleaseQueryUGCRequest(UGCQueryHandle_t handle) {
 			InteropHelp.TestIfAvailableClient();
@@ -212,7 +212,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Options to set for querying UGC</para>
-		/// <para>设置查询UGC的选项</para>
+		/// <para>Options to set for querying UGC</para>
 		/// </summary>
 		public static bool AddRequiredTag(UGCQueryHandle_t handle, string pTagName) {
 			InteropHelp.TestIfAvailableClient();
@@ -223,7 +223,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> match any of the tags in this group</para>
-		/// <para>匹配此组中的任何标签</para>
+		/// <para>match any of the tags in this group</para>
 		/// </summary>
 		public static bool AddRequiredTagGroup(UGCQueryHandle_t handle, System.Collections.Generic.IList<string> pTagGroups) {
 			InteropHelp.TestIfAvailableClient();
@@ -291,7 +291,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> admin queries return hidden items</para>
-		/// <para>管理查询返回隐藏的项目</para>
+		/// <para>管理员查询返回隐藏物品</para>
 		/// </summary>
 		public static bool SetAdminQuery(UGCUpdateHandle_t handle, bool bAdminQuery) {
 			InteropHelp.TestIfAvailableClient();
@@ -300,7 +300,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Options only for querying user UGC</para>
-		/// <para>仅查询用户UGC的选项</para>
+		/// <para>请提供您需要翻译的内容。</para>
 		/// </summary>
 		public static bool SetCloudFileNameFilter(UGCQueryHandle_t handle, string pMatchCloudFileName) {
 			InteropHelp.TestIfAvailableClient();
@@ -311,7 +311,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Options only for querying all UGC</para>
-		/// <para>仅查询所有UGC的选项</para>
+		/// <para>Options only for querying all UGC</para>
 		/// </summary>
 		public static bool SetMatchAnyTag(UGCQueryHandle_t handle, bool bMatchAnyTag) {
 			InteropHelp.TestIfAvailableClient();
@@ -350,7 +350,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> DEPRECATED - Use CreateQueryUGCDetailsRequest call above instead!</para>
-		/// <para>弃用 - 改用上面的CreatequeryUgcDetailsRequest调用！</para>
+		/// <para>已弃用！请使用上面的 CreateQueryUGCDetailsRequest 调用！</para>
 		/// </summary>
 		public static SteamAPICall_t RequestUGCDetails(PublishedFileId_t nPublishedFileID, uint unMaxAgeSeconds) {
 			InteropHelp.TestIfAvailableClient();
@@ -360,7 +360,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Steam Workshop Creator API</para>
 		/// <para> create new item for this app with no content attached yet</para>
-		/// <para>Steam Workshop Creator API为此应用创建新项目，尚未附加任何内容</para>
+		/// <para>Steam Workshop Creator API 创建新项目，为该应用创建，目前未附加任何内容。</para>
 		/// </summary>
 		public static SteamAPICall_t CreateItem(AppId_t nConsumerAppId, EWorkshopFileType eFileType) {
 			InteropHelp.TestIfAvailableClient();
@@ -369,7 +369,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> start an UGC item update. Set changed properties before commiting update with CommitItemUpdate()</para>
-		/// <para>启动UGC项目更新。在使用commititemupdate（）提交更新之前设置更改的属性</para>
+		/// <para>开始 UGC 项目更新。使用 CommitItemUpdate() 设置更改的属性。</para>
 		/// </summary>
 		public static UGCUpdateHandle_t StartItemUpdate(AppId_t nConsumerAppId, PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
@@ -378,7 +378,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> change the title of an UGC item</para>
-		/// <para>更改UGC项目的标题</para>
+		/// <para>Please provide the original title of the UGC item you want to change.</para>
 		/// </summary>
 		public static bool SetItemTitle(UGCUpdateHandle_t handle, string pchTitle) {
 			InteropHelp.TestIfAvailableClient();
@@ -389,7 +389,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> change the description of an UGC item</para>
-		/// <para>更改UGC项目的描述</para>
+		/// <para>Please provide the description you want me to translate.</para>
 		/// </summary>
 		public static bool SetItemDescription(UGCUpdateHandle_t handle, string pchDescription) {
 			InteropHelp.TestIfAvailableClient();
@@ -400,7 +400,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> specify the language of the title or description that will be set</para>
-		/// <para>指定将设置标题或描述的语言</para>
+		/// <para>请指定标题或描述的语言。</para>
 		/// </summary>
 		public static bool SetItemUpdateLanguage(UGCUpdateHandle_t handle, string pchLanguage) {
 			InteropHelp.TestIfAvailableClient();
@@ -411,7 +411,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> change the metadata of an UGC item (max = k_cchDeveloperMetadataMax)</para>
-		/// <para>更改UGC项目的元数据（max = k_cchdevelopermetadatamax）</para>
+		/// <para>更改 UGC 项目的元数据 (max = k_cchDeveloperMetadataMax)</para>
 		/// </summary>
 		public static bool SetItemMetadata(UGCUpdateHandle_t handle, string pchMetaData) {
 			InteropHelp.TestIfAvailableClient();
@@ -422,7 +422,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> change the visibility of an UGC item</para>
-		/// <para>更改UGC项目的可见性</para>
+		/// <para>change the visibility of an UGC item</para>
 		/// </summary>
 		public static bool SetItemVisibility(UGCUpdateHandle_t handle, ERemoteStoragePublishedFileVisibility eVisibility) {
 			InteropHelp.TestIfAvailableClient();
@@ -431,7 +431,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> change the tags of an UGC item</para>
-		/// <para>更改UGC项目的标签</para>
+		/// <para>Change the tags of an UGC item</para>
 		/// </summary>
 		public static bool SetItemTags(UGCUpdateHandle_t updateHandle, System.Collections.Generic.IList<string> pTags, bool bAllowAdminTags = false) {
 			InteropHelp.TestIfAvailableClient();
@@ -440,7 +440,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> update item content from this local folder</para>
-		/// <para>从此本地文件夹更新项目内容</para>
+		/// <para>更新本地物品内容</para>
 		/// </summary>
 		public static bool SetItemContent(UGCUpdateHandle_t handle, string pszContentFolder) {
 			InteropHelp.TestIfAvailableClient();
@@ -451,7 +451,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para>  change preview image file for this item. pszPreviewFile points to local image file, which must be under 1MB in size</para>
-		/// <para>更改此项目的预览图像文件。pszpreviewfile指向本地图像文件，该文件的大小必须低于1MB</para>
+		/// <para>更改此项的预览图像文件。pszPreviewFile 指向本地图像文件，该文件大小不得超过 1MB。</para>
 		/// </summary>
 		public static bool SetItemPreview(UGCUpdateHandle_t handle, string pszPreviewFile) {
 			InteropHelp.TestIfAvailableClient();
@@ -462,7 +462,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para>  use legacy upload for a single small file. The parameter to SetItemContent() should either be a directory with one file or the full path to the file.  The file must also be less than 10MB in size.</para>
-		/// <para>将旧版上传用于一个小文件。setItemContent（）的参数应为一个文件，或一个文件的完整路径。该文件的大小也必须小于10MB。</para>
+		/// <para>使用遗留上传上传单个小文件。SetItemContent() 的参数要么是包含一个文件的目录，要么是文件的完整路径。文件大小必须小于 10MB。</para>
 		/// </summary>
 		public static bool SetAllowLegacyUpload(UGCUpdateHandle_t handle, bool bAllowLegacyUpload) {
 			InteropHelp.TestIfAvailableClient();
@@ -471,7 +471,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> remove all existing key-value tags (you can add new ones via the AddItemKeyValueTag function)</para>
-		/// <para>删除所有现有的键值标签（您可以通过additemkeyvaluetag函数添加新标签）</para>
+		/// <para>移除所有现有键值标签 (可以通过 AddItemKeyValueTag 函数添加新的键值标签)</para>
 		/// </summary>
 		public static bool RemoveAllItemKeyValueTags(UGCUpdateHandle_t handle) {
 			InteropHelp.TestIfAvailableClient();
@@ -480,7 +480,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> remove any existing key-value tags with the specified key</para>
-		/// <para>用指定的密钥删除任何现有的键值标签</para>
+		/// <para>移除指定键的所有现有键值对</para>
 		/// </summary>
 		public static bool RemoveItemKeyValueTags(UGCUpdateHandle_t handle, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
@@ -491,7 +491,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> add new key-value tags for the item. Note that there can be multiple values for a tag.</para>
-		/// <para>为项目添加新的键值标签。请注意，标签可能有多个值。</para>
+		/// <para>添加新的键值对标签给该项目。请注意，一个标签可以有多个值。</para>
 		/// </summary>
 		public static bool AddItemKeyValueTag(UGCUpdateHandle_t handle, string pchKey, string pchValue) {
 			InteropHelp.TestIfAvailableClient();
@@ -503,7 +503,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para>  add preview file for this item. pszPreviewFile points to local file, which must be under 1MB in size</para>
-		/// <para>为此项目添加预览文件。pszpreviewfile指向本地文件，该文件的大小必须低于1MB</para>
+		/// <para>为该项目添加预览文件。pszPreviewFile 指向本地文件，文件大小不得超过 1MB。</para>
 		/// </summary>
 		public static bool AddItemPreviewFile(UGCUpdateHandle_t handle, string pszPreviewFile, EItemPreviewType type) {
 			InteropHelp.TestIfAvailableClient();
@@ -514,7 +514,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para>  add preview video for this item</para>
-		/// <para>为此项目添加预览视频</para>
+		/// <para>添加预览视频。</para>
 		/// </summary>
 		public static bool AddItemPreviewVideo(UGCUpdateHandle_t handle, string pszVideoID) {
 			InteropHelp.TestIfAvailableClient();
@@ -525,7 +525,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para>  updates an existing preview file for this item. pszPreviewFile points to local file, which must be under 1MB in size</para>
-		/// <para>更新此项目的现有预览文件。pszpreviewfile指向本地文件，该文件的大小必须低于1MB</para>
+		/// <para>更新现有预览文件，此项的pszPreviewFile指向本地文件，文件大小必须小于1MB。</para>
 		/// </summary>
 		public static bool UpdateItemPreviewFile(UGCUpdateHandle_t handle, uint index, string pszPreviewFile) {
 			InteropHelp.TestIfAvailableClient();
@@ -536,7 +536,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para>  updates an existing preview video for this item</para>
-		/// <para>更新此项目的现有预览视频</para>
+		/// <para>更新现有预览视频此项</para>
 		/// </summary>
 		public static bool UpdateItemPreviewVideo(UGCUpdateHandle_t handle, uint index, string pszVideoID) {
 			InteropHelp.TestIfAvailableClient();
@@ -547,7 +547,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> remove a preview by index starting at 0 (previews are sorted)</para>
-		/// <para>从0开始删除索引的预览（预览已排序）</para>
+		/// <para>remove a preview by index starting at 0 (previews are sorted)</para>
 		/// </summary>
 		public static bool RemoveItemPreview(UGCUpdateHandle_t handle, uint index) {
 			InteropHelp.TestIfAvailableClient();
@@ -566,7 +566,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> an empty string for either parameter means that it will match any version on that end of the range. This will only be applied if the actual content has been changed.</para>
-		/// <para>任何一个参数的空字符串意味着它将匹配该范围末端的任何版本。仅当更改实际内容时，才能应用。</para>
+		/// <para>一个空字符串表示该范围内匹配任何版本。 仅当实际内容已更改时，才会应用此功能。</para>
 		/// </summary>
 		public static bool SetRequiredGameVersions(UGCUpdateHandle_t handle, string pszGameBranchMin, string pszGameBranchMax) {
 			InteropHelp.TestIfAvailableClient();
@@ -578,7 +578,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> commit update process started with StartItemUpdate()</para>
-		/// <para>提交更新过程以startitemupdate（）开始</para>
+		/// <para>提交更新进程已启动，使用 StartItemUpdate()。</para>
 		/// </summary>
 		public static SteamAPICall_t SubmitItemUpdate(UGCUpdateHandle_t handle, string pchChangeNote) {
 			InteropHelp.TestIfAvailableClient();
@@ -594,7 +594,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Steam Workshop Consumer API</para>
-		/// <para>Steam Workshop消费者API</para>
+		/// <para>Steam Workshop Consumer API</para>
 		/// </summary>
 		public static SteamAPICall_t SetUserItemVote(PublishedFileId_t nPublishedFileID, bool bVoteUp) {
 			InteropHelp.TestIfAvailableClient();
@@ -618,7 +618,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> subscribe to this item, will be installed ASAP</para>
-		/// <para>订阅此项目，将尽快安装</para>
+		/// <para>订阅此项目，会尽快安装。</para>
 		/// </summary>
 		public static SteamAPICall_t SubscribeItem(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
@@ -627,7 +627,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> unsubscribe from this item, will be uninstalled after game quits</para>
-		/// <para>退订此项目，游戏退出后将被卸载</para>
+		/// <para>取消订阅此项目，游戏退出后将卸载。</para>
 		/// </summary>
 		public static SteamAPICall_t UnsubscribeItem(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
@@ -636,7 +636,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> number of subscribed items</para>
-		/// <para>订阅项目的数量</para>
+		/// <para>订阅的物品数量</para>
 		/// </summary>
 		public static uint GetNumSubscribedItems() {
 			InteropHelp.TestIfAvailableClient();
@@ -645,7 +645,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> all subscribed item PublishFileIDs</para>
-		/// <para>所有订阅的项目发布</para>
+		/// <para>所有订阅的物品 PublishFileIDs</para>
 		/// </summary>
 		public static uint GetSubscribedItems(PublishedFileId_t[] pvecPublishedFileID, uint cMaxEntries) {
 			InteropHelp.TestIfAvailableClient();
@@ -654,7 +654,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> get EItemState flags about item on this client</para>
-		/// <para>在此客户端获取有关项目的Eitemstate标志</para>
+		/// <para>获取客户端上的物品状态标志</para>
 		/// </summary>
 		public static uint GetItemState(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
@@ -664,7 +664,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> get info about currently installed content on disc for items that have k_EItemStateInstalled set</para>
 		/// <para> if k_EItemStateLegacyItem is set, pchFolder contains the path to the legacy file itself (not a folder)</para>
-		/// <para>获取有关当前在光盘上安装的内容的信息，以获取具有k_eitemStateInstalled设置的项目，如果设置了k_eitemstatelegacyitem，则PCHFOLDER包含传统文件本身的路径（不是文件夹）</para>
+		/// <para>获取当前已安装于光盘上的内容信息，如果 k_EItemStateLegacyItem 设置为 true，则 pchFolder 包含指向该遗留文件的路径（而不是文件夹）。</para>
 		/// </summary>
 		public static bool GetItemInstallInfo(PublishedFileId_t nPublishedFileID, out ulong punSizeOnDisk, out string pchFolder, uint cchFolderSize, out uint punTimeStamp) {
 			InteropHelp.TestIfAvailableClient();
@@ -677,7 +677,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> get info about pending update for items that have k_EItemStateNeedsUpdate set. punBytesTotal will be valid after download started once</para>
-		/// <para>获取有关已待定更新的信息，以供具有k_eitemstateeneedsupdate设置的项目。下载一次后，PunbyTestotal将有效</para>
+		/// <para>获取有关设置了 k_EItemStateNeedsUpdate 的物品的待定更新信息。punBytesTotal 在下载开始后将有效。</para>
 		/// </summary>
 		public static bool GetItemDownloadInfo(PublishedFileId_t nPublishedFileID, out ulong punBytesDownloaded, out ulong punBytesTotal) {
 			InteropHelp.TestIfAvailableClient();
@@ -688,7 +688,7 @@ namespace Steamworks {
 		/// <para> download new or update already installed item. If function returns true, wait for DownloadItemResult_t. If the item is already installed,</para>
 		/// <para> then files on disk should not be used until callback received. If item is not subscribed to, it will be cached for some time.</para>
 		/// <para> If bHighPriority is set, any other item download will be suspended and this item downloaded ASAP.</para>
-		/// <para>下载已安装的新或更新项目。如果函数返回true，请等待下载initemresult_t。如果项目已经安装，则在收到回调之前，不应使用磁盘上的文件。如果未订阅项目，则将被缓存一段时间。如果设置了BhighPriority，则任何其他物品下载都将被暂停，并尽快下载此项目。</para>
+		/// <para>下载新或更新已安装的项目。如果函数返回 true，则等待 DownloadItemResult_t。如果项目已安装，则磁盘上的文件不应在回调收到之前使用。如果项目未订阅，则将在一段时间内进行缓存。如果 bHighPriority 设置为 true，则所有其他下载项将被暂停，并且此项将尽快下载。</para>
 		/// </summary>
 		public static bool DownloadItem(PublishedFileId_t nPublishedFileID, bool bHighPriority) {
 			InteropHelp.TestIfAvailableClient();
@@ -698,7 +698,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> game servers can set a specific workshop folder before issuing any UGC commands.</para>
 		/// <para> This is helpful if you want to support multiple game servers running out of the same install folder</para>
-		/// <para>游戏服务器可以在发出任何UGC命令之前设置特定的研讨会文件夹。如果您想支持多个游戏服务器，这将很有帮助</para>
+		/// <para>游戏服务器可以在发出任何 UGC 命令之前设置一个特定的工作区文件夹。这在您希望支持多个游戏服务器从同一安装文件夹中运行时非常有用。</para>
 		/// </summary>
 		public static bool BInitWorkshopForGameServer(DepotId_t unWorkshopDepotID, string pszFolder) {
 			InteropHelp.TestIfAvailableClient();
@@ -709,7 +709,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> SuspendDownloads( true ) will suspend all workshop downloads until SuspendDownloads( false ) is called or the game ends</para>
-		/// <para>暂停下载（true）将暂停所有研讨会下载，直到调用暂停下载（false）或游戏结束</para>
+		/// <para>SuspendDownloads( true ) 会暂停所有工作坊下载，直到 SuspendDownloads( false ) 被调用或游戏结束。</para>
 		/// </summary>
 		public static void SuspendDownloads(bool bSuspend) {
 			InteropHelp.TestIfAvailableClient();
@@ -737,7 +737,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> parent-child relationship or dependency management</para>
-		/// <para>亲子关系或依赖关系</para>
+		/// <para>亲子关系或依赖管理</para>
 		/// </summary>
 		public static SteamAPICall_t AddDependency(PublishedFileId_t nParentPublishedFileID, PublishedFileId_t nChildPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
@@ -751,7 +751,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> add/remove app dependence/requirements (usually DLC)</para>
-		/// <para>添加/删除应用依赖/要求（通常是DLC）</para>
+		/// <para>添加/移除应用依赖/要求（通常是DLC）</para>
 		/// </summary>
 		public static SteamAPICall_t AddAppDependency(PublishedFileId_t nPublishedFileID, AppId_t nAppID) {
 			InteropHelp.TestIfAvailableClient();
@@ -766,7 +766,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> request app dependencies. note that whatever callback you register for GetAppDependenciesResult_t may be called multiple times</para>
 		/// <para> until all app dependencies have been returned</para>
-		/// <para>请求应用依赖项。请注意，您注册的getAppDepdenciesResult_t的回调可能会多次调用，直到返回所有应用依赖项</para>
+		/// <para>请求应用依赖。请注意，你为 GetAppDependenciesResult_t 注册的回调可能会在所有应用依赖项返回之前多次调用。</para>
 		/// </summary>
 		public static SteamAPICall_t GetAppDependencies(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
@@ -775,7 +775,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> delete the item without prompting the user</para>
-		/// <para>删除项目而不提示用户</para>
+		/// <para>删除该项目，不提示用户。</para>
 		/// </summary>
 		public static SteamAPICall_t DeleteItem(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
@@ -784,7 +784,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Show the app's latest Workshop EULA to the user in an overlay window, where they can accept it or not</para>
-		/// <para>在覆盖窗口中向用户展示该应用程序的最新研讨会EULA，他们可以接受或不接受它</para>
+		/// <para>Please see the app’s latest Workshop EULA to the user in an overlay window, where they can accept it or not.</para>
 		/// </summary>
 		public static bool ShowWorkshopEULA() {
 			InteropHelp.TestIfAvailableClient();
@@ -793,7 +793,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Retrieve information related to the user's acceptance or not of the app's specific Workshop EULA</para>
-		/// <para>检索与用户接受或不接受该应用程序特定研讨会EULA有关的信息</para>
+		/// <para>Retrieve information related to the user's acceptance or not of the app’s specific Workshop EULA</para>
 		/// </summary>
 		public static SteamAPICall_t GetWorkshopEULAStatus() {
 			InteropHelp.TestIfAvailableClient();
@@ -802,7 +802,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Return the user's community content descriptor preferences</para>
-		/// <para>返回用户的社区内容描述符偏好</para>
+		/// <para>Return the user's community content descriptor preferences</para>
 		/// </summary>
 		public static uint GetUserContentDescriptorPreferences(EUGCContentDescriptorID[] pvecDescriptors, uint cMaxEntries) {
 			InteropHelp.TestIfAvailableClient();

@@ -19,7 +19,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Game product identifier.  This is currently used by the master server for version checking purposes.</para>
 		/// <para> It's a required field, but will eventually will go away, and the AppID will be used for this purpose.</para>
-		/// <para>游戏产品标识符。目前，主服务器用于版本检查目的。这是一个必需的字段，但最终将消失，appid将用于此目的。</para>
+		/// <para>游戏产品标识符。目前用于主服务器的版式检查目的。这是一个必需字段，但最终将不再使用，AppID 将用于此目的。</para>
 		/// </summary>
 		public static void SetProduct(string pszProduct) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -31,7 +31,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Description of the game.  This is a required field and is displayed in the steam server browser....for now.</para>
 		/// <para> This is a required field, but it will go away eventually, as the data should be determined from the AppID.</para>
-		/// <para>游戏的描述。这是必需的字段，并显示在Steam Server浏览器中。这是一个必需的字段，但最终将消失，因为数据应从appid中确定。</para>
+		/// <para>游戏描述。这是必需字段，目前显示在Steam服务器浏览器中…… 现阶段如此。这是一个必需字段，但它最终会消失，因为数据应从AppID确定。</para>
 		/// </summary>
 		public static void SetGameDescription(string pszGameDescription) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -44,7 +44,8 @@ namespace Steamworks {
 		/// <para> If your game is a "mod," pass the string that identifies it.  The default is an empty string, meaning</para>
 		/// <para> this application is the original game, not a mod.</para>
 		/// <para> @see k_cbMaxGameServerGameDir</para>
-		/// <para>如果您的游戏是“ mod”，请传递标识它的字符串。默认值是一个空字符串，这意味着此应用程序是原始游戏，而不是mod。 @See k_cbmaxgameservergamedir</para>
+		/// <para>如果你的游戏是“模组”，请传递标识它的字符串。默认值为一个空字符串，表示此应用程序是原始游戏，而不是模组。</para>
+		/// <para>@see k_cbMaxGameServerGameDir</para>
 		/// </summary>
 		public static void SetModDir(string pszModDir) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -55,7 +56,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Is this is a dedicated server?  The default value is false.</para>
-		/// <para>这是专用服务器吗？默认值是错误的。</para>
+		/// <para>这是一个专用服务器吗？ 默认值为 false。</para>
 		/// </summary>
 		public static void SetDedicatedServer(bool bDedicated) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -69,7 +70,9 @@ namespace Steamworks {
 		/// <para> @see SteamServersConnected_t</para>
 		/// <para> @see SteamServerConnectFailure_t</para>
 		/// <para> @see SteamServersDisconnected_t</para>
-		/// <para>登录 开始流程登录到持续的游戏服务器帐户 您需要注册回调以确定此操作的结果。@See steamserversConnected_t @See steamserverconnectfailure_t @see steamserversdisconnected_t_t</para>
+		/// <para>登录</para>
+		/// <para>开始登录持久性游戏服务器账户流程</para>
+		/// <para>您需要注册回调以确定此操作的结果。 @see SteamServersConnected_t @see SteamServerConnectFailure_t @see SteamServersDisconnected_t</para>
 		/// </summary>
 		public static void LogOn(string pszToken) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -82,7 +85,8 @@ namespace Steamworks {
 		/// <para> Login to a generic, anonymous account.</para>
 		/// <para> Note: in previous versions of the SDK, this was automatically called within SteamGameServer_Init,</para>
 		/// <para> but this is no longer the case.</para>
-		/// <para>登录到通用的匿名帐户。 注意：在SDK的先前版本中，这是在SteamGameserver_init中自动调用的，但事实并非如此。</para>
+		/// <para>登录一个通用、匿名帐户。</para>
+		/// <para>注意：在以前的SDK版本中，这会自动在SteamGameServer_Init中调用，但现在不再是这样。</para>
 		/// </summary>
 		public static void LogOnAnonymous() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -91,7 +95,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Begin process of logging game server out of steam</para>
-		/// <para>从Steam开始记录游戏服务器的过程</para>
+		/// <para>开始注销游戏服务器。</para>
 		/// </summary>
 		public static void LogOff() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -100,7 +104,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> status functions</para>
-		/// <para>状态功能</para>
+		/// <para>状态函数</para>
 		/// </summary>
 		public static bool BLoggedOn() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -120,7 +124,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Returns true if the master server has requested a restart.</para>
 		/// <para> Only returns true once per request.</para>
-		/// <para>如果主服务器已请求重新启动，则返回true。每个请求仅返回一次。</para>
+		/// <para>如果主服务器已请求重启，则返回 true。仅在一次请求中返回 true。</para>
 		/// </summary>
 		public static bool WasRestartRequested() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -130,7 +134,8 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Server state.  These properties may be changed at any time.</para>
 		/// <para> Max player count that will be reported to server browser and client queries</para>
-		/// <para>服务器状态。这些属性可以随时更改。 最大播放器计数将报告给服务器浏览器和客户端查询</para>
+		/// <para>服务器状态。这些属性可能随时更改。</para>
+		/// <para>玩家数量报告给服务器浏览器和客户端查询的最大数量</para>
 		/// </summary>
 		public static void SetMaxPlayerCount(int cPlayersMax) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -139,7 +144,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Number of bots.  Default value is zero</para>
-		/// <para>机器人数。默认值为零</para>
+		/// <para>机器人数量。默认值为零。</para>
 		/// </summary>
 		public static void SetBotPlayerCount(int cBotplayers) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -149,7 +154,8 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Set the name of server as it will appear in the server browser</para>
 		/// <para> @see k_cbMaxGameServerName</para>
-		/// <para>设置将显示在服务器浏览器中的服务器的名称 @See k_cbmaxgameservername</para>
+		/// <para>设置服务器名称，以便在服务器浏览器中显示</para>
+		/// <para>@see k_cbMaxGameServerName</para>
 		/// </summary>
 		public static void SetServerName(string pszServerName) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -161,7 +167,8 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Set name of map to report in the server browser</para>
 		/// <para> @see k_cbMaxGameServerMapName</para>
-		/// <para>设置在服务器浏览器中报告的地图名称 @See k_cbmaxgameservermapname</para>
+		/// <para>设置地图名称在服务器浏览器中</para>
+		/// <para>@see k_cbMaxGameServerMapName</para>
 		/// </summary>
 		public static void SetMapName(string pszMapName) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -172,7 +179,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Let people know if your server will require a password</para>
-		/// <para>让人们知道您的服务器是否需要密码</para>
+		/// <para>请告知您的服务器是否需要密码。</para>
 		/// </summary>
 		public static void SetPasswordProtected(bool bPasswordProtected) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -189,7 +196,9 @@ namespace Steamworks {
 		/// <para> server as the spectator port, if you set this value to any nonzero value.</para>
 		/// <para> This function merely controls the values that are advertised -- it's up to you to</para>
 		/// <para> configure the server to actually listen on this port and handle any spectator traffic</para>
-		/// <para>观众服务器端口要广告。默认值为零，这意味着不使用服务。如果您的服务器收到LAN上的任何信息请求，则该值将被放入此类查询的答复中。 这也是主服务器将宣传的价值。唯一的例外是您的服务器正在使用FakeIP。然后，如果您将此值设置为任何非零值，则分配给服务器的第二个假端口号（索引1）将在主服务器上列为观众端口。 此函数仅控制广告的值 - 由您配置服务器以实际收听此端口并处理任何观众流量</para>
+		/// <para>旁观者服务器的广播端口。默认值为零，表示服务未启用。如果您的服务器收到任何局域网上的信息请求，则此值将被放置在对这些本地查询的回复中。</para>
+		/// <para>这也是主服务器会广播的值。唯一例外情况是如果你的服务器在使用假IP的情况下。这时主服务器会把你的服务器分配给的第二个假端口号（索引 1）列为观众端口，如果将该值设置为任何非零值。</para>
+		/// <para>这个函数仅仅控制所宣称的值——它取决于你来配置服务器，使其实际监听该端口并处理任何观众流量。</para>
 		/// </summary>
 		public static void SetSpectatorPort(ushort unSpectatorPort) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -199,7 +208,8 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Name of the spectator server.  (Only used if spectator port is nonzero.)</para>
 		/// <para> @see k_cbMaxGameServerMapName</para>
-		/// <para>观众服务器的名称。（仅当观众端口为非零时才使用。） @See k_cbmaxgameservermapname</para>
+		/// <para>观众服务器名称。 (仅当观众端口不为零时使用。)</para>
+		/// <para>@see k_cbMaxGameServerMapName</para>
 		/// </summary>
 		public static void SetSpectatorServerName(string pszSpectatorServerName) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -210,7 +220,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Call this to clear the whole list of key/values that are sent in rules queries.</para>
-		/// <para>调用此消息以清除规则查询中发送的密钥/值的整个列表。</para>
+		/// <para>Call this to clear the whole list of key/values that are sent in rules queries.</para>
 		/// </summary>
 		public static void ClearAllKeyValues() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -219,7 +229,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Call this to add/update a key/value pair.</para>
-		/// <para>调用此添加/更新键/值对。</para>
+		/// <para>请调用此方法来添加/更新键值对。</para>
 		/// </summary>
 		public static void SetKeyValue(string pKey, string pValue) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -233,7 +243,8 @@ namespace Steamworks {
 		/// <para> Sets a string defining the "gametags" for this server, this is optional, but if it is set</para>
 		/// <para> it allows users to filter in the matchmaking/server-browser interfaces based on the value</para>
 		/// <para> @see k_cbMaxGameServerTags</para>
-		/// <para>设置一个为该服务器定义“ Gametags”的字符串，这是可选的，但是如果设置了该服务器 @See k_cbmaxgameservertags</para>
+		/// <para>设置一个字符串，定义此服务器的“gametags”，这可选，但如果设置了，它允许用户在匹配/服务器浏览器界面中根据该值进行过滤。</para>
+		/// <para>@see k_cbMaxGameServerTags</para>
 		/// </summary>
 		public static void SetGameTags(string pchGameTags) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -246,7 +257,8 @@ namespace Steamworks {
 		/// <para> Sets a string defining the "gamedata" for this server, this is optional, but if it is set</para>
 		/// <para> it allows users to filter in the matchmaking/server-browser interfaces based on the value</para>
 		/// <para> @see k_cbMaxGameServerGameData</para>
-		/// <para>设置一个为该服务器定义“ gamedata”的字符串，这是可选的，但是如果设置了该服务器 @See k_cbmaxgameservergamedata</para>
+		/// <para>设置一个字符串，定义此服务器的“gamedata”，这可选，但如果设置了，它允许用户在匹配/服务器浏览器界面中根据值进行过滤。</para>
+		/// <para>@see k_cbMaxGameServerGameData</para>
 		/// </summary>
 		public static void SetGameData(string pchGameData) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -257,7 +269,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Region identifier.  This is an optional field, the default value is empty, meaning the "world" region</para>
-		/// <para>区域标识符。这是一个可选字段，默认值是空的，这意味着“世界”区域</para>
+		/// <para>区域标识符。这是一个可选字段，默认值为空，表示“世界”区域。</para>
 		/// </summary>
 		public static void SetRegion(string pszRegion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -274,7 +286,8 @@ namespace Steamworks {
 		/// <para> (This function used to be named EnableHeartbeats, so if you are wondering</para>
 		/// <para> where that function went, it's right here.  It does the same thing as before,</para>
 		/// <para> the old name was just confusing.)</para>
-		/// <para>指示您是否希望在主服务器列表中列出和 /或响应服务器浏览器 / LAN发现数据包。服务器以此值设置为false开始。在启用服务器上的广告之前，您应该设置所有相关的服务器参数。 （此功能曾经被命名为EnableHeartBeats，因此，如果您想知道该功能去了哪里，就在这里。它与以前相同的事情，旧名称只是令人困惑的。）</para>
+		/// <para>指示您是否希望在主服务器列表中列出以及/或响应服务器浏览器/LAN发现数据包。服务器最初设置为false。您应该在启用服务器广告之前设置所有相关服务器参数。</para>
+		/// <para>（这个函数之前叫做EnableHeartbeats，如果你在想它去了哪里，它就在这里。它以前的功能和之前一样，旧的名字只是让人困惑。）</para>
 		/// </summary>
 		public static void SetAdvertiseServerActive(bool bActive) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -287,7 +300,8 @@ namespace Steamworks {
 		/// <para> pcbTicket retrieves the length of the actual ticket.</para>
 		/// <para> SteamNetworkingIdentity is an optional parameter to hold the public IP address of the entity you are connecting to</para>
 		/// <para> if an IP address is passed Steam will only allow the ticket to be used by an entity with that IP address</para>
-		/// <para>玩家列表管理 /身份验证。 检索希望将您验证您身份验证的实体发送的机票（使用BeginAuthSession API）。PCBTicket检索实际票的长度。SteamnetWorkingIdentity是一个可选参数，可容纳您要连接到的实体的公共IP地址，如果通过IP地址通过Steam仅允许使用该IP地址的实体使用票证</para>
+		/// <para>玩家列表管理/认证。</para>
+		/// <para>获取用于发送给希望认证你的实体（使用 BeginAuthSession API）的票据。pcbTicket 检索实际票据的长度。SteamNetworkingIdentity 是一个可选参数，用于存储你连接到的实体的公共 IP 地址，如果传递了 IP 地址，则只会允许该票据被具有该 IP 地址的实体使用。</para>
 		/// </summary>
 		public static HAuthTicket GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket, ref SteamNetworkingIdentity pSnid) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -297,7 +311,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Authenticate ticket ( from GetAuthSessionTicket ) from entity steamID to be sure it is valid and isnt reused</para>
 		/// <para> Registers for callbacks if the entity goes offline or cancels the ticket ( see ValidateAuthTicketResponse_t callback and EAuthSessionResponse )</para>
-		/// <para>从实体Steamid进行身份验证票证（从getauthsessionticket）确保如果实体脱机或取消票证，请确保其有效，并且不会重新使用寄存器（请参阅valialateateAuthTicketTicketTicketTicketResponse_t回调和EauthSessionSessionSponse））</para>
+		/// <para>验证票据（从 GetAuthSessionTicket 获得）来自 entity steamID，以确保其有效且未被重用。注册回调，如果实体离线或取消票据（参见 ValidateAuthTicketResponse_t 回调和 EAuthSessionResponse）。</para>
 		/// </summary>
 		public static EBeginAuthSessionResult BeginAuthSession(byte[] pAuthTicket, int cbAuthTicket, CSteamID steamID) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -306,7 +320,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Stop tracking started by BeginAuthSession - called when no longer playing game with this entity</para>
-		/// <para>停止跟踪是由Beginauthsession启动的 - 当不再与该实体玩游戏时呼唤</para>
+		/// <para>停止跟踪已启动，由 BeginAuthSession 启动 - 在此实体不再玩游戏时调用</para>
 		/// </summary>
 		public static void EndAuthSession(CSteamID steamID) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -315,7 +329,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Cancel auth ticket from GetAuthSessionTicket, called when no longer playing game with the entity you gave the ticket to</para>
-		/// <para>取消getauthsessionticket的验证票，当不再与您提供的机票玩游戏时，请召集</para>
+		/// <para>从 GetAuthSessionTicket 中取消授权票据，在不再玩游戏且该票据关联的实体不再有效时调用。</para>
 		/// </summary>
 		public static void CancelAuthTicket(HAuthTicket hAuthTicket) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -325,7 +339,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> After receiving a user's authentication data, and passing it to SendUserConnectAndAuthenticate, use this function</para>
 		/// <para> to determine if the user owns downloadable content specified by the provided AppID.</para>
-		/// <para>在接收用户的身份验证数据并将其传递给SenduserConnectAntentatice之后，使用此功能来确定用户是否拥有提供的Appid指定的可下载内容。</para>
+		/// <para>收到用户的认证数据后，将其传递给 SendUserConnectAndAuthenticate 函数，使用该函数来确定用户是否拥有通过提供的 AppID 指定的可下载内容。</para>
 		/// </summary>
 		public static EUserHasLicenseForAppResult UserHasLicenseForApp(CSteamID steamID, AppId_t appID) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -335,7 +349,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Ask if a user in in the specified group, results returns async by GSUserGroupStatus_t</para>
 		/// <para> returns false if we're not connected to the steam servers and thus cannot ask</para>
-		/// <para>询问指定组中的用户是否在GSUSERGROUPSTATUS_T中返回异步，如果我们未连接到Steam服务器，因此无法询问</para>
+		/// <para>询问指定群组中是否有用户，如果返回结果是async，则返回false，因为我们无法连接到Steam服务器，因此无法询问。</para>
 		/// </summary>
 		public static bool RequestUserGroupStatus(CSteamID steamIDUser, CSteamID steamIDGroup) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -345,7 +359,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> these two functions s are deprecated, and will not return results</para>
 		/// <para> they will be removed in a future version of the SDK</para>
-		/// <para>这两个函数已被弃用，并且不会返回结果，它们将在SDK的将来版本中删除</para>
+		/// <para>这两个函数 s 已被废弃，它们将不会返回任何结果，并且会在 SDK 的未来版本中被删除。</para>
 		/// </summary>
 		public static void GetGameplayStats() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -361,7 +375,7 @@ namespace Steamworks {
 		/// <para> Returns the public IP of the server according to Steam, useful when the server is</para>
 		/// <para> behind NAT and you want to advertise its IP in a lobby for other clients to directly</para>
 		/// <para> connect to</para>
-		/// <para>根据Steam返回服务器的公共IP，当服务器位于NAT后面时，您想在大厅中宣传其IP，以供其他客户直接连接到</para>
+		/// <para>根据 Steam，返回服务器的公网 IP 地址，当服务器位于 NAT 后，并且您想在游戏内房间中向其他客户端广播其 IP 地址以便直接连接时很有用。</para>
 		/// </summary>
 		public static SteamIPAddress_t GetPublicIP() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -378,7 +392,8 @@ namespace Steamworks {
 		/// <para> don't have to open up more ports on their firewalls.</para>
 		/// <para> Call this when a packet that starts with 0xFFFFFFFF comes in. That means</para>
 		/// <para> it's for us.</para>
-		/// <para>服务器浏览器相关的查询数据包处理共享套接字模式。当您将steamgameserver_query_port_shared作为查询端口传递给steamgameserver_init时，使用这些。IP地址和端口按主机顺序，即127.0.0.1 == 0x7f000001当选为多重乘坐游戏服务器的UDP套接字时，使用这些。 源游戏使用它来简化服务器管理员的作业，因此他们不必在防火墙上打开更多端口。当一个以0xffffffff开头的数据包进来时，请致电。这意味着它适合我们。</para>
+		/// <para>共享套接模式相关的服务器浏览器查询包处理。这些用于在将 STEAMGAMESERVER_QUERY_PORT_SHARED 作为查询端口传递给 SteamGameServer_Init 时使用。IP地址和端口以主机顺序排列，即 127.0.0.1 == 0x7f000001。这些用于您选择将游戏服务器的UDP套接字进行多路复用，而不是让主服务器更新器使用其自己的套接字。</para>
+		/// <para>Source 游戏使用这个来简化服务器管理员的工作，这样他们不必在防火墙上打开更多的端口。当收到以 0xFFFFFFFF 开头的包时，就应该调用它。这意味着它就是为我们的。</para>
 		/// </summary>
 		public static bool HandleIncomingPacket(byte[] pData, int cbData, uint srcIP, ushort srcPort) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -390,7 +405,7 @@ namespace Steamworks {
 		/// <para> This gets a packet that the master server updater needs to send out on UDP.</para>
 		/// <para> It returns the length of the packet it wants to send, or 0 if there are no more packets to send.</para>
 		/// <para> Call this each frame until it returns 0.</para>
-		/// <para>在调用该框架中任何数据包的句柄incomingpacket之后，请致电。这将获得主服务器更新程序需要在UDP上发送的数据包。它返回要发送的数据包的长度，或者如果没有更多数据包，则返回0。调用每个帧直到返回0。</para>
+		/// <para>调用 HandleIncomingPacket 处理任何在当前帧接收到的包，然后调用这个。它会获取 master 服务器更新器需要通过 UDP 发送出的包，返回想要发送的包的长度，如果没有任何包需要发送则返回 0。直到它返回 0 才能继续调用。</para>
 		/// </summary>
 		public static int GetNextOutgoingPacket(byte[] pOut, int cbMaxOut, out uint pNetAdr, out ushort pPort) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -400,7 +415,8 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Server clan association</para>
 		/// <para> associate this game server with this clan for the purposes of computing player compat</para>
-		/// <para>服务器氏族协会 将此氏族与该氏族相关联，以计算玩家兼容</para>
+		/// <para>服务器公会</para>
+		/// <para>将此游戏服务器与该公会关联，用于计算玩家兼容性。</para>
 		/// </summary>
 		public static SteamAPICall_t AssociateWithClan(CSteamID steamIDClan) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -409,7 +425,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> ask if any of the current players dont want to play with this new player - or vice versa</para>
-		/// <para>询问当前的任何玩家是否不想玩这个新球员 - 反之亦然</para>
+		/// <para>看看当前玩家是否有人不想和这个新玩家一起玩，或者新玩家不想和他们一起玩。</para>
 		/// </summary>
 		public static SteamAPICall_t ComputeNewPlayerCompatibility(CSteamID steamIDNewPlayer) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -427,7 +443,9 @@ namespace Steamworks {
 		/// <para> for the user has succeeded or failed (the steamid in the callback will match the one returned by this call)</para>
 		/// <para> DEPRECATED!  This function will be removed from the SDK in an upcoming version.</para>
 		/// <para>              Please migrate to BeginAuthSession and related functions.</para>
-		/// <para>从Steam用户接收新连接的操作。此通话将要求Steam服务器验证用户身份，应用程序所有权和VAC状态。如果蒸汽服务器离线，则将验证缓存的票务本身，该机票本身将验证应用程序所有权和身份。这里应使用Steamuser（） - > initiateGameConnection（）在游戏客户端上获取authBlob，然后必须将其发送到游戏服务器以进行身份​​验证。 返回值：如果用户门票通过基本检查，则返回true。PsteamIduser将包含此用户的Steam ID。psteamIduser不得无效，如果呼叫成功，那么您应该期望gsclientapprove_t或gsclientdeny_t回调，这将告诉您用户的身份验证是否已成功或失败（回调中的SteamID将匹配此调用的返回的验证）） 弃用！此函数将在即将发布的版本中从SDK中删除。请迁移到开始活动和相关功能。</para>
+		/// <para>处理接收来自 Steam 用户的全新连接。此调用将要求 Steam 服务器验证用户的身份、应用所有权和 VAC 状态。如果 Steam 服务器离线，则会验证缓存的 Ticket 本身，从而验证应用所有权和身份。这里的 AuthBlob 必须使用 SteamUser()->InitiateGameConnection() 在游戏客户端上获取，然后发送到游戏服务器进行身份验证。</para>
+		/// <para>返回值：如果用户的票据通过基本检查，则返回 true。pSteamIDUser 将包含该用户的 Steam ID。pSteamIDUser 绝对不能为 NULL。如果调用成功，你应期望收到 GSClientApprove_t 或 GSClientDeny_t 回调，它将告诉你该用户的身份验证是否成功或失败（回调中的 steamid 将与此调用返回的 steamid 匹配）</para>
+		/// <para>已弃用！此函数将在即将发布的 SDK 版本中被删除。请迁移到 BeginAuthSession 和相关函数。</para>
 		/// </summary>
 		public static bool SendUserConnectAndAuthenticate_DEPRECATED(uint unIPClient, byte[] pvAuthBlob, uint cubAuthBlobSize, out CSteamID pSteamIDUser) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -438,7 +456,8 @@ namespace Steamworks {
 		/// <para> Creates a fake user (ie, a bot) which will be listed as playing on the server, but skips validation.</para>
 		/// <para> Return Value: Returns a SteamID for the user to be tracked with, you should call EndAuthSession()</para>
 		/// <para> when this user leaves the server just like you would for a real user.</para>
-		/// <para>创建一个假用户（即，一个机器人），该用户将在服务器上列出，但会跳过验证。 返回值：返回供用户跟踪的蒸汽，当用户像真实用户一样离开服务器时，应调用endauthsession（）。</para>
+		/// <para>Creates a fake user (ie, a bot) which will be listed as playing on the server, but skips validation.</para>
+		/// <para>返回值：返回一个 SteamID，用于跟踪用户，您应该在用户离开服务器时调用 EndAuthSession()，就像对真实用户一样。</para>
 		/// </summary>
 		public static CSteamID CreateUnauthenticatedUserConnection() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -451,7 +470,8 @@ namespace Steamworks {
 		/// <para> account being logged into multiple servers, showing who is currently on a server, etc.</para>
 		/// <para> DEPRECATED!  This function will be removed from the SDK in an upcoming version.</para>
 		/// <para>              Please migrate to BeginAuthSession and related functions.</para>
-		/// <para>每当用户离开我们的游戏服务器时，都应调用，这使Steam可以内部跟踪哪些用户当前在哪些服务器上，以防止单个帐户登录到多个服务器，显示谁当前在服务器上，等等。 弃用！此函数将在即将发布的版本中从SDK中删除。请迁移到开始活动和相关功能。</para>
+		/// <para>应在用户离开游戏服务器时调用此功能，这允许 Steam 内部跟踪哪些用户正在哪些服务器上，用于防止单个帐户同时登录多个服务器，显示当前正在服务器上的用户等。</para>
+		/// <para>已弃用！此函数将在即将发布的 SDK 版本中被删除。请迁移到 BeginAuthSession 和相关函数。</para>
 		/// </summary>
 		public static void SendUserDisconnect_DEPRECATED(CSteamID steamIDUser) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -463,7 +483,8 @@ namespace Steamworks {
 		/// <para> currently connected to the server.  For regular users you must call this after you receive a</para>
 		/// <para> GSUserValidationSuccess callback.</para>
 		/// <para> Return Value: true if successful, false if failure (ie, steamIDUser wasn't for an active player)</para>
-		/// <para>更新目前连接到服务器的用户的服务器浏览器和对接接口中要显示的数据。对于常规用户，您必须在收到GSuserValidationsuccess回调后调用。 返回值：如果成功，则为false，如果失败（即Steamiduser不适合活跃的播放器）</para>
+		/// <para>更新服务器浏览器和匹配界面中显示的数据，针对当前连接的服务器用户。对于普通用户，您必须在收到 GSUserValidationSuccess 回调后调用此方法。</para>
+		/// <para>返回值：如果成功则为 true，如果失败则为 false（例如，steamIDUser 不是活跃玩家）。</para>
 		/// </summary>
 		public static bool BUpdateUserData(CSteamID steamIDUser, string pchPlayerName, uint uScore) {
 			InteropHelp.TestIfAvailableGameServer();

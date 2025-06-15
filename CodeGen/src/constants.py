@@ -159,7 +159,11 @@ def main(parser, translate_text = None):
         if g_translate_text:
             text = g_translate_text(constant.precomments)
             if text:
-                lines.append("// " + text)
+                if isinstance(text, list):
+                    for t in text:
+                        lines.append("// " + t)
+                else:
+                    lines.append("// " + text)
         lines.append("public const " + constant.type + " " + constant.name + constant.spacing + "= " + constant.value + ";" + constant.comment)
 
     with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamConstants.cs", "wb") as out:

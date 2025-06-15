@@ -19,11 +19,13 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: posted after the user gains ownership of DLC & that DLC is installed
 	//-----------------------------------------------------------------------------
+	// 回调函数
+// Purpose: posted after the user gains ownership of DLC & that DLC is installed
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 5)]
 	public struct DlcInstalled_t {
 		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 5;
-		public AppId_t m_nAppID;		// AppID of the DLC
+		public AppId_t m_nAppID;		// AppID of the DLC DLC的AppID
 	}
 
 	//---------------------------------------------------------------------------------
@@ -32,6 +34,7 @@ namespace Steamworks {
 	// while the game is already running.  The new params can be queried
 	// with GetLaunchQueryParam and GetLaunchCommandLine
 	//---------------------------------------------------------------------------------
+	// 目的：在用户获得执行权后，通过发送包含 Steam URL 以及命令行或查询参数（例如 steam://run/<appid>//-commandline/?param1=value1&param2=value2&param3=value3 等）的内容，同时游戏已经运行。新的参数可以通过 GetLaunchQueryParam 和 GetLaunchCommandLine 进行查询。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 14)]
 	public struct NewUrlLaunchParameters_t {
@@ -42,6 +45,7 @@ namespace Steamworks {
 	// Purpose: response to RequestAppProofOfPurchaseKey/RequestAllProofOfPurchaseKeys
 	// for supporting third-party CD keys, or other proof-of-purchase systems.
 	//-----------------------------------------------------------------------------
+	// 目的：响应 RequestAppProofOfPurchaseKey/RequestAllProofOfPurchaseKeys 请求，以支持第三方 CD 密钥或其他购买凭证系统。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 21)]
 	public struct AppProofOfPurchaseKeyResponse_t {
@@ -61,77 +65,83 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: response to GetFileDetails
 	//-----------------------------------------------------------------------------
+	// 请提供GetFileDetails的响应内容，我将直接翻译成简体中文。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 23)]
 	public struct FileDetailsResult_t {
 		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 23;
 		public EResult m_eResult;
-		public ulong m_ulFileSize;	// original file size in bytes
+		public ulong m_ulFileSize;	// original file size in bytes 原始文件大小（字节）
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
-		public byte[] m_FileSHA;	// original file SHA1 hash
+		public byte[] m_FileSHA;	// original file SHA1 hash 请提供您要计算 SHA1 校验和的文件。
 		public uint m_unFlags;		//
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: called for games in Timed Trial mode
 	//-----------------------------------------------------------------------------
+	// 目的：呼吁在Timed Trial模式中的游戏
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamAppsCallbacks + 30)]
 	public struct TimedTrialStatus_t {
 		public const int k_iCallback = Constants.k_iSteamAppsCallbacks + 30;
-		public AppId_t m_unAppID;			// appID
+		public AppId_t m_unAppID;			// appID appID
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bIsOffline;		// if true, time allowed / played refers to offline time, not total time
-		public uint m_unSecondsAllowed;	// how many seconds the app can be played in total
-		public uint m_unSecondsPlayed;	// how many seconds the app was already played
+		public bool m_bIsOffline;		// if true, time allowed / played refers to offline time, not total time 如果为真，time allowed / played 指的是离线时间，而不是总时间。
+		public uint m_unSecondsAllowed;	// how many seconds the app can be played in total 该应用可以总共播放多少秒？
+		public uint m_unSecondsPlayed;	// how many seconds the app was already played 应用已经运行了多少秒？
 	}
 
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: called when a friends' status changes
 	//-----------------------------------------------------------------------------
+	// 回调函数
+// 目的：当好友状态发生变化时调用
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 4)]
 	public struct PersonaStateChange_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 4;
 		
-		public ulong m_ulSteamID;		// steamID of the friend who changed
-		public EPersonaChange m_nChangeFlags;		// what's changed
+		public ulong m_ulSteamID;		// steamID of the friend who changed 请提供更多信息，我需要知道你指的是哪个朋友，才能提供他的 SteamID。
+		public EPersonaChange m_nChangeFlags;		// what's changed What’s changed
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: posted when game overlay activates or deactivates
 	//			the game can use this to be pause or resume single player games
 	//-----------------------------------------------------------------------------
+	// 目的：当游戏叠加激活或停用时使用此功能，可用于暂停或恢复单人游戏。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 31)]
 	public struct GameOverlayActivated_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 31;
-		public byte m_bActive;		// true if it's just been activated, false otherwise
+		public byte m_bActive;		// true if it's just been activated, false otherwise 如果是刚激活的，则为真；否则为假。
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bUserInitiated;	// true if the user asked for the overlay to be activated/deactivated
-		public AppId_t m_nAppID;		// the appID of the game (should always be the current game)
-		public uint m_dwOverlayPID;	// used internally
+		public bool m_bUserInitiated;	// true if the user asked for the overlay to be activated/deactivated 如果用户要求激活/停用叠加显示，则为真
+		public AppId_t m_nAppID;		// the appID of the game (should always be the current game) 请提供游戏 AppID。
+		public uint m_dwOverlayPID;	// used internally 内部使用
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: called when the user tries to join a different game server from their friends list
 	//			game client should attempt to connect to specified server when this is received
 	//-----------------------------------------------------------------------------
+	// 目的：当用户尝试从好友列表中加入不同的游戏服务器时，客户端应尝试连接到指定服务器。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 32)]
 	public struct GameServerChangeRequested_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 32;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
 		private byte[] m_rgchServer_;
-		public string m_rgchServer		// server address ("127.0.0.1:27015", "tf2.valvesoftware.com")
+		public string m_rgchServer		// server address ("127.0.0.1:27015", "tf2.valvesoftware.com") 服务器地址 ("127.0.0.1:27015", "tf2.valvesoftware.com")
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchServer_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchServer_, 64); }
 		}
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
 		private byte[] m_rgchPassword_;
-		public string m_rgchPassword	// server password, if any
+		public string m_rgchPassword	// server password, if any 服务器密码，如果存在的话。
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchPassword_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchPassword_, 64); }
@@ -142,6 +152,7 @@ namespace Steamworks {
 	// Purpose: called when the user tries to join a lobby from their friends list
 	//			game client should attempt to connect to specified lobby when this is received
 	//-----------------------------------------------------------------------------
+	// 目的：当用户从好友列表中尝试加入游戏客户端的房间时，应尝试连接到指定房间。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 33)]
 	public struct GameLobbyJoinRequested_t {
@@ -153,6 +164,8 @@ namespace Steamworks {
 		// On PS3, the friend will be invalid if this was triggered by a PSN invite via the XMB, but
 		// the account type will be console user so you can tell at least that this was from a PSN friend
 		// rather than a Steam friend.
+		// 他们通过（如果不是通过朋友直接）加入。
+	// 在PS3上，如果通过XMB（主菜单）接受了PSN邀请，朋友会失效；但账户类型会是主机用户，这样至少可以知道这是来自PSN朋友而不是Steam朋友。
 		public CSteamID m_steamIDFriend;
 	}
 
@@ -160,19 +173,21 @@ namespace Steamworks {
 	// Purpose: called when an avatar is loaded in from a previous GetLargeFriendAvatar() call
 	//			if the image wasn't already available
 	//-----------------------------------------------------------------------------
+	// 目的：在从之前的 GetLargeFriendAvatar() 调用中加载头像时，如果图像尚未可用时调用。
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 34)]
 	public struct AvatarImageLoaded_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 34;
-		public CSteamID m_steamID; // steamid the avatar has been loaded for
-		public int m_iImage; // the image index of the now loaded image
-		public int m_iWide; // width of the loaded image
-		public int m_iTall; // height of the loaded image
+		public CSteamID m_steamID; // steamid the avatar has been loaded for SteamID 该头像已加载。
+		public int m_iImage; // the image index of the now loaded image 当前加载的图像的索引
+		public int m_iWide; // width of the loaded image 加载的图像的宽度
+		public int m_iTall; // height of the loaded image 加载的图像的高度
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: marks the return of a request officer list call
 	//-----------------------------------------------------------------------------
+	// Purpose: 标记请求官员列表通话的返回
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 35)]
 	public struct ClanOfficerListResponse_t {
@@ -185,23 +200,25 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: callback indicating updated data about friends rich presence information
 	//-----------------------------------------------------------------------------
+	// 目的：回调指示关于好友富媒体信息更新的数据。
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 36)]
 	public struct FriendRichPresenceUpdate_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 36;
-		public CSteamID m_steamIDFriend;	// friend who's rich presence has changed
-		public AppId_t m_nAppID;			// the appID of the game (should always be the current game)
+		public CSteamID m_steamIDFriend;	// friend who's rich presence has changed 朋友的富影响力发生了变化。
+		public AppId_t m_nAppID;			// the appID of the game (should always be the current game) 请提供游戏 AppID。
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: called when the user tries to join a game from their friends list
 	//			rich presence will have been set with the "connect" key which is set here
 	//-----------------------------------------------------------------------------
+	// 目的：当用户从好友列表中尝试加入游戏时调用，此时好友列表丰富的存在状态已设置为“connect”键，该键在这里设置。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 37)]
 	public struct GameRichPresenceJoinRequested_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 37;
-		public CSteamID m_steamIDFriend;		// the friend they did the join via (will be invalid if not directly via a friend)
+		public CSteamID m_steamIDFriend;		// the friend they did the join via (will be invalid if not directly via a friend) 他们通过（如果不是通过朋友直接）加入的链接将失效。
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchMaxRichPresenceValueLength)]
 		private byte[] m_rgchConnect_;
 		public string m_rgchConnect
@@ -214,6 +231,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: a chat message has been received for a clan chat the game has joined
 	//-----------------------------------------------------------------------------
+	// 目的：已收到一个加入游戏的氏族聊天消息
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 38)]
 	public struct GameConnectedClanChatMsg_t {
@@ -226,6 +244,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: a user has joined a clan chat
 	//-----------------------------------------------------------------------------
+	// 目的：用户加入氏族聊天
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 39)]
 	public struct GameConnectedChatJoin_t {
@@ -237,6 +256,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: a user has left the chat we're in
 	//-----------------------------------------------------------------------------
+	// 目的：用户已离开我们正在进行的聊天。
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 40)]
 	public struct GameConnectedChatLeave_t {
@@ -244,14 +264,15 @@ namespace Steamworks {
 		public CSteamID m_steamIDClanChat;
 		public CSteamID m_steamIDUser;
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bKicked;		// true if admin kicked
+		public bool m_bKicked;		// true if admin kicked true if admin kicked
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bDropped;	// true if Steam connection dropped
+		public bool m_bDropped;	// true if Steam connection dropped 如果Steam连接中断
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: a DownloadClanActivityCounts() call has finished
 	//-----------------------------------------------------------------------------
+	// 目的：一个 DownloadClanActivityCounts() 调用已完成。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 41)]
 	public struct DownloadClanActivityCountsResult_t {
@@ -263,6 +284,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: a JoinClanChatRoom() call has finished
 	//-----------------------------------------------------------------------------
+	// 目的：JoinClanChatRoom() 调用已完成
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 42)]
 	public struct JoinClanChatRoomCompletionResult_t {
@@ -274,6 +296,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: a chat message has been received from a user
 	//-----------------------------------------------------------------------------
+	// Purpose: a chat message has been received from a user
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 43)]
 	public struct GameConnectedFriendChatMsg_t {
@@ -315,21 +338,23 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: reports the result of an attempt to change the user's persona name
 	//-----------------------------------------------------------------------------
+	// Purpose: reports the result of an attempt to change the user's persona name
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 47)]
 	public struct SetPersonaNameResponse_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 47;
 		
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bSuccess; // true if name change succeeded completely.
+		public bool m_bSuccess; // true if name change succeeded completely. 如果名称更改完全成功则为真。
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bLocalSuccess; // true if name change was retained locally.  (We might not have been able to communicate with Steam)
-		public EResult m_result; // detailed result code
+		public bool m_bLocalSuccess; // true if name change was retained locally.  (We might not have been able to communicate with Steam) 如果名称更改已本地保留。 (我们可能无法与Steam通信)
+		public EResult m_result; // detailed result code 详细结果代码
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: Invoked when the status of unread messages changes
 	//-----------------------------------------------------------------------------
+	// 目的：当未读消息状态发生变化时调用
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 48)]
 	public struct UnreadChatMessagesChanged_t {
@@ -339,6 +364,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Dispatched when an overlay browser instance is navigated to a protocol/scheme registered by RegisterProtocolInOverlayBrowser()
 	//-----------------------------------------------------------------------------
+	// 目的：当一个覆盖层浏览器实例导航到一个通过 RegisterProtocolInOverlayBrowser() 注册的协议/方案时触发。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 49)]
 	public struct OverlayBrowserProtocolNavigation_t {
@@ -355,6 +381,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: A user's equipped profile items have changed
 	//-----------------------------------------------------------------------------
+	// 目的：用户装备的物品已更改
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 50)]
 	public struct EquippedProfileItemsChanged_t {
@@ -365,6 +392,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose:
 	//-----------------------------------------------------------------------------
+	// 目的：
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 51)]
 	public struct EquippedProfileItems_t {
@@ -387,6 +415,7 @@ namespace Steamworks {
 
 	// callbacks
 	// callback notification - A new message is available for reading from the message queue
+	// 回调 回调通知 - 消息队列中有一个新的消息可供读取。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameCoordinatorCallbacks + 1)]
 	public struct GCMessageAvailable_t {
@@ -395,6 +424,7 @@ namespace Steamworks {
 	}
 
 	// callback notification - A message failed to make it to the GC. It may be down temporarily
+	// 回调通知 - 消息未能到达 GC。它可能暂时下线。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamGameCoordinatorCallbacks + 2)]
 	public struct GCMessageFailed_t {
@@ -403,15 +433,17 @@ namespace Steamworks {
 
 	// callbacks
 	// client has been approved to connect to this game server
+	// 回调客户端已批准连接到此游戏服务器。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 1)]
 	public struct GSClientApprove_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 1;
-		public CSteamID m_SteamID;			// SteamID of approved player
-		public CSteamID m_OwnerSteamID;	// SteamID of original owner for game license
+		public CSteamID m_SteamID;			// SteamID of approved player SteamID of approved player
+		public CSteamID m_OwnerSteamID;	// SteamID of original owner for game license SteamID of original owner for game license
 	}
 
 	// client has been denied to connection to this game server
+	// 客户端被拒绝连接到此游戏服务器。
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 2)]
 	public struct GSClientDeny_t {
@@ -428,6 +460,7 @@ namespace Steamworks {
 	}
 
 	// request the game server should kick the user
+	// 请求将用户从游戏服务器踢下。
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 3)]
 	public struct GSClientKick_t {
@@ -439,6 +472,7 @@ namespace Steamworks {
 	// NOTE: callback values 4 and 5 are skipped because they are used for old deprecated callbacks,
 	// do not reuse them here.
 	// client achievement info
+	// 注意：回调值 4 和 5 被跳过，因为它们用于旧的已弃用回调，此处不要重复使用它们。客户端成就信息
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 6)]
 	public struct GSClientAchievementStatus_t {
@@ -457,6 +491,7 @@ namespace Steamworks {
 
 	// received when the game server requests to be displayed as secure (VAC protected)
 	// m_bSecure is true if the game server should display itself as secure to users, false otherwise
+	// 收到时，当游戏服务器请求显示为安全（VAC受保护）时，m_bSecure 为 true 表示游戏服务器应将自身显示为安全给用户，false 表示不显示。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 15)]
 	public struct GSPolicyResponse_t {
@@ -465,17 +500,19 @@ namespace Steamworks {
 	}
 
 	// GS gameplay stats info
+	// GS gameplay stats info
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 7)]
 	public struct GSGameplayStats_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 7;
-		public EResult m_eResult;					// Result of the call
-		public int m_nRank;					// Overall rank of the server (0-based)
-		public uint m_unTotalConnects;			// Total number of clients who have ever connected to the server
-		public uint m_unTotalMinutesPlayed;		// Total number of minutes ever played on the server
+		public EResult m_eResult;					// Result of the call 通话结果
+		public int m_nRank;					// Overall rank of the server (0-based) Overall rank of the server (0-based)
+		public uint m_unTotalConnects;			// Total number of clients who have ever connected to the server 已连接客户端总数
+		public uint m_unTotalMinutesPlayed;		// Total number of minutes ever played on the server 服务器上总共已玩分钟数
 	}
 
 	// send as a reply to RequestUserGroupStatus()
+	// ``` RequestUserGroupStatus() ```
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 8)]
 	public struct GSClientGroupStatus_t {
@@ -489,14 +526,15 @@ namespace Steamworks {
 	}
 
 	// Sent as a reply to GetServerReputation()
+	// Sent as a reply to GetServerReputation():
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 9)]
 	public struct GSReputation_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 9;
-		public EResult m_eResult;				// Result of the call;
-		public uint m_unReputationScore;	// The reputation score for the game server
+		public EResult m_eResult;				// Result of the call; 通话结果；
+		public uint m_unReputationScore;	// The reputation score for the game server 游戏服务器的声誉评分
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bBanned;				// True if the server is banned from the Steam
+		public bool m_bBanned;				// True if the server is banned from the Steam 如果服务器被禁封在 Steam 上，则为真。
 										// master servers
 		
 		// The following members are only filled out if m_bBanned is true. They will all
@@ -504,26 +542,29 @@ namespace Steamworks {
 		// banned even when the score is good high if there is a bad server on another port.
 		// This information can be used to determine which server is bad.
 		
-		public uint m_unBannedIP;		// The IP of the banned server
-		public ushort m_usBannedPort;		// The port of the banned server
-		public ulong m_ulBannedGameID;	// The game ID the banned server is serving
-		public uint m_unBanExpires;		// Time the ban expires, expressed in the Unix epoch (seconds since 1/1/1970)
+										// 主服务器信息：以下成员仅在 m_bBanned 为 true 时才填写。否则，所有成员都将设置为零。主服务器禁令基于 IP 地址，因此即使分数很高，也可能因为存在其他端口上的不良服务器而被禁。此信息可用于确定哪个服务器有问题。
+		public uint m_unBannedIP;		// The IP of the banned server The IP of the banned server
+		public ushort m_usBannedPort;		// The port of the banned server 被禁用的端口
+		public ulong m_ulBannedGameID;	// The game ID the banned server is serving 这个被封禁的服务器正在运行的游戏
+		public uint m_unBanExpires;		// Time the ban expires, expressed in the Unix epoch (seconds since 1/1/1970) 禁令到期时间，以 Unix 时间戳（1/1/1970 至今的秒数）表示。
 	}
 
+	// Sent as a reply to AssociateWithClan()
 	// Sent as a reply to AssociateWithClan()
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 10)]
 	public struct AssociateWithClanResult_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 10;
-		public EResult m_eResult;				// Result of the call;
+		public EResult m_eResult;				// Result of the call; 通话结果；
 	}
 
 	// Sent as a reply to ComputeNewPlayerCompatibility()
+	// Sent as a reply to ComputeNewPlayerCompatibility():
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 11)]
 	public struct ComputeNewPlayerCompatibilityResult_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 11;
-		public EResult m_eResult;				// Result of the call;
+		public EResult m_eResult;				// Result of the call; 通话结果；
 		public int m_cPlayersThatDontLikeCandidate;
 		public int m_cPlayersThatCandidateDoesntLike;
 		public int m_cClanPlayersThatDontLikeCandidate;
@@ -535,119 +576,130 @@ namespace Steamworks {
 	// Purpose: called when the latests stats and achievements have been received
 	//			from the server
 	//-----------------------------------------------------------------------------
+	// 回调函数
+// 目的：在从服务器接收到最新统计数据和成就时调用
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamGameServerStatsCallbacks)]
 	public struct GSStatsReceived_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerStatsCallbacks;
-		public EResult m_eResult;		// Success / error fetching the stats
-		public CSteamID m_steamIDUser;	// The user for whom the stats are retrieved for
+		public EResult m_eResult;		// Success / error fetching the stats 成功/错误获取统计信息
+		public CSteamID m_steamIDUser;	// The user for whom the stats are retrieved for 该用户用于获取统计数据的用户
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: result of a request to store the user stats for a game
 	//-----------------------------------------------------------------------------
+	// 目的：请求存储用户游戏统计数据的结果
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamGameServerStatsCallbacks + 1)]
 	public struct GSStatsStored_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerStatsCallbacks + 1;
-		public EResult m_eResult;		// success / error
-		public CSteamID m_steamIDUser;	// The user for whom the stats were stored
+		public EResult m_eResult;		// success / error 成功 / 错误
+		public CSteamID m_steamIDUser;	// The user for whom the stats were stored 该用户的统计数据
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback indicating that a user's stats have been unloaded.
 	//  Call RequestUserStats again to access stats for this user
 	//-----------------------------------------------------------------------------
+	// 目的：回调指示用户统计数据已卸载。再次调用 RequestUserStats 以访问该用户的统计数据。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 8)]
 	public struct GSStatsUnloaded_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 8;
-		public CSteamID m_steamIDUser;	// User whose stats have been unloaded
+		public CSteamID m_steamIDUser;	// User whose stats have been unloaded 用户统计数据已卸载
 	}
 
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: The browser is ready for use
 	//-----------------------------------------------------------------------------
+	// 回调函数
+// 目的：浏览器已准备好使用。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 1)]
 	public struct HTML_BrowserReady_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 1;
-		public HHTMLBrowser unBrowserHandle; // this browser is now fully created and ready to navigate to pages
+		public HHTMLBrowser unBrowserHandle; // this browser is now fully created and ready to navigate to pages 这个浏览器现在已经完全创建并准备好浏览网页。
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: the browser has a pending paint
 	//-----------------------------------------------------------------------------
+	// 目的：浏览器有未完成的绘制。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 2)]
 	public struct HTML_NeedsPaint_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 2;
-		public HHTMLBrowser unBrowserHandle; // the browser that needs the paint
-		public IntPtr pBGRA; // a pointer to the B8G8R8A8 data for this surface, valid until SteamAPI_RunCallbacks is next called
-		public uint unWide; // the total width of the pBGRA texture
-		public uint unTall; // the total height of the pBGRA texture
-		public uint unUpdateX; // the offset in X for the damage rect for this update
-		public uint unUpdateY; // the offset in Y for the damage rect for this update
-		public uint unUpdateWide; // the width of the damage rect for this update
-		public uint unUpdateTall; // the height of the damage rect for this update
-		public uint unScrollX; // the page scroll the browser was at when this texture was rendered
-		public uint unScrollY; // the page scroll the browser was at when this texture was rendered
-		public float flPageScale; // the page scale factor on this page when rendered
-		public uint unPageSerial; // incremented on each new page load, you can use this to reject draws while navigating to new pages
+		public HHTMLBrowser unBrowserHandle; // the browser that needs the paint 那个需要油漆的浏览器
+		public IntPtr pBGRA; // a pointer to the B8G8R8A8 data for this surface, valid until SteamAPI_RunCallbacks is next called 指向该表面的 B8G8R8A8 数据的一个指针，在下次调用 SteamAPI_RunCallbacks 时有效。
+		public uint unWide; // the total width of the pBGRA texture pBGRA 纹理的总宽度
+		public uint unTall; // the total height of the pBGRA texture PBGRA 纹理的总高度
+		public uint unUpdateX; // the offset in X for the damage rect for this update 这个更新中的 X 偏移量用于伤害矩形。
+		public uint unUpdateY; // the offset in Y for the damage rect for this update 这个更新的 Y 偏移量用于伤害矩形。
+		public uint unUpdateWide; // the width of the damage rect for this update 这个更新的损坏矩形宽度
+		public uint unUpdateTall; // the height of the damage rect for this update 这个更新的损坏矩形高度
+		public uint unScrollX; // the page scroll the browser was at when this texture was rendered 浏览器的页面滚动位置，当此纹理被渲染时。
+		public uint unScrollY; // the page scroll the browser was at when this texture was rendered 浏览器的页面滚动位置，当这个纹理被渲染时。
+		public float flPageScale; // the page scale factor on this page when rendered 这个页面的缩放比例。
+		public uint unPageSerial; // incremented on each new page load, you can use this to reject draws while navigating to new pages 在每次页面加载时递增，你可以使用它来拒绝在导航到新页面时进行的抽样。
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: The browser wanted to navigate to a new page
 	//   NOTE - you MUST call AllowStartRequest in response to this callback
 	//-----------------------------------------------------------------------------
+	// 目的：浏览器想要导航到新页面 注意：您必须在收到此回调时调用 AllowStartRequest
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 3)]
 	public struct HTML_StartRequest_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 3;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface navigating
-		public string pchURL; // the url they wish to navigate to
-		public string pchTarget; // the html link target type  (i.e _blank, _self, _parent, _top )
-		public string pchPostData; // any posted data for the request
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface navigating Surface 导航的把手
+		public string pchURL; // the url they wish to navigate to the url they wish to navigate to
+		public string pchTarget; // the html link target type  (i.e _blank, _self, _parent, _top ) the HTML link target type (i.e _blank, _self, _parent, _top)
+		public string pchPostData; // any posted data for the request Please provide the request data.
 		[MarshalAs(UnmanagedType.I1)]
-		public bool bIsRedirect; // true if this was a http/html redirect from the last load request
+		public bool bIsRedirect; // true if this was a http/html redirect from the last load request 如果这是上一次加载请求的 HTTP/HTML 重定向，则为真。
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: The browser has been requested to close due to user interaction (usually from a javascript window.close() call)
 	//-----------------------------------------------------------------------------
+	// 目的：浏览器已因用户交互（通常来自 JavaScript 的 window.close() 调用）而请求关闭。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 4)]
 	public struct HTML_CloseBrowser_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 4;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: the browser is navigating to a new url
 	//-----------------------------------------------------------------------------
+	// 目的：浏览器正在导航到新的URL
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 5)]
 	public struct HTML_URLChanged_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 5;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface navigating
-		public string pchURL; // the url they wish to navigate to
-		public string pchPostData; // any posted data for the request
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface navigating Surface 导航的把手
+		public string pchURL; // the url they wish to navigate to the url they wish to navigate to
+		public string pchPostData; // any posted data for the request Please provide the request data.
 		[MarshalAs(UnmanagedType.I1)]
-		public bool bIsRedirect; // true if this was a http/html redirect from the last load request
-		public string pchPageTitle; // the title of the page
+		public bool bIsRedirect; // true if this was a http/html redirect from the last load request 如果这是上一次加载请求的 HTTP/HTML 重定向，则为真。
+		public string pchPageTitle; // the title of the page the title of the page
 		[MarshalAs(UnmanagedType.I1)]
-		public bool bNewNavigation; // true if this was from a fresh tab and not a click on an existing page
+		public bool bNewNavigation; // true if this was from a fresh tab and not a click on an existing page 如果这是从新标签页打开的，而不是点击现有页面。
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: A page is finished loading
 	//-----------------------------------------------------------------------------
+	// 页面加载完成。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 6)]
 	public struct HTML_FinishedRequest_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 6;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
 		public string pchURL; //
 		public string pchPageTitle; //
 	}
@@ -655,33 +707,36 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: a request to load this url in a new tab
 	//-----------------------------------------------------------------------------
+	// 目的：请求在新标签页中加载此 URL
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 7)]
 	public struct HTML_OpenLinkInNewTab_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 7;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
 		public string pchURL; //
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: the page has a new title now
 	//-----------------------------------------------------------------------------
+	// Purpose: the page has a new title now
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 8)]
 	public struct HTML_ChangedTitle_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 8;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
 		public string pchTitle; //
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: results from a search
 	//-----------------------------------------------------------------------------
+	// Purpose: results from a search
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 9)]
 	public struct HTML_SearchResults_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 9;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
 		public uint unResults; //
 		public uint unCurrentMatch; //
 	}
@@ -689,11 +744,12 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: page history status changed on the ability to go backwards and forward
 	//-----------------------------------------------------------------------------
+	// 目的：页面历史状态更改了回退和前进的能力。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 10)]
 	public struct HTML_CanGoBackAndForward_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 10;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
 		[MarshalAs(UnmanagedType.I1)]
 		public bool bCanGoBack; //
 		[MarshalAs(UnmanagedType.I1)]
@@ -703,11 +759,12 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: details on the visibility and size of the horizontal scrollbar
 	//-----------------------------------------------------------------------------
+	// Purpose: details on the visibility and size of the horizontal scrollbar
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 11)]
 	public struct HTML_HorizontalScroll_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 11;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
 		public uint unScrollMax; //
 		public uint unScrollCurrent; //
 		public float flPageScale; //
@@ -719,11 +776,12 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: details on the visibility and size of the vertical scrollbar
 	//-----------------------------------------------------------------------------
+	// Purpose: details on the visibility and size of the vertical scrollbar
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 12)]
 	public struct HTML_VerticalScroll_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 12;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
 		public uint unScrollMax; //
 		public uint unScrollCurrent; //
 		public float flPageScale; //
@@ -735,13 +793,14 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: response to GetLinkAtPosition call
 	//-----------------------------------------------------------------------------
+	// Purpose: response to GetLinkAtPosition call
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 13)]
 	public struct HTML_LinkAtPosition_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 13;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
-		public uint x; // NOTE - Not currently set
-		public uint y; // NOTE - Not currently set
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
+		public uint x; // NOTE - Not currently set 当前未设置。
+		public uint y; // NOTE - Not currently set 当前未设置。
 		public string pchURL; //
 		[MarshalAs(UnmanagedType.I1)]
 		public bool bInput; //
@@ -753,11 +812,12 @@ namespace Steamworks {
 	// Purpose: show a Javascript alert dialog, call JSDialogResponse
 	//   when the user dismisses this dialog (or right away to ignore it)
 	//-----------------------------------------------------------------------------
+	// Purpose: 显示一个 Javascript 提示对话框，在用户关闭该对话框（或直接忽略它）时调用 JSDialogResponse
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 14)]
 	public struct HTML_JSAlert_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 14;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
 		public string pchMessage; //
 	}
 
@@ -765,11 +825,12 @@ namespace Steamworks {
 	// Purpose: show a Javascript confirmation dialog, call JSDialogResponse
 	//   when the user dismisses this dialog (or right away to ignore it)
 	//-----------------------------------------------------------------------------
+	// Purpose: 显示一个 Javascript 确认对话框，在用户关闭该对话框（或直接忽略它）时调用 JSDialogResponse
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 15)]
 	public struct HTML_JSConfirm_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 15;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
 		public string pchMessage; //
 	}
 
@@ -777,11 +838,12 @@ namespace Steamworks {
 	// Purpose: when received show a file open dialog
 	//   then call FileLoadDialogResponse with the file(s) the user selected.
 	//-----------------------------------------------------------------------------
+	// 目的：收到消息时，显示文件打开对话框，然后调用 FileLoadDialogResponse 方法，传入用户选择的文件（们）。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 16)]
 	public struct HTML_FileOpenDialog_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 16;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
 		public string pchTitle; //
 		public string pchInitialFile; //
 	}
@@ -795,107 +857,120 @@ namespace Steamworks {
 	// to give your application the opportunity to call CreateBrowser and set up
 	// a new browser in response to the attempted popup, if you wish to do so.
 	//-----------------------------------------------------------------------------
+	// 目的：正在创建一个新的 HTML 窗口。
+// 重要提示：目前，API 不允许您确认或渲染新窗口的内容，因此新窗口会立即被销毁。新窗口的 URL 和其他参数会传递过来，让您的应用程序有机会调用 CreateBrowser 并根据尝试弹窗的请求设置一个新的浏览器，如果您希望这样做。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 21)]
 	public struct HTML_NewWindow_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 21;
-		public HHTMLBrowser unBrowserHandle; // the handle of the current surface
-		public string pchURL; // the page to load
-		public uint unX; // the x pos into the page to display the popup
-		public uint unY; // the y pos into the page to display the popup
-		public uint unWide; // the total width of the pBGRA texture
-		public uint unTall; // the total height of the pBGRA texture
+		public HHTMLBrowser unBrowserHandle; // the handle of the current surface 当前表面上的手柄
+		public string pchURL; // the page to load 加载的页面
+		public uint unX; // the x pos into the page to display the popup 将x坐标显示到页面上显示弹出窗口。
+		public uint unY; // the y pos into the page to display the popup 将 y 坐标输入到页面中以显示弹出窗口。
+		public uint unWide; // the total width of the pBGRA texture pBGRA 纹理的总宽度
+		public uint unTall; // the total height of the pBGRA texture PBGRA 纹理的总高度
 		public HHTMLBrowser unNewWindow_BrowserHandle_IGNORE;
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: change the cursor to display
 	//-----------------------------------------------------------------------------
+	// Purpose: 更改光标显示
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 22)]
 	public struct HTML_SetCursor_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 22;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
-		public uint eMouseCursor; // the EMouseCursor to display
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
+		public uint eMouseCursor; // the EMouseCursor to display 显示鼠标光标的 EMouseCursor
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: informational message from the browser
 	//-----------------------------------------------------------------------------
+	// 目的：浏览器信息提示
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 23)]
 	public struct HTML_StatusText_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 23;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
-		public string pchMsg; // the EMouseCursor to display
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
+		public string pchMsg; // the EMouseCursor to display 显示鼠标光标的 EMouseCursor
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: show a tooltip
 	//-----------------------------------------------------------------------------
+	// Purpose: 显示提示信息
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 24)]
 	public struct HTML_ShowToolTip_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 24;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
-		public string pchMsg; // the EMouseCursor to display
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
+		public string pchMsg; // the EMouseCursor to display 显示鼠标光标的 EMouseCursor
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: update the text of an existing tooltip
 	//-----------------------------------------------------------------------------
+	// Purpose: 更新现有工具提示的文本
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 25)]
 	public struct HTML_UpdateToolTip_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 25;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
-		public string pchMsg; // the EMouseCursor to display
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
+		public string pchMsg; // the EMouseCursor to display 显示鼠标光标的 EMouseCursor
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: hide the tooltip you are showing
 	//-----------------------------------------------------------------------------
+	// Purpose: hide the tooltip you are showing
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 26)]
 	public struct HTML_HideToolTip_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 26;
-		public HHTMLBrowser unBrowserHandle; // the handle of the surface
+		public HHTMLBrowser unBrowserHandle; // the handle of the surface Surface 的把手
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: The browser has restarted due to an internal failure, use this new handle value
 	//-----------------------------------------------------------------------------
+	// 目的：浏览器由于内部错误已重启，请使用此新句柄值。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 27)]
 	public struct HTML_BrowserRestarted_t {
 		public const int k_iCallback = Constants.k_iSteamHTMLSurfaceCallbacks + 27;
-		public HHTMLBrowser unBrowserHandle; // this is the new browser handle after the restart
-		public HHTMLBrowser unOldBrowserHandle; // the handle for the browser before the restart, if your handle was this then switch to using unBrowserHandle for API calls
+		public HHTMLBrowser unBrowserHandle; // this is the new browser handle after the restart 这是重启后的新浏览器手柄。
+		public HHTMLBrowser unOldBrowserHandle; // the handle for the browser before the restart, if your handle was this then switch to using unBrowserHandle for API calls 在重启前，浏览器句柄的处理方式，如果你的句柄是这样的，则切换到使用 unBrowserHandle 进行 API 调用。
 	}
 
 	// callbacks
+	// 回调函数
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTTPCallbacks + 1)]
 	public struct HTTPRequestCompleted_t {
 		public const int k_iCallback = Constants.k_iSteamHTTPCallbacks + 1;
 		
 		// Handle value for the request that has completed.
+		// 请求完成的处理值。
 		public HTTPRequestHandle m_hRequest;
 		
 		// Context value that the user defined on the request that this callback is associated with, 0 if
 		// no context value was set.
+		// 与该回调关联的，用户定义的上下文值，如果未设置上下文值，则为0。
 		public ulong m_ulContextValue;
 		
 		// This will be true if we actually got any sort of response from the server (even an error).
 		// It will be false if we failed due to an internal error or client side network failure.
+		// 如果我们真的收到任何来自服务器的响应（即使是错误），那么它将为真。如果由于内部错误或客户端网络故障而失败，那么它将为假。
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bRequestSuccessful;
 		
 		// Will be the HTTP status code value returned by the server, k_EHTTPStatusCode200OK is the normal
 		// OK response, if you get something else you probably need to treat it as a failure.
+		// 服务器返回的 HTTP 状态码值，k_EHTTPStatusCode200OK 是正常 OK 响应，如果得到其他值，则可能需要将其视为失败。
 		public EHTTPStatusCode m_eStatusCode;
 		
-		public uint m_unBodySize; // Same as GetHTTPResponseBodySize()
+		public uint m_unBodySize; // Same as GetHTTPResponseBodySize() Same as GetHTTPResponseBodySize()
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -904,10 +979,12 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamHTTPCallbacks + 2;
 		
 		// Handle value for the request that has received headers.
+		// Handle value for the request that has received headers.
 		public HTTPRequestHandle m_hRequest;
 		
 		// Context value that the user defined on the request that this callback is associated with, 0 if
 		// no context value was set.
+		// 与该回调关联的，用户定义的上下文值，如果未设置上下文值，则为0。
 		public ulong m_ulContextValue;
 	}
 
@@ -917,16 +994,20 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamHTTPCallbacks + 3;
 		
 		// Handle value for the request that has received data.
+		// 请求已接收数据的处理值。
 		public HTTPRequestHandle m_hRequest;
 		
 		// Context value that the user defined on the request that this callback is associated with, 0 if
 		// no context value was set.
+		// 与该回调关联的，用户定义的上下文值，如果未设置上下文值，则为0。
 		public ulong m_ulContextValue;
 		
 		
 		// Offset to provide to GetHTTPStreamingResponseBodyData to get this chunk of data
+		// 偏移量用于向 GetHTTPStreamingResponseBodyData 传递以获取该数据块。
 		public uint m_cOffset;
 		
+		// Size to provide to GetHTTPStreamingResponseBodyData to get this chunk of data
 		// Size to provide to GetHTTPStreamingResponseBodyData to get this chunk of data
 		public uint m_cBytesReceived;
 	}
@@ -935,63 +1016,70 @@ namespace Steamworks {
 	// Purpose: called when a new controller has been connected, will fire once
 	// per controller if multiple new controllers connect in the same frame
 	//-----------------------------------------------------------------------------
+	// 目的：当新控制器连接时调用，如果同一帧中连接了多个新控制器，则会一次触发一次。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 1)]
 	public struct SteamInputDeviceConnected_t {
 		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 1;
-		public InputHandle_t m_ulConnectedDeviceHandle;	// Handle for device
+		public InputHandle_t m_ulConnectedDeviceHandle;	// Handle for device 设备名称
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: called when a new controller has been connected, will fire once
 	// per controller if multiple new controllers connect in the same frame
 	//-----------------------------------------------------------------------------
+	// 目的：当新控制器连接时调用，如果同一帧中连接了多个新控制器，则会一次触发一次。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 2)]
 	public struct SteamInputDeviceDisconnected_t {
 		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 2;
-		public InputHandle_t m_ulDisconnectedDeviceHandle;	// Handle for device
+		public InputHandle_t m_ulDisconnectedDeviceHandle;	// Handle for device 设备名称
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: called when a controller configuration has been loaded, will fire once
 	// per controller per focus change for Steam Input enabled controllers
 	//-----------------------------------------------------------------------------
+	// 目的：当控制器配置已加载时触发，针对启用了 Steam Input 的控制器，每次焦点变化都会触发一次。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 3)]
 	public struct SteamInputConfigurationLoaded_t {
 		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 3;
 		public AppId_t m_unAppID;
-		public InputHandle_t m_ulDeviceHandle;		// Handle for device
-		public CSteamID m_ulMappingCreator;		// May differ from local user when using
+		public InputHandle_t m_ulDeviceHandle;		// Handle for device 设备名称
+		public CSteamID m_ulMappingCreator;		// May differ from local user when using 可能与本地用户不同时使用
 												// an unmodified community or official config
-		public uint m_unMajorRevision;		// Binding revision from In-game Action File.
+												// 未修改的社区或官方配置
+		public uint m_unMajorRevision;		// Binding revision from In-game Action File. 从游戏内动作文件中的绑定修订。
 												// Same value as queried by GetDeviceBindingRevision
+												// 与 GetDeviceBindingRevision 查询相同的值
 		public uint m_unMinorRevision;
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bUsesSteamInputAPI;	// Does the configuration contain any Analog/Digital actions?
+		public bool m_bUsesSteamInputAPI;	// Does the configuration contain any Analog/Digital actions? Does the configuration contain any Analog/Digital actions?
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bUsesGamepadAPI;		// Does the configuration contain any Xinput bindings?
+		public bool m_bUsesGamepadAPI;		// Does the configuration contain any Xinput bindings? 配置中包含任何 Xinput 绑定吗？
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: called when controller gamepad slots change - on Linux/macOS these
 	// slots are shared for all running apps.
 	//-----------------------------------------------------------------------------
+	// 目的：在控制器手柄插槽更改时调用 - 在 Linux/macOS 上，这些插槽对所有正在运行的应用程序共享。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamControllerCallbacks + 4)]
 	public struct SteamInputGamepadSlotChange_t {
 		public const int k_iCallback = Constants.k_iSteamControllerCallbacks + 4;
 		public AppId_t m_unAppID;
-		public InputHandle_t m_ulDeviceHandle;		// Handle for device
-		public ESteamInputType m_eDeviceType;			// Type of device
-		public int m_nOldGamepadSlot;		// Previous GamepadSlot - can be -1 controller doesn't uses gamepad bindings
-		public int m_nNewGamepadSlot;		// New Gamepad Slot - can be -1 controller doesn't uses gamepad bindings
+		public InputHandle_t m_ulDeviceHandle;		// Handle for device 设备名称
+		public ESteamInputType m_eDeviceType;			// Type of device 设备类型
+		public int m_nOldGamepadSlot;		// Previous GamepadSlot - can be -1 controller doesn't uses gamepad bindings 之前的游戏手柄槽位 - 可以是 -1，表示不使用游戏手柄绑定。
+		public int m_nNewGamepadSlot;		// New Gamepad Slot - can be -1 controller doesn't uses gamepad bindings 新游戏手柄插槽 - 可以是 -1 控制器不使用游戏手柄绑定
 	}
 
 	// SteamInventoryResultReady_t callbacks are fired whenever asynchronous
 	// results transition from "Pending" to "OK" or an error state. There will
 	// always be exactly one callback per handle.
+	// SteamInventoryResultReady_t 回调函数会在异步结果从“Pending”状态变为“OK”状态或错误状态时触发。每个句柄上始终只会有一个回调。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 0)]
 	public struct SteamInventoryResultReady_t {
@@ -1007,6 +1095,7 @@ namespace Steamworks {
 	// the earlier result is already known to be stale/out-of-date.)
 	// The normal ResultReady callback will still be triggered immediately
 	// afterwards; this is an additional notification for your convenience.
+	// SteamInventoryFullUpdate_t 回调会在GetAllItems 成功返回比上次已知结果更新/新鲜的结果时触发。 (它不会在库存没有改变时触发，或者当两个重叠的调用结果被反转，并且较早的结果已知为过时/过时时触发。) 正常的 ResultReady 回调会在之后立即触发；这是一个额外的通知，供您使用。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 1)]
 	public struct SteamInventoryFullUpdate_t {
@@ -1018,6 +1107,7 @@ namespace Steamworks {
 	// item definitions have been updated, which could be in response to
 	// LoadItemDefinitions() or any other async request which required
 	// a definition update in order to process results from the server.
+	// 当物品定义被更新时会触发一个SteamInventoryDefinitionUpdate_t回调，这可能是由于LoadItemDefinitions()或任何其他异步请求，这些请求需要定义更新才能处理来自服务器的结果。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 2)]
 	public struct SteamInventoryDefinitionUpdate_t {
@@ -1025,6 +1115,7 @@ namespace Steamworks {
 	}
 
 	// Returned
+	// 已退货
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 3)]
 	public struct SteamInventoryEligiblePromoItemDefIDs_t {
@@ -1033,10 +1124,11 @@ namespace Steamworks {
 		public CSteamID m_steamID;
 		public int m_numEligiblePromoItemDefs;
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bCachedData;	// indicates that the data was retrieved from the cache and not the server
+		public bool m_bCachedData;	// indicates that the data was retrieved from the cache and not the server 表明数据是从缓存中获取的，而不是从服务器获取的。
 	}
 
 	// Triggered from StartPurchase call
+	// 从 StartPurchase 调用触发
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 4)]
 	public struct SteamInventoryStartPurchaseResult_t {
@@ -1047,6 +1139,7 @@ namespace Steamworks {
 	}
 
 	// Triggered from RequestPrices
+	// 从 RequestPrices 触发
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamInventoryCallbacks + 5)]
 	public struct SteamInventoryRequestPricesResult_t {
@@ -1066,17 +1159,19 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: a server was added/removed from the favorites list, you should refresh now
 	//-----------------------------------------------------------------------------
+	// 回调函数用于 ISteamMatchmaking (通过常规 Steam 回调注册系统)
+// 目的：从收藏列表中添加/删除服务器，请现在刷新。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 2)]
 	public struct FavoritesListChanged_t {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 2;
-		public uint m_nIP; // an IP of 0 means reload the whole list, any other value means just one server
+		public uint m_nIP; // an IP of 0 means reload the whole list, any other value means just one server 一个 IP 为 0 表示重新加载整个列表，任何其他值表示只加载一个服务器。
 		public uint m_nQueryPort;
 		public uint m_nConnPort;
 		public uint m_nAppID;
 		public uint m_nFlags;
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bAdd; // true if this is adding the entry, otherwise it is a remove
+		public bool m_bAdd; // true if this is adding the entry, otherwise it is a remove 如果这是添加条目，否则它是删除
 		public AccountID_t m_unAccountId;
 	}
 
@@ -1088,14 +1183,16 @@ namespace Steamworks {
 	//			if the user outside a game chooses to join, your game will be launched with the parameter "+connect_lobby <64-bit lobby id>",
 	//			or with the callback GameLobbyJoinRequested_t if they're already in-game
 	//-----------------------------------------------------------------------------
+	// Purpose: 某人邀请你加入一个Lobby，通常你不需要做任何操作，因为Steam UI也会显示一个'<user> has invited you to the lobby, join?'对话框。
+// 如果玩家在游戏外选择加入，你的游戏将使用 "+connect_lobby <64-bit lobby id>" 参数启动，或者如果他们已经在游戏中，则使用 GameLobbyJoinRequested_t 回调。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 3)]
 	public struct LobbyInvite_t {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 3;
 		
-		public ulong m_ulSteamIDUser;		// Steam ID of the person making the invite
-		public ulong m_ulSteamIDLobby;	// Steam ID of the Lobby
-		public ulong m_ulGameID;			// GameID of the Lobby
+		public ulong m_ulSteamIDUser;		// Steam ID of the person making the invite Steam ID of the person making the invite
+		public ulong m_ulSteamIDLobby;	// Steam ID of the Lobby Steam ID of the Lobby
+		public ulong m_ulGameID;			// GameID of the Lobby 游戏ID
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1103,16 +1200,17 @@ namespace Steamworks {
 	//			m_EChatRoomEnterResponse will be set to k_EChatRoomEnterResponseSuccess on success,
 	//			or a higher value on failure (see enum EChatRoomEnterResponse)
 	//-----------------------------------------------------------------------------
+	// 目的：在进入游戏大厅或未能进入时发送，如果进入成功，m_EChatRoomEnterResponse 将设置为 k_EChatRoomEnterResponseSuccess，否则设置为一个更高值（参见 EChatRoomEnterResponse 枚举）。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 4)]
 	public struct LobbyEnter_t {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 4;
 		
-		public ulong m_ulSteamIDLobby;							// SteamID of the Lobby you have entered
-		public uint m_rgfChatPermissions;						// Permissions of the current user
+		public ulong m_ulSteamIDLobby;							// SteamID of the Lobby you have entered Lobby SteamID
+		public uint m_rgfChatPermissions;						// Permissions of the current user 当前用户的权限
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bLocked;										// If true, then only invited users may join
-		public uint m_EChatRoomEnterResponse;	// EChatRoomEnterResponse
+		public bool m_bLocked;										// If true, then only invited users may join 如果为真，则只有邀请用户才能加入。
+		public uint m_EChatRoomEnterResponse;	// EChatRoomEnterResponse EChatRoomEnterResponse
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1120,46 +1218,51 @@ namespace Steamworks {
 	//			if m_ulSteamIDMember is the steamID of a lobby member, use GetLobbyMemberData() to access per-user details
 	//			if m_ulSteamIDMember == m_ulSteamIDLobby, use GetLobbyData() to access lobby metadata
 	//-----------------------------------------------------------------------------
+	// 目的：如果 m_ulSteamIDMember 是一个游戏大厅成员的 steamID，则大厅元数据已更改。如果 m_ulSteamIDMember 等于 m_ulSteamIDLobby，则使用 GetLobbyMemberData() 访问每个用户的详细信息。否则，使用 GetLobbyData() 访问大厅元数据。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 5)]
 	public struct LobbyDataUpdate_t {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 5;
 		
-		public ulong m_ulSteamIDLobby;		// steamID of the Lobby
-		public ulong m_ulSteamIDMember;		// steamID of the member whose data changed, or the room itself
-		public byte m_bSuccess;				// true if we lobby data was successfully changed;
+		public ulong m_ulSteamIDLobby;		// steamID of the Lobby SteamID of the Lobby
+		public ulong m_ulSteamIDMember;		// steamID of the member whose data changed, or the room itself steamID of the member whose data changed, or the room itself
+		public byte m_bSuccess;				// true if we lobby data was successfully changed; 如果游说数据成功更改，则为真；
 										// will only be false if RequestLobbyData() was called on a lobby that no longer exists
+										// 只有在 RequestLobbyData() 被调用到不存在的Lobby时，才会返回错误。
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: The lobby chat room state has changed
 	//			this is usually sent when a user has joined or left the lobby
 	//-----------------------------------------------------------------------------
+	// 目的：Lobby聊天室状态已更改，这通常表示用户已加入或离开Lobby。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 6)]
 	public struct LobbyChatUpdate_t {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 6;
 		
-		public ulong m_ulSteamIDLobby;			// Lobby ID
-		public ulong m_ulSteamIDUserChanged;		// user who's status in the lobby just changed - can be recipient
-		public ulong m_ulSteamIDMakingChange;		// Chat member who made the change (different from SteamIDUserChange if kicking, muting, etc.)
+		public ulong m_ulSteamIDLobby;			// Lobby ID Lobby ID
+		public ulong m_ulSteamIDUserChanged;		// user who's status in the lobby just changed - can be recipient 用户状态在大厅中发生了变化 - 可以是接收者。
+		public ulong m_ulSteamIDMakingChange;		// Chat member who made the change (different from SteamIDUserChange if kicking, muting, etc.) 聊天成员造成的更改（与踢出、禁言等不同）
 											// for example, if one user kicks another from the lobby, this will be set to the id of the user who initiated the kick
-		public uint m_rgfChatMemberStateChange;	// bitfield of EChatMemberStateChange values
+											// 如果一个用户将另一个用户从游戏大厅踢出，则会将此设置为发起踢出操作的用户ID。
+		public uint m_rgfChatMemberStateChange;	// bitfield of EChatMemberStateChange values EChatMemberStateChange bitfield
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: A chat message for this lobby has been sent
 	//			use GetLobbyChatEntry( m_iChatID ) to retrieve the contents of this message
 	//-----------------------------------------------------------------------------
+	// 目的：此游戏大厅已发送一条聊天消息，使用 GetLobbyChatEntry( m_iChatID ) 来检索该消息的内容。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 7)]
 	public struct LobbyChatMsg_t {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 7;
 		
-		public ulong m_ulSteamIDLobby;			// the lobby id this is in
-		public ulong m_ulSteamIDUser;			// steamID of the user who has sent this message
-		public byte m_eChatEntryType;			// type of message
-		public uint m_iChatID;				// index of the chat entry to lookup
+		public ulong m_ulSteamIDLobby;			// the lobby id this is in 这个房间ID是什么？
+		public ulong m_ulSteamIDUser;			// steamID of the user who has sent this message Please provide the message.
+		public byte m_eChatEntryType;			// type of message 消息类型
+		public uint m_iChatID;				// index of the chat entry to lookup Please provide the chat entry you want me to translate.
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1168,14 +1271,15 @@ namespace Steamworks {
 	//			it's up to the individual clients to take action on this; the usual
 	//			game behavior is to leave the lobby and connect to the specified game server
 	//-----------------------------------------------------------------------------
+	// 目的：创建一个游戏，让所有大厅成员参与，通过调用 SetLobbyGameServer() 函数触发；后续由每个客户端自行处理，通常的行为是离开大厅并连接到指定的游戏服务器。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 9)]
 	public struct LobbyGameCreated_t {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 9;
 		
-		public ulong m_ulSteamIDLobby;		// the lobby we were in
-		public ulong m_ulSteamIDGameServer;	// the new game server that has been created or found for the lobby members
-		public uint m_unIP;					// IP & Port of the game server (if any)
+		public ulong m_ulSteamIDLobby;		// the lobby we were in 我们所在的房间
+		public ulong m_ulSteamIDGameServer;	// the new game server that has been created or found for the lobby members 新创建或发现的用于游戏大厅成员的服务器
+		public uint m_unIP;					// IP & Port of the game server (if any) 游戏服务器的 IP & Port (如果存在)
 		public ushort m_usPort;
 	}
 
@@ -1183,24 +1287,26 @@ namespace Steamworks {
 	// Purpose: Number of matching lobbies found
 	//			iterate the returned lobbies with GetLobbyByIndex(), from values 0 to m_nLobbiesMatching-1
 	//-----------------------------------------------------------------------------
+	// 目的：找到匹配的房间数量，迭代返回的房间，从 0 到 m_nLobbiesMatching-1。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 10)]
 	public struct LobbyMatchList_t {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 10;
-		public uint m_nLobbiesMatching;		// Number of lobbies that matched search criteria and we have SteamIDs for
+		public uint m_nLobbiesMatching;		// Number of lobbies that matched search criteria and we have SteamIDs for 匹配搜索条件的房间数量，并且我们有SteamID...
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: posted if a user is forcefully removed from a lobby
 	//			can occur if a user loses connection to Steam
 	//-----------------------------------------------------------------------------
+	// 目的：如果用户被强制从游戏大厅中移除，可能发生在用户与Steam失去连接时。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 12)]
 	public struct LobbyKicked_t {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 12;
-		public ulong m_ulSteamIDLobby;			// Lobby
-		public ulong m_ulSteamIDAdmin;			// User who kicked you - possibly the ID of the lobby itself
-		public byte m_bKickedDueToDisconnect;		// true if you were kicked from the lobby due to the user losing connection to Steam (currently always true)
+		public ulong m_ulSteamIDLobby;			// Lobby Lobby
+		public ulong m_ulSteamIDAdmin;			// User who kicked you - possibly the ID of the lobby itself 用户踢出我 - 可能的Lobby ID
+		public byte m_bKickedDueToDisconnect;		// true if you were kicked from the lobby due to the user losing connection to Steam (currently always true) true if you were kicked from the lobby due to the user losing connection to Steam (currently always true)
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1209,19 +1315,21 @@ namespace Steamworks {
 	//			at this point, the lobby has been joined and is ready for use
 	//			a LobbyEnter_t callback will also be received (since the local user is joining their own lobby)
 	//-----------------------------------------------------------------------------
+	// 目的：请求创建Lobby m_eResult == k_EResultOK 在此成功时，Lobby已加入并准备好使用。同时也会收到LobbyEnter_t回调（由于本地用户正在加入他们自己的Lobby）
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 13)]
 	public struct LobbyCreated_t {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 13;
 		
-		public EResult m_eResult;		// k_EResultOK - the lobby was successfully created
+		public EResult m_eResult;		// k_EResultOK - the lobby was successfully created k_EResultOK - 房间创建成功
 								// k_EResultNoConnection - your Steam client doesn't have a connection to the back-end
 								// k_EResultTimeout - you the message to the Steam servers, but it didn't respond
 								// k_EResultFail - the server responded, but with an unknown internal error
 								// k_EResultAccessDenied - your game isn't set to allow lobbies, or your client does haven't rights to play the game
 								// k_EResultLimitExceeded - your game client has created too many lobbies
 		
-		public ulong m_ulSteamIDLobby;		// chat room, zero if failed
+								// k_EResultNoConnection - 你的 Steam 客户端与后端没有连接 k_EResultTimeout - 你的客户端向 Steam 服务器发送了消息，但没有响应 k_EResultFail - 服务器响应了，但存在未知内部错误 k_EResultAccessDenied - 你的游戏未设置为允许创建公会，或者你的客户端没有权限玩游戏 k_EResultLimitExceeded - 你的游戏客户端创建了过多的公会
+		public ulong m_ulSteamIDLobby;		// chat room, zero if failed 聊天室，如果失败则为零。
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1230,6 +1338,7 @@ namespace Steamworks {
 	//			at this point, the lobby has been joined and is ready for use
 	//			a LobbyEnter_t callback will also be received (since the local user is joining their own lobby)
 	//-----------------------------------------------------------------------------
+	// 目的：请求创建Lobby m_eResult == k_EResultOK 在此成功时，Lobby已加入并准备好使用。同时也会收到LobbyEnter_t回调（由于本地用户正在加入他们自己的Lobby）
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 16)]
 	public struct FavoritesListAccountsUpdated_t {
@@ -1240,22 +1349,24 @@ namespace Steamworks {
 
 	//-----------------------------------------------------------------------------
 	// Callbacks for ISteamGameSearch (which go through the regular Steam callback registration system)
+	// Callbacks for ISteamGameSearch (which go through the regular Steam callback registration system)
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 1)]
 	public struct SearchForGameProgressCallback_t {
 		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 1;
 		
-		public ulong m_ullSearchID;	// all future callbacks referencing this search will include this Search ID
+		public ulong m_ullSearchID;	// all future callbacks referencing this search will include this Search ID 所有后续引用此搜索 ID 的回调将包含此搜索 ID。
 		
-		public EResult m_eResult; // if search has started this result will be k_EResultOK, any other value indicates search has failed to start or has terminated
-		public CSteamID m_lobbyID; // lobby ID if lobby search, invalid steamID otherwise
-		public CSteamID m_steamIDEndedSearch; // if search was terminated, steamID that terminated search
+		public EResult m_eResult; // if search has started this result will be k_EResultOK, any other value indicates search has failed to start or has terminated 如果搜索已启动，结果将是 k_EResultOK，任何其他值表示搜索启动失败或已终止。
+		public CSteamID m_lobbyID; // lobby ID if lobby search, invalid steamID otherwise 如果是在Lobby搜索中，则Lobby ID；否则，无效的SteamID。
+		public CSteamID m_steamIDEndedSearch; // if search was terminated, steamID that terminated search 如果搜索被终止，终止搜索的SteamID
 		
 		public int m_nSecondsRemainingEstimate;
 		public int m_cPlayersSearching;
 	}
 
 	// notification to all players searching that a game has been found
+	// A notification to all players searching that a game has been found
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 2)]
 	public struct SearchForGameResultCallback_t {
@@ -1263,12 +1374,14 @@ namespace Steamworks {
 		
 		public ulong m_ullSearchID;
 		
-		public EResult m_eResult; // if game/host was lost this will be an error value
+		public EResult m_eResult; // if game/host was lost this will be an error value 如果游戏/主机丢失，这将是一个错误值。
 		
 		// if m_bGameFound is true the following are non-zero
+		// 如果 m_bGameFound 为 true，则以下值不为零。
 		public int m_nCountPlayersInGame;
 		public int m_nCountAcceptedGame;
 		// if m_steamIDHost is valid the host has started the game
+		// 如果 m_steamIDHost 有效，则主机已启动游戏。
 		public CSteamID m_steamIDHost;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bFinalCallback;
@@ -1278,31 +1391,33 @@ namespace Steamworks {
 	// ISteamGameSearch : Game Host API callbacks
 	// callback from RequestPlayersForGame when the matchmaking service has started or ended search
 	// callback will also follow a call from CancelRequestPlayersForGame - m_bSearchInProgress will be false
+	// ISteamGameSearch : Game Host API 回调，从 RequestPlayersForGame 响应，当匹配服务开始或结束搜索时，也会跟随 CancelRequestPlayersForGame 的调用 - m_bSearchInProgress 将为 false
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 11)]
 	public struct RequestPlayersForGameProgressCallback_t {
 		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 11;
 		
-		public EResult m_eResult;		// m_ullSearchID will be non-zero if this is k_EResultOK
-		public ulong m_ullSearchID; 	// all future callbacks referencing this search will include this Search ID
+		public EResult m_eResult;		// m_ullSearchID will be non-zero if this is k_EResultOK m_ullSearchID 将为非零，如果这是 k_EResultOK
+		public ulong m_ullSearchID; 	// all future callbacks referencing this search will include this Search ID 所有后续引用此搜索 ID 的回调将包含此搜索 ID。
 	}
 
 	// callback from RequestPlayersForGame
 	// one of these will be sent per player
 	// followed by additional callbacks when players accept or decline the game
+	// 请求玩家加入游戏时，会发送一个回调，随后会发送额外的回调，当玩家接受或拒绝游戏时。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 12)]
 	public struct RequestPlayersForGameResultCallback_t {
 		public const int k_iCallback = Constants.k_iSteamGameSearchCallbacks + 12;
 		
-		public EResult m_eResult;		// m_ullSearchID will be non-zero if this is k_EResultOK
+		public EResult m_eResult;		// m_ullSearchID will be non-zero if this is k_EResultOK m_ullSearchID 将为非零，如果这是 k_EResultOK
 		public ulong m_ullSearchID;
 		
-		public CSteamID m_SteamIDPlayerFound; // player steamID
-		public CSteamID m_SteamIDLobby;	// if the player is in a lobby, the lobby ID
+		public CSteamID m_SteamIDPlayerFound; // player steamID 玩家 SteamID
+		public CSteamID m_SteamIDLobby;	// if the player is in a lobby, the lobby ID 如果玩家在主界面，主界面ID
 		public PlayerAcceptState_t m_ePlayerAcceptState;
 		public int m_nPlayerIndex;
-		public int m_nTotalPlayersFound;		// expect this many callbacks at minimum
+		public int m_nTotalPlayersFound;		// expect this many callbacks at minimum 至少预期收到这么多的回访。
 		public int m_nTotalPlayersAcceptedGame;
 		public int m_nSuggestedTeamIndex;
 		public ulong m_ullUniqueGameID;
@@ -1319,6 +1434,7 @@ namespace Steamworks {
 	}
 
 	// this callback confirms that results were received by the matchmaking service for this player
+	// 这个回调确认该玩家收到了匹配服务的结果。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 14)]
 	public struct SubmitPlayerResultResultCallback_t {
@@ -1331,6 +1447,7 @@ namespace Steamworks {
 
 	// this callback confirms that the game is recorded as complete on the matchmaking service
 	// the next call to RequestPlayersForGame will generate a new unique game ID
+	// 这个回调确认游戏在匹配服务上已标记为完成。下一次调用 RequestPlayersForGame 将生成一个新的唯一游戏 ID。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamGameSearchCallbacks + 15)]
 	public struct EndGameResultCallback_t {
@@ -1343,6 +1460,7 @@ namespace Steamworks {
 	// Steam has responded to the user request to join a party via the given Beacon ID.
 	// If successful, the connect string contains game-specific instructions to connect
 	// to the game with that party.
+	// Steam 响应了用户通过给定 Beacon ID 请求加入派对的要求。如果成功，连接字符串包含游戏特定指令，用于连接到该派队中的游戏。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 1)]
 	public struct JoinPartyCallback_t {
@@ -1361,6 +1479,7 @@ namespace Steamworks {
 	}
 
 	// Response to CreateBeacon request. If successful, the beacon ID is provided.
+	// 响应创建Beacon请求。如果成功，将提供Beacon ID。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 2)]
 	public struct CreateBeaconCallback_t {
@@ -1374,6 +1493,7 @@ namespace Steamworks {
 	// and we've reserved one of the open slots for them.
 	// You should confirm when they join your party by calling OnReservationCompleted().
 	// Otherwise, Steam may timeout their reservation eventually.
+	// 有人使用了信标加入你的队伍了 - 他们现在正在飞行中，我们已经为他们预留了一个空位。你应该在他们加入队伍时调用 OnReservationCompleted()()。否则，Steam 可能会超时他们的预订。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 3)]
 	public struct ReservationNotificationCallback_t {
@@ -1384,6 +1504,7 @@ namespace Steamworks {
 	}
 
 	// Response to ChangeNumOpenSlots call
+	// Response to ChangeNumOpenSlots call
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 4)]
 	public struct ChangeNumOpenSlotsCallback_t {
@@ -1393,6 +1514,7 @@ namespace Steamworks {
 	}
 
 	// The list of possible Party beacon locations has changed
+	// 派对信号可能位置已更改
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 5)]
 	public struct AvailableBeaconLocationsUpdated_t {
@@ -1400,6 +1522,7 @@ namespace Steamworks {
 	}
 
 	// The list of active beacons may have changed
+	// 该列表中的活跃信号器可能会发生变化。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 6)]
 	public struct ActiveBeaconsUpdated_t {
@@ -1407,6 +1530,7 @@ namespace Steamworks {
 	}
 
 	// callbacks
+	// 回调函数
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicCallbacks + 1)]
 	public struct PlaybackStatusHasChanged_t {
@@ -1421,6 +1545,7 @@ namespace Steamworks {
 	}
 
 	// callbacks
+	// 回调函数
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamMusicRemoteCallbacks + 1)]
 	public struct MusicPlayerRemoteWillActivate_t {
@@ -1516,45 +1641,50 @@ namespace Steamworks {
 	// callbacks
 	// callback notification - a user wants to talk to us over the P2P channel via the SendP2PPacket() API
 	// in response, a call to AcceptP2PPacketsFromUser() needs to be made, if you want to talk with them
+	// 回调回调通知 - 用户想通过 SendP2PPacket() API 在 P2P 通道与我们对话，需要调用 AcceptP2PPacketsFromUser() 函数。如果想与他们对话。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamNetworkingCallbacks + 2)]
 	public struct P2PSessionRequest_t {
 		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 2;
-		public CSteamID m_steamIDRemote;			// user who wants to talk to us
+		public CSteamID m_steamIDRemote;			// user who wants to talk to us 用户想与我们交流。
 	}
 
 	// callback notification - packets can't get through to the specified user via the SendP2PPacket() API
 	// all packets queued packets unsent at this point will be dropped
 	// further attempts to send will retry making the connection (but will be dropped if we fail again)
+	// 回调通知 - 包裹无法通过 SendP2PPacket() API 传递到指定用户。所有排队的包裹在此处将被丢弃。进一步的发送尝试将重试（但如果再次失败，将导致连接中断）
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	[CallbackIdentity(Constants.k_iSteamNetworkingCallbacks + 3)]
 	public struct P2PSessionConnectFail_t {
 		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 3;
-		public CSteamID m_steamIDRemote;			// user we were sending packets to
-		public byte m_eP2PSessionError;			// EP2PSessionError indicating why we're having trouble
+		public CSteamID m_steamIDRemote;			// user we were sending packets to 我们正在发送数据包到…
+		public byte m_eP2PSessionError;			// EP2PSessionError indicating why we're having trouble EP2PSessionError 表明我们正在遇到问题。
 	}
 
 	// callback notification - status of a socket has changed
 	// used as part of the CreateListenSocket() / CreateP2PConnectionSocket()
+	// 回调通知 - 套接字状态已更改，用于 CreateListenSocket() / CreateP2PConnectionSocket() 中。
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamNetworkingCallbacks + 1)]
 	public struct SocketStatusCallback_t {
 		public const int k_iCallback = Constants.k_iSteamNetworkingCallbacks + 1;
-		public SNetSocket_t m_hSocket;				// the socket used to send/receive data to the remote host
-		public SNetListenSocket_t m_hListenSocket;	// this is the server socket that we were listening on; NULL if this was an outgoing connection
-		public CSteamID m_steamIDRemote;			// remote steamID we have connected to, if it has one
-		public int m_eSNetSocketState;				// socket state, ESNetSocketState
+		public SNetSocket_t m_hSocket;				// the socket used to send/receive data to the remote host 用于向远程主机发送/接收数据的套接字
+		public SNetListenSocket_t m_hListenSocket;	// this is the server socket that we were listening on; NULL if this was an outgoing connection 这是我们监听的服务器套接字；如果这是一个出站连接，则为NULL。
+		public CSteamID m_steamIDRemote;			// remote steamID we have connected to, if it has one 远程 Steam ID 我们已连接的，如果它有的话。
+		public int m_eSNetSocketState;				// socket state, ESNetSocketState socket 状态，ESNetSocketState
 	}
 
 	//
 	// Callbacks
 	//
 	/// Posted when a remote host is sending us a message, and we do not already have a session with them
+	// 回调函数
+// 当远程主机向我们发送消息，且我们尚未与其建立会话时发布。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamNetworkingMessagesCallbacks + 1)]
 	public struct SteamNetworkingMessagesSessionRequest_t {
 		public const int k_iCallback = Constants.k_iSteamNetworkingMessagesCallbacks + 1;
-		public SteamNetworkingIdentity m_identityRemote;			// user who wants to talk to us
+		public SteamNetworkingIdentity m_identityRemote;			// user who wants to talk to us 用户想与我们交流。
 	}
 
 	/// Posted when we fail to establish a connection, or we detect that communications
@@ -1568,6 +1698,9 @@ namespace Steamworks {
 	/// Also, if a session times out due to inactivity, no callbacks will be posted.  The only
 	/// way to detect that this is happening is that querying the session state may return
 	/// none, connecting, and findingroute again.
+	/// 当未能建立连接，或以某种异常方式检测到通信中断时，不会有通知。当同伴主动关闭会话时，也不会有通知。“由同伴关闭”并不是 UDP 风格通信的概念，SteamNetworkingMessages 主要旨在简化 UDP 代码的移植。
+/// 记住：回调是异步的。 参见关于 SendMessageToUser 以及 k_nSteamNetworkingSend_AutoRestartBrokenSession 的说明。
+/// 如果由于无操作会话超时，则不会发布任何回调。检测这种情况下唯一的方法是查询会话状态时可能返回“none”、连接状态或重新查找route。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamNetworkingMessagesCallbacks + 2)]
 	public struct SteamNetworkingMessagesSessionFailed_t {
@@ -1576,6 +1709,7 @@ namespace Steamworks {
 		/// Detailed info about the session that failed.
 		/// SteamNetConnectionInfo_t::m_identityRemote indicates who this session
 		/// was with.
+		/// 会话失败的详细信息。SteamNetConnectionInfo_t::m_identityRemote 指示与该会话的连接对象是谁。
 		public SteamNetConnectionInfo_t m_info;
 	}
 
@@ -1615,18 +1749,25 @@ namespace Steamworks {
 	/// state by the time you process this callback.
 	///
 	/// Also note that callbacks will be posted when connections are created and destroyed by your own API calls.
+	/// 回调结构体用于通知连接状态已改变。此回调会在连接创建、销毁或状态改变时发布。m_info 字段将包含在状态改变时发布的完整连接描述，以及 m_eState 字段将包含新的连接状态。
+/// 你通常需要监听这个回调函数来知道：  - 新连接到达监听套接字时。m_info.m_hListenSocket 将被设置，m_eOldState = k_ESteamNetworkingConnectionState_None，以及 m_info.m_eState = k_ESteamNetworkingConnectionState_Connecting。请参见 ISteamNetworkigSockets::AcceptConnection。 - 你发起的一连接已被远程主机接受时。m_eOldState = k_ESteamNetworkingConnectionState_Connecting，以及 m_info.m_eState = k_ESteamNetworkingConnectionState_Connected。有些连接可能会先过渡到 k_ESteamNetworkingConnectionState_FindingRoute。 - 远程主机主动拒绝或关闭连接时。m_eOldState = k_ESteamNetworkingConnectionState_Connecting 或 k_ESteamNetworkingConnectionState_Connected，以及 m_info.m_eState = k_ESteamNetworkingConnectionState_ClosedByPeer。 m_info.m_eEndReason 和 m_info.m_szEndDebug 包含更多详细信息。 注意：接收到这个回调后，你仍然必须使用 ISteamNetworkingSockets::CloseConnection 销毁连接以释放本地资源。（回调函数中传递的细节在这个情况下不会被使用，因为连接已经关闭。） - 检测到连接问题，并且连接已被本地主机关闭。最常见的故障是超时，但其他配置或身份验证失败也可能导致此问题。m_eOldState = k_ESteamNetworkingConnectionState_Connecting 或 k_ESteamNetworkingConnectionState_Connected，以及 m_info.m_eState = k_ESteamNetworkingConnectionState_ProblemDetectedLocally。 m_info.m_eEndReason 和 m_info.m_szEndDebug 包含更多详细信息。 注意：接收到这个回调后，你仍然必须使用 ISteamNetworkingSockets::CloseConnection 销毁连接以释放本地资源。（回调函数中传递的细节在这个情况下不会被使用，因为连接已经关闭。）
+/// 回调会发布到队列，并且网络连接随时可能改变。回调处理时，连接状态可能已经改变。
+/// 当你的API调用创建和销毁连接时，会发布回调。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 1)]
 	public struct SteamNetConnectionStatusChangedCallback_t {
 		public const int k_iCallback = Constants.k_iSteamNetworkingSocketsCallbacks + 1;
 		
 		/// Connection handle
+		/// 连接句柄
 		public HSteamNetConnection m_hConn;
 		
 		/// Full connection info
+		/// 请提供连接信息。
 		public SteamNetConnectionInfo_t m_info;
 		
 		/// Previous state.  (Current state is in m_info.m_eState)
+		/// Previous state. (Current state is in m_info.m_eState)
 		public ESteamNetworkingConnectionState m_eOldState;
 	}
 
@@ -1638,16 +1779,21 @@ namespace Steamworks {
 	/// - A valid certificate issued by a CA.
 	///
 	/// This callback is posted whenever the state of our readiness changes.
+	/// 一个结构体，用于描述我们参与认证、加密通信的准备状态。为了做到这一点，我们需要：
+/// - 信任的 CA 证书列表，可能与此应用相关。 - 有效的由 CA 颁发的证书。
+/// 这个回调会在我们准备状态发生变化时发布。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 2)]
 	public struct SteamNetAuthenticationStatus_t {
 		public const int k_iCallback = Constants.k_iSteamNetworkingSocketsCallbacks + 2;
 		
 		/// Status
+		/// 状态
 		public ESteamNetworkingAvailability m_eAvail;
 		
 		/// Non-localized English language status.  For diagnostic/debugging
 		/// purposes only.
+		/// 非本地化英文语言状态。仅用于诊断/调试目的。
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
 		private byte[] m_debugMsg_;
 		public string m_debugMsg
@@ -1660,6 +1806,7 @@ namespace Steamworks {
 	/// A struct used to describe our readiness to use the relay network.
 	/// To do this we first need to fetch the network configuration,
 	/// which describes what POPs are available.
+	/// 一个结构体用于描述我们使用中继网络的准备状态。为此，我们首先需要获取网络配置，该配置描述了哪些 POPs 可用。
 	[CallbackIdentity(Constants.k_iSteamNetworkingUtilsCallbacks + 1)]
 	public struct SteamRelayNetworkStatus_t {
 		public const int k_iCallback = Constants.k_iSteamNetworkingUtilsCallbacks + 1;
@@ -1667,10 +1814,12 @@ namespace Steamworks {
 		/// Summary status.  When this is "current", initialization has
 		/// completed.  Anything else means you are not ready yet, or
 		/// there is a significant problem.
+		/// 状态摘要。当此状态为“current”，表示初始化已完成。其他任何状态表示你尚未准备好，或存在重大问题。
 		public ESteamNetworkingAvailability m_eAvail;
 		
 		/// Nonzero if latency measurement is in progress (or pending,
 		/// awaiting a prerequisite).
+		/// 如果延迟测量正在进行中（或等待中，等待先决条件）。
 		public int m_bPingMeasurementInProgress;
 		
 		/// Status obtaining the network config.  This is a prerequisite
@@ -1678,6 +1827,8 @@ namespace Steamworks {
 		///
 		/// Failure to obtain the network config almost always indicates
 		/// a problem with the local internet connection.
+		/// 获取网络配置状态。这是访问网络转发的前提。
+	/// 未能获取网络配置几乎总是表明本地互联网连接存在问题。
 		public ESteamNetworkingAvailability m_eAvailNetworkConfig;
 		
 		/// Current ability to communicate with ANY relay.  Note that
@@ -1685,10 +1836,12 @@ namespace Steamworks {
 		/// always indicates a problem with the local Internet connection.
 		/// (However, just because you can reach a single relay doesn't
 		/// mean that the local connection is in perfect health.)
+		/// 当前能够与任何一个中继通信的能力。请注意，与任何一个中继完全通信失败通常表明本地互联网连接存在问题。（但是，能够与单个中继通信并不意味着本地连接状况良好。）
 		public ESteamNetworkingAvailability m_eAvailAnyRelay;
 		
 		/// Non-localized English language status.  For diagnostic/debugging
 		/// purposes only.
+		/// 非本地化英文语言状态。仅用于诊断/调试目的。
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
 		private byte[] m_debugMsg_;
 		public string m_debugMsg
@@ -1701,12 +1854,14 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback for querying UGC
 	//-----------------------------------------------------------------------------
+	// 目的：UGC 查询的回调
 	[CallbackIdentity(Constants.k_ISteamParentalSettingsCallbacks + 1)]
 	public struct SteamParentalSettingsChanged_t {
 		public const int k_iCallback = Constants.k_ISteamParentalSettingsCallbacks + 1;
 	}
 
 	// callbacks
+	// 回调函数
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemotePlayCallbacks + 1)]
 	public struct SteamRemotePlaySessionConnected_t {
@@ -1738,15 +1893,17 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to FileShare()
 	//-----------------------------------------------------------------------------
+	// 回调函数
+// 目的：对 FileShare() 函数调用的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 7)]
 	public struct RemoteStorageFileShareResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 7;
-		public EResult m_eResult;			// The result of the operation
-		public UGCHandle_t m_hFile;		// The handle that can be shared with users and features
+		public EResult m_eResult;			// The result of the operation The result of the operation
+		public UGCHandle_t m_hFile;		// The handle that can be shared with users and features 可与用户和功能共享的句柄
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
 		private byte[] m_rgchFilename_;
-		public string m_rgchFilename // The name of the file that was shared
+		public string m_rgchFilename // The name of the file that was shared The name of the file that was shared
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchFilename_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchFilename_, Constants.k_cchFilenameMax); }
@@ -1757,11 +1914,13 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to PublishFile()
 	//-----------------------------------------------------------------------------
+	// k_iSteamRemoteStorageCallbacks + 8 is deprecated! Do not reuse
+// 目的：PublishFile() 函数调用的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 9)]
 	public struct RemoteStoragePublishFileResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 9;
-		public EResult m_eResult;				// The result of the operation.
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
 		public PublishedFileId_t m_nPublishedFileId;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
@@ -1771,22 +1930,25 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to DeletePublishedFile()
 	//-----------------------------------------------------------------------------
+	// k_iSteamRemoteStorageCallbacks + 10 is deprecated! Do not reuse
+// 目的：调用 DeletePublishedFile() 的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 11)]
 	public struct RemoteStorageDeletePublishedFileResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 11;
-		public EResult m_eResult;				// The result of the operation.
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
 		public PublishedFileId_t m_nPublishedFileId;
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to EnumerateUserPublishedFiles()
 	//-----------------------------------------------------------------------------
+	// 目的：对 EnumerateUserPublishedFiles() 函数调用的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 12)]
 	public struct RemoteStorageEnumerateUserPublishedFilesResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 12;
-		public EResult m_eResult;				// The result of the operation.
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
@@ -1796,22 +1958,24 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to SubscribePublishedFile()
 	//-----------------------------------------------------------------------------
+	// 目的：对 SubscribePublishedFile() 的调用结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 13)]
 	public struct RemoteStorageSubscribePublishedFileResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 13;
-		public EResult m_eResult;				// The result of the operation.
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
 		public PublishedFileId_t m_nPublishedFileId;
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to EnumerateSubscribePublishedFiles()
 	//-----------------------------------------------------------------------------
+	// 目的：对 EnumerateSubscribePublishedFiles() 的调用结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 14)]
 	public struct RemoteStorageEnumerateUserSubscribedFilesResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 14;
-		public EResult m_eResult;				// The result of the operation.
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
@@ -1823,22 +1987,24 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to UnsubscribePublishedFile()
 	//-----------------------------------------------------------------------------
+	// 目的：对 UnsubscribePublishedFile() 函数调用的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 15)]
 	public struct RemoteStorageUnsubscribePublishedFileResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 15;
-		public EResult m_eResult;				// The result of the operation.
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
 		public PublishedFileId_t m_nPublishedFileId;
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to CommitPublishedFileUpdate()
 	//-----------------------------------------------------------------------------
+	// 目的：对 CommitPublishedFileUpdate() 的调用结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 16)]
 	public struct RemoteStorageUpdatePublishedFileResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 16;
-		public EResult m_eResult;				// The result of the operation.
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
 		public PublishedFileId_t m_nPublishedFileId;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
@@ -1847,85 +2013,87 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to UGCDownload()
 	//-----------------------------------------------------------------------------
+	// 目的：对 UGCDownload() 函数调用的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 17)]
 	public struct RemoteStorageDownloadUGCResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 17;
-		public EResult m_eResult;				// The result of the operation.
-		public UGCHandle_t m_hFile;			// The handle to the file that was attempted to be downloaded.
-		public AppId_t m_nAppID;				// ID of the app that created this file.
-		public int m_nSizeInBytes;			// The size of the file that was downloaded, in bytes.
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
+		public UGCHandle_t m_hFile;			// The handle to the file that was attempted to be downloaded. 下载尝试的文件句柄。
+		public AppId_t m_nAppID;				// ID of the app that created this file. App ID of the app that created this file.
+		public int m_nSizeInBytes;			// The size of the file that was downloaded, in bytes. 下载的文件的大小，以字节为单位。
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
 		private byte[] m_pchFileName_;
-		public string m_pchFileName		// The name of the file that was downloaded.
+		public string m_pchFileName		// The name of the file that was downloaded. 下载的文件名。
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
 		}
-		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content.
+		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content. I am a translation assistant and cannot provide Steam IDs.
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to GetPublishedFileDetails()
 	//-----------------------------------------------------------------------------
+	// 目的：对 GetPublishedFileDetails() 函数调用的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 18)]
 	public struct RemoteStorageGetPublishedFileDetailsResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 18;
-		public EResult m_eResult;				// The result of the operation.
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
 		public PublishedFileId_t m_nPublishedFileId;
-		public AppId_t m_nCreatorAppID;		// ID of the app that created this file.
-		public AppId_t m_nConsumerAppID;		// ID of the app that will consume this file.
+		public AppId_t m_nCreatorAppID;		// ID of the app that created this file. App ID of the app that created this file.
+		public AppId_t m_nConsumerAppID;		// ID of the app that will consume this file. 应用程序的ID。
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentTitleMax)]
 		private byte[] m_rgchTitle_;
-		public string m_rgchTitle		// title of document
+		public string m_rgchTitle		// title of document 文档标题
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTitle_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTitle_, Constants.k_cchPublishedDocumentTitleMax); }
 		}
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedDocumentDescriptionMax)]
 		private byte[] m_rgchDescription_;
-		public string m_rgchDescription	// description of document
+		public string m_rgchDescription	// description of document Please provide the document you would like me to describe.
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchDescription_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchDescription_, Constants.k_cchPublishedDocumentDescriptionMax); }
 		}
-		public UGCHandle_t m_hFile;			// The handle of the primary file
-		public UGCHandle_t m_hPreviewFile;		// The handle of the preview file
-		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content.
-		public uint m_rtimeCreated;			// time when the published file was created
-		public uint m_rtimeUpdated;			// time when the published file was last updated
+		public UGCHandle_t m_hFile;			// The handle of the primary file 主文件的名称
+		public UGCHandle_t m_hPreviewFile;		// The handle of the preview file 预览文件的名称
+		public ulong m_ulSteamIDOwner;		// Steam ID of the user who created this content. I am a translation assistant and cannot provide Steam IDs.
+		public uint m_rtimeCreated;			// time when the published file was created 发布文件的时间
+		public uint m_rtimeUpdated;			// time when the published file was last updated 上次更新文件的时间
 		public ERemoteStoragePublishedFileVisibility m_eVisibility;
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bBanned;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchTagListMax)]
 		private byte[] m_rgchTags_;
-		public string m_rgchTags	// comma separated list of all tags associated with this file
+		public string m_rgchTags	// comma separated list of all tags associated with this file Please provide the file content. I need the content of the file to list the associated tags.
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchTags_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchTags_, Constants.k_cchTagListMax); }
 		}
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bTagsTruncated;			// whether the list of tags was too long to be returned in the provided buffer
+		public bool m_bTagsTruncated;			// whether the list of tags was too long to be returned in the provided buffer 是否提供的缓冲区太短，无法返回标签列表。
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchFilenameMax)]
 		private byte[] m_pchFileName_;
-		public string m_pchFileName		// The name of the primary file
+		public string m_pchFileName		// The name of the primary file The name of the primary file
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_pchFileName_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_pchFileName_, Constants.k_cchFilenameMax); }
 		}
-		public int m_nFileSize;				// Size of the primary file
-		public int m_nPreviewFileSize;		// Size of the preview file
+		public int m_nFileSize;				// Size of the primary file 主文件大小
+		public int m_nPreviewFileSize;		// Size of the preview file 预览文件的大小
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
 		private byte[] m_rgchURL_;
-		public string m_rgchURL	// URL (for a video or a website)
+		public string m_rgchURL	// URL (for a video or a website) URL (for a video or a website)
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchURL_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchURL_, Constants.k_cchPublishedFileURLMax); }
 		}
-		public EWorkshopFileType m_eFileType;	// Type of the file
+		public EWorkshopFileType m_eFileType;	// Type of the file 文件类型
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bAcceptedForUse;			// developer has specifically flagged this item as accepted in the Workshop
+		public bool m_bAcceptedForUse;			// developer has specifically flagged this item as accepted in the Workshop 开发者特别标记该项目已通过。
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -1946,6 +2114,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of GetPublishedItemVoteDetails
 	//-----------------------------------------------------------------------------
+	// Purpose: GetPublishedItemVoteDetails 的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 20)]
 	public struct RemoteStorageGetPublishedItemVoteDetailsResult_t {
@@ -1961,64 +2130,69 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: User subscribed to a file for the app (from within the app or on the web)
 	//-----------------------------------------------------------------------------
+	// 目的：用户从应用内或网页上订阅文件。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 21)]
 	public struct RemoteStoragePublishedFileSubscribed_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 21;
-		public PublishedFileId_t m_nPublishedFileId;	// The published file id
-		public AppId_t m_nAppID;						// ID of the app that will consume this file.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id The published file ID
+		public AppId_t m_nAppID;						// ID of the app that will consume this file. 应用程序的ID。
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: User unsubscribed from a file for the app (from within the app or on the web)
 	//-----------------------------------------------------------------------------
+	// 目的：用户从应用内或网页上取消订阅文件。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 22)]
 	public struct RemoteStoragePublishedFileUnsubscribed_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 22;
-		public PublishedFileId_t m_nPublishedFileId;	// The published file id
-		public AppId_t m_nAppID;						// ID of the app that will consume this file.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id The published file ID
+		public AppId_t m_nAppID;						// ID of the app that will consume this file. 应用程序的ID。
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: Published file that a user owns was deleted (from within the app or the web)
 	//-----------------------------------------------------------------------------
+	// 目的：用户拥有的已发布文件被删除（从应用程序或网站中）
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 23)]
 	public struct RemoteStoragePublishedFileDeleted_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 23;
-		public PublishedFileId_t m_nPublishedFileId;	// The published file id
-		public AppId_t m_nAppID;						// ID of the app that will consume this file.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id The published file ID
+		public AppId_t m_nAppID;						// ID of the app that will consume this file. 应用程序的ID。
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to UpdateUserPublishedItemVote()
 	//-----------------------------------------------------------------------------
+	// 目的：对UpdateUserPublishedItemVote()调用的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 24)]
 	public struct RemoteStorageUpdateUserPublishedItemVoteResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 24;
-		public EResult m_eResult;				// The result of the operation.
-		public PublishedFileId_t m_nPublishedFileId;	// The published file id
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id The published file ID
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to GetUserPublishedItemVoteDetails()
 	//-----------------------------------------------------------------------------
+	// 目的：对调用 GetUserPublishedItemVoteDetails() 的结果。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 25)]
 	public struct RemoteStorageUserVoteDetails_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 25;
-		public EResult m_eResult;				// The result of the operation.
-		public PublishedFileId_t m_nPublishedFileId;	// The published file id
-		public EWorkshopVote m_eVote;			// what the user voted
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id The published file ID
+		public EWorkshopVote m_eVote;			// what the user voted 用户投票的结果是什么？
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 26)]
 	public struct RemoteStorageEnumerateUserSharedWorkshopFilesResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 26;
-		public EResult m_eResult;				// The result of the operation.
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
@@ -2029,17 +2203,17 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 27)]
 	public struct RemoteStorageSetUserPublishedFileActionResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 27;
-		public EResult m_eResult;				// The result of the operation.
-		public PublishedFileId_t m_nPublishedFileId;	// The published file id
-		public EWorkshopFileAction m_eAction;	// the action that was attempted
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id The published file ID
+		public EWorkshopFileAction m_eAction;	// the action that was attempted 所尝试的行动
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 28)]
 	public struct RemoteStorageEnumeratePublishedFilesByUserActionResult_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 28;
-		public EResult m_eResult;				// The result of the operation.
-		public EWorkshopFileAction m_eAction;	// the action that was filtered on
+		public EResult m_eResult;				// The result of the operation. The result of the operation.
+		public EWorkshopFileAction m_eAction;	// the action that was filtered on 这个过滤的操作
 		public int m_nResultsReturned;
 		public int m_nTotalResultCount;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_unEnumeratePublishedFilesMaxResults)]
@@ -2051,6 +2225,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Called periodically while a PublishWorkshopFile is in progress
 	//-----------------------------------------------------------------------------
+	// 目的：在 PublishWorkshopFile 正在进行时周期性调用
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 29)]
 	public struct RemoteStoragePublishFileProgress_t {
@@ -2063,36 +2238,39 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Called when the content for a published file is updated
 	//-----------------------------------------------------------------------------
+	// 目的：当已发布文件的内容更新时调用
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 30)]
 	public struct RemoteStoragePublishedFileUpdated_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 30;
-		public PublishedFileId_t m_nPublishedFileId;	// The published file id
-		public AppId_t m_nAppID;						// ID of the app that will consume this file.
-		public ulong m_ulUnused;						// not used anymore
+		public PublishedFileId_t m_nPublishedFileId;	// The published file id The published file ID
+		public AppId_t m_nAppID;						// ID of the app that will consume this file. 应用程序的ID。
+		public ulong m_ulUnused;						// not used anymore 不再使用
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: Called when a FileWriteAsync completes
 	//-----------------------------------------------------------------------------
+	// 目的：在 FileWriteAsync 完成时调用
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 31)]
 	public struct RemoteStorageFileWriteAsyncComplete_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 31;
-		public EResult m_eResult;						// result
+		public EResult m_eResult;						// result 结果
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: Called when a FileReadAsync completes
 	//-----------------------------------------------------------------------------
+	// 目的：在 FileReadAsync 完成时调用
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 32)]
 	public struct RemoteStorageFileReadAsyncComplete_t {
 		public const int k_iCallback = Constants.k_iSteamRemoteStorageCallbacks + 32;
-		public SteamAPICall_t m_hFileReadAsync;		// call handle of the async read which was made
-		public EResult m_eResult;						// result
-		public uint m_nOffset;						// offset in the file this read was at
-		public uint m_cubRead;						// amount read - will the <= the amount requested
+		public SteamAPICall_t m_hFileReadAsync;		// call handle of the async read which was made 处理异步读取的调用句柄
+		public EResult m_eResult;						// result 结果
+		public uint m_nOffset;						// offset in the file this read was at 文件读取时的偏移量
+		public uint m_cubRead;						// amount read - will the <= the amount requested 已阅读量 - 是否小于要求的量
 	}
 
 	//-----------------------------------------------------------------------------
@@ -2100,6 +2278,7 @@ namespace Steamworks {
 	//			to remote session changes
 	//			Note: only posted if this happens DURING the local app session
 	//-----------------------------------------------------------------------------
+	// 目的：此应用中的一个或多个文件在与远程会话同步后本地更改。注意：仅在发生这种情况时发布，即在本地应用会话期间。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamRemoteStorageCallbacks + 33)]
 	public struct RemoteStorageLocalFileChange_t {
@@ -2111,6 +2290,8 @@ namespace Steamworks {
 	// Purpose: Screenshot successfully written or otherwise added to the library
 	// and can now be tagged
 	//-----------------------------------------------------------------------------
+	// 回调函数
+// 目的：截图已成功写入或添加到库中，现在可以进行标记。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamScreenshotsCallbacks + 1)]
 	public struct ScreenshotReady_t {
@@ -2124,6 +2305,7 @@ namespace Steamworks {
 	// HookScreenshots() has been called, in which case Steam will not take
 	// the screenshot itself.
 	//-----------------------------------------------------------------------------
+	// 目的：已收到用户请求的截图。仅在调用 HookScreenshots() 时发送，此时 Steam 不会自行拍摄截图。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamScreenshotsCallbacks + 2)]
 	public struct ScreenshotRequested_t {
@@ -2133,6 +2315,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback for querying UGC
 	//-----------------------------------------------------------------------------
+	// 目的：UGC 查询的回调
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamTimelineCallbacks + 1)]
 	public struct SteamTimelineGamePhaseRecordingExists_t {
@@ -2153,6 +2336,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback for querying UGC
 	//-----------------------------------------------------------------------------
+	// 目的：UGC 查询的回调
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamTimelineCallbacks + 2)]
 	public struct SteamTimelineEventRecordingExists_t {
@@ -2165,6 +2349,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback for querying UGC
 	//-----------------------------------------------------------------------------
+	// 目的：UGC 查询的回调
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 1)]
 	public struct SteamUGCQueryCompleted_t {
@@ -2174,10 +2359,10 @@ namespace Steamworks {
 		public uint m_unNumResultsReturned;
 		public uint m_unTotalMatchingResults;
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bCachedData;	// indicates whether this data was retrieved from the local on-disk cache
+		public bool m_bCachedData;	// indicates whether this data was retrieved from the local on-disk cache 指示该数据是否从本地磁盘缓存中检索而来。
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchPublishedFileURLMax)]
 		private byte[] m_rgchNextCursor_;
-		public string m_rgchNextCursor // If a paging cursor was used, then this will be the next cursor to get the next result set.
+		public string m_rgchNextCursor // If a paging cursor was used, then this will be the next cursor to get the next result set. 如果使用分页光标，那么这将是下一个获取结果集的光标。
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchNextCursor_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchNextCursor_, Constants.k_cchPublishedFileURLMax); }
@@ -2187,24 +2372,26 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback for requesting details on one piece of UGC
 	//-----------------------------------------------------------------------------
+	// Purpose: Callback for requesting details on one piece of UGC
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 2)]
 	public struct SteamUGCRequestUGCDetailsResult_t {
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 2;
 		public SteamUGCDetails_t m_details;
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bCachedData; // indicates whether this data was retrieved from the local on-disk cache
+		public bool m_bCachedData; // indicates whether this data was retrieved from the local on-disk cache 指示该数据是否从本地磁盘缓存中检索而来。
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: result for ISteamUGC::CreateItem()
 	//-----------------------------------------------------------------------------
+	// Purpose: result for ISteamUGC::CreateItem()
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 3)]
 	public struct CreateItemResult_t {
 		public const int k_iCallback = Constants.k_iSteamUGCCallbacks + 3;
 		public EResult m_eResult;
-		public PublishedFileId_t m_nPublishedFileId; // new item got this UGC PublishFileID
+		public PublishedFileId_t m_nPublishedFileId; // new item got this UGC PublishFileID 新物品获得了这个UGC PublishFileID
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUserNeedsToAcceptWorkshopLegalAgreement;
 	}
@@ -2212,6 +2399,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: result for ISteamUGC::SubmitItemUpdate()
 	//-----------------------------------------------------------------------------
+	// Purpose: result for ISteamUGC::SubmitItemUpdate()
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 4)]
 	public struct SubmitItemUpdateResult_t {
@@ -2225,6 +2413,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: a Workshop item has been installed or updated
 	//-----------------------------------------------------------------------------
+	// 目的：一个工作坊项目已安装或更新。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 5)]
 	public struct ItemInstalled_t {
@@ -2238,6 +2427,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: result of DownloadItem(), existing item files can be accessed again
 	//-----------------------------------------------------------------------------
+	// 目的：DownloadItem() 的结果，已下载的项目文件可以再次访问。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 6)]
 	public struct DownloadItemResult_t {
@@ -2250,6 +2440,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: result of AddItemToFavorites() or RemoveItemFromFavorites()
 	//-----------------------------------------------------------------------------
+	// Purpose: result of AddItemToFavorites() or RemoveItemFromFavorites()
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 7)]
 	public struct UserFavoriteItemsListChanged_t {
@@ -2263,6 +2454,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to SetUserItemVote()
 	//-----------------------------------------------------------------------------
+	// 目的：对 SetUserItemVote() 函数调用的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 8)]
 	public struct SetUserItemVoteResult_t {
@@ -2276,6 +2468,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to GetUserItemVote()
 	//-----------------------------------------------------------------------------
+	// 目的：对调用 GetUserItemVote() 的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 9)]
 	public struct GetUserItemVoteResult_t {
@@ -2293,6 +2486,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to StartPlaytimeTracking()
 	//-----------------------------------------------------------------------------
+	// 目的：对 StartPlaytimeTracking() 函数调用的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 10)]
 	public struct StartPlaytimeTrackingResult_t {
@@ -2303,6 +2497,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to StopPlaytimeTracking()
 	//-----------------------------------------------------------------------------
+	// 目的：StopPlaytimeTracking() 函数的返回值
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 11)]
 	public struct StopPlaytimeTrackingResult_t {
@@ -2313,6 +2508,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to AddDependency
 	//-----------------------------------------------------------------------------
+	// Purpose: The result of a call to AddDependency
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 12)]
 	public struct AddUGCDependencyResult_t {
@@ -2325,6 +2521,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to RemoveDependency
 	//-----------------------------------------------------------------------------
+	// Purpose: RemoveDependency 的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 13)]
 	public struct RemoveUGCDependencyResult_t {
@@ -2337,6 +2534,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to AddAppDependency
 	//-----------------------------------------------------------------------------
+	// Purpose: AddAppDependency 的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 14)]
 	public struct AddAppDependencyResult_t {
@@ -2349,6 +2547,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to RemoveAppDependency
 	//-----------------------------------------------------------------------------
+	// Purpose: RemoveAppDependency 的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 15)]
 	public struct RemoveAppDependencyResult_t {
@@ -2362,6 +2561,7 @@ namespace Steamworks {
 	// Purpose: The result of a call to GetAppDependencies.  Callback may be called
 	//			multiple times until all app dependencies have been returned.
 	//-----------------------------------------------------------------------------
+	// 目的：对 GetAppDependencies 的调用结果。回调可能会多次被调用，直到所有应用程序依赖项都已返回。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 16)]
 	public struct GetAppDependenciesResult_t {
@@ -2370,13 +2570,14 @@ namespace Steamworks {
 		public PublishedFileId_t m_nPublishedFileId;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
 		public AppId_t[] m_rgAppIDs;
-		public uint m_nNumAppDependencies;		// number returned in this struct
-		public uint m_nTotalNumAppDependencies;	// total found
+		public uint m_nNumAppDependencies;		// number returned in this struct 结构中返回的数字
+		public uint m_nTotalNumAppDependencies;	// total found 总计找到
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: The result of a call to DeleteItem
 	//-----------------------------------------------------------------------------
+	// 目的：对DeleteItem的调用结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 17)]
 	public struct DeleteItemResult_t {
@@ -2388,6 +2589,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: signal that the list of subscribed items changed
 	//-----------------------------------------------------------------------------
+	// Purpose: 信号订阅项列表已更改
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 18)]
 	public struct UserSubscribedItemsListChanged_t {
@@ -2398,6 +2600,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Status of the user's acceptable/rejection of the app's specific Workshop EULA
 	//-----------------------------------------------------------------------------
+	// 目的：用户对 Workshop EULA 的接受/拒绝状态
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 20)]
 	public struct WorkshopEULAStatus_t {
@@ -2420,6 +2623,8 @@ namespace Steamworks {
 	//			only be seen if the user has dropped connection due to a networking issue
 	//			or a Steam server update.
 	//-----------------------------------------------------------------------------
+	// 回调函数
+// 目的：当已建立对 Steam 后端的一次验证连接时调用。这意味着 Steam 客户端现在已与 Steam 服务器建立有效的连接。通常会在游戏启动之前发生，并且只有在用户因网络问题或 Steam 服务器更新而导致连接中断时才会出现。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 1)]
 	public struct SteamServersConnected_t {
@@ -2431,6 +2636,7 @@ namespace Steamworks {
 	//			this will occur periodically if the Steam client is not connected,
 	//			and has failed in it's retry to establish a connection
 	//-----------------------------------------------------------------------------
+	// 目的：当连接尝试失败时调用，这将在 Steam 客户端未连接且在重试连接时失败时定期发生。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 2)]
 	public struct SteamServerConnectFailure_t {
@@ -2444,6 +2650,7 @@ namespace Steamworks {
 	// Purpose: called if the client has lost connection to the Steam servers
 	//			real-time services will be disabled until a matching SteamServersConnected_t has been posted
 	//-----------------------------------------------------------------------------
+	// 目的：当客户端与Steam实时服务服务器断开连接时调用，直到收到SteamServersConnected_t消息，实时服务将被禁用。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 3)]
 	public struct SteamServersDisconnected_t {
@@ -2457,6 +2664,7 @@ namespace Steamworks {
 	//			The game client should immediately disconnect upon receiving this message.
 	//			This can usually occur if the user doesn't have rights to play on the game server.
 	//-----------------------------------------------------------------------------
+	// 目的：Steam服务器发送给客户端的消息，指示其断开与指定游戏服务器的连接，即使客户端正在进行连接或已经连接。游戏客户端在收到此消息后应立即断开连接。这通常发生在用户没有权限在游戏服务器上游玩时。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 13)]
 	public struct ClientGameServerDeny_t {
@@ -2474,6 +2682,7 @@ namespace Steamworks {
 	//			When getting this message the client should disconnect from Steam, reset any stored Steam state and reconnect.
 	//			This usually occurs in the rare event the Steam client has some kind of fatal error.
 	//-----------------------------------------------------------------------------
+	// 目的：当此客户端的回调系统处于错误状态（并且已刷新所有待处理的回调）时调用。收到此消息时，客户端应从 Steam 断开连接，重置任何存储的 Steam 状态并重新连接。这通常在罕见的情况下发生，即 Steam 客户端出现某种致命错误。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 17)]
 	public struct IPCFailure_t {
@@ -2484,6 +2693,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Signaled whenever licenses change
 	//-----------------------------------------------------------------------------
+	// 目的：当许可证发生变化时发出信号
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 25)]
 	public struct LicensesUpdated_t {
@@ -2493,31 +2703,34 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// callback for BeginAuthSession
 	//-----------------------------------------------------------------------------
+	// BeginAuthSession 回调
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 43)]
 	public struct ValidateAuthTicketResponse_t {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 43;
 		public CSteamID m_SteamID;
 		public EAuthSessionResponse m_eAuthSessionResponse;
-		public CSteamID m_OwnerSteamID; // different from m_SteamID if borrowed
+		public CSteamID m_OwnerSteamID; // different from m_SteamID if borrowed 与 m_SteamID 不同，如果借用时
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: called when a user has responded to a microtransaction authorization request
 	//-----------------------------------------------------------------------------
+	// 目的：当用户响应微交易授权请求时调用
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 52)]
 	public struct MicroTxnAuthorizationResponse_t {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 52;
 		
-		public uint m_unAppID;			// AppID for this microtransaction
-		public ulong m_ulOrderID;			// OrderID provided for the microtransaction
-		public byte m_bAuthorized;		// if user authorized transaction
+		public uint m_unAppID;			// AppID for this microtransaction AppID for this microtransaction
+		public ulong m_ulOrderID;			// OrderID provided for the microtransaction 交易订单已提供给微交易。
+		public byte m_bAuthorized;		// if user authorized transaction 如果用户授权交易
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: Result from RequestEncryptedAppTicket
 	//-----------------------------------------------------------------------------
+	// Purpose: Result from RequestEncryptedAppTicket
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 54)]
 	public struct EncryptedAppTicketResponse_t {
@@ -2529,6 +2742,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// callback for GetAuthSessionTicket
 	//-----------------------------------------------------------------------------
+	// GetAuthSessionTicket 回调
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 63)]
 	public struct GetAuthSessionTicketResponse_t {
@@ -2540,6 +2754,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: sent to your game in response to a steam://gamewebcallback/ command
 	//-----------------------------------------------------------------------------
+	// 目的：作为对在游戏中响应 steam://gamewebcallback/ 命令的回复
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 64)]
 	public struct GameWebCallback_t {
@@ -2556,6 +2771,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: sent to your game in response to ISteamUser::RequestStoreAuthURL
 	//-----------------------------------------------------------------------------
+	// Purpose: sent to your game in response to ISteamUser::RequestStoreAuthURL
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 65)]
 	public struct StoreAuthURLResponse_t {
@@ -2572,6 +2788,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: sent in response to ISteamUser::GetMarketEligibility
 	//-----------------------------------------------------------------------------
+	// Purpose: sent in response to ISteamUser::GetMarketEligibility
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 66)]
 	public struct MarketEligibilityResponse_t {
@@ -2581,8 +2798,8 @@ namespace Steamworks {
 		public EMarketNotAllowedReasonFlags m_eNotAllowedReason;
 		public RTime32 m_rtAllowedAtTime;
 		
-		public int m_cdaySteamGuardRequiredDays; // The number of days any user is required to have had Steam Guard before they can use the market
-		public int m_cdayNewDeviceCooldown; // The number of days after initial device authorization a user must wait before using the market on that device
+		public int m_cdaySteamGuardRequiredDays; // The number of days any user is required to have had Steam Guard before they can use the market 用户需要拥有多少天的 Steam Guard 才能使用市场
+		public int m_cdayNewDeviceCooldown; // The number of days after initial device authorization a user must wait before using the market on that device 用户在设备首次授权后，必须等待多少天才能在该设备上使用市场。
 	}
 
 	//-----------------------------------------------------------------------------
@@ -2593,28 +2810,31 @@ namespace Steamworks {
 	// This callback is fired asynchronously in response to timers triggering.
 	// It is also fired in response to calls to GetDurationControl().
 	//-----------------------------------------------------------------------------
+	// 目的：用于为启用了反沉迷/时长控制的游戏，为启用用户提供。让游戏知道用户是否可以继续玩，或者游戏应该退出，并返回剩余游戏时间信息。
+// 这个回调是在定时器触发后异步执行的，它也响应 GetDurationControl() 的调用。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 67)]
 	public struct DurationControl_t {
 		public const int k_iCallback = Constants.k_iSteamUserCallbacks + 67;
 		
-		public EResult m_eResult;								// result of call (always k_EResultOK for asynchronous timer-based notifications)
-		public AppId_t m_appid;								// appid generating playtime
+		public EResult m_eResult;								// result of call (always k_EResultOK for asynchronous timer-based notifications) 异步定时器通知的结果（总是 k_EResultOK）
+		public AppId_t m_appid;								// appid generating playtime 应用ID生成游戏时间
 		
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bApplicable;							// is duration control applicable to user + game combination
-		public int m_csecsLast5h;							// playtime since most recent 5 hour gap in playtime, only counting up to regulatory limit of playtime, in seconds
+		public bool m_bApplicable;							// is duration control applicable to user + game combination Is duration control applicable to user + game combination
+		public int m_csecsLast5h;							// playtime since most recent 5 hour gap in playtime, only counting up to regulatory limit of playtime, in seconds 最近5小时游戏时间，只计算到监管限制的时间，以秒为单位。
 		
-		public EDurationControlProgress m_progress;			// recommended progress (either everything is fine, or please exit game)
-		public EDurationControlNotification m_notification;	// notification to show, if any (always k_EDurationControlNotification_None for API calls)
+		public EDurationControlProgress m_progress;			// recommended progress (either everything is fine, or please exit game) 推荐进度（要么一切正常，要么请退出游戏）
+		public EDurationControlNotification m_notification;	// notification to show, if any (always k_EDurationControlNotification_None for API calls) 通知显示，如果存在（API 调用时始终为 k_EDurationControlNotification_None）
 		
-		public int m_csecsToday;							// playtime on current calendar day
-		public int m_csecsRemaining;						// playtime remaining until the user hits a regulatory limit
+		public int m_csecsToday;							// playtime on current calendar day 当前日历上的游戏时间
+		public int m_csecsRemaining;						// playtime remaining until the user hits a regulatory limit 用户达到监管限制剩余时间
 	}
 
 	//-----------------------------------------------------------------------------
 	// callback for GetTicketForWebApi
 	//-----------------------------------------------------------------------------
+	// GetTicketForWebApi 的回调
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 68)]
 	public struct GetTicketForWebApiResponse_t {
@@ -2631,27 +2851,30 @@ namespace Steamworks {
 	// Purpose: called when the latests stats and achievements have been received
 	//			from the server
 	//-----------------------------------------------------------------------------
+	// 回调函数
+// 目的：在从服务器接收到最新统计数据和成就时调用
 	[StructLayout(LayoutKind.Explicit, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 1)]
 	public struct UserStatsReceived_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 1;
 		[FieldOffset(0)]
-		public ulong m_nGameID;		// Game these stats are for
+		public ulong m_nGameID;		// Game these stats are for 这些统计数据是关于哪款游戏的？
 		[FieldOffset(8)]
-		public EResult m_eResult;		// Success / error fetching the stats
+		public EResult m_eResult;		// Success / error fetching the stats 成功/错误获取统计信息
 		[FieldOffset(12)]
-		public CSteamID m_steamIDUser;	// The user for whom the stats are retrieved for
+		public CSteamID m_steamIDUser;	// The user for whom the stats are retrieved for 该用户用于获取统计数据的用户
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: result of a request to store the user stats for a game
 	//-----------------------------------------------------------------------------
+	// 目的：请求存储用户游戏统计数据的结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 2)]
 	public struct UserStatsStored_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 2;
-		public ulong m_nGameID;		// Game these stats are for
-		public EResult m_eResult;		// success / error
+		public ulong m_nGameID;		// Game these stats are for 这些统计数据是关于哪款游戏的？
+		public EResult m_eResult;		// success / error 成功 / 错误
 	}
 
 	//-----------------------------------------------------------------------------
@@ -2659,145 +2882,156 @@ namespace Steamworks {
 	//			"indicate progress" call. If both m_nCurProgress and m_nMaxProgress
 	//			are zero, that means the achievement has been fully unlocked.
 	//-----------------------------------------------------------------------------
+	// 目的：请求存储游戏成就的结果，或“指示进度”调用。如果 m_nCurProgress 和 m_nMaxProgress 均为零，则表示该成就已完全解锁。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 3)]
 	public struct UserAchievementStored_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 3;
 		
-		public ulong m_nGameID;				// Game this is for
+		public ulong m_nGameID;				// Game this is for 这个游戏是什么？
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bGroupAchievement;	// if this is a "group" achievement
+		public bool m_bGroupAchievement;	// if this is a "group" achievement 如果这是一个“群”成就
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchStatNameMax)]
 		private byte[] m_rgchAchievementName_;
-		public string m_rgchAchievementName		// name of the achievement
+		public string m_rgchAchievementName		// name of the achievement 成就名称
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchAchievementName_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchAchievementName_, Constants.k_cchStatNameMax); }
 		}
-		public uint m_nCurProgress;			// current progress towards the achievement
-		public uint m_nMaxProgress;			// "out of" this many
+		public uint m_nCurProgress;			// current progress towards the achievement 当前进度 towards the achievement
+		public uint m_nMaxProgress;			// "out of" this many out of 这个数量
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: call result for finding a leaderboard, returned as a result of FindOrCreateLeaderboard() or FindLeaderboard()
 	//			use CCallResult<> to map this async result to a member function
 	//-----------------------------------------------------------------------------
+	// 目的：查找排行榜结果的调用结果，作为 FindOrCreateLeaderboard() 或 FindLeaderboard() 使用 CCallResult<> 映射异步结果到成员函数。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 4)]
 	public struct LeaderboardFindResult_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 4;
-		public SteamLeaderboard_t m_hSteamLeaderboard;	// handle to the leaderboard serarched for, 0 if no leaderboard found
-		public byte m_bLeaderboardFound;				// 0 if no leaderboard found
+		public SteamLeaderboard_t m_hSteamLeaderboard;	// handle to the leaderboard serarched for, 0 if no leaderboard found 用于搜索的排行榜句柄，如果未找到则为 0
+		public byte m_bLeaderboardFound;				// 0 if no leaderboard found 0 如果没有找到排行榜
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: call result indicating scores for a leaderboard have been downloaded and are ready to be retrieved, returned as a result of DownloadLeaderboardEntries()
 	//			use CCallResult<> to map this async result to a member function
 	//-----------------------------------------------------------------------------
+	// 目的：指示排行榜得分下载完成并准备好检索，作为 `DownloadLeaderboardEntries()` 使用 `CCallResult<>` 将异步结果映射到成员函数的返回值。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 5)]
 	public struct LeaderboardScoresDownloaded_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 5;
 		public SteamLeaderboard_t m_hSteamLeaderboard;
-		public SteamLeaderboardEntries_t m_hSteamLeaderboardEntries;	// the handle to pass into GetDownloadedLeaderboardEntries()
-		public int m_cEntryCount; // the number of entries downloaded
+		public SteamLeaderboardEntries_t m_hSteamLeaderboardEntries;	// the handle to pass into GetDownloadedLeaderboardEntries() 将句柄传递到 GetDownloadedLeaderboardEntries()
+		public int m_cEntryCount; // the number of entries downloaded 下载的条目数量
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: call result indicating scores has been uploaded, returned as a result of UploadLeaderboardScore()
 	//			use CCallResult<> to map this async result to a member function
 	//-----------------------------------------------------------------------------
+	// 目的：调用结果表明分数已上传，返回 `UploadLeaderboardScore()` 使用 `CCallResult<>` 将此异步结果映射到成员函数的结果。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 6)]
 	public struct LeaderboardScoreUploaded_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 6;
-		public byte m_bSuccess;			// 1 if the call was successful
-		public SteamLeaderboard_t m_hSteamLeaderboard;	// the leaderboard handle that was
-		public int m_nScore;				// the score that was attempted to set
-		public byte m_bScoreChanged;		// true if the score in the leaderboard change, false if the existing score was better
-		public int m_nGlobalRankNew;		// the new global rank of the user in this leaderboard
-		public int m_nGlobalRankPrevious;	// the previous global rank of the user in this leaderboard; 0 if the user had no existing entry in the leaderboard
+		public byte m_bSuccess;			// 1 if the call was successful 如果通话成功的话
+		public SteamLeaderboard_t m_hSteamLeaderboard;	// the leaderboard handle that was 这个排行榜的用户名是
+		public int m_nScore;				// the score that was attempted to set 试图设定的分数
+		public byte m_bScoreChanged;		// true if the score in the leaderboard change, false if the existing score was better 如果排行榜的分数发生了变化，则为真；如果现有分数更好，则为假。
+		public int m_nGlobalRankNew;		// the new global rank of the user in this leaderboard 该用户的全球排行榜新排名
+		public int m_nGlobalRankPrevious;	// the previous global rank of the user in this leaderboard; 0 if the user had no existing entry in the leaderboard 之前的全球排名，如果用户没有在排行榜中存在记录，则为 0。
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 7)]
 	public struct NumberOfCurrentPlayers_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 7;
-		public byte m_bSuccess;			// 1 if the call was successful
-		public int m_cPlayers;			// Number of players currently playing
+		public byte m_bSuccess;			// 1 if the call was successful 如果通话成功的话
+		public int m_cPlayers;			// Number of players currently playing 当前正在玩游戏的玩家人数
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback indicating that a user's stats have been unloaded.
 	//  Call RequestUserStats again to access stats for this user
 	//-----------------------------------------------------------------------------
+	// 目的：回调指示用户统计数据已卸载。再次调用 RequestUserStats 以访问该用户的统计数据。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 8)]
 	public struct UserStatsUnloaded_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 8;
-		public CSteamID m_steamIDUser;	// User whose stats have been unloaded
+		public CSteamID m_steamIDUser;	// User whose stats have been unloaded 用户统计数据已卸载
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback indicating that an achievement icon has been fetched
 	//-----------------------------------------------------------------------------
+	// 目的：回调指示已获取成就图标
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 9)]
 	public struct UserAchievementIconFetched_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 9;
 		
-		public CGameID m_nGameID;				// Game this is for
+		public CGameID m_nGameID;				// Game this is for 这个游戏是什么？
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchStatNameMax)]
 		private byte[] m_rgchAchievementName_;
-		public string m_rgchAchievementName		// name of the achievement
+		public string m_rgchAchievementName		// name of the achievement 成就名称
 		{
 			get { return InteropHelp.ByteArrayToStringUTF8(m_rgchAchievementName_); }
 			set { InteropHelp.StringToByteArrayUTF8(value, m_rgchAchievementName_, Constants.k_cchStatNameMax); }
 		}
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bAchieved;		// Is the icon for the achieved or not achieved version?
-		public int m_nIconHandle;		// Handle to the image, which can be used in SteamUtils()->GetImageRGBA(), 0 means no image is set for the achievement
+		public bool m_bAchieved;		// Is the icon for the achieved or not achieved version? Is the icon for the achieved or not achieved version?
+		public int m_nIconHandle;		// Handle to the image, which can be used in SteamUtils()->GetImageRGBA(), 0 means no image is set for the achievement 对图像句柄，可用于 SteamUtils()->GetImageRGBA()，0 表示未设置图像用于徽章。
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback indicating that global achievement percentages are fetched
 	//-----------------------------------------------------------------------------
+	// 目的：回调指示全球成就百分比已获取
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 10)]
 	public struct GlobalAchievementPercentagesReady_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 10;
 		
-		public ulong m_nGameID;				// Game this is for
-		public EResult m_eResult;				// Result of the operation
+		public ulong m_nGameID;				// Game this is for 这个游戏是什么？
+		public EResult m_eResult;				// Result of the operation 操作结果
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: call result indicating UGC has been uploaded, returned as a result of SetLeaderboardUGC()
 	//-----------------------------------------------------------------------------
+	// 目的：调用结果表明 UGC 已上传，是 SetLeaderboardUGC() 的结果。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 11)]
 	public struct LeaderboardUGCSet_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 11;
-		public EResult m_eResult;				// The result of the operation
-		public SteamLeaderboard_t m_hSteamLeaderboard;	// the leaderboard handle that was
+		public EResult m_eResult;				// The result of the operation The result of the operation
+		public SteamLeaderboard_t m_hSteamLeaderboard;	// the leaderboard handle that was 这个排行榜的用户名是
 	}
 
 	//-----------------------------------------------------------------------------
 	// Purpose: callback indicating global stats have been received.
 	//	Returned as a result of RequestGlobalStats()
 	//-----------------------------------------------------------------------------
+	// 目的：回调指示全局统计信息已接收。作为 RequestGlobalStats() 的结果返回。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserStatsCallbacks + 12)]
 	public struct GlobalStatsReceived_t {
 		public const int k_iCallback = Constants.k_iSteamUserStatsCallbacks + 12;
-		public ulong m_nGameID;				// Game global stats were requested for
-		public EResult m_eResult;				// The result of the request
+		public ulong m_nGameID;				// Game global stats were requested for 游戏全球统计数据已请求。
+		public EResult m_eResult;				// The result of the request The result of the request
 	}
 
 	// callbacks
 	//-----------------------------------------------------------------------------
 	// Purpose: The country of the user changed
 	//-----------------------------------------------------------------------------
+	// 回调函数
+// 目的：用户的国家已更改
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 1)]
 	public struct IPCountry_t {
@@ -2807,6 +3041,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Fired when running on a handheld PC or laptop with less than 10 minutes of battery is left, fires then every minute
 	//-----------------------------------------------------------------------------
+	// 目的：在运行于电池电量低于10分钟的掌机或笔记本电脑时触发，然后每分钟触发一次。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 2)]
 	public struct LowBatteryPower_t {
@@ -2817,6 +3052,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: called when a SteamAsyncCall_t has completed (or failed)
 	//-----------------------------------------------------------------------------
+	// 目的：当 SteamAsyncCall_t 完成（或失败）时调用
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 3)]
 	public struct SteamAPICallCompleted_t {
@@ -2829,6 +3065,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// called when Steam wants to shutdown
 	//-----------------------------------------------------------------------------
+	// Called when Steam wants to shutdown
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 4)]
 	public struct SteamShutdown_t {
@@ -2838,6 +3075,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// callback for CheckFileSignature
 	//-----------------------------------------------------------------------------
+	// CheckFileSignature 回调
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 5)]
 	public struct CheckFileSignature_t {
@@ -2849,16 +3087,19 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Full Screen gamepad text input has been closed
 	//-----------------------------------------------------------------------------
+	// k_iSteamUtilsCallbacks + 13 is taken
+// 全屏手柄文本输入已关闭
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 14)]
 	public struct GamepadTextInputDismissed_t {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 14;
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bSubmitted;										// true if user entered & accepted text (Call ISteamUtils::GetEnteredGamepadTextInput() for text), false if canceled input
+		public bool m_bSubmitted;										// true if user entered & accepted text (Call ISteamUtils::GetEnteredGamepadTextInput() for text), false if canceled input 如果用户已输入并接受文本（通过调用 ISteamUtils::GetEnteredGamepadTextInput()），则为真；如果取消了输入，则为假。
 		public uint m_unSubmittedText;
 		public AppId_t m_unAppID;
 	}
 
+	// k_iSteamUtilsCallbacks + 15 through 35 are taken
 	// k_iSteamUtilsCallbacks + 15 through 35 are taken
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 36)]
@@ -2870,6 +3111,8 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// The floating on-screen keyboard has been closed
 	//-----------------------------------------------------------------------------
+	// k_iSteamUtilsCallbacks + 37 is taken
+// 屏幕上的虚拟键盘已关闭。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 38)]
 	public struct FloatingGamepadTextInputDismissed_t {
@@ -2879,11 +3122,12 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// The text filtering dictionary has changed
 	//-----------------------------------------------------------------------------
+	// 文本过滤词典已更改
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 39)]
 	public struct FilterTextDictionaryChanged_t {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 39;
-		public int m_eLanguage;	// One of ELanguage, or k_LegallyRequiredFiltering
+		public int m_eLanguage;	// One of ELanguage, or k_LegallyRequiredFiltering One of ELanguage, or k_LegallyRequiredFiltering
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
@@ -2929,6 +3173,7 @@ namespace Steamworks {
 	/// use as an identifier.  This callback is posted when
 	/// ISteamNetworkingSoockets::BeginAsyncRequestFakeIP completes.
 	/// See also ISteamNetworkingSockets::GetFakeIP
+	/// 回调结构用于通知连接状态已更改。一个用于描述我们被分配使用的“假 IP”的结构，用作标识符。此回调在 ISteamNetworkingSockets::BeginAsyncRequestFakeIP 完成时发布。 参见 ISteamNetworkingSockets::GetFakeIP。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamNetworkingSocketsCallbacks + 3)]
 	public struct SteamNetworkingFakeIPResult_t {
@@ -2943,12 +3188,15 @@ namespace Steamworks {
 		///
 		/// Note that, with the exception of k_EResultBusy (if you are polling),
 		/// it is highly recommended to treat all failures as fatal.
+		/// 状态/结果分配请求。可能的失败值： - k_EResultBusy - 你调用了 GetFakeIP 但请求尚未完成。 - k_EResultInvalidParam - 你使用无效端口索引调用 GetFakeIP - k_EResultLimitExceeded - 你请求了过多的端口，或者在已成功完成的一个请求之后又进行了其他请求 - k_EResultNoMatch - 调用 GetFakeIP，但没有进行任何请求
+	/// 请注意，除了 k_EResultBusy（如果正在进行轮询）之外，强烈建议将所有失败视为致命错误。
 		public EResult m_eResult;
 		
 		/// Local identity of the ISteamNetworkingSockets object that made
 		/// this request and is assigned the IP.  This is needed in the callback
 		/// in the case where there are multiple ISteamNetworkingSockets objects.
 		/// (E.g. one for the user, and another for the local gameserver).
+		/// 本地 ISteamNetworkingSockets 对象的身份，该对象发起此请求并分配了 IP。这在回调中需要，以防有多个 ISteamNetworkingSockets 对象。例如，一个用于用户，另一个用于本地游戏服务器。
 		public SteamNetworkingIdentity m_identity;
 		
 		/// Fake IPv4 IP address that we have been assigned.  NOTE: this
@@ -2958,6 +3206,7 @@ namespace Steamworks {
 		/// The exact same IP:port address may have been used previously.
 		/// Steam tries to avoid reusing ports until they have not been in use for
 		/// some time, but this may not always be possible.
+		/// 我们被分配的虚假 IPv4 IP 地址。请注意：此 IP 地址不是完全属于我们的！Steam 尝试避免共享 IP 地址，但这并不总是可能的。此 IP 地址可能当前正在由另一个主机使用，但使用不同的端口(s)。 相同的 IP:端口地址可能之前已被使用。Steam 尝试避免在一段时间未使用后才重新使用端口，但这也并不总是可能的。
 		public uint m_unIP;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_nMaxReturnPorts)]
 		public ushort[] m_unPorts;

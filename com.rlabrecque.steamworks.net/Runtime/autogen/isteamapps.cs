@@ -48,7 +48,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> only use this member if you need to check ownership of another game related to yours, a demo for example</para>
-		/// <para>仅在需要检查与您相关的另一个游戏的所有权时使用此成员，例如</para>
+		/// <para>Okay, understood. Please send your content.</para>
 		/// </summary>
 		public static bool BIsSubscribedApp(AppId_t appID) {
 			InteropHelp.TestIfAvailableClient();
@@ -57,7 +57,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Takes AppID of DLC and checks if the user owns the DLC &amp; if the DLC is installed</para>
-		/// <para>获取DLC的Appid，并检查用户是否拥有DLC，以及是否已安装DLC</para>
+		/// <para>获取DLC的AppID并检查用户是否拥有该DLC以及该DLC是否已安装。</para>
 		/// </summary>
 		public static bool BIsDlcInstalled(AppId_t appID) {
 			InteropHelp.TestIfAvailableClient();
@@ -66,7 +66,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the Unix time of the purchase of the app</para>
-		/// <para>返回购买应用程序的UNIX时间</para>
+		/// <para>返回应用购买的 Unix 时间戳</para>
 		/// </summary>
 		public static uint GetEarliestPurchaseUnixTime(AppId_t nAppID) {
 			InteropHelp.TestIfAvailableClient();
@@ -77,7 +77,7 @@ namespace Steamworks {
 		/// <para> Checks if the user is subscribed to the current app through a free weekend</para>
 		/// <para> This function will return false for users who have a retail or other type of license</para>
 		/// <para> Before using, please ask your Valve technical contact how to package and secure your free weekened</para>
-		/// <para>检查用户是否通过免费周末订阅了当前应用程序此功能将返回false forse forses forses forses false fors在使用之前的零售或其他类型的许可证，请询问您的阀门技术联系方式</para>
+		/// <para>检查用户是否通过免费周末订阅了当前应用。此函数将返回false，对于拥有零售版或其他类型的许可证的用户。在使用前，请咨询您的Valve技术联系人，了解如何打包和安全地进行免费周末。</para>
 		/// </summary>
 		public static bool BIsSubscribedFromFreeWeekend() {
 			InteropHelp.TestIfAvailableClient();
@@ -86,7 +86,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns the number of DLC pieces for the running app</para>
-		/// <para>返回运行应用程序的DLC件数量</para>
+		/// <para>返回正在运行的应用的 DLC 件数</para>
 		/// </summary>
 		public static int GetDLCCount() {
 			InteropHelp.TestIfAvailableClient();
@@ -95,7 +95,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns metadata for DLC by index, of range [0, GetDLCCount()]</para>
-		/// <para>由index返回DLC的元数据，范围[0，getDlccount（）]</para>
+		/// <para>通过索引、范围[0, GetDLCCount()]返回DLC元数据</para>
 		/// </summary>
 		public static bool BGetDLCDataByIndex(int iDLC, out AppId_t pAppID, out bool pbAvailable, out string pchName, int cchNameBufferSize) {
 			InteropHelp.TestIfAvailableClient();
@@ -108,7 +108,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Install/Uninstall control for optional DLC</para>
-		/// <para>可选DLC的安装/卸载控制</para>
+		/// <para>安装/卸载可选DLC控制</para>
 		/// </summary>
 		public static void InstallDLC(AppId_t nAppID) {
 			InteropHelp.TestIfAvailableClient();
@@ -126,7 +126,7 @@ namespace Steamworks {
 		/// <para> to users when they purchase the game, before the game ships.</para>
 		/// <para> You'll receive an AppProofOfPurchaseKeyResponse_t callback when</para>
 		/// <para> the key is available (which may be immediately).</para>
-		/// <para>请您自己或拥有的DLC要求旧版CD键。如果您对这些数据感兴趣，请确保您在购买游戏时购买游戏时向我们提供有效密钥列表，以在他们购买游戏时分配给用户。当键可用时（可能立即），您将收到一个AppProofOffurchAseKeyResponse_t回调。</para>
+		/// <para>如果您需要请求旧版CD-key，请为自己或已购买的DLC提供此信息。如果您对这些数据感兴趣，请在游戏发货前提供有效的密钥列表，以便在用户购买游戏时进行分发。您将收到AppProofOfPurchaseKeyResponse_t回调，当密钥可用时（可能立即）。</para>
 		/// </summary>
 		public static void RequestAppProofOfPurchaseKey(AppId_t nAppID) {
 			InteropHelp.TestIfAvailableClient();
@@ -135,7 +135,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns current beta branch name, 'public' is the default branch</para>
-		/// <para>返回当前的beta分支名称，“ public”是默认分支</para>
+		/// <para>返回当前 Beta 分支名称，'public' 是默认分支。</para>
 		/// </summary>
 		public static bool GetCurrentBetaName(out string pchName, int cchNameBufferSize) {
 			InteropHelp.TestIfAvailableClient();
@@ -148,7 +148,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> signal Steam that game files seems corrupt or missing</para>
-		/// <para>信号蒸汽表明游戏文件似乎损坏或缺少</para>
+		/// <para>信号 Steam 游戏文件似乎已损坏或丢失</para>
 		/// </summary>
 		public static bool MarkContentCorrupt(bool bMissingFilesOnly) {
 			InteropHelp.TestIfAvailableClient();
@@ -157,7 +157,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> return installed depots in mount order</para>
-		/// <para>返回安装的仓库以安装顺序</para>
+		/// <para>返回已安装的仓库顺序</para>
 		/// </summary>
 		public static uint GetInstalledDepots(AppId_t appID, DepotId_t[] pvecDepots, uint cMaxDepots) {
 			InteropHelp.TestIfAvailableClient();
@@ -166,7 +166,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns current app install folder for AppID, returns folder name length</para>
-		/// <para>返回当前的应用程序安装文件夹，用于appid，返回文件夹名称长度</para>
+		/// <para>返回当前应用安装文件夹，返回文件夹名称长度</para>
 		/// </summary>
 		public static uint GetAppInstallDir(AppId_t appID, out string pchFolder, uint cchFolderBufferSize) {
 			InteropHelp.TestIfAvailableClient();
@@ -179,7 +179,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns true if that app is installed (not necessarily owned)</para>
-		/// <para>如果安装该应用程序（不一定拥有），则返回true</para>
+		/// <para>如果该应用已安装（不一定属于您）</para>
 		/// </summary>
 		public static bool BIsAppInstalled(AppId_t appID) {
 			InteropHelp.TestIfAvailableClient();
@@ -189,7 +189,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> returns the SteamID of the original owner. If this CSteamID is different from ISteamUser::GetSteamID(),</para>
 		/// <para> the user has a temporary license borrowed via Family Sharing</para>
-		/// <para>返回原始所有者的蒸汽。如果此csteamid与isteamuser :: getSteamId（）不同，则用户具有通过家庭共享借用的临时许可证</para>
+		/// <para>返回原始所有者的 SteamID。如果这个 CSteamID 与 ISteamUser::GetSteamID() 不同，则用户通过家庭共享借用了临时许可证。</para>
 		/// </summary>
 		public static CSteamID GetAppOwner() {
 			InteropHelp.TestIfAvailableClient();
@@ -202,7 +202,7 @@ namespace Steamworks {
 		/// <para> Parameter names starting with an underscore '_' are reserved for steam features -- they can be queried by the game,</para>
 		/// <para> but it is advised that you not param names beginning with an underscore for your own features.</para>
 		/// <para> Check for new launch parameters on callback NewUrlLaunchParameters_t</para>
-		/// <para>返回关联的启动参数，如果游戏是通过Steam运行的：// Run/<Appid> //？param1 = valic1＆param2＆param2＆param2＆param3 = valic3 = value3等。参数名称以字符'@'为内部使用，以供内部使用，并且将始终返回和空字符串。参数名称以强调“ _”开头是为Steam功能保留的 - 可以通过游戏来查询它们，但是建议您不要以底下为您自己的功能开头的参数名称。在回调Newurllaunchparameters_t上查看新的启动参数</para>
+		/// <para>返回关联的启动参数，如果游戏通过 steam://run/<appid>//?param1=value1&param2=value2&param3=value3 等方式运行。以 '@' 开头的参数名称用于内部用途，始终返回空字符串。以 '_' 开头的参数名称用于 Steam 功能，游戏可以查询它们，但建议不要为自己的功能使用以 '_' 开头的参数名称。检查新的启动参数在 NewUrlLaunchParameters_t 回调中。</para>
 		/// </summary>
 		public static string GetLaunchQueryParam(string pchKey) {
 			InteropHelp.TestIfAvailableClient();
@@ -222,7 +222,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> return the buildid of this app, may change at any time based on backend updates to the game</para>
-		/// <para>返回该应用程序的buildid，可能会根据游戏的后端更新随时更改</para>
+		/// <para>返回此应用的构建ID，可能会随时根据游戏后端更新而变化。</para>
 		/// </summary>
 		public static int GetAppBuildId() {
 			InteropHelp.TestIfAvailableClient();
@@ -234,7 +234,7 @@ namespace Steamworks {
 		/// <para> A series of AppProofOfPurchaseKeyResponse_t callbacks will be sent with</para>
 		/// <para> appropriate appid values, ending with a final callback where the m_nAppId</para>
 		/// <para> member is k_uAppIdInvalid (zero).</para>
-		/// <para>请求有关调用appid和关联DLC的所有购买键的证明。一系列的AppProofOffurchAseKeyResponse_t回调将以适当的appid值发送，最后以最终回调结尾，其中m_nappid成员为k_uappidinvalid（零）。</para>
+		/// <para>请求所有《Calling》应用ID及其相关DLC的购买凭证密钥。一系列 `AppProofOfPurchaseKeyResponse_t` 回调将发送，带有适当的 `appid` 值，最后以一个回调结束，其中 `m_nAppId` 成员为 `k_uAppIdInvalid`（零）。</para>
 		/// </summary>
 		public static void RequestAllProofOfPurchaseKeys() {
 			InteropHelp.TestIfAvailableClient();
@@ -256,7 +256,8 @@ namespace Steamworks {
 		/// <para> path and not be placed on the OS command line, you must set a value in your app's</para>
 		/// <para> configuration on Steam.  Ask Valve for help with this.</para>
 		/// <para> If game was already running and launched again, the NewUrlLaunchParameters_t will be fired.</para>
-		/// <para>如果通过Steam URL启动游戏，例如Steam：// run/<Appid> // <命令行>/。这种传递连接字符串的方法（通过丰富的存在，接受邀请等加入时使用）比在操作系统命令行上传递连接字符串（这是安全风险）最可取。为了使丰富的存在连接到通过此路径而不是放置在OS命令行上，您必须在应用程序上的应用程序配置中设置一个值。向阀门寻求帮助。 如果游戏已经运行并再次启动，则将解雇NewUrlaunchParameters_t。</para>
+		/// <para>获取通过 Steam URL 启动游戏时使用的命令行，例如：steam://run/<appid>//<命令行>/. 使用这种方法传递连接字符串（用于通过丰富存在加入或接受邀请等）比在操作系统命令行上传递连接字符串更安全。为了使通过丰富存在加入时，连接字符串通过此路径传递，而不是放置在操作系统命令行上，您需要在应用程序的配置中设置一个值。请向 Valve 寻求帮助。</para>
+		/// <para>如果游戏已经在运行，并且再次启动，NewUrlLaunchParameters_t 将会被触发。</para>
 		/// </summary>
 		public static int GetLaunchCommandLine(out string pszCommandLine, int cubCommandLine) {
 			InteropHelp.TestIfAvailableClient();
@@ -269,7 +270,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Check if user borrowed this game via Family Sharing, If true, call GetAppOwner() to get the lender SteamID</para>
-		/// <para>检查用户是否通过家庭共享（如果为true）借用此游戏，请致电GetAppowner（）获取贷款人Steamid</para>
+		/// <para>检查用户是否通过家庭共享借用此游戏，如果为真，调用 GetAppOwner() 以获取借出方的 SteamID。</para>
 		/// </summary>
 		public static bool BIsSubscribedFromFamilySharing() {
 			InteropHelp.TestIfAvailableClient();
@@ -278,7 +279,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> check if game is a timed trial with limited playtime</para>
-		/// <para>检查游戏是否是定时审判的，并且游戏时间有限</para>
+		/// <para>请提供游戏名称，我将检查它是否为限时试玩并有有限的试玩时间。</para>
 		/// </summary>
 		public static bool BIsTimedTrial(out uint punSecondsAllowed, out uint punSecondsPlayed) {
 			InteropHelp.TestIfAvailableClient();
@@ -287,7 +288,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> set current DLC AppID being played (or 0 if none). Allows Steam to track usage of major DLC extensions</para>
-		/// <para>设置正在播放的当前DLC Appid（或0，如果没有）。允许Steam跟踪主要DLC扩展的使用</para>
+		/// <para>设置当前 DLC 应用 ID (或 0 表示未加载任何 DLC)。允许 Steam 跟踪主要 DLC 扩展的使用情况。</para>
 		/// </summary>
 		public static bool SetDlcContext(AppId_t nAppID) {
 			InteropHelp.TestIfAvailableClient();
@@ -296,7 +297,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns total number of known app branches (including default "public" branch ). nAvailable is number of available betas</para>
-		/// <para>返回已知应用程序分支的总数（包括默认的“公共”分支）。可用的是可用的beta数量</para>
+		/// <para>返回已知应用分支的总数（包括默认“public”分支）。nAvailable 是可用测试版的数量。</para>
 		/// </summary>
 		public static int GetNumBetas(out int pnAvailable, out int pnPrivate) {
 			InteropHelp.TestIfAvailableClient();
@@ -306,7 +307,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> return beta branch details, name, description, current BuildID and state flags (EBetaBranchFlags)</para>
 		/// <para> iterate through</para>
-		/// <para>返回beta分支详细信息，名称，描述，当前的buildid和状态标志（ebetabranchflags）遍历</para>
+		/// <para>返回 beta 分支详情，名称、描述、当前 BuildID 和状态标志 (EBetaBranchFlags) 进行迭代。</para>
 		/// </summary>
 		public static bool GetBetaInfo(int iBetaIndex, out uint punFlags, out uint punBuildID, out string pchBetaName, int cchBetaName, out string pchDescription, int cchDescription) {
 			InteropHelp.TestIfAvailableClient();
@@ -322,7 +323,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> select this beta branch for this app as active, might need the game to restart so Steam can update to that branch</para>
-		/// <para>选择此应用程序为活动的此Beta分支，可能需要游戏才能重新启动，以便Steam可以更新到该分支</para>
+		/// <para>选择此测试分支作为该应用的活动分支，可能需要游戏重启，以便Steam更新到该分支。</para>
 		/// </summary>
 		public static bool SetActiveBeta(string pchBetaName) {
 			InteropHelp.TestIfAvailableClient();

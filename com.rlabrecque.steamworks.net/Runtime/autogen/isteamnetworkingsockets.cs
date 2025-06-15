@@ -32,7 +32,11 @@ namespace Steamworks {
 		/// <para> setting the options "immediately" after creation.</para>
 		/// <para> When a client attempts to connect, a SteamNetConnectionStatusChangedCallback_t</para>
 		/// <para> will be posted.  The connection will be in the connecting state.</para>
-		/// <para>创建一个“服务器”套接字，通过调用ConnectByIpAddress，通过普通UDP（IPv4或ipv6）来聆听客户端的连接 您必须选择一个特定的本地端口来侦听并将其设置为本地地址的端口字段。 通常，您将地址的IP部分设置为零（Steamnetworkingipaddr :: clear（））。这意味着您将不会绑定到任何特定的本地接口（即与平原套接字代码中的Inaddr_any相同）。此外，如果可能的话，套接字将以“双堆栈”模式绑定，这意味着它可以同时接受IPv4和IPv6客户端连接。如果您确实希望绑定特定的接口，则将本地地址设置为适当的IPv4或IPv6 IP。 如果您需要设置任何初始配置选项，请在此处传递。有关为什么在创建后“立即”设置选项的原因，请参见STEAMNETWORKINGCONFIGVALUE_T。 当客户端尝试连接时，将发布SteamnetConnectionStatusChangedCallback_t。连接将处于连接状态。</para>
+		/// <para>创建一个“服务器”套接字，用于监听客户端连接，通过调用 ConnectByIPAddress，使用普通 UDP（IPv4 或 IPv6）。</para>
+		/// <para>您必须选择一个特定的本地端口进行监听，并设置“本地地址”中的端口字段。</para>
+		/// <para>通常，您会设置地址的 IP 部分为零 (SteamNetworkingIPAddr::Clear())。这意味着您不会绑定到任何特定的本地接口（即与 plain socket 代码中的 INADDR_ANY 相同）。 此外，如果可能，套接字将以“双栈”模式进行绑定，这意味着它能够接受 IPv4 和 IPv6 客户端连接。 如果您确实希望绑定特定的接口，则将本地地址设置为适当的 IPv4 或 IPv6 IP。</para>
+		/// <para>如果您需要设置任何初始配置选项，请在此处提供。有关为何更喜欢“立即”设置选项而不是在创建后设置选项的更多信息，请参见 SteamNetworkingConfigValue_t。</para>
+		/// <para>当客户端尝试连接时，会发布一个 SteamNetConnectionStatusChangedCallback_t。连接状态将处于连接中状态。</para>
 		/// </summary>
 		public static HSteamListenSocket CreateListenSocketIP(ref SteamNetworkingIPAddr localAddress, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableClient();
@@ -58,7 +62,11 @@ namespace Steamworks {
 		/// <para> If you need to set any initial config options, pass them here.  See</para>
 		/// <para> SteamNetworkingConfigValue_t for more about why this is preferable to</para>
 		/// <para> setting the options "immediately" after creation.</para>
-		/// <para>创建一个连接，然后在给定的IPv4或IPv6地址上通过UDP与“服务器”交谈。远程主机必须通过在指定端口上的createlistensocketip进行匹配调用。 当我们开始连接时，将触发STEAMNETCONNECTIONSTATUSCHANGEDCALLBACK_T回调，然后在超时或成功的连接上进行另一个回调。 如果服务器没有配置任何身份，则其网络地址将是使用的唯一身份。或者，网络主机可以提供特定于平台的身份，带有或不带有有效证书来验证该身份。（这些详细信息将包含在SteamnetConnectionStatusChangedCallback_t中。）取决于您的应用程序，以决定是否允许连接。 默认情况下，所有连接将获得足够的基本加密，以防止休闲窃听。但是请注意，没有证书（或通过其他带外机制分发的共享秘密），您没有任何方法可以知道实际上是谁在另一端，因此很容易受到中间人的攻击。 如果您需要设置任何初始配置选项，请在此处传递。有关为什么在创建后“立即”设置选项的原因，请参见STEAMNETWORKINGCONFIGVALUE_T。</para>
+		/// <para>建立连接并开始与指定 IPv4 或 IPv6 地址的“服务器”进行 UDP 上的通信。远程主机必须监听，并使用 CreateListenSocketIP 函数在指定端口上进行调用。</para>
+		/// <para>当开始连接时，会触发一个 SteamNetConnectionStatusChangedCallback_t 回调，然后会在超时或成功连接时触发另一个回调。</para>
+		/// <para>如果服务器没有配置任何身份验证，那么他们的网络地址将成为唯一的身份验证方式。或者，网络主机可以提供平台特定的身份验证，并可能附带有效的证书来验证该身份。 (这些细节将包含在 SteamNetConnectionStatusChangedCallback_t 中)。 应用程序需要自行决定是否允许连接。</para>
+		/// <para>默认情况下，所有连接都会获得足够的加密，以防止非专业人员窃听。但是，如果没有证书（或通过其他异业机制分发共享密钥），你无法知道谁实际上在另一端，因此容易受到中间人攻击。</para>
+		/// <para>如果您需要设置任何初始配置选项，请在此处提供。有关为何更喜欢“立即”设置选项而不是在创建后设置选项的更多信息，请参见 SteamNetworkingConfigValue_t。</para>
 		/// </summary>
 		public static HSteamNetConnection ConnectByIPAddress(ref SteamNetworkingIPAddr address, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableClient();
@@ -85,7 +93,11 @@ namespace Steamworks {
 		/// <para> If you need to set any initial config options, pass them here.  See</para>
 		/// <para> SteamNetworkingConfigValue_t for more about why this is preferable to</para>
 		/// <para> setting the options "immediately" after creation.</para>
-		/// <para>像CreatelistenSocketip一样，但客户端将使用ConnectP2P连接。 nlocalvirtualport指定客户如何使用ConnectP2P连接到此套接字。应用程序只有一个听力插座很常见；在这种情况下，使用零。如果您需要打开多个收听插座并让客户端可以连接到一个或另一个，则nlocalvirtualport应该是您创建的每个侦听套接字独有的小整数（<1000）。 如果使用此信息，则可能要调用ISTeamNetworkingutils :: InitrelayNetworkAccess（）当您的应用程序初始化时。 如果您在已知数据中心的专用服务器上收听，则可以使用此功能而不是Create -HostedDedicatedServerListenSocket收听，以允许客户在没有机票的情况下连接。任何拥有该应用程序并登录蒸汽的用户都将能够尝试连接到您的服务器。同样，连接尝试可能需要将客户端连接到Steam，这是可能失败的一个移动部分。使用票证时，即使客户从Steam或Steam断开连接处，客户也可以连接到您的服务器。 如果您需要设置任何初始配置选项，请在此处传递。有关为什么在创建后“立即”设置选项的原因，请参见STEAMNETWORKINGCONFIGVALUE_T。</para>
+		/// <para>类似于 CreateListenSocketIP，但客户端将使用 ConnectP2P 连接。</para>
+		/// <para>nLocalVirtualPort 指定客户端如何使用 ConnectP2P 连接到此套接字。 应用程序通常只有一个监听套接字；在这种情况下，使用零。 如果您需要打开多个监听套接字，并且希望客户端能够连接到任何一个，则 nLocalVirtualPort 应为一个小整数（<1000），并且该值应在每个创建的监听套接字中保持唯一。</para>
+		/// <para>如果你使用这个，你可能需要调用 ISteamNetworkingUtils::InitRelayNetworkAccess() 在你的应用初始化时。</para>
+		/// <para>如果您在已知数据中心的专用服务器上监听，则可以使用此函数，而不是 CreateHostedDedicatedServerListenSocket，以便客户端无需凭证即可连接。任何拥有该应用并已登录 Steam 的用户都可以尝试连接到您的服务器。此外，连接尝试可能需要客户端已连接到 Steam，这又是一个可能失败的额外环节。</para>
+		/// <para>如果您需要设置任何初始配置选项，请在此处提供。有关为何更喜欢“立即”设置选项而不是在创建后设置选项的更多信息，请参见 SteamNetworkingConfigValue_t。</para>
 		/// </summary>
 		public static HSteamListenSocket CreateListenSocketP2P(int nLocalVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableClient();
@@ -102,7 +114,9 @@ namespace Steamworks {
 		/// <para> To use your own signaling service, see:</para>
 		/// <para> - ConnectP2PCustomSignaling</para>
 		/// <para> - k_ESteamNetworkingConfig_Callback_CreateConnectionSignaling</para>
-		/// <para>开始使用使用特定于平台的标识符识别的对等方。这使用默认的Rendezvous服务，该服务取决于平台和库配置。（例如，在蒸汽上，它穿过蒸汽后端。） 如果您需要设置任何初始配置选项，请在此处传递。有关为什么在创建后“立即”设置选项的原因，请参见STEAMNETWORKINGCONFIGVALUE_T。 要使用自己的信号服务，请参见：-ConnectP2PcustomSignAling -K_esteamnetworkingconfig_callback_createconnectionsignaling aLALing</para>
+		/// <para>正在连接一个使用特定平台标识符识别的同伴。它使用默认的rendezvous服务，该服务取决于平台和库配置。(例如，在Steam上，它将通过Steam后端进行。)</para>
+		/// <para>如果您需要设置任何初始配置选项，请在此处提供。有关为何更喜欢“立即”设置选项而不是在创建后设置选项的更多信息，请参见 SteamNetworkingConfigValue_t。</para>
+		/// <para>为了使用您自己的信号服务，请查看：- ConnectP2PCustomSignaling - k_ESteamNetworkingConfig_Callback_CreateConnectionSignaling</para>
 		/// </summary>
 		public static HSteamNetConnection ConnectP2P(ref SteamNetworkingIdentity identityRemote, int nRemoteVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableClient();
@@ -143,7 +157,13 @@ namespace Steamworks {
 		/// <para> socket, consider setting the options on the listen socket, since such options are</para>
 		/// <para> inherited automatically.  If you really do need to set options that are connection</para>
 		/// <para> specific, it is safe to set them on the connection before accepting the connection.</para>
-		/// <para>接受在收听插座上收到的传入连接。 当收到连接尝试时（也许在交换了一些基本的握手数据包以防止琐碎的欺骗之后），在k_esteamnetworkingconnectionconnectionstate_connecting状态和STEAMNNETCONNECTIONSTATUSSTATUSCHANGEDCALLBACK_T中创建了连接接口对象。此时，您的应用程序必须接受或关闭连接。（它可能不会忽略它。）接受连接将根据连接类型过渡到连接的状态或查找路线状态。 您应该在一两秒钟内采取措施，因为接受连接实际上是发送回复通知客户端已连接的。如果您延迟采取行动，从客户的角度来看，它与网络不反应相同，客户可能会超时连接尝试。换句话说，客户无法区分由网络问题引起的延迟和应用程序引起的延迟。 这意味着，如果您的应用程序持续了几秒钟以上而无需处理回调（例如，在加载地图时），则客户有可能尝试在该间隔内连接并因超时而失败。 如果应用程序未及时响应连接尝试，并且我们停止从客户端接收通信，则连接尝试将在本地计时，将连接转换为k_esteamnetworkingconnectionstateState_problembromblemdetectedLocally State。客户端也可以在接收到连接之前关闭连接，并根据事件的确切顺序过渡到K_EsteamNetworkingConnectionState_closedBypeer。 如果手柄无效，则返回k_eresultinvalidparam。如果连接不在适当的状态，则返回K_ERESULTINVALIDSTATE。（请记住，连接状态可以在发布到队列的通知与应用程序接收到的通知之间发生变化。） 有关连接配置选项的注释。如果您需要设置通过特定收听套接字接受的所有连接所共有的任何配置选项，请考虑在“收听套接字”上设置选项，因为此类选项是自动继承的。如果您确实需要设置特定于连接的选项，则可以在接受连接之前将其设置在连接上。</para>
+		/// <para>接受一个已在监听套接字上接收到的传入连接。</para>
+		/// <para>当收到连接尝试（可能在经过一些基本的握手数据包交换后，以防止无效伪造）时，会创建一个 `k_ESteamNetworkingConnectionState_Connecting` 状态的 `k_ESteamNetworkingConnectionState` 对象，并发布一个 `SteamNetConnectionStatusChangedCallback_t`。 在此时，你的应用程序必须要么接受，要么关闭该连接。（它不能忽略它。） 接受连接会将其过渡到已连接状态或查找路由状态，具体取决于连接类型。</para>
+		/// <para>你应该在1到2秒内采取行动，因为接受连接实际上会发送通知客户端已连接的回复。 如果延迟采取行动，从客户端的角度来看，与网络无响应相同，客户端可能会超时连接尝试。 换句话说，客户端无法区分由网络问题引起的延迟和由应用程序引起的延迟。</para>
+		/// <para>这意味着如果你的应用程序在处理回调超过几秒钟（例如，在加载地图时），则可能会有客户端在那个时间间隔内尝试连接并由于超时而失败。</para>
+		/// <para>如果应用程序未能及时响应连接尝试，并且我们不再接收来自客户端的通信，则本地连接尝试将超时，并过渡到 k_ESteamNetworkingConnectionState_ProblemDetectedLocally 状态。 客户端也可能在连接未被接受之前关闭连接，并且根据确切的事件序列，过渡到 k_ESteamNetworkingConnectionState_ClosedByPeer 也是可能的。</para>
+		/// <para>如果句柄无效，则返回 k_EResultInvalidParam。如果连接状态不正确，则返回 k_EResultInvalidState。 (请记住，在通知被发布到队列和应用程序接收通知之间，连接状态可能会发生变化。)</para>
+		/// <para>关于连接配置选项的一条说明。如果您需要设置适用于通过特定监听套接字接受的所有连接的常见配置选项，请考虑在监听套接字上设置这些选项，因为这些选项会自动继承。如果您确实需要设置特定于连接的选项，则在接受连接之前在连接上设置这些选项是安全的。</para>
 		/// </summary>
 		public static EResult AcceptConnection(HSteamNetConnection hConn) {
 			InteropHelp.TestIfAvailableClient();
@@ -168,7 +188,11 @@ namespace Steamworks {
 		/// <para> If the connection has already ended and you are just freeing up the</para>
 		/// <para> connection interface, the reason code, debug string, and linger flag are</para>
 		/// <para> ignored.</para>
-		/// <para>与远程主机断开连接，并使连接句柄无效。丢弃有关连接的任何未读取数据。 NREASON是一种应用程序定义的代码，将在另一端收到并在后端分析中记录（可能）。该值应来自受限范围。（请参阅EsteamNetConnectionEnd。）如果您不需要将任何信息传达给远程主机，并且不希望Analytics能够将“正常”连接终止与“异常”终止区分开，则可以通过Zero，在这种情况下，将使用K_esteamNetnetConnectionEndend_app_generic的通用值。 PSZDEBUG是一种可选的人类可读诊断字符串，将由远程主机接收并在后端分析中记录（并在可能的情况下）。 如果您想将插座放入“持续”状态，并尝试在其中尝试冲洗任何剩余的发送数据，请使用Benablelinger = true。否则，可靠的数据不会冲洗。 如果连接已经结束，并且您只是释放了连接界面，则忽略了原因代码，调试字符串和Linger标志。</para>
+		/// <para>与远程主机断开连接并无效化连接句柄。连接上的任何未读数据将被丢弃。</para>
+		/// <para>nReason 是一个定义代码的应用，将在另一端接收并记录（如果可能）在后端分析中。该值应来自一个受限范围。 (参见 ESteamNetConnectionEnd)。 如果您不需要向远程主机传递任何信息，并且不想让后端能够区分“正常”连接终止和“异常”连接终止，则可以传递零，此时将使用 k_ESteamNetConnectionEnd_App_Generic 的通用值。</para>
+		/// <para>pszDebug 是一个可选的、可读的调试字符串，将由远程主机接收并记录（如果可能）在后端分析中。</para>
+		/// <para>如果您希望将套接字置于“linger”状态，即尝试刷新任何剩余已发送的数据，请使用 bEnableLinger=true。否则，可靠的数据将不会刷新。</para>
+		/// <para>如果连接已断开，并且你只是释放连接接口，则原因代码、调试字符串和 linger 标志将被忽略。</para>
 		/// </summary>
 		public static bool CloseConnection(HSteamNetConnection hPeer, int nReason, string pszDebug, bool bEnableLinger) {
 			InteropHelp.TestIfAvailableClient();
@@ -180,7 +204,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Destroy a listen socket.  All the connections that were accepting on the listen</para>
 		/// <para> socket are closed ungracefully.</para>
-		/// <para>销毁听力插座。在收听插座上接受的所有连接都无情地关闭。</para>
+		/// <para>销毁一个监听套接字。所有在监听套接字上接受连接的连接会不优雅地关闭。</para>
 		/// </summary>
 		public static bool CloseListenSocket(HSteamListenSocket hSocket) {
 			InteropHelp.TestIfAvailableClient();
@@ -206,7 +230,11 @@ namespace Steamworks {
 		/// <para> userdata.  So the tricky race conditions that can happen with callbacks</para>
 		/// <para> do not apply to retrieving messages.</para>
 		/// <para> Returns false if the handle is invalid.</para>
-		/// <para>设置连接用户数据。数据将在以下位置返回 - 您可以使用getConnectionuserdata查询它。-  SteamnetworkingMessage_t结构。-  STEAMNETCONNECTIONINFO_T结构。（这是SteamnetConnectionStatusChangedCallback_t的成员 - 但请参见下面的警告！！！！） 创建连接时，您需要在原子上设置此设置吗？请参阅k_esteamnetworkingconfig_connectionuserdata。 警告：使用回调结构中提供的值时，请 *非常小心 *。回调已排队，您在回调中将收到的值是在回调时有效的用户数据。如果您不了解这一点，可能会发生微妙的种族条件！ 如果将任何传入的消息排队，则更新了UserData字段，因此，当您接收消息时（例如，使用ReceiveMessageSonConnection），它们将始终具有最新的UserData。因此，回调可能发生的棘手的种族条件不适用于检索消息。 如果手柄无效，则返回false。</para>
+		/// <para>设置连接用户数据。数据在以下位置返回 - 可以使用 GetConnectionUserData 查询它 - SteamNetworkingmessage_t 结构 - SteamNetConnectionInfo_t 结构 (它是 SteamNetConnectionStatusChangedCallback_t 的成员 -- 但请参阅下面的警告!!!!)</para>
+		/// <para>您需要当连接创建时，是否需要进行原子设置？请参见 k_ESteamNetworkingConfig_ConnectionUserData。</para>
+		/// <para>警告：在使用回调结构体提供的值时，请务必小心。回调会被排队，你将接收到的值将是回调被排队时有效的userdata。如果不能理解这一点，可能会发生微妙的竞争条件！</para>
+		/// <para>如果任何传入的消息被排队，userdata 字段会被更新，以便当接收到消息（例如使用 ReceiveMessagesOnConnection）时，它们始终拥有最新的 userdata。因此，回调相关的棘手竞争条件不适用于消息检索。</para>
+		/// <para>如果句柄无效，则返回false。</para>
 		/// </summary>
 		public static bool SetConnectionUserData(HSteamNetConnection hPeer, long nUserData) {
 			InteropHelp.TestIfAvailableClient();
@@ -216,7 +244,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Fetch connection user data.  Returns -1 if handle is invalid</para>
 		/// <para> or if you haven't set any userdata on the connection.</para>
-		/// <para>获取连接用户数据。返回-1如果句柄无效，或者您尚未在连接上设置任何UserData。</para>
+		/// <para>获取连接用户数据。如果句柄无效或您未在连接上设置任何用户数据，则返回 -1。</para>
 		/// </summary>
 		public static long GetConnectionUserData(HSteamNetConnection hPeer) {
 			InteropHelp.TestIfAvailableClient();
@@ -225,7 +253,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Set a name for the connection, used mostly for debugging</para>
-		/// <para>设置连接的名称，主要用于调试</para>
+		/// <para>设置连接名称，主要用于调试。</para>
 		/// </summary>
 		public static void SetConnectionName(HSteamNetConnection hPeer, string pszName) {
 			InteropHelp.TestIfAvailableClient();
@@ -236,7 +264,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Fetch connection name.  Returns false if handle is invalid</para>
-		/// <para>获取连接名称。如果句柄无效，返回false</para>
+		/// <para>获取连接名称。如果句柄无效则返回false</para>
 		/// </summary>
 		public static bool GetConnectionName(HSteamNetConnection hPeer, out string pszName, int nMaxLen) {
 			InteropHelp.TestIfAvailableClient();
@@ -281,7 +309,11 @@ namespace Steamworks {
 		/// <para>   we were not ready to send it.</para>
 		/// <para> - k_EResultLimitExceeded: there was already too much data queued to be sent.</para>
 		/// <para>   (See k_ESteamNetworkingConfig_SendBufferSize)</para>
-		/// <para>将消息发送到指定连接的远程主机。 NSENDFLAGS确定将提供的交付保证，何时应缓冲数据等。例如k_nsteamnetworkingsend_unrable 请注意，我们用于消息的语义与标准“流”插座的语义不完全相同。（SOCK_STREAM）对于普通流插座，块之间的边界不被认为是相关的，并且编写的数据块的大小不一定与另一端读取的块返回的块的大小相匹配。远程主机可能会阅读部分部分，或者可能会合并。但是，对于此处使用的消息语义，尺寸将匹配。每个发送呼叫都将匹配远程主机上的成功读取通话。如果将现有的面向流的代码移植到可靠消息的语义上，则代码应起作用，因为可靠的消息语义比流语义更严格。唯一的警告是与性能有关：每张电话开销可以保留消息大小，因此，如果您的代码发送了许多少量数据，则性能会受到影响。任何基于流插座的代码不编写过多的块，都可以在没有任何更改的情况下工作。 PoutMessageNumber是一个可选的指针，如果发送成功，则接收分配给消息的消息号。 返回：-K_ERESULTINVALIDPARAM：无效连接句柄，或单个消息太大。（请参阅K_CBMAXSTEAMNETWORKOCKECTESMESSIZESENDEND）-K_ERESULTINVALIDSTATE：连接处于无效状态-K_ERESULTNOCONNECTION：CONNECTION结束-K_eresultignored：您使用了K_NSTEAMNETWORKINGESENDENGINGESEND_NODELAYED_NODELAY，并且该消息未准备就绪。-K_ERESULTLIMITEXCEEDED：已经有太多数据排队了。（请参阅k_esteamnetworkingconfig_sendbuffersize）</para>
+		/// <para>向指定连接的远程主机发送消息。</para>
+		/// <para>nSendFlags 确定将提供的交付保证、数据应缓冲的时间等。例如，k_nSteamNetworkingSend_Unreliable</para>
+		/// <para>请注意，我们用于消息的语义与标准“流”套接字（SOCK_STREAM）的语义并不完全相同。对于普通的流套接字，数据块之间的边界不被认为是相关的，写入的数据块的大小与接收端返回的块的大小可能不匹配。远程主机可能会读取部分块，或者块可能会合并。但是，这里使用的消息语义中，大小会一一匹配。每个发送调用会对应于远程主机上的成功读取调用。如果您正在将面向流的代码移植到可靠消息的语义中，您的代码应该会正常工作，因为可靠消息语义比流语义更严格。唯一的注意事项是与性能相关：由于需要保留消息大小，因此如果您的代码发送大量小数据块，性能会受到影响。任何基于流套接字且不写入过度小数据块的代码都不会需要任何更改。</para>
+		/// <para>pOutMessageNumber 是一个可选的指针，用于接收消息编号，如果发送成功。</para>
+		/// <para>Returns: - k_EResultInvalidParam: 无效连接句柄，或消息太大。（参见 k_cbMaxSteamNetworkingSocketsMessageSizeSend）- k_EResultInvalidState: 连接处于无效状态 - k_EResultNoConnection: 连接已断开 - k_EResultIgnored: 您使用了 k_nSteamNetworkingSend_NoDelay，消息被丢弃是因为我们无法发送它。- k_EResultLimitExceeded: 已有太多的数据排队发送。（参见 k_ESteamNetworkingConfig_SendBufferSize）</para>
 		/// </summary>
 		public static EResult SendMessageToConnection(HSteamNetConnection hConn, IntPtr pData, uint cbData, int nSendFlags, out long pOutMessageNumber) {
 			InteropHelp.TestIfAvailableClient();
@@ -316,7 +348,12 @@ namespace Steamworks {
 		/// <para> -k_EResultInvalidState if the connection was in an invalid state.</para>
 		/// <para> See ISteamNetworkingSockets::SendMessageToConnection for possible</para>
 		/// <para> failure codes.</para>
-		/// <para>在不复制消息有效载荷的情况下发送一条或多个消息。这是发送消息的最有效方法。要使用此函数，您必须首先使用ISTeamNetworkingutils :: SycateMessage分配消息对象。（不要在堆栈上声明一个或分配您自己的。） 您应该填写消息有效载荷。您可以让它为您分配缓冲区，然后填写有效载荷，或者如果您已经分配了缓冲区，则可以将M_PDATA指向缓冲区，然后将回调设置为适当的功能以释放它。请注意，如果您使用自己的缓冲区，则必须保持有效，直到执行回调为止。还要注意，您可以随时从任何线程调用您的回调（也许甚至在发送汇款之前！），因此它必须是快速且线程安全的。 您还必须填写： -  m_conn-连接的句柄，以将消息发送到-M_NFLAGS -K_NSTEAMNETWORKINGESDEND_XXX标志的bitmask。 当前所有其他字段均已保留，不应修改。 图书馆将拥有消息结构的所有权。它们可能会随时修改或无效，因此将它们传递给此功能后，不得阅读它们。 poutmessagenumberorresult是一个可选的数组，对于每条消息，如果发送成功，将收到分配给消息的消息号。如果发送失败，则将负的eResult值放在数组中。例如，如果连接处于无效状态，则数组将保持-K_ERESULTINVALIDSTATE。有关可能的故障代码，请参见IsteamNetworkockets :: sendmessagetoconnection。</para>
+		/// <para>发送一条或多条消息，不要复制消息负载。这是最有效的方法来发送消息。要使用此函数，您首先必须使用 ISteamNetworkingUtils::AllocateMessage 分配消息对象。（不要在堆上声明或分配您自己的对象。）</para>
+		/// <para>你应该填充消息负载。你可以让它为你分配缓冲区，然后填充负载，或者如果你已经分配了缓冲区，你可以直接将 m_pData 指向你的缓冲区，并设置回调函数到适当的函数中以释放它。请注意，如果使用你自己的缓冲区，它必须在回调执行之前保持有效。并且请注意，你的回调可以在任何时间从任何线程（甚至在 SendMessages 返回之前！）被调用，因此它必须快速且线程安全。</para>
+		/// <para>Okay, I understand. Please provide the content you want me to translate and fill in the specified fields.</para>
+		/// <para>所有其他字段目前已被保留，请勿修改。</para>
+		/// <para>图书馆将拥有消息结构的控制权。这些结构可能会被修改或变得无效，因此您在将它们传递给此函数后，不得再次读取它们。</para>
+		/// <para>pOutMessageNumberOrResult 是一个可选的数组，它将为每个消息接收消息编号，如果发送成功。如果发送失败，则将负 EResult 值放入数组中。例如，数组将包含 -k_EResultInvalidState，如果连接处于无效状态。请参见 ISteamNetworkingSockets::SendMessageToConnection 以获取可能的失败代码。</para>
 		/// </summary>
 		public static void SendMessages(int nMessages, IntPtr[] pMessages, long[] pOutMessageNumberOrResult) {
 			InteropHelp.TestIfAvailableClient();
@@ -335,7 +372,9 @@ namespace Steamworks {
 		/// <para> k_EResultInvalidState: connection is in an invalid state</para>
 		/// <para> k_EResultNoConnection: connection has ended</para>
 		/// <para> k_EResultIgnored: We weren't (yet) connected, so this operation has no effect.</para>
-		/// <para>冲洗所有等待Nagle计时器的消息，然后将其发送到下一个传输机会（通常意味着现在）。 如果启用了纳格尔（默认情况下为），则在调用sendmessagetoconnection时，该消息将被缓冲，直到发送前的纳格勒时间，以将小消息合并到同一数据包中。（请参阅k_esteamnetworkingconfig_nagletime） 返回：K_ERESULTINVALIDPARAM：无效连接句柄K_ERESULTINVALIDSTATE：连接处于无效状态k_eresultNoconnection：连接结束了k_eresultignored：我们尚未（我们）连接，因此此操作没有影响。</para>
+		/// <para>清除 Nagle 计时器上的任何等待消息，并在下一次传输机会时发送它们（通常意味着现在）。</para>
+		/// <para>如果Nagle已启用（默认启用），则调用SendMessageToConnection时，消息将被缓冲，直到Nagle时间之前，将小消息合并到同一包中。（参见k_ESteamNetworkingConfig_NagleTime）</para>
+		/// <para>Returns: k_EResultInvalidParam: 无效连接句柄 k_EResultInvalidState: 连接处于无效状态 k_EResultNoConnection: 连接已断开 k_EResultIgnored: 我们尚未连接，因此此操作没有效果。</para>
 		/// </summary>
 		public static EResult FlushMessagesOnConnection(HSteamNetConnection hConn) {
 			InteropHelp.TestIfAvailableClient();
@@ -355,7 +394,10 @@ namespace Steamworks {
 		/// <para> If any messages are returned, you MUST call SteamNetworkingMessage_t::Release() on each</para>
 		/// <para> of them free up resources after you are done.  It is safe to keep the object alive for</para>
 		/// <para> a little while (put it into some queue, etc), and you may call Release() from any thread.</para>
-		/// <para>从连接（如果有）获取下一个可用消息。返回返回到您的数组的消息数，最多可达NMAXMESSAGES。如果连接句柄无效，则返回-1。 在数组中返回的消息的顺序是相关的。将以发送的顺序收到可靠的消息（并且具有相同的尺寸 -   - 与流插座的这种微妙差异，请参见SendMessAgetoconnection。 不可靠的消息可能会被删除，也可以相互相互交付或相对于可靠的消息传递。可以多次接收相同的不可靠消息。 如果返回任何消息，则必须在完成后每个邮件中拨打STEAMNetworkingMessage_t :: Release（）释放资源。保持对象存活一会儿是安全的（将其放入一些队列等），您可以从任何线程中调用Release（）。</para>
+		/// <para>获取连接中可用的下一个消息（消息），如果存在。返回返回的消息数量，最多 nMaxMessages 条。如果连接句柄无效，则返回 -1。</para>
+		/// <para>消息返回的顺序相关。可靠的消息会按照它们发送的顺序收到（并且具有相同的尺寸---参见 SendMessageToConnection 关于这一点与流套接字之间的微妙差异）。</para>
+		/// <para>不可靠的消息可能丢失，或者与可靠消息之间顺序错乱，或者彼此之间顺序错乱。相同的不可靠消息可能被接收多次。</para>
+		/// <para>如果收到任何消息，必须在完成使用后调用 SteamNetworkingMessage_t::Release() 释放它们，以释放资源。可以安全地将对象保留一段时间（放入队列等），并且可以在任何线程中调用 Release()。</para>
 		/// </summary>
 		public static int ReceiveMessagesOnConnection(HSteamNetConnection hConn, IntPtr[] ppOutMessages, int nMaxMessages) {
 			InteropHelp.TestIfAvailableClient();
@@ -367,7 +409,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns basic information about the high-level state of the connection.</para>
-		/// <para>返回有关连接高级状态的基本信息。</para>
+		/// <para>返回连接的高层状态基本信息。</para>
 		/// </summary>
 		public static bool GetConnectionInfo(HSteamNetConnection hConn, out SteamNetConnectionInfo_t pInfo) {
 			InteropHelp.TestIfAvailableClient();
@@ -387,7 +429,9 @@ namespace Steamworks {
 		/// <para> Return value:</para>
 		/// <para> - k_EResultNoConnection - connection handle is invalid or connection has been closed.</para>
 		/// <para> - k_EResultInvalidParam - nLanes is bad</para>
-		/// <para>返回有关连接实时状态和每个车道队列状态的一小部分信息。 - 如果不需要信息，则PSTATUS可能为null。（例如，您只对车道信息感兴趣。） - 进入时，Nlanes指定了飞机阵列的长度。如果您不希望收到任何车道数据，这可能是0。可以小于配置的车道的总数。- 飞机指向将接收特定于车道的信息的阵列。如果不需要的话，它可能是零的。 返回值：-k_eresultNoconnection-连接句柄无效或连接已关闭。-K_ERESULTINVALIDPARAM -NLANES不好</para>
+		/// <para>返回关于实时连接状态和每个车道队列状态的一小部分信息。</para>
+		/// <para>- pStatus 可能会是 NULL，如果不需要该信息。 (例如，你只对赛道信息感兴趣。) - 在进入时，nLanes 指定 pLanes 数组的长度。如果不需要接收任何赛道数据，可以将其设置为 0。允许该值小于配置的总赛道数。 - pLanes 指向一个数组，该数组将接收赛道特定信息。如果不需要，它也可以是 NULL。</para>
+		/// <para>返回值：- k_EResultNoConnection - 连接句柄无效或连接已关闭。- k_EResultInvalidParam - nLanes 无效</para>
 		/// </summary>
 		public static EResult GetConnectionRealTimeStatus(HSteamNetConnection hConn, ref SteamNetConnectionRealTimeStatus_t pStatus, int nLanes, ref SteamNetConnectionRealTimeLaneStatus_t pLanes) {
 			InteropHelp.TestIfAvailableClient();
@@ -402,7 +446,8 @@ namespace Steamworks {
 		/// <para> 0 OK, your buffer was filled in and '\0'-terminated</para>
 		/// <para> &gt;0 Your buffer was either nullptr, or it was too small and the text got truncated.</para>
 		/// <para>    Try again with a buffer of at least N bytes.</para>
-		/// <para>返回文本格式的详细连接统计数据。对于倾倒到日志，很有用，等等。 返回：-1失败（不良连接句柄）0好吧，您的缓冲区被填充了，'\ 0' -termined> 0您的缓冲区是nullptr，或者太小，文本被截断了。再用至少n个字节的缓冲区重试。</para>
+		/// <para>返回详细的连接统计信息，以文本格式。 方便导出到日志等。</para>
+		/// <para>Returns: -1 failure (bad connection handle) 0 OK, your buffer was filled in and '\0'-terminated >0 Your buffer was either nullptr, or it was too small and the text got truncated. Try again with a buffer of at least N bytes.</para>
 		/// </summary>
 		public static int GetDetailedConnectionStatus(HSteamNetConnection hConn, out string pszBuf, int cbBuf) {
 			InteropHelp.TestIfAvailableClient();
@@ -417,7 +462,8 @@ namespace Steamworks {
 		/// <para> Returns local IP and port that a listen socket created using CreateListenSocketIP is bound to.</para>
 		/// <para> An IPv6 address of ::0 means "any IPv4 or IPv6"</para>
 		/// <para> An IPv6 address of ::ffff:0000:0000 means "any IPv4"</para>
-		/// <para>返回使用createlistensocketip创建的侦听套接字的本地IP和端口。 :: 0的IPv6地址是指:: FFFF：0000：0000的IPv6地址“任何IPv4或IPv6”的意思是“任何IPv4”</para>
+		/// <para>返回使用 CreateListenSocketIP 创建的监听套接字绑定到的本地 IP 和端口。</para>
+		/// <para>一个 IPv6 地址为 ::0 表示“任何 IPv4 或 IPv6”。一个 IPv6 地址为 ::ffff:0000:0000 表示“任何 IPv4”。</para>
 		/// </summary>
 		public static bool GetListenSocketAddress(HSteamListenSocket hSocket, out SteamNetworkingIPAddr address) {
 			InteropHelp.TestIfAvailableClient();
@@ -442,7 +488,10 @@ namespace Steamworks {
 		/// <para> identity.  Otherwise, if you pass nullptr, the respective connection will assume a generic</para>
 		/// <para> "localhost" identity.  If you use real network loopback, this might be translated to the</para>
 		/// <para> actual bound loopback port.  Otherwise, the port will be zero.</para>
-		/// <para>创建一对正在互相交谈的连接，例如环回连接。这对于测试非常有用，或者即使您运行本地“服务器”，您的客户端/服务器代码也可以工作相同。 这两个连接将立即放置在连接状态，不会立即发布回调。此后，如果您关闭了任何一个连接，则其他连接将接收回调，就像它们通过网络通信一样。您必须关闭 *两侧才能完全清理资源！ 默认情况下，使用内部缓冲区，完全绕过网络，将消息切碎到数据包中，加密，复制有效负载等。这意味着默认情况下，环回数据包不会模拟滞后或丢失。通过busenetworkloopback进行TRUE会导致套接对对通过临时端口上的本地网络环回设备（127.0.0.1）发送数据包。在这种情况下，支持假滞后和损失，而CPU时间则用于加密和解密。 如果您希望将特定的身份分配给任何一个连接，则可以通过特定的身份。否则，如果您通过NullPtr，则相应的连接将假定通用的“ localhost”身份。如果您使用实际网络回环，则可以将其转换为实际绑定环回端口。否则，端口将为零。</para>
+		/// <para>创建一对连接，它们相互通信，例如回环连接。这对于测试非常有用，或者使您的客户端/服务器代码即使在本地运行“服务器”时也能相同工作。</para>
+		/// <para>两个连接会立即进入已连接状态，不会立即发布任何回调。之后，如果关闭其中任何一个连接，另一个连接会收到回调，就像它们在网络上进行通信一样。必须关闭双方才能完全清理资源！</para>
+		/// <para>默认情况下，内部缓冲区将被使用，完全绕过网络，消息被切分成数据包，加密、复制有效负载等操作。这意味着，默认情况下，回环包不会模拟延迟或丢包。如果将 `bUseNetworkLoopback` 设置为 `true`，则套件对将在非永生端口上通过本地网络回环设备 (127.0.0.1) 发送数据包。在这种情况下，支持模拟延迟和丢包，并且会消耗 CPU 时间进行加密和解密。</para>
+		/// <para>如果您希望为连接指定特定的身份，可以传递特定的身份。否则，如果传递 nullptr，相应的连接将假设一个通用的“localhost”身份。如果使用真实网络回环，这可能会翻译为实际绑定的回环端口。否则，端口将为零。</para>
 		/// </summary>
 		public static bool CreateSocketPair(out HSteamNetConnection pOutConnection1, out HSteamNetConnection pOutConnection2, bool bUseNetworkLoopback, ref SteamNetworkingIdentity pIdentity1, ref SteamNetworkingIdentity pIdentity2) {
 			InteropHelp.TestIfAvailableClient();
@@ -511,7 +560,13 @@ namespace Steamworks {
 		/// <para> - k_EResultInvalidState - Connection is already dead, etc</para>
 		/// <para> See also:</para>
 		/// <para> SteamNetworkingMessage_t::m_idxLane</para>
-		/// <para>在连接上配置多个出站消息流（“ LANES”），并控制它们之间的线主线阻塞。给定车道内的消息始终按排队的顺序发送，但是来自不同车道的消息可能会过失。每个车道都有自己的消息号序列。每个车道上发送的第一条消息将分配数字1。 每个车道都有“优先级”。只有在数字值较低的所有车道为空时，才能处理具有较高数字值的车道。优先级值的幅度不相关，只有它们的排序顺序。 每个车道还分配了一个重量，该权重控制了相对于相同优先级的其他车道，该车道将消耗的带宽的近似比例。（这是假设车道忙碌。一旦消息排队，闲置的车道就不会堆积“信用”。）相对于其他具有相同优先级的车道，该值仅作为比例的有意义。对于具有不同优先级的车道，严格的优先顺序将占上风，它们相对于彼此的权重无关紧要。因此，如果车道具有独特的优先级值，则该车道的重量值无关紧要。 示例：3个车道，具有优先级[0、10、10]和权重[（NA），20、5]。在其他两个车道中的消息之前，第一个发送的消息将始终首先发送。它的重量值无关紧要，因为没有其他泳道= 0。其他两个车道将共享带宽，第二和第三车道共享带宽的比率约为4：1。（权重[Na，4，1]是等效的。） 注意： - 在撰写本文时，某些代码的性能成本在车道数量中是线性的，因此请将车道数量保持在绝对最小值。3个左右。> 8很多。蒸汽上的最大车道数为255，这是一个非常大的数量，不建议！如果您是从源中编译此库，请参见STEAMNETWORKOCKECT_MAX_LANES。） - 巷优先级值可能是任何INT。它们的绝对价值无关紧要，只有订单很重要。- 权重必须是积极的，由于实施细节，它们仅限于16位值。绝对的幅度并不重要，只是比例。- 在电线以外的车道指数上发送的消息上有一个小的开销，因此为了最大程度地，泳道0应该是“最常见的”车道，无论优先级或重量如何。- 默认情况下，连接具有单个车道。使用nnumlanes = 1称呼此功能是合法的，但毫无意义，因为在这种情况下，优先级和权重值是无关紧要的。- 您可以随时重新配置连接车道，但是不允许减少车道数量。- 重新配置车道可能会重新启动任何带宽共享平衡。通常，在交换几条消息之后，您会在连接开始时接近一次此功能。- 为了分配所有相同优先级，您可以使用planepriority = null。- 如果您希望所有具有相同优先级的车道平等共享带宽（或者没有两个车道具有相同的优先级值，因此优先级值无关），则可以使用PlaneWeights = null-优先级和权重确定消息的顺序确定消息是在电线上发送的。无法保证收到消息的顺序！由于数据包丢失，订购外交付以及数据包序列化细微的细节，可能仍会收到消息稍微脱口秀！*唯一的 *强保证是 *可靠 *在 *同一车道上 *的消息将按照它们发送的顺序传递。- 每个主机都为他们发送的数据包配置车道；沿一个方向流动的车道完全与相反方向的车道无关。 返回值：-k_eresultNoconnection -BAD HCONN -K_ERESULTINVALIDPARAM-车道数量无效，重量不好，或者您尝试减少车道的数量-K_ERESULTINVALIDSTATE-连接已经死亡，等等 另请参阅：STEAMNETWORKINGMESSAGE_T :: M_IDXLANE</para>
+		/// <para>配置多个出站消息流 (“lanes”) 在一个连接上，并控制它们之间的头部分隔。 消息在一个给定的 lane 中始终按它们排队的顺序发送，但来自不同 lane 的消息可能会乱序发送。 每个 lane 都有自己的消息编号序列。 每个 lane 的第一条消息将被分配为 1。</para>
+		/// <para>每个车道都有一个“优先级”。 具有较高数字优先级的车道只有在所有具有较低数字优先级的车道都为空时才会处理。 优先级值的 magnitudes 不重要，只重要的是它们的排序。</para>
+		/// <para>每个通道也分配了一个权重，它控制了该通道将消耗的带宽的近似比例，相对于相同优先级的其他通道。 (这假设通道保持繁忙。空闲的通道不会积累“信用”用于在消息排队后花费。) 这种值仅在相对于具有相同优先级的其他通道中才有意义。对于具有不同优先级的通道，严格的优先级顺序将生效，并且它们相对于彼此的权重不相关。因此，如果一个通道具有唯一的优先级值，则该通道的权重值不相关。</para>
+		/// <para>三个车道，优先级为 [ 0, 10, 10 ]，权重为 [ (NA), 20, 5 ]。发送在第一个车道上的消息将始终优先发送，在其他两个车道上的消息之前。其权重值不重要，因为没有其他车道优先级为 0。其他两个车道将共享带宽，第二个和第三个车道使用大约 4:1 的比例共享带宽。 (权重 [ NA, 4, 1 ] 等效。)</para>
+		/// <para>笔记：- 在编写时，某些代码具有线性与行数相关的性能成本，因此请将行数保持在绝对最小值，3个左右是可以的；>8 太多了。Steam 的最大行数为 255，这是一个非常大的数字，不建议使用！如果您从源代码编译此库，请参阅 STEAMNETWORKINGSOCKETS_MAX_LANES。- 行优先级值可以是任何 int。它们的绝对值不相关，仅顺序很重要。- 权重必须为正数，并且由于实现细节，它们受到 16 位值的限制。绝对的幅度无关紧要，只是比例。- 在非 0 行索引上发送的消息会产生少量线路开销，因此为了最大限度地提高线路效率，应将行 0 作为“最常见”的行，无论优先级或权重如何。- 连接默认具有单行。使用 nNumLanes=1 调用此函数是合法的，但毫无意义，因为在这种情况下的优先级和权重值均不相关。- 可以在任何时候重新配置行，但减少行数是不允许的。- 重新配置行可能会重新启动任何带宽共享平衡。通常您会调用此函数一次，在连接的开始附近，例如在交换了几条消息后。- 要为所有行分配相同的优先级，可以使用 pLanePriorities=NULL。- 如果您希望具有相同优先级的所有行以相同的带宽共享（或如果没有任何两个行优先级值，因此优先级值不相关），则可以使用 pLaneWeights=NULL - 优先级和权重确定消息发送的顺序。但没有关于接收消息的顺序的保证！由于包丢失、乱序交付和细微的包序列化细节，消息仍然可能略微乱序接收。*唯一*的保证是*可靠*消息在*同一行*上的交付顺序与发送顺序相同。</para>
+		/// <para>返回值：- k_EResultNoConnection - bad hConn - k_EResultInvalidParam - 无效的 lane 数、无效的权重，或者你尝试减少 lane 数 - k_EResultInvalidState - 连接已断开，等。</para>
+		/// <para>参见：SteamNetworkingMessage_t::m_idxLane</para>
 		/// </summary>
 		public static EResult ConfigureConnectionLanes(HSteamNetConnection hConn, int nNumLanes, int[] pLanePriorities, ushort[] pLaneWeights) {
 			InteropHelp.TestIfAvailableClient();
@@ -525,7 +580,8 @@ namespace Steamworks {
 		/// <para> to the gameserver.  Returns false and sets the result to an invalid identity if we don't know</para>
 		/// <para> our identity yet.  (E.g. GameServer has not logged in.  On Steam, the user will know their SteamID</para>
 		/// <para> even if they are not signed into Steam.)</para>
-		/// <para>身份和身份验证 将身份分配给此接口。例如。在Steam上，这是用户的Steamid，或者对于GameServer接口，分配给Gameserver的Steamid。如果我们还不知道自己的身份，则返回false并将结果设置为无效的身份。（例如，GameServer尚未登录。在Steam上，即使未登录Steam，用户也会知道他们的Steamid。）</para>
+		/// <para>身份验证和认证</para>
+		/// <para>获取该接口的身份标识。例如，在Steam上，这是用户的SteamID，或者对于游戏服务器接口，是分配给游戏服务器的SteamID。如果尚未知道我们的身份，则返回false并将结果设置为无效身份。 (例如，GameServer尚未登录。在Steam上，用户即使未登录Steam，也知道他们的SteamID。)</para>
 		/// </summary>
 		public static bool GetIdentity(out SteamNetworkingIdentity pIdentity) {
 			InteropHelp.TestIfAvailableClient();
@@ -552,7 +608,11 @@ namespace Steamworks {
 		/// <para> You can use GetAuthenticationStatus or listen for SteamNetAuthenticationStatus_t</para>
 		/// <para> to monitor the status.</para>
 		/// <para> Returns the current value that would be returned from GetAuthenticationStatus.</para>
-		/// <para>表明我们希望准备参加身份验证的通信。如果我们目前还没有准备好，则将采取步骤以获得必要的证书。（这包括我们的证书，以及对同行进行身份验证所需的任何CA证书。） 如果您知道要建立经过身份验证的连接，则可以在程序初始时间进行调用，以便我们在尝试这些连接时立即准备就绪。（请注意，基本上所有连接都需要身份验证，除了使用k_esteamnetworkingconfig_ip_lowerwithoutautautauthauth禁用身份验证的普通UDP连接以外。）如果您不调用此功能，我们将等到需要这些资源的功能。 如果发生故障，您也可以调用此功能迫使重试。一旦尝试并失败，我们将不会自动重试。在这方面，尝试和失败后系统的行为与第一次尝试之前相同：尝试认证的通信或调用此功能将调用系统以尝试获取必要的资源。 您可以使用getAuthenticationStatus或收听STEAMNETAUTHENTICATION STATUS_T来监视状态。 返回将从getAuthenticationStatus返回的当前值。</para>
+		/// <para>表明我们希望准备好参与认证通信。如果目前尚未准备好，则将采取措施获取所需的证书。 （包括一个用于我们的证书，以及用于认证同伴所需的任何CA证书。）</para>
+		/// <para>如果在程序初始化时如果知道你将要进行认证连接，你可以调用它，这样我们就能立即准备好，当这些连接尝试时。 (请注意，基本上所有连接都需要认证，除了使用 k_ESteamNetworkingConfig_IP_AllowWithoutAuth 禁用认证的普通 UDP 连接。) 如果你没有调用此函数，我们会在某个功能被使用时才准备这些资源。</para>
+		/// <para>你也可以调用这个函数来强制重试，如果发生失败情况。一旦我们尝试并失败，就不会自动重试。 在这种情况下，系统在尝试并失败后，行为与第一次尝试之前完全相同：尝试进行身份验证通信或调用此函数都会将系统引导至尝试获取所需资源。</para>
+		/// <para>你可以使用 GetAuthenticationStatus 或监听 SteamNetAuthenticationStatus_t 来监控状态。</para>
+		/// <para>Returns the current value that would be returned from GetAuthenticationStatus.</para>
 		/// </summary>
 		public static ESteamNetworkingAvailability InitAuthentication() {
 			InteropHelp.TestIfAvailableClient();
@@ -566,7 +626,8 @@ namespace Steamworks {
 		/// <para> The value of SteamNetAuthenticationStatus_t::m_eAvail is returned.  If you only</para>
 		/// <para> want this high level status, you can pass NULL for pDetails.  If you want further</para>
 		/// <para> details, pass non-NULL to receive them.</para>
-		/// <para>查询我们准备参加身份验证的通信。随时发布此状态时，都会发布STEAMNETAUTHENTICATION STATUS_T回调，但是您可以随时使用此功能查询。 返回STEAMNETAUTHENTICATION STATUS_T :: M_EAVAIL的值。如果您只想要此高级别状态，则可以通过null进行pdetails。如果您想进一步的详细信息，请通过非无效接收。</para>
+		/// <para>查询我们参与身份验证通信的准备情况。当此状态发生变化时，会发布一个 SteamNetAuthenticationStatus_t 回调，但您可以使用此函数随时查询它。</para>
+		/// <para>返回 SteamNetAuthenticationStatus_t::m_eAvail 的值。 如果您只想获取此高级状态，则将 pDetails 设置为 NULL。 如果您需要更多详细信息，则将 pDetails 设置为非 NULL 以接收它们。</para>
 		/// </summary>
 		public static ESteamNetworkingAvailability GetAuthenticationStatus(out SteamNetAuthenticationStatus_t pDetails) {
 			InteropHelp.TestIfAvailableClient();
@@ -579,7 +640,9 @@ namespace Steamworks {
 		/// <para> actually don't have an API to "poll" the connection *state*, like BSD sockets.)</para>
 		/// <para> Create a new poll group.</para>
 		/// <para> You should destroy the poll group when you are done using DestroyPollGroup</para>
-		/// <para>民意调查小组。民意测验组是一组可以有效进行轮询的连接。（在我们的API中，要“民意调查”一个连接意味着检索所有等待消息的连接。实际上，我们没有像BSD插座一样“轮询”连接 *状态 *的API。） 创建一个新的民意调查小组。 使用DestroypollGroup完成后，您应该销毁民意测验组</para>
+		/// <para>民意调查组。民意调查组是一组可以高效进行调查的连接。 (在我们的API中，“调查”一个连接意味着检索所有待处理的消息。我们实际上没有“调查”连接*状态*的API，例如BSD套接字。)</para>
+		/// <para>Create a new poll group.</para>
+		/// <para>你应该在完成使用时销毁该投票组。</para>
 		/// </summary>
 		public static HSteamNetPollGroup CreatePollGroup() {
 			InteropHelp.TestIfAvailableClient();
@@ -591,7 +654,8 @@ namespace Steamworks {
 		/// <para> If there are any connections in the poll group, they are removed from the group,</para>
 		/// <para> and left in a state where they are not part of any poll group.</para>
 		/// <para> Returns false if passed an invalid poll group handle.</para>
-		/// <para>破坏一个用CreatePollGroup（）创建的民意调查组。 如果民意测验组中有任何连接，则将它们从组中删除，并留在不属于任何民意调查组的状态。如果通过了无效的民意调查组手柄，则返回false。</para>
+		/// <para>Destroy a poll group created with CreatePollGroup().</para>
+		/// <para>如果投票组中存在任何连接，则从组中移除它们，并将它们置于不再属于任何投票组的状态。如果传入无效的投票组句柄，则返回 false。</para>
 		/// </summary>
 		public static bool DestroyPollGroup(HSteamNetPollGroup hPollGroup) {
 			InteropHelp.TestIfAvailableClient();
@@ -610,7 +674,10 @@ namespace Steamworks {
 		/// <para> group at the time that the messages were received.</para>
 		/// <para> Returns false if the connection handle is invalid, or if the poll group handle</para>
 		/// <para> is invalid (and not k_HSteamNetPollGroup_Invalid).</para>
-		/// <para>将连接分配给民意测验组。请注意，连接只能属于一个民意调查组。添加与民意测验组的连接可以隐式地将其从其所在的任何其他民意测验组中删除。 您可以将K_HSTEAMNETPOLLGROUP_INVALID传递到其当前民意测验组中的连接，而无需将其添加到新的民意调查组中。 如果当前在连接上有收到的消息，请尝试将其添加到民意测验组的消息队列中，以大约在接收到消息时的连接已属于民意测验组的一部分时，将其添加。 如果连接句柄无效，则返回false，或者民意测验组的句柄无效（而不是K_HSTEAMNETPOLLGROUP_INVALID）。</para>
+		/// <para>分配一个连接到投票组。请注意，一个连接只能属于一个投票组。将一个连接分配给一个投票组会使其从它所属于的任何其他投票组中移除。</para>
+		/// <para>你可以通过传递 k_HSteamNetPollGroup_Invalid 来移除连接从其当前的 poll group 中，而无需将其添加到新的 poll group。</para>
+		/// <para>如果当前连接上存在待处理的消息，则会尝试将它们添加到 poll 组的消息队列中，大致按照如果该连接在消息接收时就已经属于 poll 组时所应用的顺序添加。</para>
+		/// <para>如果连接句柄无效，或者如果 poll 组句柄无效（且不为 k_HSteamNetPollGroup_Invalid），则返回 false。</para>
 		/// </summary>
 		public static bool SetConnectionPollGroup(HSteamNetConnection hConn, HSteamNetPollGroup hPollGroup) {
 			InteropHelp.TestIfAvailableClient();
@@ -631,7 +698,9 @@ namespace Steamworks {
 		/// <para> (But the messages are not grouped by connection, so they will not necessarily</para>
 		/// <para> appear consecutively in the list; they may be interleaved with messages for</para>
 		/// <para> other connections.)</para>
-		/// <para>与ceverivemessagesonconnection相同，但将返回投票组中任何连接上可用的下一条消息。检查SteamnetworkingMessage_t :: m_conn了解哪个连接。（SteamnetworkingMessage_t :: m_nconnuserdata也可能有用。） 不同连接之间的消息的交付顺序通常与收到完成消息的最后一个数据包的顺序相匹配。但这并不是一个强大的保证，尤其是对于收到的数据包，因为将连接分配给民意调查小组。 在相同连接上的消息的传递顺序是很好的定义，并且与接收综合中提到相同的保证。（但是消息不是通过连接分组的，因此它们不一定会连续出现在列表中；它们可能与其他连接的消息交织在一起。）</para>
+		/// <para>与 ReceiveMessagesOnConnection 相同，但会返回任何连接池中的可用消息。可以通过 Examine SteamNetworkingMessage_t::m_conn 来确定哪个连接。 (SteamNetworkingMessage_t::m_nConnUserData 也可能很有用。)</para>
+		/// <para>消息在不同连接之间交付的顺序通常会与最后一个已接收到的数据包完成消息的顺序相匹配。但是，这并不是一个强有力的保证，尤其是在连接被分配到轮询组时接收到的数据包时。</para>
+		/// <para>同一连接的消息传递顺序已明确定义，并且具有 ReceiveMessagesOnConnection 中所述相同的保证。 (但消息未按连接分组，因此它们不会一定出现在列表中连续出现，可能会与其他连接的消息交错。)</para>
 		/// </summary>
 		public static int ReceiveMessagesOnPollGroup(HSteamNetPollGroup hPollGroup, IntPtr[] ppOutMessages, int nMaxMessages) {
 			InteropHelp.TestIfAvailableClient();
@@ -649,7 +718,9 @@ namespace Steamworks {
 		/// <para> Call this when you receive a ticket from your backend / matchmaking system.  Puts the</para>
 		/// <para> ticket into a persistent cache, and optionally returns the parsed ticket.</para>
 		/// <para> See stamdatagram_ticketgen.h for more details.</para>
-		/// <para>使用游戏协调员发行的门票连接到在数据中心托管的专用服务器的客户。如果您没有发行自己的门票来限制谁可以尝试连接到服务器，那么您将不会使用这些功能。 当您收到后端 /对接系统的机票时，请致电此事。将机票放入持续的缓存中，并可选地返回解析的票。 有关更多详细信息，请参见Stamdatagram_ticketgen.h。</para>
+		/// <para>客户端连接到数据中心托管的专用服务器，使用由你的游戏协调器签发的门票。如果你没有签发自己的门票来限制尝试连接服务器的人员，则不会使用这些功能。</para>
+		/// <para>请在收到来自后端/匹配系统中的票据时调用此方法。将票据放入持久性缓存中，并可选地返回解析后的票据。</para>
+		/// <para>查看 stamdatagram_ticketgen.h 了解更多详情。</para>
 		/// </summary>
 		public static bool ReceivedRelayAuthTicket(IntPtr pvTicket, int cbTicket, out SteamDatagramRelayAuthTicket pOutParsedTicket) {
 			InteropHelp.TestIfAvailableClient();
@@ -662,7 +733,8 @@ namespace Steamworks {
 		/// <para> the complete cracked ticket.  Returns 0 if we don't have a ticket.</para>
 		/// <para> Typically this is useful just to confirm that you have a ticket, before you</para>
 		/// <para> call ConnectToHostedDedicatedServer to connect to the server.</para>
-		/// <para>在指定的虚拟端口上搜索缓存的票证，以与服务器交谈。如果发现，请返回票数，直到门票到期为止，并选择完整破裂的机票。如果我们没有票，则返回0。 通常，这对于确认您有票很有用，然后在调用ConnectTototoTohostDedicatedServer之前连接到服务器。</para>
+		/// <para>搜索缓存中是否有指定虚拟端口的服务器票据。如果找到，则返回票据到期前的秒数，并可选地返回完整的已破解票据。如果没有票据，则返回 0。</para>
+		/// <para>通常这只是为了确认您是否有票，在调用ConnectToHostedDedicatedServer连接到服务器之前。</para>
 		/// </summary>
 		public static int FindRelayAuthTicketForServer(ref SteamNetworkingIdentity identityGameServer, int nRemoteVirtualPort, out SteamDatagramRelayAuthTicket pOutParsedTicket) {
 			InteropHelp.TestIfAvailableClient();
@@ -683,7 +755,10 @@ namespace Steamworks {
 		/// <para> If you need to set any initial config options, pass them here.  See</para>
 		/// <para> SteamNetworkingConfigValue_t for more about why this is preferable to</para>
 		/// <para> setting the options "immediately" after creation.</para>
-		/// <para>客户端呼叫连接到指定虚拟端口上托管的服务器托管的服务器。您必须将此服务器的票证放入缓存中，否则此连接尝试将失败！如果您不发行自己的门票，请通过自动门票模式下的SDR连接到专用服务器，请使用ConnectP2P。（必须配置服务器以通过使用CreatelisTensocketp2p侦听来允许这种类型的连接。） 您可能会想知道为什么门票存储在缓存中，而不是简单地在此处传递。原因是即使客户端计算机失去了与Steam或Central后端的连接，或者应用程序已重新启动或崩溃，也要重新连接到GamesServer强大的鲁棒。 如果您使用此功能，则可能要调用ISTeamNetworkingutils :: initrelaynetworkAccess（）当您的应用程序初始化时 如果您需要设置任何初始配置选项，请在此处传递。有关为什么在创建后“立即”设置选项的原因，请参见STEAMNETWORKINGCONFIGVALUE_T。</para>
+		/// <para>与在 Valve 数据中心托管的服务器建立客户端连接，在指定虚拟端口上。您必须已将此服务器的票务放入缓存中，否则此连接尝试将失败！如果您没有自行创建票务，则通过 SDR 以自动票务模式连接到专用服务器，请使用 ConnectP2P。 (服务器必须配置为允许通过使用 CreateListenSocketP2P 监听此类型连接。)</para>
+		/// <para>您可能会想知道为什么门票存储在缓存中，而不是直接作为参数传递在这里。原因是即使客户端计算机丢失与Steam或中央后端之间的连接，或者应用程序重新启动或崩溃等情况发生，也能实现对游戏服务器的健壮重新连接。</para>
+		/// <para>如果你使用这个，你可能需要调用 ISteamNetworkingUtils::InitRelayNetworkAccess() 当你的应用初始化时。</para>
+		/// <para>如果您需要设置任何初始配置选项，请在此处提供。有关为何更喜欢“立即”设置选项而不是在创建后设置选项的更多信息，请参见 SteamNetworkingConfigValue_t。</para>
 		/// </summary>
 		public static HSteamNetConnection ConnectToHostedDedicatedServer(ref SteamNetworkingIdentity identityTarget, int nRemoteVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableClient();
@@ -698,7 +773,9 @@ namespace Steamworks {
 		/// <para> In development, you'll need to set it yourself.  See</para>
 		/// <para> https://partner.steamgames.com/doc/api/ISteamNetworkingSockets</para>
 		/// <para> for more information on how to configure dev environments.</para>
-		/// <para>托管在阀继电器网络已知的数据中心中的服务器 返回SDR_LISTEN_PORT环境变量的值。这是您的服务器将要侦听的UDP服务器。这将在生产环境中自动为您配置。 在开发中，您需要自己设置。有关如何配置DEV环境，请参见https://partner.steamgames.com/doc/api/isteamnetworkingsocketsocketsocketsocketsockets。</para>
+		/// <para>在Valve已知的数据中心托管的服务器</para>
+		/// <para>返回 SDR_LISTEN_PORT 环境变量的值。这是您的服务器监听的 UDP 服务器。在生产环境中，这将被自动配置好。</para>
+		/// <para>在开发中，您需要自己设置。有关如何配置开发环境的更多信息，请参阅 https://partner.steamgames.com/doc/api/ISteamNetworkingSockets。</para>
 		/// </summary>
 		public static ushort GetHostedDedicatedServerPort() {
 			InteropHelp.TestIfAvailableClient();
@@ -708,7 +785,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Returns 0 if SDR_LISTEN_PORT is not set.  Otherwise, returns the data center the server</para>
 		/// <para> is running in.  This will be k_SteamDatagramPOPID_dev in non-production environment.</para>
-		/// <para>如果未设置sdr_listen_port，则返回0。否则，返回服务器正在运行的数据中心。这将是非生产环境中的k_steamdatagrampid_dev。</para>
+		/// <para>如果未设置 SDR_LISTEN_PORT，则返回 0。否则，返回服务器运行的数据中心。在非生产环境中，将返回 k_SteamDatagramPOPID_dev。</para>
 		/// </summary>
 		public static SteamNetworkingPOPID GetHostedDedicatedServerPOPID() {
 			InteropHelp.TestIfAvailableClient();
@@ -737,7 +814,12 @@ namespace Steamworks {
 		/// <para>   the cause of the failure.</para>
 		/// <para> NOTE: The returned blob is not encrypted.  Send it to your backend, but don't</para>
 		/// <para>       directly share it with clients.</para>
-		/// <para>返回有关托管服务器的信息。这包含服务器的POPID，以及可继电器可以使用的不透明路由信息将流量发送到您的服务器。 您将需要将此信息发送给您的后端，并将其放入门票中，以便继电器将知道如何将客户从客户端转发到服务器。有关更多信息，请参见SteamDatagramRelayauthticket。 另外，请注意，路由信息包含在SteamDatagramGameCoordinatorServerlogin中，因此，如果可能的话，优先使用getGameCoordinatorServerlogin将此信息发送给您的游戏协调器服务，并同时牢固地登录。 在成功的出口中，k_eresultok返回 失败的退出： - 除了k_eresultok以外的其他东西。-K_ERESULTINVALIDSTATE：我们没有配置为侦听SDR（sdr_listen_socket尚未设置。） -  k_eresultpending：我们尚未（尚未）拥有所需的身份验证信息。（请参阅getAuthenticationStatus。）如果您使用环境变量预先提取网络配置，则该数据应始终立即可用。- 将在M_DATA中放置一个非定位的诊断调试消息，该消息描述了故障原因。 注意：返回的斑点未加密。将其发送给您的后端，但不要直接与客户共享。</para>
+		/// <para>返回托管服务器的信息。此信息包含服务器的PoPID，以及用于 relays 将流量发送到您服务器的非透明路由信息。</para>
+		/// <para>您需要将此信息发送到后端，并将其放入工单中，以便中继知道如何从客户端转发流量到您的服务器。 参见 SteamDatagramRelayAuthTicket 以获取更多信息。</para>
+		/// <para>同时，路由信息包含在 SteamDatagramGameCoordinatorServerLogin 中，因此最好使用 GetGameCoordinatorServerLogin 将此信息发送到您的游戏协调器服务，并同时进行安全登录。</para>
+		/// <para>在成功退出时，k_EResultOK 会被返回。</para>
+		/// <para>失败退出：- 返回值不是 k_EResultOK。- k_EResultInvalidState：我们没有配置为监听 SDR（SDR_LISTEN_SOCKET 未设置）。- k_EResultPending：我们（目前）还没有所需的身份验证信息。（参见 GetAuthenticationStatus。）- 如果您使用环境变量预取网络配置，这些数据应始终立即可用。- 一个非本地化诊断调试消息将被放置在 m_data 中，描述失败的原因。</para>
+		/// <para>注意：返回的 blob 未加密。将其发送到你的后端，但不要直接与客户端共享。</para>
 		/// </summary>
 		public static EResult GetHostedDedicatedServerAddress(out SteamDatagramHostedAddress pRouting) {
 			InteropHelp.TestIfAvailableClient();
@@ -755,7 +837,10 @@ namespace Steamworks {
 		/// <para> If you need to set any initial config options, pass them here.  See</para>
 		/// <para> SteamNetworkingConfigValue_t for more about why this is preferable to</para>
 		/// <para> setting the options "immediately" after creation.</para>
-		/// <para>在指定的虚拟端口上创建收听套接字。要使用的物理UDP端口将由SDR_LISTEN_PORT环境变量确定。如果未配置UDP端口，则此调用将失败。 必须通过Steamgameservernetworkockets（）接口进行此调用。 当您使用票务生成器库发行自己的票时，应使用此功能。连接到此虚拟端口上的服务器的客户端将需要一张票，并且必须使用ConnectTotohostDedicatedServer连接。 如果您需要设置任何初始配置选项，请在此处传递。有关为什么在创建后“立即”设置选项的原因，请参见STEAMNETWORKINGCONFIGVALUE_T。</para>
+		/// <para>创建一个监听套接字，使用指定的虚拟端口。物理 UDP 端口将由 SDR_LISTEN_PORT 环境变量确定。如果未配置 UDP 端口，则此调用将失败。</para>
+		/// <para>这个调用必须通过 SteamGameServerNetworkingSockets() 接口进行。</para>
+		/// <para>这个函数应该在您使用票务生成器库时，自行创建票务时使用。连接到该虚拟端口的客户端需要一张票务，并且必须使用 ConnectToHostedDedicatedServer 进行连接。</para>
+		/// <para>如果您需要设置任何初始配置选项，请在此处提供。有关为何更喜欢“立即”设置选项而不是在创建后设置选项的更多信息，请参见 SteamNetworkingConfigValue_t。</para>
 		/// </summary>
 		public static HSteamListenSocket CreateHostedDedicatedServerListenSocket(int nLocalVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableClient();
@@ -788,7 +873,12 @@ namespace Steamworks {
 		/// <para> Otherwise, you will need a signed cert.</para>
 		/// <para> NOTE: The routing blob returned here is not encrypted.  Send it to your backend</para>
 		/// <para>       and don't share it directly with clients.</para>
-		/// <para>使用SteamDatagram_ParseHostedServerLogin生成可用于用后端安全登录的身份验证斑点。（请参阅Steamdatagram_gamecoordinator.h） 在调用函数之前： - 在Plogininfo（M_CBAPPDATA和M_APPDATA）中填充应用程序数据。您可以将所有其他字段放在非初始化的情况下。-  *PCBSIGNEDBLOB包含PBLOB处的缓冲区的大小。（至少应该是k_cbmaxsteamdatagramgamecoordinatorsererverloginserialized。） 在成功的出口中：-K_ERESULTOK被返回 -  plogininfo的其余所有字段将被填写。-  *PCBSIGNEDBLOB包含已放入PBLOB的串行斑点的大小。 失败的退出： - 除了k_eresultok以外的其他东西。-K_eresultNotLoggedon：您尚未登录（尚未） - 有关更多潜在的故障返回值，请参见GethostedDedicatedServerAddress。- 非定位诊断调试消息将放置在描述故障原因的PBLOB中。 这可以通过签署exterdatagramgamecoordinatorserverlogin的内容，并使用发行给该服务器的证书的内容来起作用。在开发环境中，如果您没有证书，则可以。（您将需要在SteamDatagram_parsehostedserverlogin中启用Insecure Dev登录。）否则，您将需要签名的证书。 注意：返回此处的路由斑点没有加密。将其发送给您的后端，不要直接与客户共享。</para>
+		/// <para>Please provide the code snippet or instructions for generating the authentication blob using `SteamDatagram_ParseHostedServerLogin` from `steamdatagram_gamecoordinator.h`. I need the code to translate and output the generated blob.</para>
+		/// <para>在调用函数之前：- 填充应用数据到 pLoginInfo (m_cbAppData 和 m_appData)。 可以将所有其他字段初始化为空。 - *pcbSignedBlob 包含 pBlob 缓冲区的尺寸 (它应该至少为 k_cbMaxSteamDatagramGameCoordinatorServerLoginSerialized)。</para>
+		/// <para>在成功退出时：- k_EResultOK 被返回 - 所有剩余的字段都将被 pLoginInfo 填充 - *pcbSignedBlob 包含已放入 pBlob 中的序列化 blob 的大小。</para>
+		/// <para>未成功退出：- 返回值不是 k_EResultOK - k_EResultNotLoggedOn：您尚未登录（还未） - 参见 GetHostedDedicatedServerAddress 了解更多潜在的失败返回值。 - 将描述失败原因的非本地化诊断调试消息放置在 pBlob 中。</para>
+		/// <para>这通过对 SteamDatagramGameCoordinatorServerLogin 的内容进行签名，使用该服务器颁发的证书。在开发环境中，如果不需要证书也可以。 (您需要在 SteamDatagram_ParseHostedServerLogin 中启用不安全开发登录。) 否则，您需要一个签名证书。</para>
+		/// <para>注意：此处返回的路由块未加密。将其发送到您的后端，不要直接与客户端共享。</para>
 		/// </summary>
 		public static EResult GetGameCoordinatorServerLogin(IntPtr pLoginInfo, out int pcbSignedBlob, IntPtr pBlob) {
 			InteropHelp.TestIfAvailableClient();
@@ -826,7 +916,15 @@ namespace Steamworks {
 		/// <para> If you need to set any initial config options, pass them here.  See</para>
 		/// <para> SteamNetworkingConfigValue_t for more about why this is preferable to</para>
 		/// <para> setting the options "immediately" after creation.</para>
-		/// <para>使用自定义信号协议中继连接 如果您有自己的方法，可以通过相互信任的频道发送带外信号 /插曲消息的方法。 创建P2P“客户端”连接，该连接通过自定义Rendezvous/信号通道进行信号。 PSIGNALING指向您仅为此连接创建的新对象。它必须保持有效，直到调用释放（）为止。一旦将对象传递给此功能，它就会假定所有权。如果呼叫失败，将从函数调用中拨打（）。此外，在调用Release（）之前，您应该准备好从任何线程中调用对象上的方法！您需要确保您的对象是螺纹安全！此外，您应该确保尽快完成分配方法。 此功能将立即在“连接”状态下构建连接。不久之后（也许在此函数返回之前，也许在另一个线程中），该连接将通过调用isteamNetworkingConnectionsIgnaling :: sendsignal来开始发送信号消息。 当远程对等方接受连接时（请参阅ISTeamNetworkingsignAlingRecvContext :: OnConnectRequest），它将开始发送信号消息。收到这些消息后，您可以使用REDECTP2PCUSTOMSIGNAL将它们传递到连接。 如果您知道您期望在另一端的同伴的身份，则可以通过他们的身份来改善调试输出或仅检测错误。如果您还不知道他们的身份，则可以通过NULL，并且它们的身份将在连接握手中建立。 如果您使用此功能，则可能要调用ISTeamNetworkingutils :: initrelaynetworkAccess（）当您的应用程序初始化时 如果您需要设置任何初始配置选项，请在此处传递。有关为什么在创建后“立即”设置选项的原因，请参见STEAMNETWORKINGCONFIGVALUE_T。</para>
+		/// <para>自定义信号协议的连接传输</para>
+		/// <para>这用于在通过一个双方都信任的渠道发送异构信号/会话消息。</para>
+		/// <para>Okay, please provide the content you want me to translate into simplified Chinese. I will translate it directly and output only the translated text.</para>
+		/// <para>pSignaling 指向你为这个连接创建的新对象。它必须在 Release() 被调用时保持有效。一旦你将该对象传递给该函数，它就承担了所有权。Release() 将在函数调用失败时从内部调用。此外，在 Release() 被调用之前，你必须准备好从任何线程上调用该对象的任何方法！ 你需要确保你的对象是线程安全的！ 此外，你应该确保方法的调度尽可能快。</para>
+		/// <para>这个函数会立即建立一个处于“connecting”状态的连接。 很快（可能在函数返回之前，也可能在另一个线程中），连接将开始发送信号消息，通过调用 ISteamNetworkingConnectionSignaling::SendSignal。</para>
+		/// <para>当远程对端接受连接（参见 ISteamNetworkingSignalingRecvContext::OnConnectRequest），它将开始发送信号消息。当这些消息被接收时，你可以使用 ReceivedP2PCustomSignal 将它们传递给连接。</para>
+		/// <para>如果您知道您期望在另一端看到的同伴身份，可以通过传递他们的身份来改善调试输出或仅检测错误。如果您还不清楚他们的身份，可以传递 NULL，他们的身份将在连接握手过程中建立。</para>
+		/// <para>如果你使用这个，你可能需要调用 ISteamNetworkingUtils::InitRelayNetworkAccess() 当你的应用初始化时。</para>
+		/// <para>如果您需要设置任何初始配置选项，请在此处提供。有关为何更喜欢“立即”设置选项而不是在创建后设置选项的更多信息，请参见 SteamNetworkingConfigValue_t。</para>
 		/// </summary>
 		public static HSteamNetConnection ConnectP2PCustomSignaling(out ISteamNetworkingConnectionSignaling pSignaling, ref SteamNetworkingIdentity pPeerIdentity, int nRemoteVirtualPort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableClient();
@@ -858,7 +956,12 @@ namespace Steamworks {
 		/// <para> usually have more information.)</para>
 		/// <para> If you expect to be using relayed connections, then you probably want</para>
 		/// <para> to call ISteamNetworkingUtils::InitRelayNetworkAccess() when your app initializes</para>
-		/// <para>自定义信号收到消息时调用。当您的信号频道收到消息时，它应该保存信封中的任何路由信息中的任何路由信息，然后将有效负载传递给此功能。 接下来可能会发生一些不同的事情，具体取决于消息： - 如果信号与现有连接关联，则立即处理。如果需要发送任何答复，将使用与连接关联的ISTeamNetworkingConnectionsIgnering派遣它们。- 如果消息代表连接请求（现有连接的请求不是多余的），则将创建一个新的连接，并将接收到ConnectRequest在您的上下文对象上调用以确定如何进行。- 否则，该消息是针对不存在的连接。在这种情况下，我们 *可以 *在您的上下文对象上调用SendReptiveyply。 无论如何，在此功能返回后，我们不会保存pcontext或访问它。 如果消息被解析和派遣，则返回是正确的，而不会发生任何异常或可疑的事情。返回错误，如果消息阻止普通处理的消息有一些问题。（调试输出通常会有更多信息。） 如果您期望使用中继连接，那么当您的应用程序初始化时，您可能要致电ISTeamNetworkingutils :: InitrelayNetworkAccess（）</para>
+		/// <para>当自定义信号已接收到消息时，当你的信号通道接收到消息时，应该将信封中包含的任何路由信息保存到上下文对象中，然后将有效负载传递给此函数。</para>
+		/// <para>接下来可能会发生一些不同的情况，取决于消息内容：</para>
+		/// <para>如果信号与现有连接相关联，则会立即处理。如果需要发送任何回复，它们将使用与连接相关的IStmSteamNetworkingConnectionSignaling进行发送。- 如果消息代表连接请求（并且该请求对于现有连接不是冗余的），将创建一个新的连接，并调用您的上下文对象上的ReceivedConnectRequest来确定如何继续。- 否则，消息是针对不存在（或已不再存在）的连接。在这种情况下，我们*可能*会调用您的上下文对象上的SendRejectionReply。</para>
+		/// <para>在任何情况下，我们不会保存或访问 pContext 在此函数返回后。</para>
+		/// <para>如果消息被解析和分发时没有发生任何异常或可疑情况，则返回 true。如果消息存在问题，导致无法进行普通处理，则返回 false。 (调试输出通常会提供更多信息。)</para>
+		/// <para>如果预期使用中继连接，那么您应该在应用程序初始化时调用 ISteamNetworkingUtils::InitRelayNetworkAccess()</para>
 		/// </summary>
 		public static bool ReceivedP2PCustomSignal(IntPtr pMsg, int cbMsg, out ISteamNetworkingSignalingRecvContext pContext) {
 			InteropHelp.TestIfAvailableClient();
@@ -873,7 +976,9 @@ namespace Steamworks {
 		/// <para> return the number of bytes that were populated.  You can pass pBlob=NULL to query for the required</para>
 		/// <para> size.  (512 bytes is a conservative estimate.)</para>
 		/// <para> Pass this blob to your game coordinator and call SteamDatagram_CreateCert.</para>
-		/// <para>申请证书提供。在Steam上，我们通常会自动处理所有这些，您无需使用这些高级功能。 获取描述证书请求的斑点。您可以将其发送给游戏协调员。进入后， *PCBBLOB应包含缓冲区的大小。成功出口时，它将返回人口组的字节数。您可以将pblob = null传递到所需的大小。（512个字节是保守的估计。） 将此斑点传递给您的游戏协调员，并致电Steamdatagram_createcert。</para>
+		/// <para>应用程序提供的证书。在Steam上，我们通常自动处理所有这些，您不需要使用这些高级功能。</para>
+		/// <para>获取描述证书请求的 blob。你可以将此信息发送到你的游戏协调器。在进入时，*pcbBlob 应该包含缓冲区的尺寸。在成功退出时，它将返回填充的字节数。你可以通过将 pBlob=NULL 传递来查询所需的尺寸。（512 字节是一个保守的估计。）</para>
+		/// <para>Pass this blob to your game coordinator and call SteamDatagram_CreateCert.</para>
 		/// </summary>
 		public static bool GetCertificateRequest(out int pcbBlob, IntPtr pBlob, out SteamNetworkingErrMsg errMsg) {
 			InteropHelp.TestIfAvailableClient();
@@ -883,7 +988,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Set the certificate.  The certificate blob should be the output of</para>
 		/// <para> SteamDatagram_CreateCert.</para>
-		/// <para>设置证书。证书Blob应该是SteamDatagram_createcert的输出。</para>
+		/// <para>Set the certificate. The certificate blob should be the output of SteamDatagram_CreateCert.</para>
 		/// </summary>
 		public static bool SetCertificate(IntPtr pCertificate, int cbCertificate, out SteamNetworkingErrMsg errMsg) {
 			InteropHelp.TestIfAvailableClient();
@@ -898,7 +1003,8 @@ namespace Steamworks {
 		/// <para> NOTE: This function is not actually supported on Steam!  It is included</para>
 		/// <para>       for use on other platforms where the active user can sign out and</para>
 		/// <para>       a new user can sign in.</para>
-		/// <para>重置与此实例关联的身份。任何开放连接都关闭。任何以前的证书等都被丢弃。您可以通过要使用的特定身份，也可以通过NULL，在这种情况下，身份将无效，直到您使用SetCertifitate设置它 注意：在Steam上实际上不支持此功能！它包含在其他平台上使用，活动用户可以在该平台上登录，并且新用户可以登录。</para>
+		/// <para>重置该实例关联的身份。关闭所有打开的连接。任何先前证书等都将被丢弃。你可以传递一个特定的身份，或者传递NULL，在这种情况下，身份将无效直到你使用SetCertificate设置它。</para>
+		/// <para>注意：此功能在Steam上实际上不受支持！它包含在其他平台上使用，这些平台上活跃用户可以登出并新用户可以登录。</para>
 		/// </summary>
 		public static void ResetIdentity(ref SteamNetworkingIdentity pIdentity) {
 			InteropHelp.TestIfAvailableClient();
@@ -911,7 +1017,9 @@ namespace Steamworks {
 		/// <para> See k_ESteamNetworkingConfig_Callback_ConnectionStatusChanged, etc</para>
 		/// <para> You don't need to call this if you are using Steam's callback dispatch</para>
 		/// <para> mechanism (SteamAPI_RunCallbacks and SteamGameserver_RunCallbacks).</para>
-		/// <para>杂项 调用该接口排队的所有回调函数。请参阅k_esteamnetworkingconfig_callback_connectionstatuschanged等 如果使用Steam的回调调度机制（Steamapi_runcallbacks和SteamGameserver_Runcallbacks），则无需调用此问题。</para>
+		/// <para>杂项</para>
+		/// <para>调用此接口排队的全部回调函数。例如 k_ESteamNetworkingConfig_Callback_ConnectionStatusChanged 等。</para>
+		/// <para>你不需要使用 Steam 的回调派发机制（SteamAPI_RunCallbacks 和 SteamGameserver_RunCallbacks）就来调用它。</para>
 		/// </summary>
 		public static void RunCallbacks() {
 			InteropHelp.TestIfAvailableClient();
@@ -969,7 +1077,15 @@ namespace Steamworks {
 		/// <para>   address of a NAT-punched connection.  Otherwise, it will not be valid.</para>
 		/// <para> To communicate using an ad-hoc sendto/recv from (UDP-style) API,</para>
 		/// <para> use CreateFakeUDPPort.</para>
-		/// <para>“假”系统。 假货本质上是临时的，任意的标识符，恰好是有效的IPv4地址。该系统的目的是使与使用IPv4地址标识主机的现有代码进行易于集成。假地址实际上永远不会用于在Internet上发送或接收任何数据包，这严格来说是标识符。 FakeIP地址旨在（希望）尽可能透明地通过现有代码，同时与在网络（Internet和LANS）中使用的“真实”地址相互冲突，以尽可能少的相同代码在相同的代码中使用。在编写此评论时，它们来自169.254.0.0/16范围，端口号始终为> 1024。但是，这可能会改变！不要对这些地址做出假设，否则您的代码将来可能会破裂。特别是，您应该使用诸如ISTeamNetworkingutils :: IsFakeip之类的功能来确定IP地址是否是该系统使用的“假”。 开始分配其他同龄人可以通过P2P与我们联系的伪造IPv4地址的异步过程。此功能返回的IP地址对于给定的appid在全球范围内是唯一的。 Nnumports是您要保留的端口数量。这很有用，其原因是在多个UDP端口上聆听对不同类型的流量很有用。由于这些分配来自全局名称空间，因此您可能要求的最大端口数量相对严格。（在撰写本文时，限制为4。）端口分配 *不能保证具有任何特定的命令或关系！*不 *假设它们是连续的，即使在实践中通常会发生这种情况。 返回false如果请求正在进行，则如果启动了新的请求，则为false。请求完成后，将发布SteamnetworkingFakeipresult_t。 对于游戏服务器，您必须 *在初始化SDK后但在开始登录之前 *调用此问题。Steam需要事先知道将使用假货。Everywhere your public IP would normally appear (such as the server browser) will be replaced by the FakeIP, and the fake port at index 0.  The request is actually queued until the logon completes, so you must not wait until the allocation completes before logging in.  Except for trivial failures that can be detected locally (e.g. invalid parameter), a SteamNetworkingFakeIPResult_t callback (whether success or failure) will not be posted until after我们已经登录了。此外，假定假货分配对于您的应用程序起作用至关重要，因此直到尝试进行了几次 *重新试验之前，才会报告失败。这个过程可能持续几分钟。建议将失败视为致命。 使用面向连接的（TCP式）API进行通信： - 服务器使用CreateListenSocketp2pfakeip -Client使用ConnectByIpAddress来创建一个收听套接字，并通过FakeIP地址传递。- 连接的表现主要像P2P连接。在我们知道真实身份之前，在SteamnetConnectioninfo_t中出现的身份将是假身份。那将是真实的身份。如果STEAMNETCONNECTIONINFO_T :: M_ADDRREMOTE有效，则它将是NAT弹性连接的真实IPv4地址。否则，它将无效。 要使用（UDP式）API使用临时发送/recv进行通信，请使用CreateFakeUdpport。</para>
+		/// <para>“FakeIP”系统。</para>
+		/// <para>一个假IP本质上是一个临时的、任意标识符，恰好是一个有效的 IPv4 地址。该系统的目的是使其易于与使用 IPv4 地址识别主机的现有代码集成。假IP地址永远不会实际用于在 Internet 上发送或接收任何数据包，它仅作为标识符使用。</para>
+		/// <para>假IP地址的设计是为了（希望）尽可能透明地通过现有代码，同时与可能在网络中使用（包括互联网和局域网）的“真实”地址冲突，在代码中尽量减少冲突。 在编写此评论时，它们来自 169.254.0.0/16 范围，端口号始终大于 1024。 但是，这可能会发生变化！ 不要对这些地址做出任何假设，否则您的代码可能会在未来中断。 尤其，您应该使用诸如 ISTeamNetworkingUtils::IsFakeIP 之类的函数来确定 IP 地址是否为该系统使用的“假”地址。</para>
+		/// <para>开始异步进程，为其他同伴分配一个虚假的 IPv4 地址，以便他们可以通过 P2P 联系我们。该函数返回的 IP 地址在给定 appid 上全局唯一。</para>
+		/// <para>nNumPorts 是你希望预留的端口数量。这与监听多个 UDP 端口同样有道理，因为它们可以用于不同类型的流量。由于这些分配来自全局命名空间，因此你可能请求的最大端口数量受到相对严格的限制（在当时写这篇文档时，限制为 4）。端口分配*不*保证具有任何特定的顺序或关系！即使在实践中，也不要假设它们是连续的。</para>
+		/// <para>如果请求正在进行中，则返回 false，如果启动了新的请求，则返回 true。当请求完成时，将发布一个 SteamNetworkingFakeIPResult_t。</para>
+		/// <para>对于游戏服务器，您*必须*在初始化 SDK 之后，在开始登录之前调用它。Steam 需要提前知道 FakeIP 将被使用。服务器浏览器中通常出现的任何公共 IP 地址都将被 FakeIP 替换，以及索引为 0 的虚假端口。请求实际上会排队直到登录完成，因此您不能在分配完成之前等待登录完成。除了可以本地检测的简单失败（例如无效参数）之外，SteamNetworkingFakeIPResult_t 回调（无论成功与否）都不会在登录完成后发布。此外，假设 FakeIP 分配对您的应用程序的功能至关重要，因此失败将不会在*多次*重试尝试后报告。此过程可能持续数分钟。*强烈建议*将失败视为致命。</para>
+		/// <para>使用连接式（TCP 风格）API 进行通信：- 服务器使用 CreateListenSocketP2PFakeIP 创建监听套接字 - 客户端使用 ConnectByIPAddress，传入 FakeIP 地址。- 连接将表现得类似于 P2P 连接。SteamNetConnectionInfo_t 中出现的身份将在我们知道真实身份之前是 FakeIP 身份。然后它将是真实身份。如果 SteamNetConnectionInfo_t::m_addrRemote 有效，它将是 NAT 穿透的真实 IPv4 地址。否则，它将无效。</para>
+		/// <para>使用 CreateFakeUDPPort 接口进行 ad-hoc sendto/recv (UDP 风格) API 通信。</para>
 		/// </summary>
 		public static bool BeginAsyncRequestFakeIP(int nNumPorts) {
 			InteropHelp.TestIfAvailableClient();
@@ -980,7 +1096,7 @@ namespace Steamworks {
 		/// <para> Return info about the FakeIP and port(s) that we have been assigned,</para>
 		/// <para> if any.  idxFirstPort is currently reserved and must be zero.</para>
 		/// <para> Make sure and check SteamNetworkingFakeIPResult_t::m_eResult</para>
-		/// <para>返回有关我们已分配的假货和端口的信息，如果有的话。IDXFIRSTPORT当前保留，必须为零。确保并检查Steamnetworkingfakeipresult_t :: m_eresult</para>
+		/// <para>返回关于我们分配的假IP和端口（如果有）的信息。idxFirstPort 目前已被保留，必须为零。请务必检查 SteamNetworkingFakeIPResult_t::m_eResult。</para>
 		/// </summary>
 		public static void GetFakeIP(int idxFirstPort, out SteamNetworkingFakeIPResult_t pInfo) {
 			InteropHelp.TestIfAvailableClient();
@@ -996,7 +1112,8 @@ namespace Steamworks {
 		/// <para> first port in the reservation.  You must call this only after calling</para>
 		/// <para> BeginAsyncRequestFakeIP.  However, you do not need to wait for the</para>
 		/// <para> request to complete before creating the listen socket.</para>
-		/// <para>创建一个收听套接字，该插座将聆听发送给我们假货的P2P连接。对等方可以通过调用ConnectByIpAddress来启动与此收听插座的连接。 IDXFakeport指的是所请求的假端口的 *索引 *，而不是实际端口号。例如，通过0来参考预订中的第一个端口。您仅在调用beginasencrequestfakeip之后才调用此。但是，您无需等待请求完成，然后再创建收听套接字。</para>
+		/// <para>Create a listen socket that will listen for P2P connections sent to our FakeIP. A peer can initiate connections to this listen socket by calling ConnectByIPAddress. 创建一个监听套接字，监听传入的P2P连接到我们的FakeIP。一个同伴可以通过调用ConnectByIPAddress来连接到此监听套接字。</para>
+		/// <para>idxFakePort 指的是 *索引*，而不是实际的端口号。例如，传递 0 指向保留中的第一个端口。您必须在调用 BeginAsyncRequestFakeIP 之后才调用它。但是，您无需在请求完成之前再创建监听套接字。</para>
 		/// </summary>
 		public static HSteamListenSocket CreateListenSocketP2PFakeIP(int idxFakePort, int nOptions, SteamNetworkingConfigValue_t[] pOptions) {
 			InteropHelp.TestIfAvailableClient();
@@ -1017,7 +1134,9 @@ namespace Steamworks {
 		/// <para> On failure, returns:</para>
 		/// <para> - k_EResultInvalidParam: invalid connection handle</para>
 		/// <para> - k_EResultIPNotFound: This connection wasn't made using FakeIP system</para>
-		/// <para>如果连接是使用“伪造”系统启动的，那么我们可以获得远程主机的IP地址。如果远程主机在建立连接时具有全局假单IP，则此功能将返回该全局IP。否则，本地唯一的假货将从当地的假地址空间中分配，并将返回。 当地假货的分配试图以一致的方式分配地址。如果与同一远程主机进行多个连接，则它们 *可能 *将返回同一假货。但是，由于名称空间是有限的，因此无法保证。 在失败中，返回：-K_ERESULTINVALIDPARAM：无效连接句柄-K_ERESULTIPNOTFOUND：此连接不是使用FakeIP System进行的连接</para>
+		/// <para>如果连接是通过“FakeIP”系统启动的，那么我们可以获取远程主机的IP地址。如果远程主机在连接建立时拥有全局的FakeIP，则此函数将返回该全局IP。否则，将从本地FakeIP地址空间中分配一个独特的本地FakeIP，并返回该FakeIP。</para>
+		/// <para>本地假IP的分配试图以一致的方式分配地址。如果多个连接指向同一个远程主机，它们*可能*会返回相同的FakeIP。但是，由于命名空间有限，这无法保证。</para>
+		/// <para>在失败时返回：- k_EResultInvalidParam：无效连接句柄 - k_EResultIPNotFound：此连接未使用 FakeIP 系统建立</para>
 		/// </summary>
 		public static EResult GetRemoteFakeIPForConnection(HSteamNetConnection hConn, out SteamNetworkingIPAddr pOutAddr) {
 			InteropHelp.TestIfAvailableClient();
@@ -1040,7 +1159,9 @@ namespace Steamworks {
 		/// <para> pass -1.  In this case, a distinct object will be returned for each call.</para>
 		/// <para> When the peer receives packets sent from this interface, the peer will</para>
 		/// <para> assign a FakeIP from its own locally-controlled namespace.</para>
-		/// <para>获取一个可以像UDP端口一样使用的接口，以将数据报发送到假地址。这旨在使将现有的基于UDP的代码放置以利用SDR。 IDXFAKESERVERPORT是指使用BeginAsynCrequestFakeip分配的端口的 *索引 *，用于创建“服务器”端口。您可以在分配完成之前将其调用。但是，在分配成功之前，任何发送数据包的尝试都会失败。当同伴接收从该界面发送的数据包时，数据包的地址将是全球唯一的假货。如果您多次调用此功能并传递相同（非负）假端口索引，则将返回相同的对象，并且该对象未计数。 要创建一个“客户端”端口（例如，等同于短暂的UDP端口）Pass -1。在这种情况下，每个呼叫都会返回一个不同的对象。当同伴接收从该接口发送的数据包时，同伴将从其本地控制的名称空间中分配假货。</para>
+		/// <para>获取一个可以像 UDP 端口一样使用，用于向 FakeIP 地址发送/接收数据包的接口。 这样做是为了方便现有基于 UDP 的代码利用 SDR。</para>
+		/// <para>idxFakeServerPort 指的是使用 BeginAsyncRequestFakeIP 分配的 *index*，用于创建“server”端口。您可以在分配完成之前调用此函数。但是，任何尝试发送数据包的尝试都将失败，直到分配成功。当同伴接收通过此接口发送的数据包时，数据包的 *from* 地址将是全局唯一的 FakeIP。如果调用此函数多次并传入相同的 (非负) 虚端口索引，则将返回相同对象，并且此对象不进行引用计数。</para>
+		/// <para>为了创建一个“客户端”端口（例如，一个临时的 UDP 端口），请使用 -1。在这种情况下，每次调用都会返回一个不同的对象。当对端收到通过此接口发送的包时，对端会从其自身控制的命名空间中分配一个 FakeIP。</para>
 		/// </summary>
 		public static IntPtr CreateFakeUDPPort(int idxFakeServerPort) {
 			InteropHelp.TestIfAvailableClient();

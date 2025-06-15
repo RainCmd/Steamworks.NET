@@ -78,7 +78,11 @@ def main(parser, translate_text = None):
             if g_translate_text:
                 text = g_translate_text(enum.c.rawprecomments)
                 if text:
-                    lines.append("\t" + text)
+                    if isinstance(text, list):
+                        for t in text:
+                            lines.append("\t" + t)
+                    else:
+                        lines.append("\t" + text)
 
             if enum.name in g_FlagEnums:
                 lines.append("\t[Flags]")
@@ -94,7 +98,11 @@ def main(parser, translate_text = None):
                 if g_translate_text:
                     text = g_translate_text(field.c.rawprecomments)
                     if text:
-                        lines.append("\t" + text)
+                        if isinstance(text, list):
+                            for t in text:
+                                lines.append("\t" + t)
+                        else:
+                            lines.append("\t" + text)
                 line = "\t\t" + field.name
                 if field.value:
                     if "<<" in field.value and enum.name not in g_FlagEnums:
@@ -128,7 +136,11 @@ def main(parser, translate_text = None):
             if g_translate_text:
                 text = g_translate_text(enum.endcomments.rawprecomments)
                 if text:
-                    lines.append("\t" + text)
+                    if isinstance(text, list):
+                        for t in text:
+                            lines.append("\t" + t)
+                    else:
+                        lines.append("\t" + text)
 
             lines.append("\t}")
             lines.append("")

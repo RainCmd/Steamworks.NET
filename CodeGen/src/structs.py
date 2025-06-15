@@ -150,7 +150,11 @@ def parse(struct):
     if g_translate_text:
         text = g_translate_text(struct.c.rawprecomments)
         if text:
-            lines.append("\t" + text)
+            if isinstance(text, list):
+                for t in text:
+                    lines.append("\t" + t)
+            else:
+                lines.append("\t" + text)
 
     structname = struct.name
 
@@ -190,7 +194,11 @@ def parse(struct):
         if g_translate_text:
             text = g_translate_text(struct.endcomments.rawprecomments)
             if text:
-                lines.append("\t" + text)
+                if isinstance(text, list):
+                    for t in text:
+                        lines.append("\t" + t)
+                else:
+                    lines.append("\t" + text)
 
     lines.append("\t}")
     lines.append("")
@@ -207,7 +215,11 @@ def parse_field(field, structname):
     if g_translate_text:
         text = g_translate_text(field.c.rawprecomments)
         if text:
-            lines.append("\t" + text)
+            if isinstance(text, list):
+                for t in text:
+                    lines.append("\t" + t)
+            else:
+                lines.append("\t" + text)
 
     fieldtype = g_TypeConversionDict.get(field.type, field.type)
     fieldtype = g_SpecialFieldTypes.get(structname, dict()).get(field.name, fieldtype)

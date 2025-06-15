@@ -53,7 +53,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> volume is between 0.0 and 1.0</para>
-		/// <para>音量在0.0至1.0之间</para>
+		/// <para>音量在 0.0 到 1.0 之间。</para>
 		/// </summary>
 		public static void SetVolume(float flVolume) {
 			InteropHelp.TestIfAvailableClient();

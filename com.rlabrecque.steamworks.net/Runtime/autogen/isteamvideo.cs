@@ -18,7 +18,7 @@ namespace Steamworks {
 	public static class SteamVideo {
 		/// <summary>
 		/// <para> Get a URL suitable for streaming the given Video app ID's video</para>
-		/// <para>获取适合流式传输给定视频应用ID的视频的URL</para>
+		/// <para>请提供 Video app ID 的信息，我将为你获取合适的流式 URL。</para>
 		/// </summary>
 		public static void GetVideoURL(AppId_t unVideoAppID) {
 			InteropHelp.TestIfAvailableClient();
@@ -27,7 +27,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns true if user is uploading a live broadcast</para>
-		/// <para>如果用户上传实时广播，则返回true</para>
+		/// <para>如果用户正在上传直播，则返回 true</para>
 		/// </summary>
 		public static bool IsBroadcasting(out int pnNumViewers) {
 			InteropHelp.TestIfAvailableClient();
@@ -36,7 +36,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Get the OPF Details for 360 Video Playback</para>
-		/// <para>获取360个视频播放的OPF详细信息</para>
+		/// <para>获取 360 视频播放的 OPF 详细信息</para>
 		/// </summary>
 		public static void GetOPFSettings(AppId_t unVideoAppID) {
 			InteropHelp.TestIfAvailableClient();

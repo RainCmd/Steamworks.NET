@@ -810,7 +810,11 @@ def parse_func(f, interface, func):
         if g_translate_text:
             text = g_translate_text(comments)
             if text:
-                g_Output.append("\t\t/// <para>" + text + "</para>")
+                if isinstance(text, list):
+                    for t in text:
+                        g_Output.append("\t\t/// <para>" + t + "</para>")
+                else:
+                    g_Output.append("\t\t/// <para>" + text + "</para>")
         g_Output.append("\t\t/// </summary>")
     g_Output.append("\t\tpublic static " + wrapperreturntype + " " + func.name.rstrip("0") + "(" + wrapperargs + ") {")
 

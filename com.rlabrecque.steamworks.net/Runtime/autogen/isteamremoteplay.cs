@@ -18,7 +18,7 @@ namespace Steamworks {
 	public static class SteamRemotePlay {
 		/// <summary>
 		/// <para> Get the number of currently connected Steam Remote Play sessions</para>
-		/// <para>获取当前连接的蒸汽远程播放会话的数量</para>
+		/// <para>获取当前已连接的 Steam 远程游玩会话数量</para>
 		/// </summary>
 		public static uint GetSessionCount() {
 			InteropHelp.TestIfAvailableClient();
@@ -27,7 +27,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Get the currently connected Steam Remote Play session ID at the specified index. Returns zero if index is out of bounds.</para>
-		/// <para>在指定的索引上获取当前连接的Steam远程播放会话ID。如果索引超出界限，则返回零。</para>
+		/// <para>获取指定索引处的当前已连接的 Steam 远程播放会话 ID。如果索引超出范围，则返回 0。</para>
 		/// </summary>
 		public static RemotePlaySessionID_t GetSessionID(int iSessionIndex) {
 			InteropHelp.TestIfAvailableClient();
@@ -36,7 +36,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Get the SteamID of the connected user</para>
-		/// <para>获取连接用户的蒸汽</para>
+		/// <para>获取连接用户的 SteamID</para>
 		/// </summary>
 		public static CSteamID GetSessionSteamID(RemotePlaySessionID_t unSessionID) {
 			InteropHelp.TestIfAvailableClient();
@@ -46,7 +46,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Get the name of the session client device</para>
 		/// <para> This returns NULL if the sessionID is not valid</para>
-		/// <para>获取会话客户端设备的名称，如果sessionID无效，则返回null</para>
+		/// <para>获取会话客户端设备名称。如果会话ID无效，则返回NULL。</para>
 		/// </summary>
 		public static string GetSessionClientName(RemotePlaySessionID_t unSessionID) {
 			InteropHelp.TestIfAvailableClient();
@@ -55,7 +55,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Get the form factor of the session client device</para>
-		/// <para>获取会话客户端设备的外形</para>
+		/// <para>获取会话客户端设备的形态因素</para>
 		/// </summary>
 		public static ESteamDeviceFormFactor GetSessionClientFormFactor(RemotePlaySessionID_t unSessionID) {
 			InteropHelp.TestIfAvailableClient();
@@ -65,7 +65,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Get the resolution, in pixels, of the session client device</para>
 		/// <para> This is set to 0x0 if the resolution is not available</para>
-		/// <para>如果没有分辨率，请以像素为pixel的分辨率，该分辨率设置为0x0</para>
+		/// <para>获取会话客户端设备的分辨率，以像素为单位。如果分辨率不可用，则设置为0x0。</para>
 		/// </summary>
 		public static bool BGetSessionClientResolution(RemotePlaySessionID_t unSessionID, out int pnResolutionX, out int pnResolutionY) {
 			InteropHelp.TestIfAvailableClient();
@@ -75,7 +75,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Start Remote Play Together and optionally show the UI in the overlay</para>
 		/// <para> This returns false if Remote Play Together can't be started or your game is not configured for Remote Play Together</para>
-		/// <para>一起启动远程播放，并选择在覆盖层中显示UI，如果无法启动远程播放或您的游戏未配置为远程播放，则该返回false</para>
+		/// <para>开始远程一起玩，并可选地在叠加层中显示 UI。如果无法启动远程一起玩或你的游戏未配置为支持远程一起玩，则返回 false。</para>
 		/// </summary>
 		public static bool BStartRemotePlayTogether(bool bShowOverlay = true) {
 			InteropHelp.TestIfAvailableClient();
@@ -86,7 +86,7 @@ namespace Steamworks {
 		/// <para> Invite a friend to Remote Play Together, or create a guest invite if steamIDFriend is empty</para>
 		/// <para> This will automatically start Remote Play Together if it hasn't already been started</para>
 		/// <para> This returns false if the invite can't be sent or your game is not configured for Remote Play Together</para>
-		/// <para>邀请朋友一起玩远程播放，或创建访客邀请，如果Steamidfriend是空的，则如果尚未启动，如果无法发送邀请或您的游戏未配置为远程播放，则将自动启动远程播放。</para>
+		/// <para>邀请好友到远程游玩，或者创建访客邀请，如果 steamIDFriend 为空则创建访客邀请。这将自动启动远程游玩，如果邀请无法发送或你的游戏未配置为远程游玩，则返回 false。</para>
 		/// </summary>
 		public static bool BSendRemotePlayTogetherInvite(CSteamID steamIDFriend) {
 			InteropHelp.TestIfAvailableClient();

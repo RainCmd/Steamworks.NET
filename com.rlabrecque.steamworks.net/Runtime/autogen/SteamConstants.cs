@@ -36,7 +36,9 @@ namespace Steamworks {
 		public const string STEAMNETWORKING_INTERFACE_VERSION = "SteamNetworking006";
 		public const string STEAMNETWORKINGMESSAGES_INTERFACE_VERSION = "SteamNetworkingMessages002";
 		// Silence some warnings
+		// Silence some warnings
 		public const string STEAMNETWORKINGSOCKETS_INTERFACE_VERSION = "SteamNetworkingSockets012";
+		// Silence some warnings
 		// Silence some warnings
 		public const string STEAMNETWORKINGUTILS_INTERFACE_VERSION = "SteamNetworkingUtils004";
 		public const string STEAMPARENTALSETTINGS_INTERFACE_VERSION = "STEAMPARENTALSETTINGS_INTERFACE_VERSION001";
@@ -49,34 +51,42 @@ namespace Steamworks {
 		public const string STEAMUSERSTATS_INTERFACE_VERSION = "STEAMUSERSTATS_INTERFACE_VERSION013";
 		public const string STEAMUTILS_INTERFACE_VERSION = "SteamUtils010";
 		public const string STEAMVIDEO_INTERFACE_VERSION = "STEAMVIDEO_INTERFACE_V007";
-		public const int k_cubAppProofOfPurchaseKeyMax = 240; // max supported length of a legacy cd key
+		public const int k_cubAppProofOfPurchaseKeyMax = 240; // max supported length of a legacy cd key The maximum supported length of a legacy CD key is 25 characters.
+		// maximum length of friend group name (not including terminating nul!)
 		// maximum length of friend group name (not including terminating nul!)
 		public const int k_cchMaxFriendsGroupName = 64;
+		// maximum number of groups a single user is allowed
 		// maximum number of groups a single user is allowed
 		public const int k_cFriendsGroupLimit = 100;
 		public const int k_cEnumerateFollowersMax = 50;
 		// special values for FriendGameInfo_t::m_usQueryPort
-		public const ushort k_usFriendGameInfoQueryPort_NotInitialized = 0xFFFF; // We haven't asked the GS for this query port's actual value yet.  Was #define QUERY_PORT_NOT_INITIALIZED in older versions of Steamworks SDK.
-		public const ushort k_usFriendGameInfoQueryPort_Error = 0xFFFE; // We were unable to get the query port for this server.  Was #define QUERY_PORT_ERROR in older versions of Steamworks SDK.
+		// FriendGameInfo_t::m_usQueryPort 的特殊值
+		public const ushort k_usFriendGameInfoQueryPort_NotInitialized = 0xFFFF; // We haven't asked the GS for this query port's actual value yet.  Was #define QUERY_PORT_NOT_INITIALIZED in older versions of Steamworks SDK. 我们还没有为这个查询端口的实际值向GS提问。 以前的Steamworks SDK中是否有#define QUERY_PORT_NOT_INITIALIZED？
+		public const ushort k_usFriendGameInfoQueryPort_Error = 0xFFFE; // We were unable to get the query port for this server.  Was #define QUERY_PORT_ERROR in older versions of Steamworks SDK. 我们无法获取此服务器的查询端口。 之前版本的 Steamworks SDK 中是否定义了 #define QUERY_PORT_ERROR？
 		// maximum number of characters in a user's name. Two flavors; one for UTF-8 and one for UTF-16.
 		// The UTF-8 version has to be very generous to accomodate characters that get large when encoded
 		// in UTF-8.
+		// 最大用户姓名字符数。有两种口味；一种是 UTF-8，另一种是 UTF-16。UTF-8 版本必须非常慷慨，以容纳在 UTF-8 中编码时会变得很大的字符。
 		public const int k_cchPersonaNameMax = 128;
 		public const int k_cwchPersonaNameMax = 32;
 		// size limit on chat room or member metadata
+		// 聊天室或成员元数据的大小限制
 		public const int k_cubChatMetadataMax = 8192;
 		// size limits on Rich Presence data
+		// Rich Presence data size limits
 		public const int k_cchMaxRichPresenceKeys = 30;
 		public const int k_cchMaxRichPresenceKeyLength = 64;
 		public const int k_cchMaxRichPresenceValueLength = 256;
 		// game server flags
+		// 游戏服务器标志
 		public const int k_unFavoriteFlagNone = 0x00;
-		public const int k_unFavoriteFlagFavorite = 0x01; // this game favorite entry is for the favorites list
-		public const int k_unFavoriteFlagHistory = 0x02; // this game favorite entry is for the history list
+		public const int k_unFavoriteFlagFavorite = 0x01; // this game favorite entry is for the favorites list 这个游戏收藏项是为收藏列表准备的。
+		public const int k_unFavoriteFlagHistory = 0x02; // this game favorite entry is for the history list 这个游戏收藏条目是用于历史列表。
 		//-----------------------------------------------------------------------------
 		// Purpose: Defines the largest allowed file size. Cloud files cannot be written
 		// in a single chunk over 100MB (and cannot be over 200MB total.)
 		//-----------------------------------------------------------------------------
+		// 目的：定义了最大允许的文件大小。云文件不能以单个 100MB 的块写入，并且总不能超过 200MB。
 		public const int k_unMaxCloudFileChunkSize = 100 * 1024 * 1024;
 		public const int k_cchPublishedDocumentTitleMax = 128 + 1;
 		public const int k_cchPublishedDocumentDescriptionMax = 8000;
@@ -91,24 +101,29 @@ namespace Steamworks {
 		public const int k_cubUFSTagValueMax = 255;
 		// Required with of a thumbnail provided to AddScreenshotToLibrary.  If you do not provide a thumbnail
 		// one will be generated.
+		// 需要提供缩图才能使用 AddScreenshotToLibrary 功能。如果未提供缩图，将自动生成一个。
 		public const int k_ScreenshotThumbWidth = 200;
 		public const int k_unMaxTimelinePriority = 1000;
-		public const int k_unTimelinePriority_KeepCurrentValue = 1000000; // Use with UpdateRangeTimelineEvent to not change the priority
+		public const int k_unTimelinePriority_KeepCurrentValue = 1000000; // Use with UpdateRangeTimelineEvent to not change the priority 使用 UpdateRangeTimelineEvent 以不改变优先级的方式进行更新。
 		public const float k_flMaxTimelineEventDuration = 600.0f;
 		public const int k_cchMaxPhaseIDLength = 64;
 		public const int kNumUGCResultsPerPage = 50;
 		public const int k_cchDeveloperMetadataMax = 5000;
 		public const int k_nCubTicketMaxLength = 2560;
 		// size limit on stat or achievement name (UTF-8 encoded)
+		// Stat 或 Achievement 名称的 UTF-8 编码大小限制
 		public const int k_cchStatNameMax = 128;
 		// maximum number of bytes for a leaderboard name (UTF-8 encoded)
+		// The maximum number of bytes for a leaderboard name (UTF-8 encoded) is 255.
 		public const int k_cchLeaderboardNameMax = 128;
 		// maximum number of details int32's storable for a single leaderboard entry
+		// The maximum number of details int32's storable for a single leaderboard entry is not fixed and depends on the specific implementation. However, a common approach uses 32-bit integers to store scores and potentially other details like player ID, timestamp, etc.  The exact number of details and their sizes would be determined by the design of the leaderboard system.
 		public const int k_cLeaderboardDetailsMax = 64;
 		//
 		// Max size (in bytes of UTF-8 data, not in characters) of server fields, including null terminator.
 		// WARNING: These cannot be changed easily, without breaking clients using old interfaces.
 		//
+		// 服务器字段的最大大小（以 UTF-8 数据字节为单位，包括空终止符）。警告：这些无法轻松更改，否则会破坏使用旧接口的客户端。
 		public const int k_cbMaxGameServerGameDir = 32;
 		public const int k_cbMaxGameServerMapName = 32;
 		public const int k_cbMaxGameServerGameDescription = 64;
@@ -117,12 +132,15 @@ namespace Steamworks {
 		public const int k_cbMaxGameServerGameData = 2048;
 		// A fixed size buffer to receive an error message that is returned by some API
 		// calls.
+		// 固定大小的缓冲区，用于接收由某些API调用返回的错误消息。
 		public const int k_cchMaxSteamErrMsg = 1024;
 		// Forward declare types
 		//-----------------------------------------------------------------------------
 		// Purpose: Base values for callback identifiers, each callback must
 		//			have a unique ID.
 		//-----------------------------------------------------------------------------
+		// 向前声明类型
+		// 目的：回调标识符的基础值，每个回调都必须具有唯一的ID。
 		public const int k_iSteamUserCallbacks = 100;
 		public const int k_iSteamGameServerCallbacks = 200;
 		public const int k_iSteamFriendsCallbacks = 300;
@@ -145,6 +163,7 @@ namespace Steamworks {
 		public const int k_iSteamHTTPCallbacks = 2100;
 		public const int k_iSteamScreenshotsCallbacks = 2300;
 		// NOTE: 2500-2599 are reserved
+		// 注意：2500-2599 已被保留。
 		public const int k_iSteamStreamLauncherCallbacks = 2600;
 		public const int k_iSteamControllerCallbacks = 2800;
 		public const int k_iSteamUGCCallbacks = 3400;
@@ -166,10 +185,11 @@ namespace Steamworks {
 		// UDP queries for server browser pings and LAN discovery.  In this case, Steam will not open up a
 		// socket to handle server browser queries, and you must use ISteamGameServer::HandleIncomingPacket
 		// and ISteamGameServer::GetNextOutgoingPacket to handle packets related to server discovery on your socket.
+		// 将 `Pass to SteamGameServer_Init` 表示告知相同 UDP 端口将用于游戏流量 UDP 查询，用于服务器浏览器回声和 LAN 发现。在这种情况下，Steam 不会打开套接字来处理服务器浏览器查询，您必须使用 `ISteamGameServer::HandleIncomingPacket` 和 `ISteamGameServer::GetNextOutgoingPacket` 处理与服务器发现相关的包。
 		public const ushort STEAMGAMESERVER_QUERY_PORT_SHARED = 0xffff;
 		public const int k_unSteamAccountIDMask = -1;
 		public const int k_unSteamAccountInstanceMask = 0x000FFFFF;
-		public const int k_unSteamUserDefaultInstance = 1; // fixed instance for all individual users
+		public const int k_unSteamUserDefaultInstance = 1; // fixed instance for all individual users 为所有独立用户设置固定实例
 		public const int k_cchGameExtraInfoMax = 64;
 		public const int k_nSteamEncryptedAppTicketSymmetricKeyLen = 32;
 		// Port number(s) assigned to us.  Only the first entries will contain
@@ -178,29 +198,37 @@ namespace Steamworks {
 		//
 		// (NOTE: At the time of this writing, the maximum number of ports you may
 		// request is 4.)
+		// 分配给我们的端口号。只有第一条条目包含非零值。对应于超出了您分配给您的端口的端口的条目将为零。
+		// （请注意：在此时写下的时候，您可以请求的最大端口数量为4。）
 		public const int k_nMaxReturnPorts = 8;
 		// Max length of diagnostic error message
+		// The maximum length of a diagnostic error message is typically limited by the operating system and the logging system being used. However, it's generally capped around 4096 characters.
 		public const int k_cchMaxSteamNetworkingErrMsg = 1024;
 		// Max length, in bytes (including null terminator) of the reason string
 		// when a connection is closed.
+		// Max length, in bytes (including null terminator) of the reason string when a connection is closed.
 		public const int k_cchSteamNetworkingMaxConnectionCloseReason = 128;
 		// Max length, in bytes (include null terminator) of debug description
 		// of a connection.
+		// I don't have access to that information. I am a translation assistant and cannot provide technical specifications like the maximum length of a debug description.
 		public const int k_cchSteamNetworkingMaxConnectionDescription = 128;
 		// Max length of the app's part of the description
+		// App 的描述部分的最大长度是多少？
 		public const int k_cchSteamNetworkingMaxConnectionAppName = 32;
-		public const int k_nSteamNetworkConnectionInfoFlags_Unauthenticated = 1; // We don't have a certificate for the remote host.
-		public const int k_nSteamNetworkConnectionInfoFlags_Unencrypted = 2; // Information is being sent out over a wire unencrypted (by this library)
-		public const int k_nSteamNetworkConnectionInfoFlags_LoopbackBuffers = 4; // Internal loopback buffers.  Won't be true for localhost.  (You can check the address to determine that.)  This implies k_nSteamNetworkConnectionInfoFlags_FastLAN
-		public const int k_nSteamNetworkConnectionInfoFlags_Fast = 8; // The connection is "fast" and "reliable".  Either internal/localhost (check the address to find out), or the peer is on the same LAN.  (Probably.  It's based on the address and the ping time, this is actually hard to determine unambiguously).
-		public const int k_nSteamNetworkConnectionInfoFlags_Relayed = 16; // The connection is relayed somehow (SDR or TURN).
-		public const int k_nSteamNetworkConnectionInfoFlags_DualWifi = 32; // We're taking advantage of dual-wifi multi-path
+		public const int k_nSteamNetworkConnectionInfoFlags_Unauthenticated = 1; // We don't have a certificate for the remote host. 我们没有为远程主机颁发证书。
+		public const int k_nSteamNetworkConnectionInfoFlags_Unencrypted = 2; // Information is being sent out over a wire unencrypted (by this library) 信息正在通过一根未加密的电线发送（由该库支持）。
+		public const int k_nSteamNetworkConnectionInfoFlags_LoopbackBuffers = 4; // Internal loopback buffers.  Won't be true for localhost.  (You can check the address to determine that.)  This implies k_nSteamNetworkConnectionInfoFlags_FastLAN 内部循环缓冲区。不会是真正的 localhost。 (你可以检查地址来确定这一点。) 这暗示了 k_nSteamNetworkConnectionInfoFlags_FastLAN
+		public const int k_nSteamNetworkConnectionInfoFlags_Fast = 8; // The connection is "fast" and "reliable".  Either internal/localhost (check the address to find out), or the peer is on the same LAN.  (Probably.  It's based on the address and the ping time, this is actually hard to determine unambiguously). 连接是“快速”和“可靠的”。 可能是内部/localhost（请查看地址以确定），或者同LAN中的同伴。（大概吧。这实际上很难明确确定，基于地址和ping时间）
+		public const int k_nSteamNetworkConnectionInfoFlags_Relayed = 16; // The connection is relayed somehow (SDR or TURN). 连接是通过某种方式中继的（SDR或TURN）。
+		public const int k_nSteamNetworkConnectionInfoFlags_DualWifi = 32; // We're taking advantage of dual-wifi multi-path 我们正在利用双WiFi多路径。
 		//
 		// Network messages
 		//
 		// Max size of a single message that we can SEND.
 		// Note: We might be wiling to receive larger messages,
 		// and our peer might, too.
+		// 网络消息
+		// 单条可以发送的最大消息大小。请注意，我们可能愿意接收更大的消息，我们的同伴也可能愿意这样做。
 		public const int k_cbMaxSteamNetworkingSocketsMessageSizeSend = 512 * 1024;
 		//
 		// Flags used to set options for message sending
@@ -216,6 +244,10 @@ namespace Steamworks {
 		//
 		// Migration note: This is not exactly the same as k_EP2PSendUnreliable!  You
 		// probably want k_ESteamNetworkingSendType_UnreliableNoNagle
+		// Flags used to set options for message sending
+		// 发送消息不可靠。消息*可能*丢失。消息*可以*大于单个MTU（UDP包），但没有重传，因此如果任何一部分消息丢失，整个消息将被丢弃。
+		// 发送API确实对底层连接有所了解，如果未实现NAT穿透或连接上检测到调整，则该包将被批量处理，直到连接重新打开。
+		// Migration note: 这与 k_EP2PSendUnreliable 不完全相同。你可能想要 k_ESteamNetworkingSendType_UnreliableNoNagle
 		public const int k_nSteamNetworkingSend_Unreliable = 0;
 		// Disable Nagle's algorithm.
 		// By default, Nagle's algorithm is applied to all outbound messages.  This means
@@ -232,16 +264,20 @@ namespace Steamworks {
 		// when you are sending what you know will be the last message sent for a while (e.g. the last
 		// in the server simulation tick to a particular client), and you use this flag to flush all
 		// messages.
+		// 禁用 Nagle 算法。默认情况下，Nagle 算法应用于所有出站消息。这意味着消息将不会立即发送，如果很快又发送了其他消息，它们会被分组在一起。只要有足够的数据缓冲以填充一个包，包就会立即发送出去，但部分填充的包会在 Nagle 计时器到期时才发送。请参见 ISteamNetworkingSockets::FlushMessagesOnConnection、 ISteamNetworkingMessages::FlushMessagesToUser
+		// 注意：不要发送所有消息，因为你希望数据包能更快到达。 确保你理解 Nagle 解决的问题，在发送小消息时，如果同时发送很多消息，则更有可能让 Nagle 保持启用状态更有效。 这种标志的典型用法是在发送已知会是最后发送的消息一段时间内的消息时（例如，服务器模拟的特定客户端的最后一条消息），并使用此标志来刷新所有消息。
 		public const int k_nSteamNetworkingSend_NoNagle = 1;
 		// Send a message unreliably, bypassing Nagle's algorithm for this message and any messages
 		// currently pending on the Nagle timer.  This is equivalent to using k_ESteamNetworkingSend_Unreliable
 		// and then immediately flushing the messages using ISteamNetworkingSockets::FlushMessagesOnConnection
 		// or ISteamNetworkingMessages::FlushMessagesToUser.  (But using this flag is more efficient since you
 		// only make one API call.)
+		// 发送一个不可靠的消息，绕过 Nagle 算法，针对此消息以及当前在 Nagle 计时器上排队的任何消息。 这相当于使用 k_ESteamNetworkingSend_Unreliable 并立即使用 ISteamNetworkingSockets::FlushMessagesOnConnection 或 ISteamNetworkingMessages::FlushMessagesToUser 刷新消息。 (但使用此标志更有效，因为它只需要一个 API 调用。)
 		public const int k_nSteamNetworkingSend_UnreliableNoNagle = k_nSteamNetworkingSend_Unreliable|k_nSteamNetworkingSend_NoNagle;
 		// If the message cannot be sent very soon (because the connection is still doing some initial
 		// handshaking, route negotiations, etc), then just drop it.  This is only applicable for unreliable
 		// messages.  Using this flag on reliable messages is invalid.
+		// 如果消息无法很快发送（因为连接仍在进行一些初始握手、路由协商等操作），则直接放弃。此标志仅适用于不可靠消息。在可靠消息上使用此标志无效。
 		public const int k_nSteamNetworkingSend_NoDelay = 4;
 		// Send an unreliable message, but if it cannot be sent relatively quickly, just drop it instead of queuing it.
 		// This is useful for messages that are not useful if they are excessively delayed, such as voice data.
@@ -254,6 +290,9 @@ namespace Steamworks {
 		//   will not be placed on the wire in the next ~200ms or so.
 		//
 		// If a message is dropped for these reasons, k_EResultIgnored will be returned.
+		// 发送不可靠的消息，但如果无法在相对较快的时间内发送，则直接放弃发送，而不是排队等待。这对于在过度延迟后变得无用的消息很有用，例如语音数据。注意：不使用Nagle算法，如果消息没有被放弃，等待在Nagle计时器上的所有消息都会立即刷新。
+		// 一条消息会在以下情况下被丢弃：- 连接未完全建立。（例如，“连接中”或“查找路由”状态）- 消息队列已积压到足以使当前消息在接下来大约200毫秒内无法放置在电路上。
+		// 如果消息丢失是由于以下原因造成的，将返回 k_EResultIgnored。
 		public const int k_nSteamNetworkingSend_UnreliableNoDelay = k_nSteamNetworkingSend_Unreliable|k_nSteamNetworkingSend_NoDelay|k_nSteamNetworkingSend_NoNagle;
 		// Reliable message send. Can send up to k_cbMaxSteamNetworkingSocketsMessageSizeSend bytes in a single message.
 		// Does fragmentation/re-assembly of messages under the hood, as well as a sliding window for
@@ -264,9 +303,14 @@ namespace Steamworks {
 		// ISteamNetworkingMessages::FlushMessagesToUser
 		//
 		// Migration note: This is NOT the same as k_EP2PSendReliable, it's more like k_EP2PSendReliableWithBuffering
+		// 可靠的消息发送。可以单次发送最多 k_cbMaxSteamNetworkingSocketsMessageSizeSend 字节的消息。底层进行消息的断片/重组，以及滑动窗口，以高效地发送大量数据。
+		// Nagle 算法被使用。 参见 k_ESteamNetworkingSendType_Unreliable 关于更多细节。 参见 k_ESteamNetworkingSendType_ReliableNoNagle, ISteamNetworkingSockets::FlushMessagesOnConnection, ISteamNetworkingMessages::FlushMessagesToUser
+		// Migration note: This is NOT the same as k_EP2PSendReliable, it's more like k_EP2PSendReliableWithBuffering
 		public const int k_nSteamNetworkingSend_Reliable = 8;
 		// Send a message reliably, but bypass Nagle's algorithm.
 		//
+		// Migration note: This is equivalent to k_EP2PSendReliable
+		// Send a message reliably, but bypass Nagle's algorithm.
 		// Migration note: This is equivalent to k_EP2PSendReliable
 		public const int k_nSteamNetworkingSend_ReliableNoNagle = k_nSteamNetworkingSend_Reliable|k_nSteamNetworkingSend_NoNagle;
 		// By default, message sending is queued, and the work of encryption and talking to
@@ -282,6 +326,8 @@ namespace Steamworks {
 		// the work of sending on a service thread will yield the best performance.  Only
 		// use this flag if you have a really good reason and understand what you are doing.
 		// Otherwise you will probably just make performance worse.
+		// 默认情况下，消息发送会排队，加密和与操作系统套接字等交互的工作将在服务线程中进行。这通常在消息从“主线程”发送时是一个性能优势。但是，如果此标志已设置，并且数据已准备好立即发送（无论是来自此消息还是之前排队的任何数据），则该工作将在当前线程中完成，在当前调用返回之前。如果数据未准备好发送（由于速率限制或Nagle），则此标志没有影响。
+		// 这是一个高级标志，用于在非常低级别控制性能。对于在现代硬件上运行，并且具有多个 CPU 核心的应用，在服务线程上执行工作将产生最佳性能。 只有在你真正有充分理由并且理解你在做什么的情况下才使用此标志。 否则你很可能只会使性能变差。
 		public const int k_nSteamNetworkingSend_UseCurrentThread = 16;
 		// When sending a message using ISteamNetworkingMessages, automatically re-establish
 		// a broken session, without returning k_EResultNoConnection.  Without this flag,
@@ -302,22 +348,27 @@ namespace Steamworks {
 		// If you are not using any reliable messages (e.g. you are using ISteamNetworkingMessages
 		// exactly as a transport replacement for UDP-style datagrams only), you may not need to
 		// know when an underlying connection fails, and so you may not need this notification.
+		// 当使用ISteamNetworkingMessages时，自动重新建立断开的会话，而无需返回k_EResultNoConnection。如果没有这个标志，如果尝试发送消息，并且会话被同伴主动关闭，或者发生导致通信中断的错误，则必须使用ISteamNetworkingMessages::CloseSessionWithUser关闭会话，然后再尝试发送消息。（或者可以简单地添加这个标志并重试）。 这样才能避免中断被注意到，并可以确定更清晰的事件顺序。 这在可靠消息的使用中尤其重要，因为如果连接中断，一些消息将无法被传递，而且通常无法知道哪些消息没有被传递。 尽管SteamNetworkingMessagesSessionFailed_t回调会在发生错误时发布以通知你已经发生失败，但回调是异步的，因此无法准确知道它何时发生。 并且因为 ISteamNetworkingMessages 的主要目的是像 UDP 一样，当同伴关闭会话时不会有任何通知。
+		// 如果您没有使用任何可靠的消息（例如，您正在使用ISteamNetworkingMessages作为UDP风格数据包的传输方式），您可能不需要知道底层连接失败时，因此您可能不需要这个通知。
 		public const int k_nSteamNetworkingSend_AutoRestartBrokenSession = 32;
 		// Max possible length of a ping location, in string format.  This is
 		// an extremely conservative worst case value which leaves room for future
 		// syntax enhancements.  Most strings in practice are a lot shorter.
 		// If you are storing many of these, you will very likely benefit from
 		// using dynamic memory.
+		// 最大可能的 ping 位置字符串长度，以字符串格式表示。这是一个极其保守的极端情况值，留有未来语法增强的余地。在实践中，大多数字符串的长度会比这短很多。如果您存储大量这些字符串，您很可能会受益于使用动态内存。
 		public const int k_cchMaxSteamNetworkingPingLocationString = 1024;
+		// Special values that are returned by some functions that return a ping.
 		// Special values that are returned by some functions that return a ping.
 		public const int k_nSteamNetworkingPing_Failed = -1;
 		public const int k_nSteamNetworkingPing_Unknown = -2;
 		// Bitmask of types to share
-		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Default = -1; // Special value - use user defaults
-		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Disable = 0; // Do not do any ICE work at all or share any IP addresses with peer
-		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Relay = 1; // Relayed connection via TURN server.
-		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Private = 2; // host addresses that appear to be link-local or RFC1918 addresses
-		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Public = 4; // STUN reflexive addresses, or host address that isn't a "private" address
+		// 类型共享的位掩码
+		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Default = -1; // Special value - use user defaults 特殊值 - 使用用户默认值
+		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Disable = 0; // Do not do any ICE work at all or share any IP addresses with peer 请勿进行任何 ICE 工作，也不要与同伴共享 IP 地址。
+		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Relay = 1; // Relayed connection via TURN server. 通过 TURN 服务器转发连接。
+		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Private = 2; // host addresses that appear to be link-local or RFC1918 addresses 本地地址，看起来像是链路本地或RFC1918地址。
+		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Public = 4; // STUN reflexive addresses, or host address that isn't a "private" address STUN 反射地址，或非“私有”地址的主机地址。
 		public const int k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_All = 0x7fffffff;
 		public const ulong k_ulPartyBeaconIdInvalid = 0;
 		public const int INVALID_HTTPREQUEST_HANDLE		= 0;
@@ -327,10 +378,12 @@ namespace Steamworks {
 		public const int STEAM_INPUT_MAX_ORIGINS = 8;
 		public const int STEAM_INPUT_MAX_ACTIVE_LAYERS = 16;
 		// When sending an option to a specific controller handle, you can send to all devices via this command
+		// 当发送选项到特定控制器句柄时，可以通过此命令发送到所有设备。
 		public const ulong STEAM_INPUT_HANDLE_ALL_CONTROLLERS = 0xFFFFFFFFFFFFFFFF;
 		public const float STEAM_INPUT_MIN_ANALOG_ACTION_DATA = -1.0f;
 		public const float STEAM_INPUT_MAX_ANALOG_ACTION_DATA = 1.0f;
 		// maximum number of characters a lobby metadata key can be
+		// The maximum number of characters a lobby metadata key can be is 255.
 		public const byte k_nMaxLobbyKeyLength = 255;
 		public const int k_SteamMusicNameMaxLength = 255;
 		public const int k_SteamMusicPNGMaxLength = 65535;

@@ -56,7 +56,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Abilities for the user interface</para>
-		/// <para>用户界面的能力</para>
+		/// <para>用户界面能力</para>
 		/// </summary>
 		public static bool EnablePlayPrevious(bool bValue) {
 			InteropHelp.TestIfAvailableClient();
@@ -90,7 +90,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Status</para>
-		/// <para>地位</para>
+		/// <para>状态</para>
 		/// </summary>
 		public static bool UpdatePlaybackStatus(AudioPlayback_Status nStatus) {
 			InteropHelp.TestIfAvailableClient();
@@ -109,7 +109,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> volume is between 0.0 and 1.0</para>
-		/// <para>音量在0.0至1.0之间</para>
+		/// <para>音量在 0.0 到 1.0 之间。</para>
 		/// </summary>
 		public static bool UpdateVolume(float flValue) {
 			InteropHelp.TestIfAvailableClient();
@@ -118,7 +118,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Current Entry</para>
-		/// <para>当前条目</para>
+		/// <para>Current Entry</para>
 		/// </summary>
 		public static bool CurrentEntryWillChange() {
 			InteropHelp.TestIfAvailableClient();
@@ -154,7 +154,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Queue</para>
-		/// <para>队列</para>
+		/// <para>排队</para>
 		/// </summary>
 		public static bool QueueWillChange() {
 			InteropHelp.TestIfAvailableClient();

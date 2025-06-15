@@ -21,7 +21,7 @@ namespace Steamworks {
 		/// <para> the method (GET or POST) and the absolute URL for the request.  Both http and https are supported,</para>
 		/// <para> so this string must start with http:// or https:// and should look like http://store.steampowered.com/app/250/</para>
 		/// <para> or such.</para>
-		/// <para>初始化一个新的HTTP请求，返回将其用于进一步操作的句柄。需要该请求的方法（获取或发布）和绝对URL。支持http和https，因此该字符串必须以http：// or https：//的形式开始，并且应该看起来像http://store.steampowered.com/app/app/250/或这样。</para>
+		/// <para>初始化一个新的 HTTP 请求，返回一个句柄用于后续操作。需要指定方法（GET 或 POST）和请求的绝对 URL。同时支持 http 和 https，因此该字符串必须以 http:// 或 https:// 开头，并像 http://store.steampowered.com/app/250/ 这样的形式。</para>
 		/// </summary>
 		public static HTTPRequestHandle CreateHTTPRequest(EHTTPMethod eHTTPRequestMethod, string pchAbsoluteURL) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -33,7 +33,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Set a context value for the request, which will be returned in the HTTPRequestCompleted_t callback after</para>
 		/// <para> sending the request.  This is just so the caller can easily keep track of which callbacks go with which request data.</para>
-		/// <para>为请求设置上下文值，该请求将在发送请求后在httprequestcompleted_t回调中返回。这就是这样，呼叫者可以轻松地跟踪哪些请求数据的回调。</para>
+		/// <para>设置请求上下文值，将在发送请求后在 HTTPRequestCompleted_t 回调函数中返回。这只是为了让调用者能够轻松地跟踪哪些回调与哪些请求数据相关。</para>
 		/// </summary>
 		public static bool SetHTTPRequestContextValue(HTTPRequestHandle hRequest, ulong ulContextValue) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -44,7 +44,7 @@ namespace Steamworks {
 		/// <para> Set a timeout in seconds for the HTTP request, must be called prior to sending the request.  Default</para>
 		/// <para> timeout is 60 seconds if you don't call this.  Returns false if the handle is invalid, or the request</para>
 		/// <para> has already been sent.</para>
-		/// <para>在发送请求之前，必须在http请求中以秒为单位设置超时。如果您不调用默认超时为60秒。如果句柄无效，则返回false，或已发送请求。</para>
+		/// <para>设置 HTTP 请求的超时时间（秒），必须在发送请求之前调用。默认超时时间为 60 秒，如果未调用此方法，则使用默认值。如果句柄无效或请求已发送，则返回 false。</para>
 		/// </summary>
 		public static bool SetHTTPRequestNetworkActivityTimeout(HTTPRequestHandle hRequest, uint unTimeoutSeconds) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -54,7 +54,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Set a request header value for the request, must be called prior to sending the request.  Will</para>
 		/// <para> return false if the handle is invalid or the request is already sent.</para>
-		/// <para>为请求设置请求标头值，必须在发送请求之前调用。如果句柄无效或已发送请求，将返回false。</para>
+		/// <para>设置请求头值，在发送请求之前必须执行。如果句柄无效或请求已发送，则返回false。</para>
 		/// </summary>
 		public static bool SetHTTPRequestHeaderValue(HTTPRequestHandle hRequest, string pchHeaderName, string pchHeaderValue) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -68,7 +68,7 @@ namespace Steamworks {
 		/// <para> Set a GET or POST parameter value on the request, which is set will depend on the EHTTPMethod specified</para>
 		/// <para> when creating the request.  Must be called prior to sending the request.  Will return false if the</para>
 		/// <para> handle is invalid or the request is already sent.</para>
-		/// <para>在请求上设置get或post参数值，设置的设置将取决于创建请求时指定的ehttpmethod。必须在发送请求之前调用。如果句柄无效或已发送请求，将返回false。</para>
+		/// <para>设置请求的 GET 或 POST 参数值，该值将取决于在创建请求时指定的 EHTTPMethod。必须在发送请求之前调用。如果句柄无效或请求已发送，则返回 false。</para>
 		/// </summary>
 		public static bool SetHTTPRequestGetOrPostParameter(HTTPRequestHandle hRequest, string pchParamName, string pchParamValue) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -83,7 +83,8 @@ namespace Steamworks {
 		/// <para> asynchronous response via callback.</para>
 		/// <para> Note: If the user is in offline mode in Steam, then this will add a only-if-cached cache-control</para>
 		/// <para> header and only do a local cache lookup rather than sending any actual remote request.</para>
-		/// <para>发送HTTP请求，将返回错误的句柄上的false，否则使用SteamCallHandle通过回调等待异步响应。 注意：如果用户处于Steam中的离线模式，则将添加一个仅由IF的高速缓存控制标头，并且仅执行本地缓存查找而不是发送任何实际的远程请求。</para>
+		/// <para>发送 HTTP 请求，在处理失败时返回 false，否则使用 SteamCallHandle 等待异步响应通过回调。</para>
+		/// <para>注意：如果用户处于Steam离线模式，则会添加仅缓存-如果缓存则仅执行缓存控制标头，并且不会发送任何实际的远程请求，而是仅执行本地缓存查找。</para>
 		/// </summary>
 		public static bool SendHTTPRequest(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -94,7 +95,7 @@ namespace Steamworks {
 		/// <para> Sends the HTTP request, will return false on a bad handle, otherwise use SteamCallHandle to wait on</para>
 		/// <para> asynchronous response via callback for completion, and listen for HTTPRequestHeadersReceived_t and</para>
 		/// <para> HTTPRequestDataReceived_t callbacks while streaming.</para>
-		/// <para>发送HTTP请求，将在不良的手柄上返回false，否则使用SteamCallHandle通过回调来等待异步响应，然后收听HTTPREQUESTHEADESRECEIVED_T和HTTPREQUESTDATATARECEIVED_T CALLBACKS。</para>
+		/// <para>发送 HTTP 请求，在出现无效句柄时返回 false，否则使用 SteamCallHandle 等待异步响应通过回调完成，并在流式传输期间监听 HTTPRequestHeadersReceived_t 和 HTTPRequestDataReceived_t 回调。</para>
 		/// </summary>
 		public static bool SendHTTPRequestAndStreamResponse(HTTPRequestHandle hRequest, out SteamAPICall_t pCallHandle) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -104,7 +105,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Defers a request you have sent, the actual HTTP client code may have many requests queued, and this will move</para>
 		/// <para> the specified request to the tail of the queue.  Returns false on invalid handle, or if the request is not yet sent.</para>
-		/// <para>防御您已发送的请求，实际的HTTP客户端代码可能已排队许多请求，这将把指定的请求移至队列的尾部。在无效的句柄上返回false，或者如果未发送请求。</para>
+		/// <para>延迟发送你已发送的请求，实际的 HTTP 客户端代码可能存在许多请求排队，这会将指定请求移动到队列的末尾。在无效句柄或请求尚未发送时返回 false。</para>
 		/// </summary>
 		public static bool DeferHTTPRequest(HTTPRequestHandle hRequest) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -114,7 +115,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Prioritizes a request you have sent, the actual HTTP client code may have many requests queued, and this will move</para>
 		/// <para> the specified request to the head of the queue.  Returns false on invalid handle, or if the request is not yet sent.</para>
-		/// <para>优先考虑您已发送的请求，实际的HTTP客户端代码可能已排队许多请求，这将把指定的请求移至队列。在无效的句柄上返回false，或者如果未发送请求。</para>
+		/// <para>优先处理你发送的请求，实际的HTTP客户端可能存在多个请求排队，这会将指定的请求移动到队列的头部。如果处理无效，或请求尚未发送，则返回false。</para>
 		/// </summary>
 		public static bool PrioritizeHTTPRequest(HTTPRequestHandle hRequest) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -125,7 +126,7 @@ namespace Steamworks {
 		/// <para> Checks if a response header is present in a HTTP response given a handle from HTTPRequestCompleted_t, also</para>
 		/// <para> returns the size of the header value if present so the caller and allocate a correctly sized buffer for</para>
 		/// <para> GetHTTPResponseHeaderValue.</para>
-		/// <para>检查响应标头是否存在于HTTP响应中，给定httprequestcompleted_t的句柄，还会返回标头值（如果存在）的大小，以便呼叫者并为GethttPresponseSponseHeadervalue分配正确尺寸的缓冲区。</para>
+		/// <para>检查 HTTP 响应中是否存在响应头，同时如果存在则返回头的值大小，以便调用者为 GetHTTPResponseHeaderValue 函数正确地分配缓冲区。</para>
 		/// </summary>
 		public static bool GetHTTPResponseHeaderSize(HTTPRequestHandle hRequest, string pchHeaderName, out uint unResponseHeaderSize) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -138,7 +139,7 @@ namespace Steamworks {
 		/// <para> Gets header values from a HTTP response given a handle from HTTPRequestCompleted_t, will return false if the</para>
 		/// <para> header is not present or if your buffer is too small to contain it's value.  You should first call</para>
 		/// <para> BGetHTTPResponseHeaderSize to check for the presence of the header and to find out the size buffer needed.</para>
-		/// <para>从HTTP响应中获得httprequestcompleted_t的句柄的HTTP响应获取标头值，如果不存在标题或缓冲区太小而无法包含其值，则将返回false。您应该首先致电bgethtpresponseheadersize检查标头的存在并找出所需的尺寸缓冲区。</para>
+		/// <para>从HTTP响应获取标头值，给定一个HTTP请求完成处理句柄。如果标头不存在或您的缓冲区太小无法容纳其值，则返回false。您应该首先调用BGetHTTPResponseHeaderSize来检查标头的存在情况，并确定所需的缓冲区大小。</para>
 		/// </summary>
 		public static bool GetHTTPResponseHeaderValue(HTTPRequestHandle hRequest, string pchHeaderName, byte[] pHeaderValueBuffer, uint unBufferSize) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -150,7 +151,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Gets the size of the body data from a HTTP response given a handle from HTTPRequestCompleted_t, will return false if the</para>
 		/// <para> handle is invalid.</para>
-		/// <para>从httprequestcompleted_t的句柄给定的http响应中获取身体数据的大小，如果句柄无效，将返回false。</para>
+		/// <para>从 HTTP 响应中获取 body 数据的大小，给定一个 HTTPRequestCompleted_t 的句柄，如果句柄无效则返回 false。</para>
 		/// </summary>
 		public static bool GetHTTPResponseBodySize(HTTPRequestHandle hRequest, out uint unBodySize) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -161,7 +162,7 @@ namespace Steamworks {
 		/// <para> Gets the body data from a HTTP response given a handle from HTTPRequestCompleted_t, will return false if the</para>
 		/// <para> handle is invalid or is to a streaming response, or if the provided buffer is not the correct size.  Use BGetHTTPResponseBodySize first to find out</para>
 		/// <para> the correct buffer size to use.</para>
-		/// <para>从HTTP响应中获取httprequestcompleted_t的句柄的HTTP响应中的身体数据，如果句柄无效或流向流响应，或者提供的缓冲区不是正确的大小，将返回false。首先使用bgethttresponsponsebodysize来找出要使用的正确缓冲区大小。</para>
+		/// <para>从 HTTP 响应中获取主体数据，给定一个 HTTPRequestCompleted_t 的句柄。如果句柄无效或指向流式响应，或者提供的缓冲区大小不正确，则返回 false。首先使用 BGetHTTPResponseBodySize 确定正确的缓冲区大小。</para>
 		/// </summary>
 		public static bool GetHTTPResponseBodyData(HTTPRequestHandle hRequest, byte[] pBodyDataBuffer, uint unBufferSize) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -172,7 +173,7 @@ namespace Steamworks {
 		/// <para> Gets the body data from a streaming HTTP response given a handle from HTTPRequestDataReceived_t. Will return false if the</para>
 		/// <para> handle is invalid or is to a non-streaming response (meaning it wasn't sent with SendHTTPRequestAndStreamResponse), or if the buffer size and offset</para>
 		/// <para> do not match the size and offset sent in HTTPRequestDataReceived_t.</para>
-		/// <para>从httprequestdatareceived_t的句柄给定的句柄的情况下，从流媒体http响应中获取身体数据。如果句柄无效或转到非流程响应（这意味着它没有使用sendhttprequestStreamResponse发送），或者如果缓冲区大小和偏移不匹配在httprequestDataReceived_t中发送的大小和偏移，则会返回false。</para>
+		/// <para>从流式 HTTP 响应中获取主体数据，给定一个 HTTPRequestDataReceived_t 处理句柄。如果句柄无效或指向非流式响应（即未通过 SendHTTPRequestAndStreamResponse 发送），或者缓冲区大小和偏移量与 HTTPRequestDataReceived_t 中发送的大小和偏移量不匹配，则返回 false。</para>
 		/// </summary>
 		public static bool GetHTTPStreamingResponseBodyData(HTTPRequestHandle hRequest, uint cOffset, byte[] pBodyDataBuffer, uint unBufferSize) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -182,7 +183,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Releases an HTTP response handle, should always be called to free resources after receiving a HTTPRequestCompleted_t</para>
 		/// <para> callback and finishing using the response.</para>
-		/// <para>释放HTTP响应句柄，在收到HTTPRequestCompleted_t回调并使用响应完成后，应始终调用免费资源。</para>
+		/// <para>释放一个 HTTP 响应句柄，始终应该在收到 HTTPRequestCompleted_t 回调并完成使用响应后调用，以释放资源。</para>
 		/// </summary>
 		public static bool ReleaseHTTPRequest(HTTPRequestHandle hRequest) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -193,7 +194,7 @@ namespace Steamworks {
 		/// <para> Gets progress on downloading the body for the request.  This will be zero unless a response header has already been</para>
 		/// <para> received which included a content-length field.  For responses that contain no content-length it will report</para>
 		/// <para> zero for the duration of the request as the size is unknown until the connection closes.</para>
-		/// <para>为请求下载身体方面取得进展。除非已经收到包括内容长度字段的响应标头，否则这将是零。对于不包含内容长度的响应，它将在请求期间报告零，因为大小是未知的，直到连接关闭。</para>
+		/// <para>获取请求体下载进度。除非已收到包含 content-length 字段的响应头，否则此值将为零。对于不包含 content-length 的响应，在连接关闭时，它将报告为零，因为大小在此时未知。</para>
 		/// </summary>
 		public static bool GetHTTPDownloadProgressPct(HTTPRequestHandle hRequest, out float pflPercentOut) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -204,7 +205,7 @@ namespace Steamworks {
 		/// <para> Sets the body for an HTTP Post request.  Will fail and return false on a GET request, and will fail if POST params</para>
 		/// <para> have already been set for the request.  Setting this raw body makes it the only contents for the post, the pchContentType</para>
 		/// <para> parameter will set the content-type header for the request so the server may know how to interpret the body.</para>
-		/// <para>为HTTP POST请求设置身体。将失败并在GET请求中返回False，如果已为请求设置了Post参数，将失败。设置此原始主体使其成为帖子的唯一内容，PCHCONTENTTYPE参数将为请求设置内容类型标头，以便服务器可能知道如何解释主体。</para>
+		/// <para>设置HTTP Post请求的body。如果请求是GET请求，将会失败并返回false，如果POST参数已经设置，也会失败。设置raw body会使其成为Post请求的唯一内容，pchContentType参数将设置请求的content-type header，以便服务器能够理解body。</para>
 		/// </summary>
 		public static bool SetHTTPRequestRawPostBody(HTTPRequestHandle hRequest, string pchContentType, byte[] pubBody, uint unBodyLen) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -219,7 +220,7 @@ namespace Steamworks {
 		/// <para> future requests.  If bAllowResponsesToModify=false than only cookies you explicitly set will be sent.  This API is just for</para>
 		/// <para> during process lifetime, after steam restarts no cookies are persisted and you have no way to access the cookie container across</para>
 		/// <para> repeat executions of your process.</para>
-		/// <para>创建一个cookie容器手柄，您以后必须使用ReleaseAcookOceContainer（）免费。如果BallOwresPonseStomodify = True = True，则使用此Cookie容器对您的请求的任何响应可能会添加可能与以后的请求一起传输的新cookie。如果BallowResponSeStomodify = false，则将发送您明确设置的cookie。此API仅在过程寿命中，在Steam重新启动后，没有cookie持续存在，您无法通过重复执行过程访问Cookie容器。</para>
+		/// <para>创建一个 Cookie 容器句柄，您必须稍后使用 ReleaseCookieContainer() 释放它。如果 bAllowResponsesToModify=true，则使用此 Cookie 容器的任何对请求的响应都可能添加新的 Cookie，这些 Cookie 将在后续请求中传输。如果 bAllowResponsesToModify=false，则仅发送您明确设置的 Cookie。此 API 仅用于进程生命周期内，Steam 重启后不会持久化 Cookie，您无法在重复执行进程时访问 Cookie 容器。</para>
 		/// </summary>
 		public static HTTPCookieContainerHandle CreateCookieContainer(bool bAllowResponsesToModify) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -228,7 +229,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Release a cookie container you are finished using, freeing it's memory</para>
-		/// <para>释放您使用的cookie容器，释放它的内存</para>
+		/// <para>发布一个饼干容器，你已完成使用，释放它的内存。</para>
 		/// </summary>
 		public static bool ReleaseCookieContainer(HTTPCookieContainerHandle hCookieContainer) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -237,7 +238,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Adds a cookie to the specified cookie container that will be used with future requests.</para>
-		/// <para>将cookie添加到指定的cookie容器中，该容器将与以后的请求一起使用。</para>
+		/// <para>添加一个到指定cookie容器的cookie，该cookie将用于未来的请求。</para>
 		/// </summary>
 		public static bool SetCookie(HTTPCookieContainerHandle hCookieContainer, string pchHost, string pchUrl, string pchCookie) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -250,7 +251,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Set the cookie container to use for a HTTP request</para>
-		/// <para>将Cookie容器设置用于HTTP请求</para>
+		/// <para>设置用于 HTTP 请求的 Cookie 容器。</para>
 		/// </summary>
 		public static bool SetHTTPRequestCookieContainer(HTTPRequestHandle hRequest, HTTPCookieContainerHandle hCookieContainer) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -259,7 +260,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Set the extra user agent info for a request, this doesn't clobber the normal user agent, it just adds the extra info on the end</para>
-		/// <para>为请求设置额外的用户代理信息，这不会使普通用户代理抓住，它只会在末尾添加额外信息</para>
+		/// <para>设置请求的额外用户代理信息，这不会覆盖正常的用户代理，它只是在请求末尾添加额外信息。</para>
 		/// </summary>
 		public static bool SetHTTPRequestUserAgentInfo(HTTPRequestHandle hRequest, string pchUserAgentInfo) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -271,7 +272,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Disable or re-enable verification of SSL/TLS certificates.</para>
 		/// <para> By default, certificates are checked for all HTTPS requests.</para>
-		/// <para>禁用或重新启用SSL/TLS证书的验证。默认情况下，检查所有HTTPS请求的证书。</para>
+		/// <para>禁用或重新启用 SSL/TLS 证书验证。 默认情况下，证书将针对所有 HTTPS 请求进行检查。</para>
 		/// </summary>
 		public static bool SetHTTPRequestRequiresVerifiedCertificate(HTTPRequestHandle hRequest, bool bRequireVerifiedCertificate) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -281,7 +282,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Set an absolute timeout on the HTTP request, this is just a total time timeout different than the network activity timeout</para>
 		/// <para> which can bump everytime we get more data</para>
-		/// <para>在HTTP请求上设置绝对超时，这只是与网络活动超时不同的总时间超时，每次我们获取更多数据时都会颠簸</para>
+		/// <para>设置 HTTP 请求的绝对超时时间，这与网络活动超时时间不同，后者会随时增加。</para>
 		/// </summary>
 		public static bool SetHTTPRequestAbsoluteTimeoutMS(HTTPRequestHandle hRequest, uint unMilliseconds) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -290,7 +291,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Check if the reason the request failed was because we timed it out (rather than some harder failure)</para>
-		/// <para>检查请求失败的原因是否是因为我们计时了（而不是更难的失败）</para>
+		/// <para>检查请求失败的原因是否因为超时（而不是更严重的错误）</para>
 		/// </summary>
 		public static bool GetHTTPRequestWasTimedOut(HTTPRequestHandle hRequest, out bool pbWasTimedOut) {
 			InteropHelp.TestIfAvailableGameServer();
