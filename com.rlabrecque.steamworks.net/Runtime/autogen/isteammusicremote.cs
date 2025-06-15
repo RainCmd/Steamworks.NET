@@ -18,6 +18,7 @@ namespace Steamworks {
 	public static class SteamMusicRemote {
 		/// <summary>
 		/// <para> Service Definition</para>
+		/// <para>服务定义</para>
 		/// </summary>
 		public static bool RegisterSteamMusicRemote(string pchName) {
 			InteropHelp.TestIfAvailableClient();
@@ -55,6 +56,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Abilities for the user interface</para>
+		/// <para>用户界面的能力</para>
 		/// </summary>
 		public static bool EnablePlayPrevious(bool bValue) {
 			InteropHelp.TestIfAvailableClient();
@@ -88,6 +90,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Status</para>
+		/// <para>地位</para>
 		/// </summary>
 		public static bool UpdatePlaybackStatus(AudioPlayback_Status nStatus) {
 			InteropHelp.TestIfAvailableClient();
@@ -106,6 +109,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> volume is between 0.0 and 1.0</para>
+		/// <para>音量在0.0至1.0之间</para>
 		/// </summary>
 		public static bool UpdateVolume(float flValue) {
 			InteropHelp.TestIfAvailableClient();
@@ -114,6 +118,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Current Entry</para>
+		/// <para>当前条目</para>
 		/// </summary>
 		public static bool CurrentEntryWillChange() {
 			InteropHelp.TestIfAvailableClient();
@@ -149,6 +154,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Queue</para>
+		/// <para>队列</para>
 		/// </summary>
 		public static bool QueueWillChange() {
 			InteropHelp.TestIfAvailableClient();
@@ -179,6 +185,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Playlist</para>
+		/// <para>播放列表</para>
 		/// </summary>
 		public static bool PlaylistWillChange() {
 			InteropHelp.TestIfAvailableClient();

@@ -22,6 +22,7 @@ namespace Steamworks {
 		/// <para> the game process begins.</para>
 		/// <para> virtual bool RequestCurrentStats() = 0;</para>
 		/// <para> Data accessors</para>
+		/// <para>注意：不再需要此调用，因为它由Steam客户端管理，游戏统计数据和成就将在游戏过程开始之前与Steam同步。虚拟bool requestCurrentStats（）= 0;数据登录器</para>
 		/// </summary>
 		public static bool GetStat(string pchName, out int pData) {
 			InteropHelp.TestIfAvailableClient();
@@ -39,6 +40,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Set / update data</para>
+		/// <para>设置 /更新数据</para>
 		/// </summary>
 		public static bool SetStat(string pchName, int nData) {
 			InteropHelp.TestIfAvailableClient();
@@ -63,6 +65,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Achievement flag accessors</para>
+		/// <para>成就旗配件</para>
 		/// </summary>
 		public static bool GetAchievement(string pchName, out bool pbAchieved) {
 			InteropHelp.TestIfAvailableClient();
@@ -89,6 +92,7 @@ namespace Steamworks {
 		/// <para> Get the achievement status, and the time it was unlocked if unlocked.</para>
 		/// <para> If the return value is true, but the unlock time is zero, that means it was unlocked before Steam</para>
 		/// <para> began tracking achievement unlock times (December 2009). Time is seconds since January 1, 1970.</para>
+		/// <para>获取成就状态，以及解锁的时间。如果返回值是正确的，但是解锁时间为零，则意味着在Steam开始跟踪成就解锁时（2009年12月）之前已解锁。时间是自1970年1月1日以来的秒数。</para>
 		/// </summary>
 		public static bool GetAchievementAndUnlockTime(string pchName, out bool pbAchieved, out uint punUnlockTime) {
 			InteropHelp.TestIfAvailableClient();
@@ -104,6 +108,7 @@ namespace Steamworks {
 		/// <para> uploaded has been rejected, either because they broke constraints</para>
 		/// <para> or were out of date. In this case the server sends back updated values.</para>
 		/// <para> The stats should be re-iterated to keep in sync.</para>
+		/// <para>将当前数据存储在服务器上，设置时将获得回调，每个新成就都会回调一个回调 如果回调的结果是k_eresultinvalidparam的结果，则拒绝了一个或多个上传的统计数据，因为它们违反了约束，要么是过时的。在这种情况下，服务器还会寄回更新的值。应重新统计统计以保持同步。</para>
 		/// </summary>
 		public static bool StoreStats() {
 			InteropHelp.TestIfAvailableClient();
@@ -116,6 +121,7 @@ namespace Steamworks {
 		/// <para> A return value of 0 may indicate we are still fetching data, and you can wait for the UserAchievementIconFetched_t callback</para>
 		/// <para> which will notify you when the bits are ready. If the callback still returns zero, then there is no image set for the</para>
 		/// <para> specified achievement.</para>
+		/// <para>成就 /组合元元数据获得了成就的图标，这是在Isteamutils :: getimagergba（）（）中使用的手柄，或者如果没有设置为0。返回值为0可能表明我们仍在获取数据，您可以等待userAchievementiconfetched_t回调，该回调会在准备好时通知您。如果回调仍然返回零，则没有为指定成就设置的图像。</para>
 		/// </summary>
 		public static int GetAchievementIcon(string pchName) {
 			InteropHelp.TestIfAvailableClient();
@@ -128,6 +134,7 @@ namespace Steamworks {
 		/// <para> Get general attributes for an achievement. Accepts the following keys:</para>
 		/// <para> - "name" and "desc" for retrieving the localized achievement name and description (returned in UTF8)</para>
 		/// <para> - "hidden" for retrieving if an achievement is hidden (returns "0" when not hidden, "1" when hidden)</para>
+		/// <para>获得成就的一般属性。接受以下键： - “名称”和“ desc”用于检索本地化成就名称和描述（在UTF8中返回） - 如果隐藏成就，则可以检索“隐藏”（返回“ 0”时“ 0时”时，当不隐藏时，“ 1时”时，当隐藏时）</para>
 		/// </summary>
 		public static string GetAchievementDisplayAttribute(string pchName, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
@@ -140,6 +147,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Achievement progress - triggers an AchievementProgress callback, that is all.</para>
 		/// <para> Calling this w/ N out of N progress will NOT set the achievement, the game must still do that.</para>
+		/// <para>成就进步 - 触发成就的回调，仅此而已。从n个进度中称呼这将无法确定成就，游戏仍然必须做到这一点。</para>
 		/// </summary>
 		public static bool IndicateAchievementProgress(string pchName, uint nCurProgress, uint nMaxProgress) {
 			InteropHelp.TestIfAvailableClient();
@@ -151,6 +159,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Used for iterating achievements. In general games should not need these functions because they should have a</para>
 		/// <para> list of existing achievements compiled into them</para>
+		/// <para>用于迭代成就。在一般游戏中，不需要这些功能，因为它们应该包含汇编的现有成就列表</para>
 		/// </summary>
 		public static uint GetNumAchievements() {
 			InteropHelp.TestIfAvailableClient();
@@ -159,6 +168,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Get achievement name iAchievement in [0,GetNumAchievements)</para>
+		/// <para>在[0，getnumachievements中获取成就名称iachievement）</para>
 		/// </summary>
 		public static string GetAchievementName(uint iAchievement) {
 			InteropHelp.TestIfAvailableClient();
@@ -171,6 +181,7 @@ namespace Steamworks {
 		/// <para> returns a UserStatsReceived_t received when completed</para>
 		/// <para> if the other user has no stats, UserStatsReceived_t.m_eResult will be set to k_EResultFail</para>
 		/// <para> these stats won't be auto-updated; you'll need to call RequestUserStats() again to refresh any data</para>
+		/// <para>朋友统计数据和成就下载用户的统计数据，如果其他用户没有统计数据，则返回USERSTATSRECEIVED_T收到的USERSTATSRECEIVED_T，USERSTATSRECEIVED_T.M_ERESULT将设置为k_eresultfail to k_eresultfail这些统计数据这些统计信息将不会自动升级；您需要再次致电requestUserstats（）以刷新任何数据</para>
 		/// </summary>
 		public static SteamAPICall_t RequestUserStats(CSteamID steamIDUser) {
 			InteropHelp.TestIfAvailableClient();
@@ -179,6 +190,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> requests stat information for a user, usable after a successful call to RequestUserStats()</para>
+		/// <para>向用户请求统计信息，在成功致电requestUserstats（）之后可用</para>
 		/// </summary>
 		public static bool GetUserStat(CSteamID steamIDUser, string pchName, out int pData) {
 			InteropHelp.TestIfAvailableClient();
@@ -203,6 +215,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> See notes for GetAchievementAndUnlockTime above</para>
+		/// <para>请参阅上面的getachievementandunlocktime的注释</para>
 		/// </summary>
 		public static bool GetUserAchievementAndUnlockTime(CSteamID steamIDUser, string pchName, out bool pbAchieved, out uint punUnlockTime) {
 			InteropHelp.TestIfAvailableClient();
@@ -213,6 +226,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Reset stats</para>
+		/// <para>重置统计</para>
 		/// </summary>
 		public static bool ResetAllStats(bool bAchievementsToo) {
 			InteropHelp.TestIfAvailableClient();
@@ -223,6 +237,7 @@ namespace Steamworks {
 		/// <para> Leaderboard functions</para>
 		/// <para> asks the Steam back-end for a leaderboard by name, and will create it if it's not yet</para>
 		/// <para> This call is asynchronous, with the result returned in LeaderboardFindResult_t</para>
+		/// <para>排行榜函数向蒸汽后端询问排行榜的名称，如果该呼叫尚未到异步，则将创建它，结果返回了排行榜Findresult_t</para>
 		/// </summary>
 		public static SteamAPICall_t FindOrCreateLeaderboard(string pchLeaderboardName, ELeaderboardSortMethod eLeaderboardSortMethod, ELeaderboardDisplayType eLeaderboardDisplayType) {
 			InteropHelp.TestIfAvailableClient();
@@ -234,6 +249,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> as above, but won't create the leaderboard if it's not found</para>
 		/// <para> This call is asynchronous, with the result returned in LeaderboardFindResult_t</para>
+		/// <para>如上所述，但如果没有发现此调用是异步的，则不会创建排行榜，结果返回了排行榜findresult_t</para>
 		/// </summary>
 		public static SteamAPICall_t FindLeaderboard(string pchLeaderboardName) {
 			InteropHelp.TestIfAvailableClient();
@@ -244,6 +260,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the name of a leaderboard</para>
+		/// <para>返回排行榜的名称</para>
 		/// </summary>
 		public static string GetLeaderboardName(SteamLeaderboard_t hSteamLeaderboard) {
 			InteropHelp.TestIfAvailableClient();
@@ -252,6 +269,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the total number of entries in a leaderboard, as of the last request</para>
+		/// <para>返回排行榜中的条目总数，从上次请求开始</para>
 		/// </summary>
 		public static int GetLeaderboardEntryCount(SteamLeaderboard_t hSteamLeaderboard) {
 			InteropHelp.TestIfAvailableClient();
@@ -260,6 +278,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the sort method of the leaderboard</para>
+		/// <para>返回排行榜的排序方法</para>
 		/// </summary>
 		public static ELeaderboardSortMethod GetLeaderboardSortMethod(SteamLeaderboard_t hSteamLeaderboard) {
 			InteropHelp.TestIfAvailableClient();
@@ -268,6 +287,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the display type of the leaderboard</para>
+		/// <para>返回排行榜的显示类型</para>
 		/// </summary>
 		public static ELeaderboardDisplayType GetLeaderboardDisplayType(SteamLeaderboard_t hSteamLeaderboard) {
 			InteropHelp.TestIfAvailableClient();
@@ -283,6 +303,7 @@ namespace Steamworks {
 		/// <para> k_ELeaderboardDataRequestGlobalAroundUser requests rows around the current user, nRangeStart being negate</para>
 		/// <para>   e.g. DownloadLeaderboardEntries( hLeaderboard, k_ELeaderboardDataRequestGlobalAroundUser, -3, 3 ) will return 7 rows, 3 before the user, 3 after</para>
 		/// <para> k_ELeaderboardDataRequestFriends requests all the rows for friends of the current user</para>
+		/// <para>向后端询问蒸汽排行榜中的一组行。此调用是异步的，结果返回了LefferBoardsCoresdownloaded_t LeadseDboardsDownloaded_t_t将包含一个句柄，从getDownloadloadedleadeDleaderBoarderTries（）（下图）中提取结果，您可以要求更多的条目，并且它将返回与存在一样多。k_eleaderboarddatarequestgellobal请求排行榜中的排在整个表中，nrangestart＆nrangeend处于[1，totalentries] k_eleaderboarddatarequestgestglobalarounduser request围绕当前用户周围的行，nrangestart nrangestArt为nef。downloadleaderboarderTries（hleaderboard，k_eleaderboarddatarequestgestglobalarounduser，-3，3）将返回7行，在用户面前3，k_eleaderboardboarddatarequestfriends aft the用户3，向当前用户的朋友请求所有行</para>
 		/// </summary>
 		public static SteamAPICall_t DownloadLeaderboardEntries(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int nRangeStart, int nRangeEnd) {
 			InteropHelp.TestIfAvailableClient();
@@ -293,6 +314,7 @@ namespace Steamworks {
 		/// <para> as above, but downloads leaderboard entries for an arbitrary set of users - ELeaderboardDataRequest is k_ELeaderboardDataRequestUsers</para>
 		/// <para> if a user doesn't have a leaderboard entry, they won't be included in the result</para>
 		/// <para> a max of 100 users can be downloaded at a time, with only one outstanding call at a time</para>
+		/// <para>如上所述，但是下载一组任意用户的排行榜条目 -  eleaderboarddatarequest是k_eleaderboarddatarequestusers，如果用户没有排行榜条目，则不会在结果中包含他们一次的最大100个用户，一次只能下载一个未加托</para>
 		/// </summary>
 		public static SteamAPICall_t DownloadLeaderboardEntriesForUsers(SteamLeaderboard_t hSteamLeaderboard, CSteamID[] prgUsers, int cUsers) {
 			InteropHelp.TestIfAvailableClient();
@@ -314,6 +336,7 @@ namespace Steamworks {
 		/// <para>				...</para>
 		/// <para>			}</para>
 		/// <para> once you've accessed all the entries, the data will be free'd, and the SteamLeaderboardEntries_t handle will become invalid</para>
+		/// <para>返回有关单个排行榜条目的数据，使用循环从0到LeadsBoardsCoresDorponLoaded_t :: m_centrycount获取所有下载的条目，例如。void onLeaderBoardsCorescoresDownded（LeadsBoardsCoresdownloaded_t *preaderboardscoresdowned） for（int index = 0; index <peateaderboardscoresdorlowed-> m_centrycount; index ++） 排行榜登录beadboarderry;INT32细节[3];//我们知道这是我们存储了多少以前getDownloadedleaderboarderry（pleaderboardscoresdorponded-> m_hsteamleaderboarderboardertries，index和presenceBoardEntry，详细信息，3）;surstert（LegardBoarderry.m_cdetails == 3）; 访问所有条目后，数据将免费，并且SteamleaderBoarderTries_t句柄将变得无效</para>
 		/// </summary>
 		public static bool GetDownloadedLeaderboardEntry(SteamLeaderboardEntries_t hSteamLeaderboardEntries, int index, out LeaderboardEntry_t pLeaderboardEntry, int[] pDetails, int cDetailsMax) {
 			InteropHelp.TestIfAvailableClient();
@@ -325,6 +348,7 @@ namespace Steamworks {
 		/// <para> This call is asynchronous, with the result returned in LeaderboardScoreUploaded_t</para>
 		/// <para> Details are extra game-defined information regarding how the user got that score</para>
 		/// <para> pScoreDetails points to an array of int32's, cScoreDetailsCount is the number of int32's in the list</para>
+		/// <para>将用户分数上传到Steam后端。这个呼叫是异步的，结果返回了排行榜boardscoreuploaded_t详细信息是有关用户如何获得该得分pscoreTails点的额外的游戏定义信息</para>
 		/// </summary>
 		public static SteamAPICall_t UploadLeaderboardScore(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int nScore, int[] pScoreDetails, int cScoreDetailsCount) {
 			InteropHelp.TestIfAvailableClient();
@@ -335,6 +359,7 @@ namespace Steamworks {
 		/// <para> Attaches a piece of user generated content the user's entry on a leaderboard.</para>
 		/// <para> hContent is a handle to a piece of user generated content that was shared using ISteamUserRemoteStorage::FileShare().</para>
 		/// <para> This call is asynchronous, with the result returned in LeaderboardUGCSet_t.</para>
+		/// <para>附加一块用户生成的内容，用户在排行榜上的条目。HCONTENT是使用Isteamuserremotestorage :: FileShare（）共享的用户生成的内容的手柄。此调用是异步的，结果返回了排行榜cobleugcset_t。</para>
 		/// </summary>
 		public static SteamAPICall_t AttachLeaderboardUGC(SteamLeaderboard_t hSteamLeaderboard, UGCHandle_t hUGC) {
 			InteropHelp.TestIfAvailableClient();
@@ -344,6 +369,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Retrieves the number of players currently playing your game (online + offline)</para>
 		/// <para> This call is asynchronous, with the result returned in NumberOfCurrentPlayers_t</para>
+		/// <para>检索当前玩游戏的玩家数量（在线 +离线）此通话是异步的，结果返回了numberOfCurrentPlayers_t</para>
 		/// </summary>
 		public static SteamAPICall_t GetNumberOfCurrentPlayers() {
 			InteropHelp.TestIfAvailableClient();
@@ -354,6 +380,7 @@ namespace Steamworks {
 		/// <para> Requests that Steam fetch data on the percentage of players who have received each achievement</para>
 		/// <para> for the game globally.</para>
 		/// <para> This call is asynchronous, with the result returned in GlobalAchievementPercentagesReady_t.</para>
+		/// <para>请求蒸汽获取有关在全球范围内获得每项成就的玩家百分比的数据。此呼叫是异步的，结果返回了GlobalAchievementPercentagesReady_t。</para>
 		/// </summary>
 		public static SteamAPICall_t RequestGlobalAchievementPercentages() {
 			InteropHelp.TestIfAvailableClient();
@@ -364,6 +391,7 @@ namespace Steamworks {
 		/// <para> Get the info on the most achieved achievement for the game, returns an iterator index you can use to fetch</para>
 		/// <para> the next most achieved afterwards.  Will return -1 if there is no data on achievement</para>
 		/// <para> percentages (ie, you haven't called RequestGlobalAchievementPercentages and waited on the callback).</para>
+		/// <para>获取有关游戏最大成就的信息，返回一个迭代索引，您可以用来获取后来获得的下一个最下一个。如果没有成就百分比的数据，将返回-1（即，您没有调用requestGlobalachievementPercentages并在回调上等待）。</para>
 		/// </summary>
 		public static int GetMostAchievedAchievementInfo(out string pchName, uint unNameBufLen, out float pflPercent, out bool pbAchieved) {
 			InteropHelp.TestIfAvailableClient();
@@ -378,6 +406,7 @@ namespace Steamworks {
 		/// <para> Get the info on the next most achieved achievement for the game. Call this after GetMostAchievedAchievementInfo or another</para>
 		/// <para> GetNextMostAchievedAchievementInfo call passing the iterator from the previous call. Returns -1 after the last</para>
 		/// <para> achievement has been iterated.</para>
+		/// <para>获取有关游戏下一个最成就的信息。在GetableSachievementInfo或另一个getNextAchiveAChievementInfo呼叫通过上一个呼叫中的迭代器后，请致电。在最后一项成就之后，回报率为-1。</para>
 		/// </summary>
 		public static int GetNextMostAchievedAchievementInfo(int iIteratorPrevious, out string pchName, uint unNameBufLen, out float pflPercent, out bool pbAchieved) {
 			InteropHelp.TestIfAvailableClient();
@@ -390,6 +419,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns the percentage of users who have achieved the specified achievement.</para>
+		/// <para>返回获得指定成就的用户百分比。</para>
 		/// </summary>
 		public static bool GetAchievementAchievedPercent(string pchName, out float pflPercent) {
 			InteropHelp.TestIfAvailableClient();
@@ -403,6 +433,7 @@ namespace Steamworks {
 		/// <para> This call is asynchronous, with the results returned in GlobalStatsReceived_t.</para>
 		/// <para> nHistoryDays specifies how many days of day-by-day history to retrieve in addition</para>
 		/// <para> to the overall totals. The limit is 60.</para>
+		/// <para>请求全局统计数据，可用于标记为“汇总”的统计数据。此调用是异步的，结果返回了GlobalStatsReceived_t。NhistoryDays指定除了总数外，每天要找回多少天的历史。限制为60。</para>
 		/// </summary>
 		public static SteamAPICall_t RequestGlobalStats(int nHistoryDays) {
 			InteropHelp.TestIfAvailableClient();
@@ -411,6 +442,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Gets the lifetime totals for an aggregated stat</para>
+		/// <para>获得汇总统计数据的终身总数</para>
 		/// </summary>
 		public static bool GetGlobalStat(string pchStatName, out long pData) {
 			InteropHelp.TestIfAvailableClient();
@@ -431,6 +463,7 @@ namespace Steamworks {
 		/// <para> So when called, pData[0] will be today, pData[1] will be yesterday, and pData[2] will be two days ago,</para>
 		/// <para> etc. cubData is the size in bytes of the pubData buffer. Returns the number of</para>
 		/// <para> elements actually set.</para>
+		/// <para>获取汇总统计数据的历史记录。从今天开始，PDATA将充满每日价值。因此，当被称为PDATA [0]时，PDATA [1]将是昨天，PDATA [2]将在两天前。Cubdata是PubData Buffer的字节的大小。返回实际设置的元素数量。</para>
 		/// </summary>
 		public static int GetGlobalStatHistory(string pchStatName, long[] pData, uint cubData) {
 			InteropHelp.TestIfAvailableClient();
@@ -450,6 +483,7 @@ namespace Steamworks {
 		/// <para> For achievements that have related Progress stats, use this to query what the bounds of that progress are.</para>
 		/// <para> You may want this info to selectively call IndicateAchievementProgress when appropriate milestones of progress</para>
 		/// <para> have been made, to show a progress notification to the user.</para>
+		/// <para>对于具有相关进度统计数据的成就，请使用它来查询该进度的界限。您可能希望此信息在进行适当的进度里程碑时选择性地调用IndicAteachievementProgress，以向用户显示进度通知。</para>
 		/// </summary>
 		public static bool GetAchievementProgressLimits(string pchName, out int pnMinProgress, out int pnMaxProgress) {
 			InteropHelp.TestIfAvailableClient();

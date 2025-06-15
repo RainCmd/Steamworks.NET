@@ -22,6 +22,7 @@ namespace Steamworks {
 		/// <para> if the user has no stats, GSStatsReceived_t.m_eResult will be set to k_EResultFail</para>
 		/// <para> these stats will only be auto-updated for clients playing on the server. For other</para>
 		/// <para> users you'll need to call RequestUserStats() again to refresh any data</para>
+		/// <para>如果用户没有统计数据，则返回用户的统计数据返回gsstatsreceived_t回调，gsstatsreceived_t.m_eresult将设置为k_eresultfail这些统计数据，这些统计数据仅适用于在服务器上播放的客户端自动更新。对于其他用户，您需要再次调用requestUserstats（）以刷新任何数据</para>
 		/// </summary>
 		public static SteamAPICall_t RequestUserStats(CSteamID steamIDUser) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -30,6 +31,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> requests stat information for a user, usable after a successful call to RequestUserStats()</para>
+		/// <para>向用户请求统计信息，在成功致电requestUserstats（）之后可用</para>
 		/// </summary>
 		public static bool GetUserStat(CSteamID steamIDUser, string pchName, out int pData) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -57,6 +59,7 @@ namespace Steamworks {
 		/// <para> Note: These updates will work only on stats game servers are allowed to edit and only for</para>
 		/// <para> game servers that have been declared as officially controlled by the game creators.</para>
 		/// <para> Set the IP range of your official servers on the Steamworks page</para>
+		/// <para>设置 /更新统计和成就。注意：这些更新只能在统计数据服务器上进行编辑，并且仅适用于被游戏创建者正式控制的游戏服务器。在Steamworks页面上设置官方服务器的IP范围</para>
 		/// </summary>
 		public static bool SetUserStat(CSteamID steamIDUser, string pchName, int nData) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -99,6 +102,7 @@ namespace Steamworks {
 		/// <para> uploaded has been rejected, either because they broke constraints</para>
 		/// <para> or were out of date. In this case the server sends back updated values.</para>
 		/// <para> The stats should be re-iterated to keep in sync.</para>
+		/// <para>将当前数据存储在服务器上，设置时将获得GSSTATSSTSTOSTORD_T回调。 如果回调的结果是k_eresultinvalidparam的结果，则拒绝了一个或多个上传的统计数据，因为它们违反了约束，要么是过时的。在这种情况下，服务器还会寄回更新的值。应重新统计统计以保持同步。</para>
 		/// </summary>
 		public static SteamAPICall_t StoreUserStats(CSteamID steamIDUser) {
 			InteropHelp.TestIfAvailableGameServer();

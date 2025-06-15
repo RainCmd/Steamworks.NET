@@ -19,6 +19,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Creates a communication pipe to the Steam client.</para>
 		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
+		/// <para>为Steam客户端创建通信管。不是线程安全 - 确保没有其他线程在调用时访问Steamworks API</para>
 		/// </summary>
 		public static HSteamPipe CreateSteamPipe() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -28,6 +29,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Releases a previously created communications pipe</para>
 		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
+		/// <para>发布先前创建的通信管而不是线程安全 - 确保没有其他线程在调用时访问Steamworks API</para>
 		/// </summary>
 		public static bool BReleaseSteamPipe(HSteamPipe hSteamPipe) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -38,6 +40,7 @@ namespace Steamworks {
 		/// <para> connects to an existing global user, failing if none exists</para>
 		/// <para> used by the game to coordinate with the steamUI</para>
 		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
+		/// <para>连接到现有的全局用户，如果游戏不存在用于与Steamui而不是线程安全协调的失败 - 确保在调用时没有其他线程访问Steamworks API</para>
 		/// </summary>
 		public static HSteamUser ConnectToGlobalUser(HSteamPipe hSteamPipe) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -47,6 +50,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> used by game servers, create a steam user that won't be shared with anyone else</para>
 		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
+		/// <para>在游戏服务器上使用，创建一个不会与其他没有线程安全的任何人共享的Steam用户 - 确保没有其他线程在调用时访问Steamworks API</para>
 		/// </summary>
 		public static HSteamUser CreateLocalUser(out HSteamPipe phSteamPipe, EAccountType eAccountType) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -56,6 +60,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> removes an allocated user</para>
 		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
+		/// <para>删除分配的用户不是线程安全 - 确保没有其他线程在调用时访问Steamworks API</para>
 		/// </summary>
 		public static void ReleaseUser(HSteamPipe hSteamPipe, HSteamUser hUser) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -64,6 +69,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> retrieves the ISteamUser interface associated with the handle</para>
+		/// <para>检索与手柄关联的Isteamuser接口</para>
 		/// </summary>
 		public static IntPtr GetISteamUser(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -74,6 +80,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> retrieves the ISteamGameServer interface associated with the handle</para>
+		/// <para>检索与句柄关联的ISTeamGameserver接口</para>
 		/// </summary>
 		public static IntPtr GetISteamGameServer(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -85,6 +92,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> set the local IP and Port to bind to</para>
 		/// <para> this must be set before CreateLocalUser()</para>
+		/// <para>将本地IP和端口设置为绑定到此，必须在CreateLocaluser（）之前设置</para>
 		/// </summary>
 		public static void SetLocalIPBinding(ref SteamIPAddress_t unIP, ushort usPort) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -93,6 +101,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the ISteamFriends interface</para>
+		/// <para>返回iSteamfriends界面</para>
 		/// </summary>
 		public static IntPtr GetISteamFriends(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -103,6 +112,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the ISteamUtils interface</para>
+		/// <para>返回Isteamutils界面</para>
 		/// </summary>
 		public static IntPtr GetISteamUtils(HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -113,6 +123,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the ISteamMatchmaking interface</para>
+		/// <para>返回iSteamMatchMaking界面</para>
 		/// </summary>
 		public static IntPtr GetISteamMatchmaking(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -123,6 +134,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the ISteamMatchmakingServers interface</para>
+		/// <para>返回iSteamMatchMakingservers接口</para>
 		/// </summary>
 		public static IntPtr GetISteamMatchmakingServers(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -133,6 +145,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the a generic interface</para>
+		/// <para>返回A通用接口</para>
 		/// </summary>
 		public static IntPtr GetISteamGenericInterface(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -143,6 +156,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the ISteamUserStats interface</para>
+		/// <para>返回iSteamuserstats界面</para>
 		/// </summary>
 		public static IntPtr GetISteamUserStats(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -153,6 +167,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the ISteamGameServerStats interface</para>
+		/// <para>返回iSteamGameserverstats接口</para>
 		/// </summary>
 		public static IntPtr GetISteamGameServerStats(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -163,6 +178,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns apps interface</para>
+		/// <para>返回应用程序接口</para>
 		/// </summary>
 		public static IntPtr GetISteamApps(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -173,6 +189,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> networking</para>
+		/// <para>联网</para>
 		/// </summary>
 		public static IntPtr GetISteamNetworking(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -183,6 +200,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> remote storage</para>
+		/// <para>远程存储</para>
 		/// </summary>
 		public static IntPtr GetISteamRemoteStorage(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -193,6 +211,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> user screenshots</para>
+		/// <para>用户屏幕截图</para>
 		/// </summary>
 		public static IntPtr GetISteamScreenshots(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -203,6 +222,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> game search</para>
+		/// <para>游戏搜索</para>
 		/// </summary>
 		public static IntPtr GetISteamGameSearch(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -216,6 +236,7 @@ namespace Steamworks {
 		/// <para> Used for perf debugging so you can understand how many IPC calls your game makes per frame</para>
 		/// <para> Every IPC call is at minimum a thread context switch if not a process one so you want to rate</para>
 		/// <para> control how often you do them.</para>
+		/// <para>返回自上次调用此功能以进行完善调试以来的IPC呼叫的数量，以便您可以理解您的游戏每帧的IPC呼叫数量，每个IPC调用每个IPC呼叫至少是线程上下文开关，如果不是一个过程，则您想对控制频率进行评分。</para>
 		/// </summary>
 		public static uint GetIPCCallCount() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -227,6 +248,7 @@ namespace Steamworks {
 		/// <para> 'int' is the severity; 0 for msg, 1 for warning</para>
 		/// <para> 'const char *' is the text of the message</para>
 		/// <para> callbacks will occur directly after the API function is called that generated the warning or message.</para>
+		/// <para>API警告处理“ int”是严重性。0对于MSG，1对于警告“ const char *”是消息回调的文本，将直接发生在称为生成警告或消息的API函数之后。</para>
 		/// </summary>
 		public static void SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -235,6 +257,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Trigger global shutdown for the DLL</para>
+		/// <para>触发DLL的全局关闭</para>
 		/// </summary>
 		public static bool BShutdownIfAllPipesClosed() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -243,6 +266,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Expose HTTP interface</para>
+		/// <para>公开HTTP接口</para>
 		/// </summary>
 		public static IntPtr GetISteamHTTP(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -253,6 +277,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Exposes the ISteamController interface - deprecated in favor of Steam Input</para>
+		/// <para>公开ISTeamController接口 - 不弃用蒸汽输入</para>
 		/// </summary>
 		public static IntPtr GetISteamController(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -263,6 +288,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Exposes the ISteamUGC interface</para>
+		/// <para>公开ISTeamUGC接口</para>
 		/// </summary>
 		public static IntPtr GetISteamUGC(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -273,6 +299,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Music Player</para>
+		/// <para>音乐播放器</para>
 		/// </summary>
 		public static IntPtr GetISteamMusic(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -283,6 +310,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Music Player Remote</para>
+		/// <para>音乐播放器遥控器</para>
 		/// </summary>
 		public static IntPtr GetISteamMusicRemote(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -293,6 +321,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> html page display</para>
+		/// <para>HTML页面显示</para>
 		/// </summary>
 		public static IntPtr GetISteamHTMLSurface(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -303,6 +332,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> inventory</para>
+		/// <para>存货</para>
 		/// </summary>
 		public static IntPtr GetISteamInventory(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -313,6 +343,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Video</para>
+		/// <para>视频</para>
 		/// </summary>
 		public static IntPtr GetISteamVideo(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -323,6 +354,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Parental controls</para>
+		/// <para>父母控制</para>
 		/// </summary>
 		public static IntPtr GetISteamParentalSettings(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -333,6 +365,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Exposes the Steam Input interface for controller support</para>
+		/// <para>公开蒸汽输入接口以进行控制器支持</para>
 		/// </summary>
 		public static IntPtr GetISteamInput(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -343,6 +376,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Steam Parties interface</para>
+		/// <para>蒸汽派对接口</para>
 		/// </summary>
 		public static IntPtr GetISteamParties(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -353,6 +387,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Steam Remote Play interface</para>
+		/// <para>Steam Remote Play接口</para>
 		/// </summary>
 		public static IntPtr GetISteamRemotePlay(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableGameServer();

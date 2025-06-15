@@ -22,6 +22,7 @@ namespace Steamworks {
 		/// <para> So "foo.bar" and "Foo.bar" are the same file, and if you write "Foo.bar" then</para>
 		/// <para> iterate the files, the filename returned will be "foo.bar".</para>
 		/// <para> file operations</para>
+		/// <para>笔记 文件名不敏感，将自动转换为小写。因此，“ foo.bar”和“ foo.bar”是同一文件，如果您编写“ foo.bar”，则迭代文件，返回的文件名将为“ foo.bar”。 文件操作</para>
 		/// </summary>
 		public static bool FileWrite(string pchFile, byte[] pvData, int cubData) {
 			InteropHelp.TestIfAvailableClient();
@@ -86,6 +87,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> file operations that cause network IO</para>
+		/// <para>引起网络IO的文件操作</para>
 		/// </summary>
 		public static UGCFileWriteStreamHandle_t FileWriteStreamOpen(string pchFile) {
 			InteropHelp.TestIfAvailableClient();
@@ -111,6 +113,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> file information</para>
+		/// <para>文件信息</para>
 		/// </summary>
 		public static bool FileExists(string pchFile) {
 			InteropHelp.TestIfAvailableClient();
@@ -149,6 +152,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> iteration</para>
+		/// <para>迭代</para>
 		/// </summary>
 		public static int GetFileCount() {
 			InteropHelp.TestIfAvailableClient();
@@ -162,6 +166,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> configuration management</para>
+		/// <para>配置管理</para>
 		/// </summary>
 		public static bool GetQuota(out ulong pnTotalBytes, out ulong puAvailableBytes) {
 			InteropHelp.TestIfAvailableClient();
@@ -188,6 +193,7 @@ namespace Steamworks {
 		/// <para> Downloads a UGC file.  A priority value of 0 will download the file immediately,</para>
 		/// <para> otherwise it will wait to download the file until all downloads with a lower priority</para>
 		/// <para> value are completed.  Downloads with equal priority will occur simultaneously.</para>
+		/// <para>用户生成的内容下载了UGC文件。优先级值为0将立即下载文件，否则它将等待下载文件，直到所有具有较低优先级值的下载完成为止。同等优先级的下载将同时进行。</para>
 		/// </summary>
 		public static SteamAPICall_t UGCDownload(UGCHandle_t hContent, uint unPriority) {
 			InteropHelp.TestIfAvailableClient();
@@ -197,6 +203,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Gets the amount of data downloaded so far for a piece of content. pnBytesExpected can be 0 if function returns false</para>
 		/// <para> or if the transfer hasn't started yet, so be careful to check for that before dividing to get a percentage</para>
+		/// <para>到目前为止，获取有关一件内容的数据量。如果函数返回false或尚未开始，则可以在pnbytesexpectept的情况下为0</para>
 		/// </summary>
 		public static bool GetUGCDownloadProgress(UGCHandle_t hContent, out int pnBytesDownloaded, out int pnBytesExpected) {
 			InteropHelp.TestIfAvailableClient();
@@ -205,6 +212,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Gets metadata for a file after it has been downloaded. This is the same metadata given in the RemoteStorageDownloadUGCResult_t call result</para>
+		/// <para>下载文件后获取元数据的元数据。这与remotestoragedownloadugcresult_t呼叫结果中给出的元数据相同</para>
 		/// </summary>
 		public static bool GetUGCDetails(UGCHandle_t hContent, out AppId_t pnAppID, out string ppchName, out int pnFileSizeInBytes, out CSteamID pSteamIDOwner) {
 			InteropHelp.TestIfAvailableClient();
@@ -221,6 +229,7 @@ namespace Steamworks {
 		/// <para> enough memory for each chunk).  Once the last byte is read, the file is implicitly closed and further calls to UGCRead will fail</para>
 		/// <para> unless UGCDownload is called again.</para>
 		/// <para> For especially large files (anything over 100MB) it is a requirement that the file is read in chunks.</para>
+		/// <para>下载后，获取文件的内容。可以通过调用该功能以0的偏移为0，而cubdatatoread等于文件大小，可以一次读取小文件。可以在块中读取较大的文件以减少内存使用情况（因为IPC客户端的两侧，并且游戏本身必须为每个块分配足够的内存）。读取最后一个字节后，该文件将隐式关闭，除非再次调用UGCDOWNLOAD，否则对Ugcread的进一步调用将失败。对于特别大的文件（超过100MB），需要将文件块读数。</para>
 		/// </summary>
 		public static int UGCRead(UGCHandle_t hContent, byte[] pvData, int cubDataToRead, uint cOffset, EUGCReadAction eAction) {
 			InteropHelp.TestIfAvailableClient();
@@ -229,6 +238,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Functions to iterate through UGC that has finished downloading but has not yet been read via UGCRead()</para>
+		/// <para>通过已完成下载但尚未通过ugcread（）读取的UGC迭代功能</para>
 		/// </summary>
 		public static int GetCachedUGCCount() {
 			InteropHelp.TestIfAvailableClient();
@@ -242,6 +252,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> publishing UGC</para>
+		/// <para>出版教资会</para>
 		/// </summary>
 		public static SteamAPICall_t PublishWorkshopFile(string pchFile, string pchPreviewFile, AppId_t nConsumerAppId, string pchTitle, string pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, System.Collections.Generic.IList<string> pTags, EWorkshopFileType eWorkshopFileType) {
 			InteropHelp.TestIfAvailableClient();
@@ -305,6 +316,7 @@ namespace Steamworks {
 		/// <para> Gets published file details for the given publishedfileid.  If unMaxSecondsOld is greater than 0,</para>
 		/// <para> cached data may be returned, depending on how long ago it was cached.  A value of 0 will force a refresh.</para>
 		/// <para> A value of k_WorkshopForceLoadPublishedFileDetailsFromCache will use cached data if it exists, no matter how old it is.</para>
+		/// <para>获取给定已发表的Fileid的发布的文件详细信息。如果UnmaxSecondSold大于0，则可以返回缓存的数据，具体取决于其被缓存的时间。值为0将迫使刷新。k_workshopforceloadpublyfiledetetailsfromcache的值（如果存在多大的年龄）将使用缓存的数据。</para>
 		/// </summary>
 		public static SteamAPICall_t GetPublishedFileDetails(PublishedFileId_t unPublishedFileId, uint unMaxSecondsOld) {
 			InteropHelp.TestIfAvailableClient();
@@ -318,6 +330,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> enumerate the files that the current user published with this app</para>
+		/// <para>列举当前用户使用此应用程序发布的文件</para>
 		/// </summary>
 		public static SteamAPICall_t EnumerateUserPublishedFiles(uint unStartIndex) {
 			InteropHelp.TestIfAvailableClient();
@@ -389,6 +402,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> this method enumerates the public view of workshop files</para>
+		/// <para>这种方法列举了研讨会文件的公众观点</para>
 		/// </summary>
 		public static SteamAPICall_t EnumeratePublishedWorkshopFiles(EWorkshopEnumerationType eEnumerationType, uint unStartIndex, uint unCount, uint unDays, System.Collections.Generic.IList<string> pTags, System.Collections.Generic.IList<string> pUserTags) {
 			InteropHelp.TestIfAvailableClient();
@@ -404,6 +418,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Cloud dynamic state change notification</para>
+		/// <para>云动态状态变更通知</para>
 		/// </summary>
 		public static int GetLocalFileChangeCount() {
 			InteropHelp.TestIfAvailableClient();
@@ -418,6 +433,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Indicate to Steam the beginning / end of a set of local file</para>
 		/// <para> operations - for example, writing a game save that requires updating two files.</para>
+		/// <para>指示要蒸发一组本地文件操作的开始 /结束 - 例如，编写一个需要更新两个文件的游戏保存。</para>
 		/// </summary>
 		public static bool BeginFileWriteBatch() {
 			InteropHelp.TestIfAvailableClient();

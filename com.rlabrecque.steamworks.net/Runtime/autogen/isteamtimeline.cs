@@ -28,6 +28,7 @@ namespace Steamworks {
 		/// <para> - pchDescription: provide a localized string in the language returned by SteamUtils()-&gt;GetSteamUILanguage()</para>
 		/// <para> - flTimeDelta: The time offset in seconds to apply to this event. Negative times indicate an</para>
 		/// <para>			event that happened in the past.</para>
+		/// <para>在时间表中为当前游戏状态设置描述。这些帮助用户在保存剪辑时找到时间表中的特定时刻。设置新状态说明替换了任何先前的描述。 示例可以包括： *单个玩家游戏中的用户在世界上的位置 *在多人游戏中正在发生的回合 * 参数：-pchdescription：在Steamutils（） - > getSteamUilanguage（）返回的语言中提供一个本地化字符串 -  fltimedelta：以秒为单位的时间偏移以应用于此事件。负时间表示过去发生的事件。</para>
 		/// </summary>
 		public static void SetTimelineTooltip(string pchDescription, float flTimeDelta) {
 			InteropHelp.TestIfAvailableClient();
@@ -43,6 +44,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Changes the color of the timeline bar. See ETimelineGameMode comments for how to use each value</para>
+		/// <para>更改时间轴条的颜色。请参阅etimelinegamemode有关如何使用每个值的注释</para>
 		/// </summary>
 		public static void SetTimelineGameMode(ETimelineGameMode eMode) {
 			InteropHelp.TestIfAvailableClient();
@@ -100,6 +102,7 @@ namespace Steamworks {
 		/// <para>   A TimelineEventHandle_t that can be used to make subsequent calls to refer to the timeline event. This event handle is invalid</para>
 		/// <para>   after the game exits.</para>
 		/// <para> quick helpers that add to the timeline in one call</para>
+		/// <para>******************    Timeline Events    ****************** The following functions add events and/or tags to the timeline.有帮助者可以在单个呼叫中添加简单的事件或标签。或者，您可以使用StartEvent和CloseEvent自定义添加的内容。 要添加的事件的示例可能包括： *老板战 *削减场景 *大型团队战斗 *捡起新武器或弹药 *打进目标 使用简单API添加事件和时间范围：不要显示filter start now now steamtimeline（） - > addsimpletimelineEvent（“ steam_heart”，localize（“ #user healed”），intimize（“ #health_amount”，27），15，0，0，0，0，0，k_etimelineEventClippripriortility_none_none_none）;开始10 sec aofo aofe steamtimeline（） - > addtaggedTimerange（interize（“ #player_resting”），“ steam_flag”，nullptr，15，0，10）;SteamTimeline（） - > addTaggedTimerange（localize（“ #player_cast_light”），“ steam_starburst”，interize（“ #player_spells”），10，-10，5）; 现在开始在一个事件中添加标记和时间范围：TimeleNeventHandle_t event = SteamTimeline（） - > startEvent（0）;现在开始SteamTimeline（） - > ShowEventOntimeline（事件，“ Steam_heart”，局部（“ #player_healed”），本地化（“ #player_healed_amount”，27），15），15）;SteamTimeline（） - > addeventTag（事件，本地化（“ #player_cast_heal”），“ steam_heart”，interize（“ #player_，15，0，10）; ... //时间通过steamtimeline（） - > cloteTimeline（） - > clotevent（） 事件功能使用的参数： -ulopenevent：尚未取消或关闭的事件返回的事件，呼吁它 -  ulevent：一个已接近访问的事件，或者从addSimimellineEvent或addSimimellineEvent或addAgggedTimerange中返回的事件，该事件是由ICON的名称：iCON的名称。Steam_- PCHTITLE＆PCHDESCRIPTION：提供STEAMUTILS（） - > getSteamuilanguage（）的语言中的本地化字符串 -  UniconPriority：指定该范围与游戏提供的其他标记的重要性。优先级值较大的范围将在UI中更突出。该值可能在0和k_unmaxtimelinepriority之间。-  flstartoffsetseconds：此范围相对于现在开始的时间。负时间表示过去发生的事件。-  fldurationseconds：时间范围应在几秒钟内进行多长时间。对于瞬时事件，应为0 -epossibleclip：通过将此参数设置为特征或标准，游戏表明Steam表明将此范围作为剪辑提供给用户是合适的。对于瞬时事件，建议的剪辑将在活动本身之前和之后短时间内进行。-pchtagicon：指定一个图标名称，该名称将在UI -PCHTAGNAME中的标签名称旁边使用：在UI中显示的标签的本地名称。-pchtaggroup：在UI中显示的标签组的本地名称。如果未指定这一点，则用户将无法通过此标签过滤 -  UntagPriority：指定与游戏提供的其他标签相比，该标签的重要性。返回：可以用来进行随后的呼叫来参考时间表事件的时间表。游戏退出后，此事件手柄无效。一个通话中添加到时间表中的快速帮助者</para>
 		/// </summary>
 		public static TimelineEventHandle_t AddInstantaneousTimelineEvent(string pchTitle, string pchDescription, string pchIcon, uint unIconPriority, float flStartOffsetSeconds = 0.0f, ETimelineEventClipPriority ePossibleClip = ETimelineEventClipPriority.k_ETimelineEventClipPriority_None) {
 			InteropHelp.TestIfAvailableClient();
@@ -122,6 +125,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Starts a timeline event at a the current time, plus an offset in seconds. This event must be ended with EndRangeTimelineEvent.</para>
 		/// <para> Any timeline events that have not been ended when the game exits will be discarded.</para>
+		/// <para>在当前时间启动时间轴事件，再加上几秒钟的偏移。该事件必须以EndrangetimelineEvent结束。当游戏退出时尚未结束的任何时间轴事件都将被丢弃。</para>
 		/// </summary>
 		public static TimelineEventHandle_t StartRangeTimelineEvent(string pchTitle, string pchDescription, string pchIcon, uint unPriority, float flStartOffsetSeconds, ETimelineEventClipPriority ePossibleClip) {
 			InteropHelp.TestIfAvailableClient();
@@ -134,6 +138,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Updates fields on a range timeline event that was started with StartRangeTimelineEvent, and which has not been ended.</para>
+		/// <para>更新范围时间表事件的字段是从StarTrangetimelineEvent开始的，但尚未结束。</para>
 		/// </summary>
 		public static void UpdateRangeTimelineEvent(TimelineEventHandle_t ulEvent, string pchTitle, string pchDescription, string pchIcon, uint unPriority, ETimelineEventClipPriority ePossibleClip) {
 			InteropHelp.TestIfAvailableClient();
@@ -146,6 +151,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Ends a range timeline event and shows it in the UI.</para>
+		/// <para>结束范围时间表事件，并在UI中显示。</para>
 		/// </summary>
 		public static void EndRangeTimelineEvent(TimelineEventHandle_t ulEvent, float flEndOffsetSeconds) {
 			InteropHelp.TestIfAvailableClient();
@@ -156,6 +162,7 @@ namespace Steamworks {
 		/// <para> delete the event from the timeline. This can be called on a timeline event from AddInstantaneousTimelineEvent,</para>
 		/// <para> AddRangeTimelineEvent, or StartRangeTimelineEvent/EndRangeTimelineEvent. The timeline event handle must be from the</para>
 		/// <para> current game process.</para>
+		/// <para>从时间表中删除活动。可以在AddInstantaneoustimelineEvent，AddRangetimelineEvent或StarTrangetimelineEvent/EndrangetimelineEvent的时间轴事件中调用。时间轴事件句柄必须来自当前的游戏过程。</para>
 		/// </summary>
 		public static void RemoveTimelineEvent(TimelineEventHandle_t ulEvent) {
 			InteropHelp.TestIfAvailableClient();
@@ -164,6 +171,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> add a tag to whatever time range is represented by the event</para>
+		/// <para>将标签添加到事件代表的任何时间范围内</para>
 		/// </summary>
 		public static SteamAPICall_t DoesEventRecordingExist(TimelineEventHandle_t ulEvent) {
 			InteropHelp.TestIfAvailableClient();
@@ -201,6 +209,7 @@ namespace Steamworks {
 		/// <para> - pchAttributeGroup: The localized name of the attribute group.</para>
 		/// <para> - unPriority: Used to order tags and attributes in the UI displayed to the user, with higher priority values leading</para>
 		/// <para>   to more prominent positioning. In contexts where there is limited space, lower priority items may be hidden.</para>
+		/// <para>******************游戏阶段******************游戏阶段允许用户浏览其背景录音和剪辑。游戏阶段的含义将变化为游戏，但是游戏阶段应该是通常长度在10分钟到几个小时之间的游戏阶段，并且应该是用户认为将游戏划分的主要方式。这些是在UI中呈现给用户的，该UI显示了游戏的日期，每个游戏切片一排。游戏阶段应用于标记用户可能有兴趣观看的游戏节目。 示例可能包括： *多人游戏PVP游戏中的一场匹配 * *基于故事的单人游戏的章节 * 游戏阶段是从StartGamephase开始的，尽管阶段仍在发生，但它们可以将标签和属性添加到它们中。 相位属性表示可以在整个阶段的过程中更新的通用文本字段。它们本来可以用于相位元数据，这不是定义明确的选项集的一部分。例如，一个以“ 0/0/0”值开始的KDA属性，并随着相位的进展而更新，或类似播放的字符名称。可以将属性设置为与游戏相喜欢的setGamePloseatTribute多次，并且只有最后一个值将显示给用户。 相位标签表示具有定义明确的选项的数据，其中可能是诸如匹配分辨率，英雄播放，游戏模式等的数据。标签除文本名称外还具有图标。每个阶段可以添加同一组中的多个标签，所有这些标签将被记住。例如，对于“击败的老板”组，AddGamephaseTag可以多次调用，每个老板在阶段被击败的每个老板的不同名称和图标，所有这些都将显示给用户。 该阶段将持续到游戏退出为止，直到游戏呼叫最终场合，或直到游戏调用StartGamephase开始新阶段。 游戏阶段函数采用以下参数： -  pchtagicon：游戏的名称提供了时间表图标或内置“ Steam_”图标。-PCHPHASEID：游戏阶段的游戏持续ID。这可能是多人游戏中的匹配ID，单个玩家游戏中的章节名称，字符的ID等。-pchtagname：标签的本地名称在Steamutils（）返回的语言（） - > getSteamuilanguage（）中。-pchtaggroup：标签组的本地名称。-pChattributeValue：属性的本地名称。-pChattributeGroup：属性组的本地名称。- 非优先级：用于显示给用户的UI中的标签和属性，其优先级值更高，导致更为突出的定位。在空间有限的上下文中，可以隐藏较低的优先级项目。</para>
 		/// </summary>
 		public static void StartGamePhase() {
 			InteropHelp.TestIfAvailableClient();
@@ -214,6 +223,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Games can set a phase ID so they can refer back to a phase in OpenOverlayToPhase</para>
+		/// <para>游戏可以设置一个阶段ID，以便他们可以将其引用到Openoverlaytophase中的阶段</para>
 		/// </summary>
 		public static void SetGamePhaseID(string pchPhaseID) {
 			InteropHelp.TestIfAvailableClient();
@@ -231,6 +241,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Add a tag that applies to the entire phase</para>
+		/// <para>添加适用于整个阶段的标签</para>
 		/// </summary>
 		public static void AddGamePhaseTag(string pchTagName, string pchTagIcon, string pchTagGroup, uint unPriority) {
 			InteropHelp.TestIfAvailableClient();
@@ -243,6 +254,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Add a text attribute that applies to the entire phase</para>
+		/// <para>添加适用于整个阶段的文本属性</para>
 		/// </summary>
 		public static void SetGamePhaseAttribute(string pchAttributeGroup, string pchAttributeValue, uint unPriority) {
 			InteropHelp.TestIfAvailableClient();
@@ -257,6 +269,7 @@ namespace Steamworks {
 		/// <para> Opens the Steam overlay to a game phase.</para>
 		/// <para> Parameters:</para>
 		/// <para> - pchPhaseID: The ID of a phase that was previously provided by the game in SetGamePhaseID.</para>
+		/// <para>******************    Opening the overlay    ****************** Opens the Steam overlay to a game phase. 参数：-pchphaseid：setGamePhaseID中游戏以前提供的阶段的ID。</para>
 		/// </summary>
 		public static void OpenOverlayToGamePhase(string pchPhaseID) {
 			InteropHelp.TestIfAvailableClient();
@@ -269,6 +282,7 @@ namespace Steamworks {
 		/// <para> Opens the Steam overlay to a timeline event.</para>
 		/// <para> Parameters:</para>
 		/// <para> - ulEventID: The ID of a timeline event returned by StartEvent or AddSimpleTimelineEvent</para>
+		/// <para>将Steam覆盖层打开到时间轴事件。 参数： -  uleventid：startEvent返回的时间轴事件的ID或addSimpletimelineEvent</para>
 		/// </summary>
 		public static void OpenOverlayToTimelineEvent(TimelineEventHandle_t ulEvent) {
 			InteropHelp.TestIfAvailableClient();

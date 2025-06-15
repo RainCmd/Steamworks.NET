@@ -29,6 +29,7 @@ namespace Steamworks {
 		/// <para>  k_EResultServiceUnavailable - ERROR: service temporarily down, you may retry later</para>
 		/// <para>  k_EResultLimitExceeded - ERROR: operation would exceed per-user inventory limits</para>
 		/// <para>  k_EResultFail - ERROR: unknown / generic error</para>
+		/// <para>库存异步结果管理 异步库存查询始终输出可与getResultStatus，getResultItems等一起使用的结果句柄。当异步结果准备就绪时（或失败）时，将触发SteamInVentoryResultready_t回调。 找出异步库存结果处理的状态。Possible values: k_EResultPending - still in progress k_EResultOK - done, result ready k_EResultExpired - done, result ready, maybe out of date (see DeserializeResult) k_EResultInvalidParam - ERROR: invalid API call parameters k_EResultServiceUnavailable - ERROR: service temporarily down, you may retry later k_EResultLimitExceeded - ERROR: operation would exceed每个用户库存限制k_eresultfail-错误：未知 /通用错误</para>
 		/// </summary>
 		public static EResult GetResultStatus(SteamInventoryResult_t resultHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -38,6 +39,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Copies the contents of a result set into a flat array. The specific</para>
 		/// <para> contents of the result set depend on which query which was used.</para>
+		/// <para>将结果设置的内容复制到平面阵列中。结果集的特定内容取决于所使用的查询。</para>
 		/// </summary>
 		public static bool GetResultItems(SteamInventoryResult_t resultHandle, SteamItemDetails_t[] pOutItemsArray, ref uint punOutItemsArraySize) {
 			InteropHelp.TestIfAvailableClient();
@@ -57,6 +59,7 @@ namespace Steamworks {
 		/// <para> suggested buffer size. Otherwise it will be the number of bytes actually copied</para>
 		/// <para> to pchValueBuffer. If the results do not fit in the given buffer, partial</para>
 		/// <para> results may be copied.</para>
+		/// <para>结合GetResultItems，您可以使用GetResultItemProperty来检索结果集中返回的给定项目的动态字符串属性。 属性名称始终由ASCII字母，数字和/或下划线组成。 将零指针传递给PCHPropertyname，以获取可用属性名称的逗号 - 分开的列表。 如果pchvaluebuffer为null， *PunValueBuffersize将包含建议的缓冲尺寸。否则，它将是实际复制到pchvaluebuffer的字节数。如果结果不适合给定的缓冲液，则可以复制部分结果。</para>
 		/// </summary>
 		public static bool GetResultItemProperty(SteamInventoryResult_t resultHandle, uint unItemIndex, string pchPropertyName, out string pchValueBuffer, ref uint punValueBufferSizeOut) {
 			InteropHelp.TestIfAvailableClient();
@@ -72,6 +75,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Returns the server time at which the result was generated. Compare against</para>
 		/// <para> the value of IClientUtils::GetServerRealTime() to determine age.</para>
+		/// <para>返回生成结果的服务器时间。比较与Iclientutils :: getServerrealtime（）确定年龄的值。</para>
 		/// </summary>
 		public static uint GetResultTimestamp(SteamInventoryResult_t resultHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -82,6 +86,7 @@ namespace Steamworks {
 		/// <para> Returns true if the result belongs to the target steam ID, false if the</para>
 		/// <para> result does not. This is important when using DeserializeResult, to verify</para>
 		/// <para> that a remote player is not pretending to have a different user's inventory.</para>
+		/// <para>如果结果属于目标蒸汽ID，则返回true，如果结果不属于false。当使用DeserializerSult时，这很重要，以验证远程播放器是否假装具有不同的用户的库存。</para>
 		/// </summary>
 		public static bool CheckResultSteamID(SteamInventoryResult_t resultHandle, CSteamID steamIDExpected) {
 			InteropHelp.TestIfAvailableClient();
@@ -90,6 +95,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Destroys a result handle and frees all associated memory.</para>
+		/// <para>破坏结果手柄并释放所有相关的内存。</para>
 		/// </summary>
 		public static void DestroyResult(SteamInventoryResult_t resultHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -105,6 +111,7 @@ namespace Steamworks {
 		/// <para> cached results if called too frequently. It is suggested that you call</para>
 		/// <para> this function only when you are about to display the user's full inventory,</para>
 		/// <para> or if you expect that the inventory may have changed.</para>
+		/// <para>库存异步查询 捕获当前用户蒸汽库存的整个状态。完成此操作后，您必须在此手柄上致电Destricult。如果库存不可用，则返回false并设置 *Presulthandle为零。注意：对此功能的调用会受到速率限制，如果调用过于频率，可能会返回缓存的结果。建议仅当您要显示用户的完整库存时，或者您希望库存可能已更改时，您才会调用此功能。</para>
 		/// </summary>
 		public static bool GetAllItems(out SteamInventoryResult_t pResultHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -119,6 +126,7 @@ namespace Steamworks {
 		/// <para> For example, you could call GetItemsByID with the IDs of the user's</para>
 		/// <para> currently equipped cosmetic items and serialize this to a buffer, and</para>
 		/// <para> then transmit this buffer to other players upon joining a game.</para>
+		/// <para>捕获当前用户蒸汽库存子集的状态，该库存由项目实例ID数组识别。该调用的结果可以序列化并传递给其他玩家，以“证明”当前用户拥有特定项目，而无需公开用户的整个清单。例如，您可以使用用户当前配备的化妆品的ID调用GetItemsByID，并将其序列化为缓冲区，然后在加入游戏后将此缓冲区传输到其他玩家。</para>
 		/// </summary>
 		public static bool GetItemsByID(out SteamInventoryResult_t pResultHandle, SteamItemInstanceID_t[] pInstanceIDs, uint unCountInstanceIDs) {
 			InteropHelp.TestIfAvailableClient();
@@ -139,6 +147,7 @@ namespace Steamworks {
 		/// <para> recommended to use "GetItemsByID" first to create a minimal result set.</para>
 		/// <para> Results have a built-in timestamp which will be considered "expired" after</para>
 		/// <para> an hour has elapsed. See DeserializeResult for expiration handling.</para>
+		/// <para>结果序列化和身份验证 序列化结果集包含一个简短的签名，该签名无法在不同的游戏会议上伪造或重播。结果集可以在本地客户端序列化，并通过您的游戏网络传输给其他玩家，并由远程玩家进行序列化。这是防止黑客摆脱稀有/高价值物品的安全方法。将带有签名字节的结果集序列化到输出缓冲区。将NULL作为输出缓冲区传递，以通过PunoutBuffersize获取所需的尺寸。序列化结果的大小取决于正在序列化的数字项。将项目安全地传输到其他玩家时，建议首先使用“ GetItemsById”来创建最小的结果集。结果具有内置的时间戳，一个小时后将被视为“过期”。请参阅DeserializerEsult有关到期处理。</para>
 		/// </summary>
 		public static bool SerializeResult(SteamInventoryResult_t resultHandle, byte[] pOutBuffer, out uint punOutBufferSize) {
 			InteropHelp.TestIfAvailableClient();
@@ -160,6 +169,7 @@ namespace Steamworks {
 		/// <para> ISteamUtils::GetServerRealTime() to determine how old the data is. You could</para>
 		/// <para> simply ignore the "expired" result code and continue as normal, or you</para>
 		/// <para> could challenge the player with expired data to send an updated result set.</para>
+		/// <para>值得注意的结果集并验证签名字节。如果设置了brequireflonlineverify，则返回false，但Steam在离线模式下运行。否则将返回true，然后通过getResultStatus提供错误代码。 BRESEVER_MUST_BE_FALSE标志保留供将来使用，此时您的游戏不应将其设置为TRUE。 DeserializerEsult具有潜在的软失败模式，其中将手柄状态设置为k_eresult expeciled。GetResultItems（）仍然在此模式下成功。“过期”结果可能表明数据可能已过时 - 不仅是由于定时到期（一小时），还因为结果集中的一个项目可能已经被交易或消耗，因为结果集已生成。您可以将时间戳从getResultTimestamp（）与isteamutils :: getServerRealTime（）进行比较，以确定数据的年龄。您可以简单地忽略“已过期”的结果代码，并按照正常状态继续，也可以使用过期的数据向玩家挑战以发送更新的结果集。</para>
 		/// </summary>
 		public static bool DeserializeResult(out SteamInventoryResult_t pOutResultHandle, byte[] pBuffer, uint unBufferSize, bool bRESERVED_MUST_BE_FALSE = false) {
 			InteropHelp.TestIfAvailableClient();
@@ -174,6 +184,7 @@ namespace Steamworks {
 		/// <para> for your game.</para>
 		/// <para> If punArrayQuantity is not NULL, it should be the same length as pArrayItems and should</para>
 		/// <para> describe the quantity of each item to generate.</para>
+		/// <para>库存异步修改 GenerateItems（）创建一个或多个项目，然后使用匹配的NCALLBACKCONTEXT参数生成STEAMINVENTORYCALLBACK_T NOTIFY。此API仅用于原型制作 - 仅由属于您游戏的发布者组的Steam帐户可用。如果punarrayquantity不是零，则应与parrayitems相同，并应描述要生成的每个项目的数量。</para>
 		/// </summary>
 		public static bool GenerateItems(out SteamInventoryResult_t pResultHandle, SteamItemDef_t[] pArrayItemDefs, uint[] punArrayQuantity, uint unArrayLength) {
 			InteropHelp.TestIfAvailableClient();
@@ -185,6 +196,7 @@ namespace Steamworks {
 		/// <para> and grants the items (one time only).  On success, the result set will include items which</para>
 		/// <para> were granted, if any. If no items were granted because the user isn't eligible for any</para>
 		/// <para> promotions, this is still considered a success.</para>
+		/// <para>GrantPromoItems（）检查用户可能有资格并授予项目的促销项目列表（仅一次）。在成功时，结果集将包括已授予的项目（如果有的话）。如果由于用户不符合任何促销资格而没有授予任何项目，那么这仍然被认为是成功的。</para>
 		/// </summary>
 		public static bool GrantPromoItems(out SteamInventoryResult_t pResultHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -196,6 +208,7 @@ namespace Steamworks {
 		/// <para> scanning for all eligible promotional items, the check is restricted to a single item</para>
 		/// <para> definition or set of item definitions. This can be useful if your game has custom UI for</para>
 		/// <para> showing a specific promo item to the user.</para>
+		/// <para>AddPromoItem（） / addPromoItems（）是GrantPromoItems（）的限制版本。该检查没有扫描所有合格的促销项目，而是仅限于单个项目定义或一组项目定义。如果您的游戏具有自定义UI，可以向用户展示特定的促销项目，这可能很有用。</para>
 		/// </summary>
 		public static bool AddPromoItem(out SteamInventoryResult_t pResultHandle, SteamItemDef_t itemDef) {
 			InteropHelp.TestIfAvailableClient();
@@ -211,6 +224,7 @@ namespace Steamworks {
 		/// <para> ConsumeItem() removes items from the inventory, permanently. They cannot be recovered.</para>
 		/// <para> Not for the faint of heart - if your game implements item removal at all, a high-friction</para>
 		/// <para> UI confirmation process is highly recommended.</para>
+		/// <para>EmplemumeTem（）永久从库存中删除项目。他们无法恢复。不是为了胆小的人 - 如果您的游戏完全实现项目删除，则强烈建议使用高摩擦UI确认过程。</para>
 		/// </summary>
 		public static bool ConsumeItem(out SteamInventoryResult_t pResultHandle, SteamItemInstanceID_t itemConsume, uint unQuantity) {
 			InteropHelp.TestIfAvailableClient();
@@ -226,6 +240,7 @@ namespace Steamworks {
 		/// <para> Exchange recipes are evaluated atomically by the Inventory Service; if the supplied</para>
 		/// <para> components do not match the recipe, or do not contain sufficient quantity, the</para>
 		/// <para> exchange will fail.</para>
+		/// <para>ExchangeItems（）是项目产生和消费的原子组合。它可用于实施制作食谱或传输，或将自己包装到其他物品（例如胸部）中的项目。Exchange配方在ItemDEF中定义，并明确列出所需的项目类型和生成的类型。库存服务对交换食谱进行原子评估；如果提供的组件与食谱不匹配或不包含足够数量，则交换将失败。</para>
 		/// </summary>
 		public static bool ExchangeItems(out SteamInventoryResult_t pResultHandle, SteamItemDef_t[] pArrayGenerate, uint[] punArrayGenerateQuantity, uint unArrayGenerateLength, SteamItemInstanceID_t[] pArrayDestroy, uint[] punArrayDestroyQuantity, uint unArrayDestroyLength) {
 			InteropHelp.TestIfAvailableClient();
@@ -237,6 +252,7 @@ namespace Steamworks {
 		/// <para> quantity greater than one). It can be used to split a stack into two, or to transfer</para>
 		/// <para> quantity from one stack into another stack of identical items. To split one stack into</para>
 		/// <para> two, pass k_SteamItemInstanceIDInvalid for itemIdDest and a new item will be generated.</para>
+		/// <para>TransferiteMquantity（）旨在与“可堆叠”的项目一起使用（数量大于一个）。它可以用来将堆栈分为两个，或将数量从一个堆栈传输到另一个相同项目的堆栈中。要将一个堆栈分为两个，请将k_steamiteminstanceidinvalid传递给itemIddest，并将生成一个新项目。</para>
 		/// </summary>
 		public static bool TransferItemQuantity(out SteamInventoryResult_t pResultHandle, SteamItemInstanceID_t itemIdSource, uint unQuantity, SteamItemInstanceID_t itemIdDest) {
 			InteropHelp.TestIfAvailableClient();
@@ -246,6 +262,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> TIMED DROPS AND PLAYTIME CREDIT</para>
 		/// <para> Deprecated. Calling this method is not required for proper playtime accounting.</para>
+		/// <para>定时下降和播放时间信用 弃用。适当的播放时间会计不需要调用此方法。</para>
 		/// </summary>
 		public static void SendItemDropHeartbeat() {
 			InteropHelp.TestIfAvailableClient();
@@ -262,6 +279,7 @@ namespace Steamworks {
 		/// <para> to directly control rarity.</para>
 		/// <para> See your Steamworks configuration to set playtime drop rates for individual itemdefs.</para>
 		/// <para> The client library will suppress too-frequent calls to this method.</para>
+		/// <para>游戏时间信用必须被消耗掉，并通过您的游戏变成项目掉落。只能产生标记为“ Playtime项目生成器”的项目定义。如果没有足够的播放时间信用来降低，呼叫将返回一个空的结果集。您的游戏应在适当的时间致电triggerItemdrop，以便用户接收新物品，例如在巡回赛之间或玩家死亡时。请注意，破解客户的玩家可以修改“ DropListDefinition”的价值，因此请勿使用它直接控制稀有度。请参阅您的Steamworks配置，以设置单个ItemDefs的Playtime Drop率。客户端库将压制过太频繁的调用此方法。</para>
 		/// </summary>
 		public static bool TriggerItemDrop(out SteamInventoryResult_t pResultHandle, SteamItemDef_t dropListDefinition) {
 			InteropHelp.TestIfAvailableClient();
@@ -270,6 +288,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Deprecated. This method is not supported.</para>
+		/// <para>弃用。不支持此方法。</para>
 		/// </summary>
 		public static bool TradeItems(out SteamInventoryResult_t pResultHandle, CSteamID steamIDTradePartner, SteamItemInstanceID_t[] pArrayGive, uint[] pArrayGiveQuantity, uint nArrayGiveLength, SteamItemInstanceID_t[] pArrayGet, uint[] pArrayGetQuantity, uint nArrayGetLength) {
 			InteropHelp.TestIfAvailableClient();
@@ -288,6 +307,7 @@ namespace Steamworks {
 		/// <para> Every time new item definitions are available (eg, from the dynamic addition of new</para>
 		/// <para> item types while players are still in-game), a SteamInventoryDefinitionUpdate_t</para>
 		/// <para> callback will be fired.</para>
+		/// <para>项目定义 项目定义是“定义ID”（1到1000000之间的整数）映射到一组字符串属性。其中一些属性需要在Steam社区网站上显示项目。其他属性可以通过应用程序定义。这些功能的使用是可选的。如果您的游戏硬码数字定义ID（例如，紫色面罩= 20，蓝色武器mod = 55），则没有理由调用LoadItemDefinitions，并且不允许在没有客户端补丁的情况下添加新项目类型。 LoadItemDefinitions触发了项目定义的自动负载和刷新。每次有新项目定义可用时（例如，在玩家仍然在游戏中的新项目类型的动态添加中），将触发STEAMINVENTORYDEFINITIONUPDATE_T回调。</para>
 		/// </summary>
 		public static bool LoadItemDefinitions() {
 			InteropHelp.TestIfAvailableClient();
@@ -300,6 +320,7 @@ namespace Steamworks {
 		/// <para> If pItemDefIDs is null, the call will return true and *punItemDefIDsArraySize will</para>
 		/// <para> contain the total size necessary for a subsequent call. Otherwise, the call will</para>
 		/// <para> return false if and only if there is not enough space in the output array.</para>
+		/// <para>GetItemDefinitions返回所有定义的项目定义ID的集合（通过Steamworks配置定义，不一定是连续的Demegers）。如果pitemdefids为null，则呼叫将返回true，并且 *PuniteMdeFidSarraySize将包含后续调用所需的总尺寸。否则，只有当输出数组中没有足够的空间时，呼叫才会返回false。</para>
 		/// </summary>
 		public static bool GetItemDefinitionIDs(SteamItemDef_t[] pItemDefIDs, ref uint punItemDefIDsArraySize) {
 			InteropHelp.TestIfAvailableClient();
@@ -319,6 +340,7 @@ namespace Steamworks {
 		/// <para> suggested buffer size. Otherwise it will be the number of bytes actually copied</para>
 		/// <para> to pchValueBuffer. If the results do not fit in the given buffer, partial</para>
 		/// <para> results may be copied.</para>
+		/// <para>GetItemDefinitionProperty从给定的项目定义返回字符串属性。请注意，某些属性（例如，“名称”）可以本地化，并取决于当前的Steam语言设置（请参见ISTeamApps :: GetCurrentGamelanguage）。属性名称始终由ASCII字母，数字和/或下划线组成。将零指针传递给PCHPropertyname，以获取可用属性名称的逗号 - 分开的列表。如果pchvaluebuffer为null， *PunValueBuffersize将包含建议的缓冲尺寸。否则，它将是实际复制到pchvaluebuffer的字节数。如果结果不适合给定的缓冲液，则可以复制部分结果。</para>
 		/// </summary>
 		public static bool GetItemDefinitionProperty(SteamItemDef_t iDefinition, string pchPropertyName, out string pchValueBuffer, ref uint punValueBufferSizeOut) {
 			InteropHelp.TestIfAvailableClient();
@@ -335,6 +357,7 @@ namespace Steamworks {
 		/// <para> Request the list of "eligible" promo items that can be manually granted to the given</para>
 		/// <para> user.  These are promo items of type "manual" that won't be granted automatically.</para>
 		/// <para> An example usage of this is an item that becomes available every week.</para>
+		/// <para>请求可以手动授予给定用户的“合格”促销项目的列表。这些是“手册”类型的促销项目，这些促销项目不会自动授予。一个示例用法是每周可用的项目。</para>
 		/// </summary>
 		public static SteamAPICall_t RequestEligiblePromoItemDefinitionsIDs(CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();
@@ -345,6 +368,7 @@ namespace Steamworks {
 		/// <para> After handling a SteamInventoryEligiblePromoItemDefIDs_t call result, use this</para>
 		/// <para> function to pull out the list of item definition ids that the user can be</para>
 		/// <para> manually granted via the AddPromoItems() call.</para>
+		/// <para>处理STEAMINVENTORYELIGIBLE PROMOITEMDEFIDS_T呼叫结果后，使用此功能来删除可以通过AddPromoItems（）调用来手动授予用户的项目定义ID列表。</para>
 		/// </summary>
 		public static bool GetEligiblePromoItemDefinitionIDs(CSteamID steamID, SteamItemDef_t[] pItemDefIDs, ref uint punItemDefIDsArraySize) {
 			InteropHelp.TestIfAvailableClient();
@@ -359,6 +383,7 @@ namespace Steamworks {
 		/// <para> will be posted if Steam was able to initialize the transaction.</para>
 		/// <para> Once the purchase has been authorized and completed by the user, the callback SteamInventoryResultReady_t</para>
 		/// <para> will be posted.</para>
+		/// <para>开始给定项目定义的购买过程。如果Steam能够初始化交易，则将发布回调STEAMINVENTORYSTARTPURCHASERESULT_T。 一旦购买并由用户授权完成并完成，将发布回调STEAMINVENTORYRESTREADY_T。</para>
 		/// </summary>
 		public static SteamAPICall_t StartPurchase(SteamItemDef_t[] pArrayItemDefs, uint[] punArrayQuantity, uint unArrayLength) {
 			InteropHelp.TestIfAvailableClient();
@@ -367,6 +392,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Request current prices for all applicable item definitions</para>
+		/// <para>要求所有适用项目定义的当前价格</para>
 		/// </summary>
 		public static SteamAPICall_t RequestPrices() {
 			InteropHelp.TestIfAvailableClient();
@@ -375,6 +401,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns the number of items with prices.  Need to call RequestPrices() first.</para>
+		/// <para>以价格返回物品数量。需要先致电requestPrices（）。</para>
 		/// </summary>
 		public static uint GetNumItemsWithPrices() {
 			InteropHelp.TestIfAvailableClient();
@@ -384,6 +411,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Returns item definition ids and their prices in the user's local currency.</para>
 		/// <para> Need to call RequestPrices() first.</para>
+		/// <para>返回项目定义ID及其价格以用户的本地货币为单位。需要先致电requestPrices（）。</para>
 		/// </summary>
 		public static bool GetItemsWithPrices(SteamItemDef_t[] pArrayItemDefs, ulong[] pCurrentPrices, ulong[] pBasePrices, uint unArrayLength) {
 			InteropHelp.TestIfAvailableClient();
@@ -402,6 +430,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Retrieves the price for the item definition id</para>
 		/// <para> Returns false if there is no price stored for the item definition.</para>
+		/// <para>如果项目定义没有存储价格，则检索项目定义ID的价格返回错误。</para>
 		/// </summary>
 		public static bool GetItemPrice(SteamItemDef_t iDefinition, out ulong pCurrentPrice, out ulong pBasePrice) {
 			InteropHelp.TestIfAvailableClient();
@@ -410,6 +439,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Create a request to update properties on items</para>
+		/// <para>创建一个请求以更新项目的属性</para>
 		/// </summary>
 		public static SteamInventoryUpdateHandle_t StartUpdateProperties() {
 			InteropHelp.TestIfAvailableClient();
@@ -418,6 +448,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Remove the property on the item</para>
+		/// <para>删除项目上的属性</para>
 		/// </summary>
 		public static bool RemoveProperty(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName) {
 			InteropHelp.TestIfAvailableClient();
@@ -428,6 +459,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Accessor methods to set properties on items</para>
+		/// <para>访问方法以设置项目的属性</para>
 		/// </summary>
 		public static bool SetProperty(SteamInventoryUpdateHandle_t handle, SteamItemInstanceID_t nItemID, string pchPropertyName, string pchPropertyValue) {
 			InteropHelp.TestIfAvailableClient();
@@ -460,6 +492,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Submit the update request by handle</para>
+		/// <para>通过句柄提交更新请求</para>
 		/// </summary>
 		public static bool SubmitUpdateProperties(SteamInventoryUpdateHandle_t handle, out SteamInventoryResult_t pResultHandle) {
 			InteropHelp.TestIfAvailableClient();

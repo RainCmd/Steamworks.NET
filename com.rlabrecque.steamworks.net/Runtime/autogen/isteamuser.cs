@@ -19,6 +19,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> returns the HSteamUser this interface represents</para>
 		/// <para> this is only used internally by the API, and by a few select interfaces that support multi-user</para>
+		/// <para>返回hsteamuser此接口表示此接口仅由API内部使用，以及支持多用户的一些选择接口</para>
 		/// </summary>
 		public static HSteamUser GetHSteamUser() {
 			InteropHelp.TestIfAvailableClient();
@@ -29,6 +30,7 @@ namespace Steamworks {
 		/// <para> returns true if the Steam client current has a live connection to the Steam servers.</para>
 		/// <para> If false, it means there is no active connection due to either a networking issue on the local machine, or the Steam server is down/busy.</para>
 		/// <para> The Steam client will automatically be trying to recreate the connection as often as possible.</para>
+		/// <para>如果Steam客户端电流与Steam服务器具有实时连接，则返回true。如果为FALSE，则意味着由于本地计算机上的网络问题或Steam服务器均为下/繁忙，因此没有主动连接。Steam客户端将自动尝试尽可能多地重新创建连接。</para>
 		/// </summary>
 		public static bool BLoggedOn() {
 			InteropHelp.TestIfAvailableClient();
@@ -38,6 +40,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> returns the CSteamID of the account currently logged into the Steam client</para>
 		/// <para> a CSteamID is a unique identifier for an account, and used to differentiate users in all parts of the Steamworks API</para>
+		/// <para>返回当前登录到Steam客户端的帐户的csteamid csteamid是一个帐户的唯一标识符，并用于区分Steamworks API的所有部分中的用户</para>
 		/// </summary>
 		public static CSteamID GetSteamID() {
 			InteropHelp.TestIfAvailableClient();
@@ -59,6 +62,7 @@ namespace Steamworks {
 		/// <para> The contents of pBlob should then be sent to the game server, for it to use to complete the authentication process.</para>
 		/// <para> DEPRECATED!  This function will be removed from the SDK in an upcoming version.</para>
 		/// <para>              Please migrate to BeginAuthSession and related functions.</para>
+		/// <para>多人身份验证函数initiateGameConnection（）启动了使用游戏服务器对游戏客户端进行身份验证的状态计算机，它是客户端，游戏服务器和Steam服务器之间三向握手的客户端部分 参数：void *pauthblob-一个指向空内存的指针，将用身份验证令牌填充。INT CBMAXAUTHBLOB- PBLOB中分配的内存的字节数。应该至少为2048字节。CSteamId SteamidGameserver-游戏服务器的Steamid，由客户端CGameID GameID从游戏服务器接收到当前游戏的ID。对于没有mod的游戏，这只是cgameid（<appid>）uint32 unipserver，uint16 usportserver-游戏服务器bool bsecure的IP地址 - 无论客户端是否认为游戏服务器将自己报告为安全（即VAC正在运行） 返回值 - 返回写入PBLOB的字节数。如果返回为0，则传递的缓冲区太小，并且该调用未能使PBLOB的内容发送到游戏服务器，以便使用它来完成身份验证过程。 弃用！此函数将在即将发布的版本中从SDK中删除。请迁移到开始活动和相关功能。</para>
 		/// </summary>
 		public static int InitiateGameConnection_DEPRECATED(byte[] pAuthBlob, int cbMaxAuthBlob, CSteamID steamIDGameServer, uint unIPServer, ushort usPortServer, bool bSecure) {
 			InteropHelp.TestIfAvailableClient();
@@ -70,6 +74,7 @@ namespace Steamworks {
 		/// <para> needs to occur when the game client leaves the specified game server, needs to match with the InitiateGameConnection() call</para>
 		/// <para> DEPRECATED!  This function will be removed from the SDK in an upcoming version.</para>
 		/// <para>              Please migrate to BeginAuthSession and related functions.</para>
+		/// <para>当游戏客户端离开指定的游戏服务器时，需要发生通知，需要发生断开连接，需要与initiateGameConnection（）呼叫匹配 弃用！此函数将在即将发布的版本中从SDK中删除。请迁移到开始活动和相关功能。</para>
 		/// </summary>
 		public static void TerminateGameConnection_DEPRECATED(uint unIPServer, ushort usPortServer) {
 			InteropHelp.TestIfAvailableClient();
@@ -79,6 +84,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Legacy functions</para>
 		/// <para> used by only a few games to track usage events</para>
+		/// <para>仅几场游戏使用的遗产功能跟踪使用事件</para>
 		/// </summary>
 		public static void TrackAppUsageEvent(CGameID gameID, int eAppUsageEvent, string pchExtraInfo = "") {
 			InteropHelp.TestIfAvailableClient();
@@ -90,6 +96,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> get the local storage folder for current Steam account to write application data, e.g. save games, configs etc.</para>
 		/// <para> this will usually be something like "C:\Progam Files\Steam\userdata\&lt;SteamID&gt;\&lt;AppID&gt;\local"</para>
+		/// <para>获取当前Steam帐户的本地存储文件夹以编写应用程序数据，例如保存游戏，配置等。这通常会像“ C：\ Progam Files \ Steam \ userData \ <Seamid”> \ <Appid> \ local”之类的东西。</para>
 		/// </summary>
 		public static bool GetUserDataFolder(out string pchBuffer, int cubBuffer) {
 			InteropHelp.TestIfAvailableClient();
@@ -102,6 +109,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Starts voice recording. Once started, use GetVoice() to get the data</para>
+		/// <para>开始语音录制。启动后，使用getVoice（）获取数据</para>
 		/// </summary>
 		public static void StartVoiceRecording() {
 			InteropHelp.TestIfAvailableClient();
@@ -112,6 +120,7 @@ namespace Steamworks {
 		/// <para> Stops voice recording. Because people often release push-to-talk keys early, the system will keep recording for</para>
 		/// <para> a little bit after this function is called. GetVoice() should continue to be called until it returns</para>
 		/// <para> k_eVoiceResultNotRecording</para>
+		/// <para>停止语音记录。由于人们通常会尽早发布推销键，因此在调用此功能后，系统将继续录制一点。GetVoice（）应继续被调用，直到它返回k_evoiceresultNotRecording</para>
 		/// </summary>
 		public static void StopVoiceRecording() {
 			InteropHelp.TestIfAvailableClient();
@@ -123,6 +132,7 @@ namespace Steamworks {
 		/// <para> Most applications will only use compressed data and should ignore the other</para>
 		/// <para> parameters, which exist primarily for backwards compatibility. See comments</para>
 		/// <para> below for further explanation of "uncompressed" data.</para>
+		/// <para>确定GetVoice可用的捕获音频数据的大小。大多数应用程序只会使用压缩数据，并且应忽略其他参数，这些参数主要是为了向后兼容。有关“未压缩”数据的进一步说明，请参见下面的评论。</para>
 		/// </summary>
 		public static EVoiceResult GetAvailableVoice(out uint pcbCompressed) {
 			InteropHelp.TestIfAvailableClient();
@@ -150,6 +160,7 @@ namespace Steamworks {
 		/// <para> compressed data and should pass NULL/zero for the "uncompressed" parameters.</para>
 		/// <para> Compressed data can be transmitted by your application and decoded into raw</para>
 		/// <para> using the DecompressVoice function below.</para>
+		/// <para>注意：“未压缩”音频是不弃用的功能，大多数应用程序不应使用。它是原始的单渠道16位PCM波数据，它可能是通过预处理过滤器和/或删除沉默的运行，因此未压缩音频的持续时间可能比您预期的要短。在长期的沉默中，可能根本没有数据。另外，获取未压缩音频会导致getVoice丢弃任何剩余的压缩音频，因此您必须一次获取两种类型。最后，当请求未压缩尺寸时，GetavailableVoice并不是准确的。因此，如果您确实需要使用未压缩的音频，则应使用两个非常大的（20KB+）输出缓冲区，而不是试图分配大小的缓冲区。但是，大多数应用程序应该忽略所有这些详细信息，而只需将“未压缩”参数作为零/零。 从麦克风缓冲区读取捕获的音频数据。这应该每帧至少一次调用一次，最好是每秒钟，以使麦克风输入延迟尽可能低。大多数应用程序仅使用压缩数据，并且应通过“未压缩”参数传递空/零。您的应用程序可以通过下面的DempompressVoice函数来传输压缩数据，并将其解码为RAW。</para>
 		/// </summary>
 		public static EVoiceResult GetVoice(bool bWantCompressed, byte[] pDestBuffer, uint cbDestBufferSize, out uint nBytesWritten) {
 			InteropHelp.TestIfAvailableClient();
@@ -163,6 +174,7 @@ namespace Steamworks {
 		/// <para> If the output buffer is not large enough, then *nBytesWritten will be set</para>
 		/// <para> to the required buffer size, and k_EVoiceResultBufferTooSmall is returned.</para>
 		/// <para> It is suggested to start with a 20kb buffer and reallocate as necessary.</para>
+		/// <para>解码GetVoice返回的压缩语音数据。输出数据是RAW单通道16位PCM音频。解码器支持11025至48000的任何样本率；有关详细信息，请参见下面的getVoiceOptimalSamplater（）。如果输出缓冲区不够大，则 *nbytesWritten将设置为所需的缓冲区大小，然后返回k_evoiceresultbuffertoosmall。建议从必要时从20KB缓冲区开始进行重新分配。</para>
 		/// </summary>
 		public static EVoiceResult DecompressVoice(byte[] pCompressed, uint cbCompressed, byte[] pDestBuffer, uint cbDestBufferSize, out uint nBytesWritten, uint nDesiredSampleRate) {
 			InteropHelp.TestIfAvailableClient();
@@ -177,6 +189,7 @@ namespace Steamworks {
 		/// <para> You may find that you get the best audio output quality when you ignore</para>
 		/// <para> this function and use the native sample rate of your audio output device,</para>
 		/// <para> which is usually 48000 or 44100.</para>
+		/// <para>这返回蒸汽语音解压缩器的本机采样率；使用此样本速率进行解码率将执行最少的CPU处理。但是，最终的音频质量将取决于音频设备（和/或您的应用程序的音频输出SDK）处理较低的样品速率。当您忽略此功能并使用音频输出设备的本机采样率时，您可能会发现获得最佳的音频输出质量，该设备通常为48000或44100。</para>
 		/// </summary>
 		public static uint GetVoiceOptimalSampleRate() {
 			InteropHelp.TestIfAvailableClient();
@@ -190,6 +203,7 @@ namespace Steamworks {
 		/// <para> if an IP address is passed Steam will only allow the ticket to be used by an entity with that IP address</para>
 		/// <para> if a Steam ID is passed Steam will only allow the ticket to be used by that Steam ID</para>
 		/// <para> not to be used for "ISteamUserAuth\AuthenticateUserTicket" - it will fail</para>
+		/// <para>检索希望向您身份验证的实体发送的机票。PCBTicket检索实际票的长度。SteamNetworkingIdentity is an optional input parameter to hold the public IP address or SteamID of the entity you are connecting to if an IP address is passed Steam will only allow the ticket to be used by an entity with that IP address if a Steam ID is passed Steam will only allow the ticket to be used by that Steam ID not to be used for "ISteamUserAuth\AuthenticateUserTicket" - it will fail</para>
 		/// </summary>
 		public static HAuthTicket GetAuthSessionTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket, ref SteamNetworkingIdentity pSteamNetworkingIdentity) {
 			InteropHelp.TestIfAvailableClient();
@@ -200,6 +214,7 @@ namespace Steamworks {
 		/// <para> Request a ticket which will be used for webapi "ISteamUserAuth\AuthenticateUserTicket"</para>
 		/// <para> pchIdentity is an optional input parameter to identify the service the ticket will be sent to</para>
 		/// <para> the ticket will be returned in callback GetTicketForWebApiResponse_t</para>
+		/// <para>请求将用于Webapi的票</para>
 		/// </summary>
 		public static HAuthTicket GetAuthTicketForWebApi(string pchIdentity) {
 			InteropHelp.TestIfAvailableClient();
@@ -211,6 +226,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Authenticate ticket from entity steamID to be sure it is valid and isnt reused</para>
 		/// <para> Registers for callbacks if the entity goes offline or cancels the ticket ( see ValidateAuthTicketResponse_t callback and EAuthSessionResponse )</para>
+		/// <para>如果实体离线或取消票证，请确保实体Steamid的票证确保其有效，并且不会重复使用寄存器（请参阅valialateateAuthTicketTicketResponse_t回调和EauthSessiveResponse）</para>
 		/// </summary>
 		public static EBeginAuthSessionResult BeginAuthSession(byte[] pAuthTicket, int cbAuthTicket, CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();
@@ -219,6 +235,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Stop tracking started by BeginAuthSession - called when no longer playing game with this entity</para>
+		/// <para>停止跟踪是由Beginauthsession启动的 - 当不再与该实体玩游戏时呼唤</para>
 		/// </summary>
 		public static void EndAuthSession(CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();
@@ -227,6 +244,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Cancel auth ticket from GetAuthSessionTicket, called when no longer playing game with the entity you gave the ticket to</para>
+		/// <para>取消getauthsessionticket的验证票，当不再与您提供的机票玩游戏时，请召集</para>
 		/// </summary>
 		public static void CancelAuthTicket(HAuthTicket hAuthTicket) {
 			InteropHelp.TestIfAvailableClient();
@@ -236,6 +254,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> After receiving a user's authentication data, and passing it to BeginAuthSession, use this function</para>
 		/// <para> to determine if the user owns downloadable content specified by the provided AppID.</para>
+		/// <para>在接收用户的身份验证数据并将其传递给BeginAuthSession之后，请使用此功能来确定用户是否拥有提供的Appid指定的可下载内容。</para>
 		/// </summary>
 		public static EUserHasLicenseForAppResult UserHasLicenseForApp(CSteamID steamID, AppId_t appID) {
 			InteropHelp.TestIfAvailableClient();
@@ -245,6 +264,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> returns true if this users looks like they are behind a NAT device. Only valid once the user has connected to steam</para>
 		/// <para> (i.e a SteamServersConnected_t has been issued) and may not catch all forms of NAT.</para>
+		/// <para>如果此用户看起来像NAT设备后面，则返回true。仅一旦用户连接到Steam（即已发出Steamserversconnected_t），并且可能不会捕获所有形式的NAT。</para>
 		/// </summary>
 		public static bool BIsBehindNAT() {
 			InteropHelp.TestIfAvailableClient();
@@ -255,6 +275,7 @@ namespace Steamworks {
 		/// <para> set data to be replicated to friends so that they can join your game</para>
 		/// <para> CSteamID steamIDGameServer - the steamID of the game server, received from the game server by the client</para>
 		/// <para> uint32 unIPServer, uint16 usPortServer - the IP address of the game server</para>
+		/// <para>设置要复制给朋友的数据，以便他们可以加入您的游戏CSTEAMID SteamIdGameserver-游戏服务器的Steamid，由客户端UINT32 UNIPSERVER从游戏服务器接收到Uint16 UINT16 USPORTSERVER-游戏服务器的IP地址</para>
 		/// </summary>
 		public static void AdvertiseGame(CSteamID steamIDGameServer, uint unIPServer, ushort usPortServer) {
 			InteropHelp.TestIfAvailableClient();
@@ -265,6 +286,7 @@ namespace Steamworks {
 		/// <para> Requests a ticket encrypted with an app specific shared key</para>
 		/// <para> pDataToInclude, cbDataToInclude will be encrypted into the ticket</para>
 		/// <para> ( This is asynchronous, you must wait for the ticket to be completed by the server )</para>
+		/// <para>请求一张具有应用程序特定共享密钥pdatatoinclude的票证，cbdatatoinclude将加密到票证中（这是异步的，您必须等待服务器完成票证）</para>
 		/// </summary>
 		public static SteamAPICall_t RequestEncryptedAppTicket(byte[] pDataToInclude, int cbDataToInclude) {
 			InteropHelp.TestIfAvailableClient();
@@ -278,6 +300,7 @@ namespace Steamworks {
 		/// <para> (if true was returned), or the size needed (if false was returned).  To determine the</para>
 		/// <para> proper size of the ticket, you can pass pTicket=NULL and cbMaxTicket=0; if a ticket</para>
 		/// <para> is available, *pcbTicket will contain the size needed, otherwise it will be zero.</para>
+		/// <para>检索完成的票。如果没有门票，或者您的缓冲区太小，则返回false。退出后， *PCBTicket将是复制到您的缓冲区中的票证的大小（如果返回了），或者所需的大小（如果返回false）。要确定机票的正确尺寸，您可以通过pticket = null和cbmaxticket = 0;如果有票， *PCBTicket将包含所需的大小，否则为零。</para>
 		/// </summary>
 		public static bool GetEncryptedAppTicket(byte[] pTicket, int cbMaxTicket, out uint pcbTicket) {
 			InteropHelp.TestIfAvailableClient();
@@ -288,6 +311,7 @@ namespace Steamworks {
 		/// <para> Trading Card badges data access</para>
 		/// <para> if you only have one set of cards, the series will be 1</para>
 		/// <para> the user has can have two different badges for a series; the regular (max level 5) and the foil (max level 1)</para>
+		/// <para>交易卡徽章数据访问如果您只有一组卡，则该系列将为1个用户可以有两个不同的徽章。常规（最大级别5）和箔（最大级别1）</para>
 		/// </summary>
 		public static int GetGameBadgeLevel(int nSeries, bool bFoil) {
 			InteropHelp.TestIfAvailableClient();
@@ -296,6 +320,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> gets the Steam Level of the user, as shown on their profile</para>
+		/// <para>如他们的个人资料所示，获取用户的蒸汽水平</para>
 		/// </summary>
 		public static int GetPlayerSteamLevel() {
 			InteropHelp.TestIfAvailableClient();
@@ -313,6 +338,7 @@ namespace Steamworks {
 		/// <para> or else immediately navigate to the result URL using a hidden browser window.</para>
 		/// <para> NOTE 2: The resulting authorization cookie has an expiration time of one day,</para>
 		/// <para> so it would be a good idea to request and visit a new auth URL every 12 hours.</para>
+		/// <para>请求一个网址，该URL身份验证游戏内浏览器以进行存储，然后重定向到指定的URL。只要游戏中的浏览器接受并处理会话cookie，Steam MicroTransaction Checkout页面就会自动识别用户，而不是显示登录页面。此API调用的结果将是StoreAuthurlresponse_t回调。注意：URL的寿命很短，可以防止历史记录攻击，因此只有在即将启动浏览器时才调用此API，否则使用隐藏的浏览器窗口立即导航到结果URL。注2：由此产生的授权cookie的到期时间为一天，因此，每12小时请求并访问新的身份验证是一个好主意。</para>
 		/// </summary>
 		public static SteamAPICall_t RequestStoreAuthURL(string pchRedirectURL) {
 			InteropHelp.TestIfAvailableClient();
@@ -323,6 +349,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> gets whether the users phone number is verified</para>
+		/// <para>获取用户是否已验证电话号码</para>
 		/// </summary>
 		public static bool BIsPhoneVerified() {
 			InteropHelp.TestIfAvailableClient();
@@ -331,6 +358,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> gets whether the user has two factor enabled on their account</para>
+		/// <para>获取用户是否在其帐户上启用了两个因素</para>
 		/// </summary>
 		public static bool BIsTwoFactorEnabled() {
 			InteropHelp.TestIfAvailableClient();
@@ -339,6 +367,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> gets whether the users phone number is identifying</para>
+		/// <para>获取用户是否识别电话号码</para>
 		/// </summary>
 		public static bool BIsPhoneIdentifying() {
 			InteropHelp.TestIfAvailableClient();
@@ -347,6 +376,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> gets whether the users phone number is awaiting (re)verification</para>
+		/// <para>获取用户是否正在等待（重新）验证</para>
 		/// </summary>
 		public static bool BIsPhoneRequiringVerification() {
 			InteropHelp.TestIfAvailableClient();
@@ -360,6 +390,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Retrieves anti indulgence / duration control for current user</para>
+		/// <para>检索当前用户的反放纵 /持续时间控制</para>
 		/// </summary>
 		public static SteamAPICall_t GetDurationControl() {
 			InteropHelp.TestIfAvailableClient();
@@ -370,6 +401,7 @@ namespace Steamworks {
 		/// <para> Advise steam china duration control system about the online state of the game.</para>
 		/// <para> This will prevent offline gameplay time from counting against a user's</para>
 		/// <para> playtime limits.</para>
+		/// <para>建议蒸汽中国持续时间控制系统有关游戏的在线状态。这将防止离线游戏时间计算用户的游戏时间限制。</para>
 		/// </summary>
 		public static bool BSetDurationControlOnlineState(EDurationControlOnlineState eNewState) {
 			InteropHelp.TestIfAvailableClient();

@@ -32,6 +32,7 @@ namespace Steamworks {
 		/// <para> nChannel is a routing number you can use to help route message to different systems 	- you'll have to call ReadP2PPacket()</para>
 		/// <para> with the same channel number in order to retrieve the data on the other end</para>
 		/// <para> using different channels to talk to the same user will still use the same underlying p2p connection, saving on resources</para>
+		/// <para>UDP风格（无连接）网络接口。这些功能使用目的地周围组织的API发送消息。支持可靠和不可靠的消息。 有关更具TCP风格的接口（意味着您具有连接句柄），请参见下面的功能。两种接口样式都可以发送可靠和不可靠的消息。 自动建立NAT-Traversing或继电器服务器连接 这些API被弃用，可以在蒸汽Workss SDK的未来版本中删除。请参阅ISTeamNetworkingMessages。将P2P数据包发送到指定的用户UDP般，不可靠和最大数据包大小为1200字节，第一个数据包发送可能会延迟，因为NAT-Traversal代码运行，如果我们无法通过用户访问，则会通过callback p2psession conconnectconnectfail_t see epp2psend enum the ep2psend encriptions张贴错误，以获取不同 NChannel是一个路由号，您可以用来帮助将消息路由到不同的系统 - 您必须调用具有相同频道号的readp2ppacket（），以便使用不同的频道在另一端检索与同一用户交谈的另一端数据</para>
 		/// </summary>
 		public static bool SendP2PPacket(CSteamID steamIDRemote, byte[] pubData, uint cubData, EP2PSend eP2PSendType, int nChannel = 0) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -40,6 +41,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns true if any data is available for read, and the amount of data that will need to be read</para>
+		/// <para>如果有任何数据可读取，则返回true，以及需要读取的数据量</para>
 		/// </summary>
 		public static bool IsP2PPacketAvailable(out uint pcubMsgSize, int nChannel = 0) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -51,6 +53,7 @@ namespace Steamworks {
 		/// <para> returns the size of the message and the steamID of the user who sent it in the last two parameters</para>
 		/// <para> if the buffer passed in is too small, the message will be truncated</para>
 		/// <para> this call is not blocking, and will return false if no data is available</para>
+		/// <para>在通过sendp2ppacket（）从另一个用户发送的数据包中读取消息，返回消息的大小和用户的蒸汽，如果传递的缓冲区太小，则在最后两个参数中发送的用户的蒸汽，该消息将被截断，此调用不会阻止，并且如果没有可用的false，则将返回。</para>
 		/// </summary>
 		public static bool ReadP2PPacket(byte[] pubDest, uint cubDest, out uint pcubMsgSize, out CSteamID psteamIDRemote, int nChannel = 0) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -64,6 +67,7 @@ namespace Steamworks {
 		/// <para> if the user continues to send you packets, another P2PSessionRequest_t will be posted periodically</para>
 		/// <para> this may be called multiple times for a single user</para>
 		/// <para> (if you've called SendP2PPacket() on the other user, this implicitly accepts the session request)</para>
+		/// <para>AcceptP2PSessionWithUser() should only be called in response to a P2PSessionRequest_t callback P2PSessionRequest_t will be posted if another user tries to send you a packet that you haven't talked to yet if you don't want to talk to the user, just ignore the request if the user continues to send you packets, another P2PSessionRequest_t will be posted periodically this may be called multiple times for a single user (if you've called另一个用户上的sendp2ppacket（），这隐含地接受了会话请求）</para>
 		/// </summary>
 		public static bool AcceptP2PSessionWithUser(CSteamID steamIDRemote) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -73,6 +77,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> call CloseP2PSessionWithUser() when you're done talking to a user, will free up resources under-the-hood</para>
 		/// <para> if the remote user tries to send data to you again, another P2PSessionRequest_t callback will be posted</para>
+		/// <para>与用户交谈后，请致电CloseP2PSESSIONWITHUSER（），如果远程用户试图再次向您发送数据，将释放资源下方的资源</para>
 		/// </summary>
 		public static bool CloseP2PSessionWithUser(CSteamID steamIDRemote) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -83,6 +88,7 @@ namespace Steamworks {
 		/// <para> call CloseP2PChannelWithUser() when you're done talking to a user on a specific channel. Once all channels</para>
 		/// <para> open channels to a user have been closed, the open session to the user will be closed and new data from this</para>
 		/// <para> user will trigger a P2PSessionRequest_t callback</para>
+		/// <para>当您在特定频道上与用户交谈后，请致电CloseP2PChannelWithuser（）。一旦关闭了对用户的所有通道打开通道，将关闭向用户的打开会话，该用户的新数据将触发p2psessionrequest_t呼叫</para>
 		/// </summary>
 		public static bool CloseP2PChannelWithUser(CSteamID steamIDRemote, int nChannel) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -93,6 +99,7 @@ namespace Steamworks {
 		/// <para> fills out P2PSessionState_t structure with details about the underlying connection to the user</para>
 		/// <para> should only needed for debugging purposes</para>
 		/// <para> returns false if no connection exists to the specified user</para>
+		/// <para>填写P2PSESSIONSTATE_T结构，其中包含有关与用户的基础连接的详细信息，只需要调试目的而需要返回错误，如果与指定的用户不存在连接</para>
 		/// </summary>
 		public static bool GetP2PSessionState(CSteamID steamIDRemote, out P2PSessionState_t pConnectionState) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -107,6 +114,7 @@ namespace Steamworks {
 		/// <para> NOTE: This function is deprecated and may be removed in a future version of the SDK.  For</para>
 		/// <para> security purposes, we may decide to relay the traffic to certain peers, even if you pass false</para>
 		/// <para> to this function, to prevent revealing the client's IP address top another peer.</para>
+		/// <para>如果无法建立直接连接或NAT-Traversal，则允许P2P连接倒退到通过Steam服务器中继电器。仅适用于设置此值之后创建的连接，或者适用于在设置此值后需要自动重新连接的现有连接。 默认允许P2P数据包继电器 注意：此功能已弃用，可以在SDK的将来版本中删除。出于安全目的，我们可能决定将流量转移到某些同行，即使您将false传递给此功能，也可以防止揭示客户端的IP地址在另一个同伴中。</para>
 		/// </summary>
 		public static bool AllowP2PPacketRelay(bool bAllow) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -132,6 +140,7 @@ namespace Steamworks {
 		/// <para>		pass in 0 if you just want the default local IP</para>
 		/// <para> unPort is the port to use</para>
 		/// <para>		pass in 0 if you don't want users to be able to connect via IP/Port, but expect to be always peer-to-peer connections only</para>
+		/// <para>收听 /连接面向连接的接口功能 这些功能更像是客户端服务器TCP API。一侧是传入连接的“服务器”和“ lingens”，然后必须“接受”。“客户端”通过“连接”启动连接。发送和接收是通过连接手柄完成的。 对于更具UDP风格的接口，您不跟踪连接手柄，而只需将消息发送到Steamid，请使用上面的UDP式函数。 两种方法都可以发送可靠和不可靠的方法。 这些API被弃用，可以在蒸汽Workss SDK的未来版本中删除。请参阅ISTeamNetworkingsockets。 creates a socket and listens others to connect will tr​​igger a SocketStatusCallback_t callback on another client connecting nVirtualP2PPort is the unique ID that the client will connect to, in case you have multiple ports this can usually just be 0 unless you want multiple sets of connections unIP is the local IP address to bind to pass in 0 if you just want the default local IP unPort is the port to use pass in 0 if you don't want users to be able to connect viaIP/端口，但期望始终是对等连接</para>
 		/// </summary>
 		public static SNetListenSocket_t CreateListenSocket(int nVirtualP2PPort, SteamIPAddress_t nIP, ushort nPort, bool bAllowUseOfPacketRelay) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -143,6 +152,7 @@ namespace Steamworks {
 		/// <para> can connect via a known steamID (client or game server), or directly to an IP</para>
 		/// <para> on success will trigger a SocketStatusCallback_t callback</para>
 		/// <para> on failure or timeout will trigger a SocketStatusCallback_t callback with a failure code in m_eSNetSocketState</para>
+		/// <para>creates a socket and begin connection to a remote destination can connect via a known steamID (client or game server), or directly to an IP on success will tr​​igger a SocketStatusCallback_t callback on failure or timeout will tr​​igger a SocketStatusCallback_t callback with a failure code in m_eSNetSocketState</para>
 		/// </summary>
 		public static SNetSocket_t CreateP2PConnectionSocket(CSteamID steamIDTarget, int nVirtualPort, int nTimeoutSec, bool bAllowUseOfPacketRelay) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -158,6 +168,7 @@ namespace Steamworks {
 		/// <para> disconnects the connection to the socket, if any, and invalidates the handle</para>
 		/// <para> any unread data on the socket will be thrown away</para>
 		/// <para> if bNotifyRemoteEnd is set, socket will not be completely destroyed until the remote end acknowledges the disconnect</para>
+		/// <para>断开连接到套接字的连接（如果有），并将插座上的任何未读取数据无效，如果设置了bnotifyRemoteend，则插座不会被完全破坏，直到远程端确认断开连接</para>
 		/// </summary>
 		public static bool DestroySocket(SNetSocket_t hSocket, bool bNotifyRemoteEnd) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -166,6 +177,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> destroying a listen socket will automatically kill all the regular sockets generated from it</para>
+		/// <para>销毁收听插座将自动杀死所有从中产生的常规插座</para>
 		/// </summary>
 		public static bool DestroyListenSocket(SNetListenSocket_t hSocket, bool bNotifyRemoteEnd) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -178,6 +190,7 @@ namespace Steamworks {
 		/// <para> data is all sent via UDP, and thus send sizes are limited to 1200 bytes; after this, many routers will start dropping packets</para>
 		/// <para> use the reliable flag with caution; although the resend rate is pretty aggressive,</para>
 		/// <para> it can still cause stalls in receiving data (like TCP)</para>
+		/// <para>发送数据必须是通过UDP发送连接套接字数据的句柄，因此发送尺寸限制为1200字节；此后，许多路由器会谨慎使用可靠的标志。尽管重新启动速率非常激进，但它仍然会导致接收数据的失速（例如TCP）</para>
 		/// </summary>
 		public static bool SendDataOnSocket(SNetSocket_t hSocket, byte[] pubData, uint cubData, bool bReliable) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -188,6 +201,7 @@ namespace Steamworks {
 		/// <para> receiving data</para>
 		/// <para> returns false if there is no data remaining</para>
 		/// <para> fills out *pcubMsgSize with the size of the next message, in bytes</para>
+		/// <para>接收数据返回false如果剩下的数据填充 *pcubmsgsize，下一个消息的大小，字节</para>
 		/// </summary>
 		public static bool IsDataAvailableOnSocket(SNetSocket_t hSocket, out uint pcubMsgSize) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -199,6 +213,7 @@ namespace Steamworks {
 		/// <para> messages are always complete, of the same size as was sent (i.e. packetized, not streaming)</para>
 		/// <para> if *pcubMsgSize &lt; cubDest, only partial data is written</para>
 		/// <para> returns false if no data is available</para>
+		/// <para>使用消息消息的内容填充PubDest始终完整，与发送的大小相同（即包装，不流式传输），如果 *pcubmsgsize <cubdest <cubdest，则只有部分数据写入，如果没有数据可用，则返回false。</para>
 		/// </summary>
 		public static bool RetrieveDataFromSocket(SNetSocket_t hSocket, byte[] pubDest, uint cubDest, out uint pcubMsgSize) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -210,6 +225,7 @@ namespace Steamworks {
 		/// <para> returns false if there is no data remaining</para>
 		/// <para> fills out *pcubMsgSize with the size of the next message, in bytes</para>
 		/// <para> fills out *phSocket with the socket that data is available on</para>
+		/// <para>检查从已连接的任何套接字的数据检查此侦听套接字返回返回如果剩下的数据填充 *PCUBMSGSIZE，下一个消息的大小，字节intes intes intes intes intes *phsocket in</para>
 		/// </summary>
 		public static bool IsDataAvailable(SNetListenSocket_t hListenSocket, out uint pcubMsgSize, out SNetSocket_t phSocket) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -223,6 +239,7 @@ namespace Steamworks {
 		/// <para> if *pcubMsgSize &lt; cubDest, only partial data is written</para>
 		/// <para> returns false if no data is available</para>
 		/// <para> fills out *phSocket with the socket that data is available on</para>
+		/// <para>从该套接字连接的任何套接字的检索数据在PubDest中连接到PubDest，消息消息的内容始终完成，与发送的大小相同（即包装量，不流式传输），如果 *PCUBMSGSIZE <cubdest <cubdest，只有部分数据是书面返回，如果没有数据返回，则false false false false false false false false false false false false false false face fiels file file file *phsocket file file file file *phsocket file files *phsocket file file flats *phsocket file file false *</para>
 		/// </summary>
 		public static bool RetrieveData(SNetListenSocket_t hListenSocket, byte[] pubDest, uint cubDest, out uint pcubMsgSize, out SNetSocket_t phSocket) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -231,6 +248,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns information about the specified socket, filling out the contents of the pointers</para>
+		/// <para>返回有关指定套接字的信息，填写指针的内容</para>
 		/// </summary>
 		public static bool GetSocketInfo(SNetSocket_t hSocket, out CSteamID pSteamIDRemote, out int peSocketStatus, out SteamIPAddress_t punIPRemote, out ushort punPortRemote) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -240,6 +258,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> returns which local port the listen socket is bound to</para>
 		/// <para> *pnIP and *pnPort will be 0 if the socket is set to listen for P2P connections only</para>
+		/// <para>返回本地端口的侦听套接字限制为 *pnip，如果设置套接字仅侦听P2P连接，则 *PNPORT为0</para>
 		/// </summary>
 		public static bool GetListenSocketInfo(SNetListenSocket_t hListenSocket, out SteamIPAddress_t pnIP, out ushort pnPort) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -248,6 +267,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns true to describe how the socket ended up connecting</para>
+		/// <para>返回真实以描述插座最终如何连接</para>
 		/// </summary>
 		public static ESNetSocketConnectionType GetSocketConnectionType(SNetSocket_t hSocket) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -256,6 +276,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> max packet size, in bytes</para>
+		/// <para>最大数据包大小，字节</para>
 		/// </summary>
 		public static int GetMaxPacketSize(SNetSocket_t hSocket) {
 			InteropHelp.TestIfAvailableGameServer();
