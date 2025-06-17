@@ -1,9 +1,10 @@
 namespace Steamworks {
 	// servernetadr_t is all the addressing info the serverbrowser needs to know about a game server,
 	// namely: its IP, its connection port, and its query port.
+	// servernetadr_t是服务器浏览器需要知道的关于游戏服务器的所有地址信息，即：它的IP，它的连接端口和它的查询端口。
 	[System.Serializable]
 	public struct servernetadr_t {
-		private ushort m_usConnectionPort;	// (in HOST byte order)
+		private ushort m_usConnectionPort;	// (in HOST byte order) （以HOST字节顺序）
 		private ushort m_usQueryPort;
 		private uint m_unIP;
 
@@ -20,6 +21,7 @@ namespace Steamworks {
 #endif
 
 		// Access the query port.
+		// 访问查询端口。
 		public ushort GetQueryPort() {
 			return m_usQueryPort;
 		}
@@ -29,6 +31,7 @@ namespace Steamworks {
 		}
 
 		// Access the connection port.
+		// 访问连接端口。
 		public ushort GetConnectionPort() {
 			return m_usConnectionPort;
 		}
@@ -47,6 +50,7 @@ namespace Steamworks {
 		}
 
 		// This gets the 'a.b.c.d:port' string with the connection port (instead of the query port).
+		// 这将获得带有连接端口（而不是查询端口）的‘a.b.c.d:port’字符串。
 		public string GetConnectionAddressString() {
 			return ToString(m_unIP, m_usConnectionPort);
 		}

@@ -56,6 +56,7 @@ namespace Steamworks {
 
 		public bool IsValid() {
 			// Each type has it's own invalid fixed point:
+			// 每种类型都有自己的无效固定点：
 			switch (Type()) {
 				case EGameIDType.k_EGameIDTypeApp:
 					return AppID() != AppId_t.Invalid;

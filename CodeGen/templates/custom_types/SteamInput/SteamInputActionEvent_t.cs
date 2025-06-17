@@ -3,6 +3,7 @@ namespace Steamworks
 	//-----------------------------------------------------------------------------
 	// Purpose: when callbacks are enabled this fires each time a controller action
 	// state changes
+	// 目的：当回调被启用时，每次控制器动作状态改变时触发
 	//-----------------------------------------------------------------------------
 	[System.Serializable]
 	[StructLayout(LayoutKind.Sequential)]

@@ -1,32 +1,40 @@
 namespace Steamworks
 {
 	/// A message that has been received.
+	/// 已收到的消息。
 	[System.Serializable]
 	[StructLayout(LayoutKind.Sequential)]
 	public struct SteamNetworkingMessage_t
 	{
-		/// Message payload
+		/// Message payload 消息有效负载
 		public IntPtr m_pData;
 
-		/// Size of the payload.
+		/// Size of the payload. 有效载荷的大小。
 		public int m_cbSize;
 
 		/// For messages received on connections: what connection did this come from?
 		/// For outgoing messages: what connection to send it to?
 		/// Not used when using the ISteamNetworkingMessages interface
+		/// 对于在连接上收到的消息：它来自哪个连接？
+		/// 对于外发消息：发送到哪个连接？
+		/// 使用ISteamNetworkingMessages接口时不使用
 		public HSteamNetConnection m_conn;
 
 		/// For inbound messages: Who sent this to us?
 		/// For outbound messages on connections: not used.
 		/// For outbound messages on the ad-hoc ISteamNetworkingMessages interface: who should we send this to?
+		/// 对于入站消息：谁发送给我们的？对于连接上的出站消息：未使用。
+		/// 对于ad-hoc ISteamNetworkingMessages接口上的出站消息：我们应该将其发送给谁？
 		public SteamNetworkingIdentity m_identityPeer;
 
 		/// For messages received on connections, this is the user data
 		/// associated with the connection.
+		/// 对于在连接上接收的消息，这是与该连接关联的用户数据。
 		///
 		/// This is *usually* the same as calling GetConnection() and then
 		/// fetching the user data associated with that connection, but for
 		/// the following subtle differences:
+		/// 这*通常*与调用GetConnection（）然后获取与该连接相关的用户数据相同，但有以下细微区别：
 		///
 		/// - This user data will match the connection's user data at the time
 		///   is captured at the time the message is returned by the API.
@@ -35,24 +43,35 @@ namespace Steamworks
 		/// - This is an inline call, so it's *much* faster.
 		/// - You might have closed the connection, so fetching the user data
 		///   would not be possible.
+		/// - 此用户数据将与API返回消息时捕获的连接用户数据相匹配。
+		///   如果随后更改了连接上的userdata，则不会更新。
+		/// - 这是一个内联调用，所以它要快得多。
+		/// - 您可能已经关闭了连接，因此无法获取用户数据。
 		///
 		/// Not used when sending messages.
+		/// 发送消息时不使用。
 		public long m_nConnUserData;
 
 		/// Local timestamp when the message was received
 		/// Not used for outbound messages.
+		/// 收到消息时的本地时间戳。未用于出站消息。
 		public SteamNetworkingMicroseconds m_usecTimeReceived;
 
 		/// Message number assigned by the sender.  This is not used for outbound
 		/// messages.  Note that if multiple lanes are used, each lane has its own
 		/// message numbers, which are assigned sequentially, so messages from
 		/// different lanes will share the same numbers.
+		/// 发送方分配的消息号。这不适用于出站消息。注意，如果使用多个通道，
+		/// 则每个通道都有自己的消息号，这些消息号是按顺序分配的，
+		/// 因此来自不同通道的消息将共享相同的号码。
 		public long m_nMessageNumber;
 
 		/// Function used to free up m_pData.  This mechanism exists so that
 		/// apps can create messages with buffers allocated from their own
 		/// heap, and pass them into the library.  This function will
 		/// usually be something like:
+		/// 用于释放m_pData的函数。这种机制的存在使得应用程序可以使用从自己的
+		/// 堆中分配的缓冲区创建消息，并将其传递到库中。这个函数通常是这样的：
 		///
 		/// free( pMsg->m_pData );
 		public IntPtr m_pfnFreeData;
@@ -60,32 +79,44 @@ namespace Steamworks
 		/// Function to used to decrement the internal reference count and, if
 		/// it's zero, release the message.  You should not set this function pointer,
 		/// or need to access this directly!  Use the Release() function instead!
+		/// 函数用于减少内部引用计数，如果它为零，则释放消息。
+		/// 你不应该设置这个函数指针，或者需要直接访问它！使用Release（）函数代替！
 		internal IntPtr m_pfnRelease;
 
 		/// When using ISteamNetworkingMessages, the channel number the message was received on
 		/// (Not used for messages sent or received on "connections")
+		/// 当使用ISteamNetworkingMessages时，接收消息的通道号（不用于在“连接”上发送或接收的消息）
 		public int m_nChannel;
 
 		/// Bitmask of k_nSteamNetworkingSend_xxx flags.
 		/// For received messages, only the k_nSteamNetworkingSend_Reliable bit is valid.
 		/// For outbound messages, all bits are relevant
+		/// k_nSteamNetworkingSend_xxx标志位掩码。
+		/// 对于接收到的消息，只有k_nSteamNetworkingSend_Reliable位有效。
+		/// 对于出站消息，所有位都是相关的
 		public int m_nFlags;
 
 		/// Arbitrary user data that you can use when sending messages using
 		/// ISteamNetworkingUtils::AllocateMessage and ISteamNetworkingSockets::SendMessage.
 		/// (The callback you set in m_pfnFreeData might use this field.)
+		/// 使用ISteamNetworkingUtils::AllocateMessage和isteamnetworksockets::SendMessage
+		/// 发送消息时可以使用的任意用户数据。（你在m_pfnFreeData中设置的回调可能会使用这个字段。）
 		///
 		/// Not used for received messages.
+		/// 未用于接收到的消息。
 		public long m_nUserData;
 
 		/// For outbound messages, which lane to use?  See ISteamNetworkingSockets::ConfigureConnectionLanes.
 		/// For inbound messages, what lane was the message received on?
+		/// 对于出站邮件，要使用哪个通道？看到ISteamNetworkingSockets:: ConfigureConnectionLanes。
+		/// 对于入站消息，消息是在哪个车道上收到的？
 		public ushort m_idxLane;
 
 		public ushort _pad1__;
 
 		/// You MUST call this when you're done with the object,
 		/// to free up memory, etc.
+		/// 当你用完对象后，你必须调用这个函数来释放内存等等。
 		public void Release() {
 			throw new System.NotImplementedException("Please use the static Release function instead which takes an IntPtr.");
 		}
@@ -93,12 +124,15 @@ namespace Steamworks
 		/// You MUST call this when you're done with the object,
 		/// to free up memory, etc.
 		/// This is a Steamworks.NET extension.
+		/// 当你用完对象后，你必须调用这个函数来释放内存等等。
+		/// 这是Steamworks.NET扩展。
 		public static void Release(IntPtr pointer) {
 			NativeMethods.SteamAPI_SteamNetworkingMessage_t_Release(pointer);
 		}
 
 		/// Convert an IntPtr received from ISteamNetworkingSockets.ReceiveMessagesOnPollGroup into our structure.
 		/// This is a Steamworks.NET extension.
+		/// 转换从ISteamNetworkingSockets接收的IntPtr。ReceiveMessagesOnPollGroup到我们的结构中。这是蒸汽工厂。网络扩展。
 		public static SteamNetworkingMessage_t FromIntPtr(IntPtr pointer) {
 			return (SteamNetworkingMessage_t)Marshal.PtrToStructure(pointer, typeof(SteamNetworkingMessage_t));
 		}
