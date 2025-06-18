@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -135,7 +135,7 @@ namespace Steamworks {
 		/// <para> Get general attributes for an achievement. Accepts the following keys:</para>
 		/// <para> - "name" and "desc" for retrieving the localized achievement name and description (returned in UTF8)</para>
 		/// <para> - "hidden" for retrieving if an achievement is hidden (returns "0" when not hidden, "1" when hidden)</para>
-		/// <para>获取成就的通用属性。接受以下键： - “name” 和 “desc” 用于检索本地化成就名称和描述（以 UTF8 格式返回） - “hidden” 用于检索成就是否隐藏（未隐藏时返回“0”，隐藏时返回“1”）</para>
+		/// <para>获取成就的通用属性。接受以下键：- “name” 和 “desc” 用于检索本地化成就名称和描述（以 UTF8 格式返回）- “hidden” 用于检索成就是否隐藏（未隐藏时返回“0”，隐藏时返回“1”）</para>
 		/// </summary>
 		public static string GetAchievementDisplayAttribute(string pchName, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
@@ -216,7 +216,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> See notes for GetAchievementAndUnlockTime above</para>
-		/// <para>查看上方 GetAchievementAndUnlockTime 的备注。</para>
+		/// <para>查看上方“GetAchievementAndUnlockTime”的备注说明。</para>
 		/// </summary>
 		public static bool GetUserAchievementAndUnlockTime(CSteamID steamIDUser, string pchName, out bool pbAchieved, out uint punUnlockTime) {
 			InteropHelp.TestIfAvailableClient();
@@ -304,7 +304,7 @@ namespace Steamworks {
 		/// <para> k_ELeaderboardDataRequestGlobalAroundUser requests rows around the current user, nRangeStart being negate</para>
 		/// <para>   e.g. DownloadLeaderboardEntries( hLeaderboard, k_ELeaderboardDataRequestGlobalAroundUser, -3, 3 ) will return 7 rows, 3 before the user, 3 after</para>
 		/// <para> k_ELeaderboardDataRequestFriends requests all the rows for friends of the current user</para>
-		/// <para>请求 Steam 后端获取排行榜的一组行。此调用是异步的，结果将返回在 LeaderboardScoresDownloaded_t 中。LeaderboardScoresDownloaded_t 将包含一个句柄，用于从 GetDownloadedLeaderboardEntries()（下方）拉取结果。您可以请求比现有行数量更多的行，它将返回存在的尽可能多的行。k_ELeaderboardDataRequestGlobal 请求来自完整表的排行榜中的行，其中 nRangeStart & nRangeEnd 在 [1, TotalEntries] 范围内。k_ELeaderboardDataRequestGlobalAroundUser 请求当前用户周围的行，nRangeStart 为负数，例如 DownloadLeaderboardEntries( hLeaderboard, k_ELeaderboardDataRequestGlobalAroundUser, -3, 3 ) 将返回 7 行，3 行在用户之前，3 行在用户之后。</para>
+		/// <para>请求 Steam 后端获取排行榜的一组行。此调用是异步的，结果将返回在 LeaderboardScoresDownloaded_t 中。LeaderboardScoresDownloaded_t 将包含一个句柄，用于从 GetDownloadedLeaderboardEntries()（下方）拉取结果。您可以请求比现有行数量更多的行，它将返回存在的尽可能多的行。k_ELeaderboardDataRequestGlobal 请求来自完整表的排行榜中的行，其中 nRangeStart & nRangeEnd 在 [1, TotalEntries] 范围内。k_ELeaderboardDataRequestGlobalAroundUser 请求当前用户周围的行，nRangeStart 是负数，例如 DownloadLeaderboardEntries( hLeaderboard, k_ELeaderboardDataRequestGlobalAroundUser, -3, 3 ) 将返回 7 行，3 行在用户之前，3 行在用户之后。</para>
 		/// </summary>
 		public static SteamAPICall_t DownloadLeaderboardEntries(SteamLeaderboard_t hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int nRangeStart, int nRangeEnd) {
 			InteropHelp.TestIfAvailableClient();
@@ -395,7 +395,7 @@ namespace Steamworks {
 		/// <para> Get the info on the most achieved achievement for the game, returns an iterator index you can use to fetch</para>
 		/// <para> the next most achieved afterwards.  Will return -1 if there is no data on achievement</para>
 		/// <para> percentages (ie, you haven't called RequestGlobalAchievementPercentages and waited on the callback).</para>
-		/// <para>获取游戏中最达成的成就的信息，返回一个迭代器索引，你可以用来获取后续最达成的成就。如果没有任何成就百分比数据（例如，你没有调用 RequestGlobalAchievementPercentages 并等待回调），则返回 -1。</para>
+		/// <para>获取游戏中最达成的成就的信息，返回一个迭代器索引，你可以用它来获取后续最达成的成就。如果没有任何成就百分比数据（例如，你没有调用 RequestGlobalAchievementPercentages 并等待回调），则返回 -1。</para>
 		/// </summary>
 		public static int GetMostAchievedAchievementInfo(out string pchName, uint unNameBufLen, out float pflPercent, out bool pbAchieved) {
 			InteropHelp.TestIfAvailableClient();

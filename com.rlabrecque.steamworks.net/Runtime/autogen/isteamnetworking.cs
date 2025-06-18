@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -71,7 +71,7 @@ namespace Steamworks {
 		/// <para> if the user continues to send you packets, another P2PSessionRequest_t will be posted periodically</para>
 		/// <para> this may be called multiple times for a single user</para>
 		/// <para> (if you've called SendP2PPacket() on the other user, this implicitly accepts the session request)</para>
-		/// <para>AcceptP2PSessionWithUser() 仅应在响应 P2PSessionRequest_t 回调时调用。如果另一个用户尝试向你发送你尚未与之交流过的数据包，将会发布 P2PSessionRequest_t。如果你不想与该用户交流，则忽略该请求。如果该用户继续向你发送数据包，将会周期性地发布另一个 P2PSessionRequest_t。这可能为单个用户被调用多次（如果在另一用户上调用了 SendP2PPacket()，则隐式接受会话请求）。</para>
+		/// <para>AcceptP2PSessionWithUser() 仅应在响应 P2PSessionRequest_t 回调时调用。如果另一个用户尝试向你发送你尚未与之交流过的数据包，将会发布 P2PSessionRequest_t。如果你不想与该用户交流，则忽略该请求。如果该用户继续向你发送数据包，将会周期性地发布另一个 P2PSessionRequest_t。这可能为单个用户被调用多次（如果在另一用户上调用了 SendP2PPacket()，则这隐式接受了会话请求）。</para>
 		/// </summary>
 		public static bool AcceptP2PSessionWithUser(CSteamID steamIDRemote) {
 			InteropHelp.TestIfAvailableClient();
@@ -151,7 +151,7 @@ namespace Steamworks {
 		/// <para>为了获得更类似于UDP的接口，您无需跟踪连接句柄，只需将消息发送到SteamID，请使用上述的UDP风格函数。</para>
 		/// <para>两种方法都可以发送可靠和不可靠的方法。</para>
 		/// <para>这些API已被废弃，并且在Steamworks SDK的未来版本中可能会被移除。请参阅ISteamNetworkingSockets。</para>
-		/// <para>创建一个套接字并监听其他客户端连接会触发另一个客户端连接时的 `SocketStatusCallback_t` 回调。`nVirtualP2PPort` 是客户端连接的唯一 ID，如果有多组端口，通常可以设置为 0，除非您想要建立多组连接。`unIP` 是本地 IP 地址，用于绑定。如果只想使用默认本地 IP，请传入 0。`unPort` 是使用的端口，如果不想让用户通过 IP/端口连接，但期望始终进行点对点连接，请传入 0。</para>
+		/// <para>创建一个套接字并监听其他客户端连接会触发另一个客户端连接时的 SocketStatusCallback_t 回调。nVirtualP2PPort 是客户端连接的唯一 ID，如果有多套端口，通常可以设置为 0，除非您想要建立多套连接。unIP 是本地 IP 地址，用于绑定。如果只想使用默认本地 IP，请传入 0。unPort 是使用的端口，如果不想让用户通过 IP/端口连接，但期望始终进行点对点连接，请传入 0。</para>
 		/// </summary>
 		public static SNetListenSocket_t CreateListenSocket(int nVirtualP2PPort, SteamIPAddress_t nIP, ushort nPort, bool bAllowUseOfPacketRelay) {
 			InteropHelp.TestIfAvailableClient();
@@ -236,7 +236,7 @@ namespace Steamworks {
 		/// <para> returns false if there is no data remaining</para>
 		/// <para> fills out *pcubMsgSize with the size of the next message, in bytes</para>
 		/// <para> fills out *phSocket with the socket that data is available on</para>
-		/// <para>检查从任何已连接的监听套接字接收到的数据返回false，如果套接字中没有剩余数据，则用下一个消息的大小（以字节为单位）填充 *pcubMsgSize，并用 *phSocket 填充包含可用数据的套接字。</para>
+		/// <para>检查从任何已连接的监听套接字接收到的数据返回false，如果套接字中没有剩余数据，则用下一个消息的大小（以字节为单位）填充 *pcubMsgSize，并将套接字填充为数据可用的套接字。</para>
 		/// </summary>
 		public static bool IsDataAvailable(SNetListenSocket_t hListenSocket, out uint pcubMsgSize, out SNetSocket_t phSocket) {
 			InteropHelp.TestIfAvailableClient();
@@ -269,7 +269,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> returns which local port the listen socket is bound to</para>
 		/// <para> *pnIP and *pnPort will be 0 if the socket is set to listen for P2P connections only</para>
-		/// <para>如果套接字设置为仅监听P2P连接，则*pnIP和*pnPort将设置为0，指定本地端口。</para>
+		/// <para>如果套接字设置为仅监听P2P连接，则 *pnIP 和 *pnPort 将设置为 0，指定本地端口。</para>
 		/// </summary>
 		public static bool GetListenSocketInfo(SNetListenSocket_t hListenSocket, out SteamIPAddress_t pnIP, out ushort pnPort) {
 			InteropHelp.TestIfAvailableClient();

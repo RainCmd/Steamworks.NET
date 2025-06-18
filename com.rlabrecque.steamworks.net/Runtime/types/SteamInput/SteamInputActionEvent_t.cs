@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -14,11 +14,12 @@
 using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 
-namespace Steamworks
+﻿namespace Steamworks
 {
 	//-----------------------------------------------------------------------------
 	// Purpose: when callbacks are enabled this fires each time a controller action
 	// state changes
+	// 目的：当回调被启用时，每次控制器动作状态改变时触发
 	//-----------------------------------------------------------------------------
 	[System.Serializable]
 	[StructLayout(LayoutKind.Sequential)]

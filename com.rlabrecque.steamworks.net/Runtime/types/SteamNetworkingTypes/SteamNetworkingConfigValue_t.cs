@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -14,7 +14,7 @@
 using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 
-namespace Steamworks
+﻿namespace Steamworks
 {
 	/// In a few places we need to set configuration options on listen sockets and connections, and
 	/// have them take effect *before* the listen socket or connection really starts doing anything.

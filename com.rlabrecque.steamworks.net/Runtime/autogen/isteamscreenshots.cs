@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -31,7 +31,7 @@ namespace Steamworks {
 		/// <para> as the screenshot, otherwise a thumbnail will be generated if the user uploads the screenshot.  The screenshots must be in either JPEG or TGA format.</para>
 		/// <para> The return value is a handle that is valid for the duration of the game process and can be used to apply tags.</para>
 		/// <para> JPEG, TGA, and PNG formats are supported.</para>
-		/// <para>添加用户磁盘上的截图到用户截图库。如果提供缩略图，它必须宽度为 200 像素，并且与截图的宽高比相同，否则如果用户上传截图，则会生成缩略图。截图必须使用 JPEG 或 TGA 格式。返回值是一个有效期与游戏进程相同的手柄，可用于添加标签。支持 JPEG、TGA 和 PNG 格式。</para>
+		/// <para>添加用户磁盘上的截图到用户截图库。如果提供缩略图，它必须宽度为 200 像素，并且与截图的宽高比相同，否则如果用户上传截图，则会生成缩略图。截图必须使用 JPEG 或 TGA 格式。返回值是一个有效期与游戏进程相同的手柄，可用于应用标签。支持 JPEG、TGA 和 PNG 格式。</para>
 		/// </summary>
 		public static ScreenshotHandle AddScreenshotToLibrary(string pchFilename, string pchThumbnailFilename, int nWidth, int nHeight) {
 			InteropHelp.TestIfAvailableClient();

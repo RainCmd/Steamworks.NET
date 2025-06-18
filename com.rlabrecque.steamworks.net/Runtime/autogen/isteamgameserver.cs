@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -45,7 +45,7 @@ namespace Steamworks {
 		/// <para> this application is the original game, not a mod.</para>
 		/// <para> @see k_cbMaxGameServerGameDir</para>
 		/// <para>如果你的游戏是“模组”，请提供标识它的字符串。默认情况下，这是一个空字符串，表示此应用程序是原始游戏，而不是模组。</para>
-		/// <para>@see k_cbMaxGameServerGameDir</para>
+		/// <para></para>
 		/// </summary>
 		public static void SetModDir(string pszModDir) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -220,7 +220,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Call this to clear the whole list of key/values that are sent in rules queries.</para>
-		/// <para>请调用此方法来清除所有在规则查询中发送的键/值列表。</para>
+		/// <para>请调用此方法来清除所有规则查询中发送的键/值列表。</para>
 		/// </summary>
 		public static void ClearAllKeyValues() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -244,7 +244,7 @@ namespace Steamworks {
 		/// <para> it allows users to filter in the matchmaking/server-browser interfaces based on the value</para>
 		/// <para> @see k_cbMaxGameServerTags</para>
 		/// <para>设置一个字符串，定义此服务器的“游戏标签”，这并非必需的，但如果设置了，它允许用户在匹配/服务器浏览器界面中根据该值进行过滤。</para>
-		/// <para>@see k_cbMaxGameServerTags</para>
+		/// <para></para>
 		/// </summary>
 		public static void SetGameTags(string pchGameTags) {
 			InteropHelp.TestIfAvailableGameServer();

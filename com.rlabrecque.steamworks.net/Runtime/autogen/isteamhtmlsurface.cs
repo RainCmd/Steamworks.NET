@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -255,7 +255,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> find this string in the browser, if bCurrentlyInFind is true then instead cycle to the next matching element</para>
-		/// <para>如果在浏览器中找到这个字符串，如果 bCurrentlyInFind 为 true，则循环到下一个匹配的元素。</para>
+		/// <para>如果在浏览器中找到这个字符串，如果 bCurrentlyInFind 为 true 则循环到下一个匹配元素。</para>
 		/// </summary>
 		public static void Find(HHTMLBrowser unBrowserHandle, string pchSearchStr, bool bCurrentlyInFind, bool bReverse) {
 			InteropHelp.TestIfAvailableClient();

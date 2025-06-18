@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -320,7 +320,7 @@ namespace Steamworks {
 		/// <para> callback will be fired.</para>
 		/// <para>物品定义</para>
 		/// <para>项目定义是对“定义 ID”（介于 1 到 1000000 之间的整数）进行映射，将其与一组字符串属性进行关联。其中一些属性是必需的，用于在 Steam 社区网站上显示项目。其他属性可以由应用程序定义。使用这些函数是可选的；如果您的游戏硬编码了数字定义 ID（例如，紫色面罩 = 20，蓝色武器模组 = 55），并且不允许通过客户端补丁添加新的项目类型，则无需调用 LoadItemDefinitions。</para>
-		/// <para>LoadItemDefinitions 会自动加载和刷新物品定义。 每次新的物品定义可用时（例如，在玩家仍在游戏中时，新物品类型动态添加），都会触发一个 SteamInventoryDefinitionUpdate_t 回调。</para>
+		/// <para>LoadItemDefinitions 会自动加载和刷新物品定义。 每次新的物品定义可用时（例如，在玩家仍在游戏中时，动态添加新物品类型），都会触发一个 SteamInventoryDefinitionUpdate_t 回调。</para>
 		/// </summary>
 		public static bool LoadItemDefinitions() {
 			InteropHelp.TestIfAvailableClient();
@@ -370,7 +370,7 @@ namespace Steamworks {
 		/// <para> Request the list of "eligible" promo items that can be manually granted to the given</para>
 		/// <para> user.  These are promo items of type "manual" that won't be granted automatically.</para>
 		/// <para> An example usage of this is an item that becomes available every week.</para>
-		/// <para>请求获取可手动授予指定用户的“ eligible ”促销项目列表。这些是类型为“ manual ”的促销项目，不会自动授予。例如，每周都可用的一个物品。</para>
+		/// <para>请求提供“可资格”促销物品的列表，这些物品可以手动授予给定的用户。这些是“手动”类型的促销物品，不会自动授予。例如，每周都可用的物品。</para>
 		/// </summary>
 		public static SteamAPICall_t RequestEligiblePromoItemDefinitionsIDs(CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();

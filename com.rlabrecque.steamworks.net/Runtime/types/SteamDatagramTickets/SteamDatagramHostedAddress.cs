@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -14,13 +14,17 @@
 using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 
-namespace Steamworks
+﻿namespace Steamworks
 {
 	/// Network-routable identifier for a service.  This is an intentionally
 	/// opaque byte blob.  The relays know how to use this to forward it on
 	/// to the intended destination, but otherwise clients really should not
 	/// need to know what's inside.  (Indeed, we don't really want them to
 	/// know, as it could reveal information useful to an attacker.)
+	/// 服务的网络可路由标识符。这是一个故意不透明的字节团。
+	/// 中继器知道如何使用它将其转发到预期的目的地，
+	/// 但除此之外，客户端真的不需要知道里面有什么。
+	/// （事实上，我们并不想让他们知道，因为这可能会泄露对攻击者有用的信息。）
 	[System.Serializable]
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct SteamDatagramHostedAddress

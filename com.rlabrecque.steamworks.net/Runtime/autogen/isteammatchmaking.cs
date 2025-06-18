@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -82,9 +82,9 @@ namespace Steamworks {
 		/// <para>		}</para>
 		/// <para>				// 游戏大厅功能 获取相关大厅列表这是一个异步请求结果将通过LobbyMatchList_t回调函数返回，包含找到的大厅数量，此功能不会返回已满的大厅，以便添加更多筛选。筛选调用需要在每次RequestLobbyList()调用之前进行。
 				// 使用 `CCallResult<>` 对象在 `steam_api.h` 中，将 SteamAPICall_t 调用结果与对象中的一个函数进行匹配，例如，类 `CMyLobbyListManager`。
-				// CCallResult<CMyLobbyListManager, LobbyMatchList_t> m_CallResultLobbyMatchList; void FindLobbies()
+				// 
 				// SteamMatchmaking()->AddRequestLobbyListFilter*() 函数在此调用，在 RequestLobbyList() 调用之前。 m_CallResultLobbyMatchList.Set( hSteamAPICall, this, &CMyLobbyListManager::OnLobbyMatchList );
-				// void OnLobbyMatchList( LobbyMatchList_t *pLobbyMatchList, bool bIOFailure )
+				// 
 				// Lobby列表已从Steam后端检索，使用结果</para>
 		/// </summary>
 		public static SteamAPICall_t RequestLobbyList() {
@@ -368,7 +368,7 @@ namespace Steamworks {
 		/// <para> returns false if the local user is not connected to the Steam servers</para>
 		/// <para> results will be returned by a LobbyDataUpdate_t callback</para>
 		/// <para> if the specified lobby doesn't exist, LobbyDataUpdate_t::m_bSuccess will be set to false</para>
-		/// <para>刷新非你当前所属Lobby的元数据，你通常不会这样做。你不会为你所属的Lobby刷新，只有在你需要时，这会向所有与该Lobby相关的元数据发送信息。这是一个异步调用，如果本地用户未连接到Steam服务器，则返回false。结果将通过LobbyDataUpdate_t回调返回。如果指定的Lobby不存在，LobbyDataUpdate_t::m_bSuccess将被设置为false。</para>
+		/// <para>刷新非你当前所属Lobby的元数据，你通常不会这样做。你不会为你所属的Lobby刷新，只有当你... 这将向下发送与Lobby相关的所有元数据。这是一个异步调用，如果本地用户未连接到Steam服务器，则返回false。结果将通过LobbyDataUpdate_t回调返回。如果指定的Lobby不存在，LobbyDataUpdate_t::m_bSuccess将被设置为false。</para>
 		/// </summary>
 		public static bool RequestLobbyData(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();

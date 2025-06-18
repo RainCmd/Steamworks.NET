@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -62,9 +62,9 @@ namespace Steamworks {
 		/// <para> a "client" and this should be called.</para>
 		/// <para>访问 Steam Datagram Relay (SDR) 网络</para>
 		/// <para>初始化和状态检查</para>
-		/// <para>如果您知道您将使用中继网络（例如，因为您预计将进行P2P连接），请调用此方法来初始化中继网络。 如果您没有调用此方法，初始化将延迟到您首次使用需要访问中继网络的特性时，届时会延迟首次访问。</para>
-		/// <para>你也可以通过调用此函数来强制重试，如果之前的尝试失败了。 任何需要访问中继网络的动作也会触发重试，因此调用此函数在严格意义上并不必要，但如果在预期访问中继网络时，在程序启动时调用它可能会有用。</para>
-		/// <para>使用GetRelayNetworkStatus或监听SteamRelayNetworkStatus_t回调，以了解初始化是否完成。通常初始化会在几秒钟内完成。</para>
+		/// <para>如果您知道您将使用中继网络（例如，因为您预计将进行P2P连接），请调用此方法来初始化中继网络。 如果您没有调用此方法，初始化将延迟到您首次使用需要访问中继网络的特性时，从而延迟首次访问。</para>
+		/// <para>你也可以调用这个函数来强制重试，如果之前的尝试失败了。 任何需要访问中继网络的动作也会触发重试，因此调用这个函数在严格意义上是不必要的，但如果在预计需要访问中继网络时，在程序启动时调用它可能会有用。</para>
+		/// <para>使用 GetRelayNetworkStatus 或监听 SteamRelayNetworkStatus_t 回调，以了解初始化是否完成。通常初始化会在几秒钟内完成。</para>
 		/// <para>注意：在已知数据中心托管的专用服务器*不*需要调用此项，因为它们不会进行路由决策。但是，如果专用服务器将使用 P2P 功能，它将作为“客户端”而调用此项。</para>
 		/// </summary>
 		public static void InitRelayNetworkAccess() {
@@ -313,7 +313,7 @@ namespace Steamworks {
 		/// <para>细节级别指示您在什么消息上调用回调函数。较低的数值意味着更重要，您传递的值是您希望接收回调函数的最低优先级（最高数值）。</para>
 		/// <para>此处的值控制大多数消息的详细程度。您可以通过调整配置值 k_ESteamNetworkingConfig_LogLevel_Xxxxx 来控制各种子系统（可能仅针对某些连接）的详细程度。</para>
 		/// <para>除非在调试时，否则你应该只使用 k_ESteamNetworkingSocketsDebugOutputType_Msg 或 k_ESteamNetworkingSocketsDebugOutputType_Warning。为了获得最佳性能，不要请求高详细程度，然后在回调中过滤消息。这会产生格式化消息的所有费用，而这些消息随后会被丢弃。设置高优先级值（低数值）在这里允许该库避免执行此操作。</para>
-		/// <para>重要提示：此函数可能在服务线程中调用，同时我们拥有互斥锁等资源。您的输出函数必须是线程安全的且快速！请勿在处理程序中进行任何其他 Steamworks 调用。</para>
+		/// <para>重要提示：此函数可能在服务线程中调用，同时我们拥有互斥锁等资源。您的输出函数必须线程安全且快速！请勿在处理程序中进行任何其他Steamworks调用。</para>
 		/// </summary>
 		public static void SetDebugOutputFunction(ESteamNetworkingSocketsDebugOutputType eDetailLevel, FSteamNetworkingSocketsDebugOutput pfnFunc) {
 			InteropHelp.TestIfAvailableClient();

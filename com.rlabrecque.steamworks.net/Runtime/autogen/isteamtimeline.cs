@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -216,13 +216,13 @@ namespace Steamworks {
 		/// <para> - pchAttributeGroup: The localized name of the attribute group.</para>
 		/// <para> - unPriority: Used to order tags and attributes in the UI displayed to the user, with higher priority values leading</para>
 		/// <para>   to more prominent positioning. In contexts where there is limited space, lower priority items may be hidden.</para>
-		/// <para>游戏阶段 游戏阶段允许用户浏览他们的背景录音和片段。 确切地讲，每个游戏阶段的含义各不相同，但游戏阶段通常是指一段10分钟到几个小时的游戏内容，并且应该作为用户划分游戏的主要方式。 这些内容以一个UI呈现，显示了游戏被玩的时间，每行一个游戏片段。 游戏阶段应该用于标记用户可能感兴趣的玩法部分。</para>
+		/// <para>游戏阶段 游戏阶段允许用户浏览他们的背景录音和片段。 确切地讲，每个游戏阶段的含义会因游戏而异，但游戏阶段应该是一个游戏中的一个部分，通常时长在10分钟到几个小时之间，并且应该作为用户将游戏划分的主要方式。 这些游戏阶段以一个UI形式呈现给用户，显示游戏所玩的日期，每行一个游戏片段。 游戏阶段应该被用于标记用户可能感兴趣的玩法部分。</para>
 		/// <para>示例可能包括：* 玩家对战模式多人游戏中的一场比赛 * 基于故事的单人游戏中的一个章节 * Roguelike 游戏中的一次通行</para>
 		/// <para>游戏阶段通过 StartGamePhase 启动，并且在阶段仍在进行时，可以向它们添加标签和属性。</para>
-		/// <para>相位属性代表通用的文本字段，可以在相位的整个过程中进行更新。它们旨在用于非明确选项集中的相位元数据。例如，一个以“0/0/0”值开始并随着相位进展而更新的KDA属性，或者类似已进入游戏的角色名称。可以使用SetGamePhaseAttribute设置属性，可以设置任意次数，但仅会显示给用户最后一次的值。</para>
+		/// <para>相位属性代表通用的文本字段，可以在相位的整个过程中进行更新。它们旨在用于非明确选项集中的相位元数据。例如，一个以“0/0/0”值开始并随着相位进展而更新的KDA属性，或者像已进入游戏的角色名称一样的东西。属性可以通过SetGamePhaseAttribute设置多次，但只会显示给用户的最后一个值。</para>
 		/// <para>相控标签代表具有明确选项的数据集，例如比赛结果、所选英雄、游戏模式等。标签可以拥有图标，除了文本名称外。同一组中可以添加多个标签，并且所有标签都会被记住。例如，AddGamePhaseTag 可以在“Boss战结束”组中多次调用，并为每个击败的Boss使用不同的名称和图标，所有这些都会向用户显示。</para>
 		/// <para>这个阶段将持续到游戏退出、游戏调用 EndGamePhase 或游戏调用 StartGamePhase 以启动新阶段为止。</para>
-		/// <para>游戏阶段函数接受以下参数：- pchTagIcon：游戏提供的时间线图标或内置“steam_”图标的名称。- pchPhaseID：游戏提供的持久化ID，用于游戏阶段。这可以是多人游戏中匹配ID、单人游戏中章节名称、角色ID等。- pchTagName：通过 SteamUtils()->GetSteamUILanguage() 返回的语言中标签的本地化名称。- pchTagGroup：标签组的本地化名称。- pchAttributeValue：属性的本地化名称。- pchAttributeGroup：属性组的本地化名称。- unPriority：用于在用户显示的UI中排序标签和属性，具有更高的优先级值会导致更突出的位置。在空间有限的情况下，优先级较低的项目可能会被隐藏。</para>
+		/// <para>游戏阶段函数接受以下参数：- pchTagIcon：游戏提供的时间线图标或内置“steam_”图标的名称。- pchPhaseID：游戏提供的持久化ID，用于标识游戏阶段。这可以是多人游戏中匹配ID、单人游戏中章节名称、角色ID等。- pchTagName：通过SteamUtils()->GetSteamUILanguage()返回的语言中标签的本地化名称。- pchTagGroup：标签组的本地化名称。- pchAttributeValue：属性的本地化名称。- pchAttributeGroup：属性组的本地化名称。- unPriority：用于在用户界面中排序标签和属性，具有更高的优先级值会导致更突出的显示位置。在空间有限的情况下，优先级较低的项可能会被隐藏。</para>
 		/// </summary>
 		public static void StartGamePhase() {
 			InteropHelp.TestIfAvailableClient();
@@ -297,7 +297,7 @@ namespace Steamworks {
 		/// <para> Parameters:</para>
 		/// <para> - ulEventID: The ID of a timeline event returned by StartEvent or AddSimpleTimelineEvent</para>
 		/// <para>打开 Steam 叠加层到时间线事件。</para>
-		/// <para>参数：- ulEventID：一个由 StartEvent 或 AddSimpleTimelineEvent 返回的事件ID。</para>
+		/// <para>参数：- ulEventID：一个由 StartEvent 或 AddSimpleTimelineEvent 返回的时间线事件 ID。</para>
 		/// </summary>
 		public static void OpenOverlayToTimelineEvent(TimelineEventHandle_t ulEvent) {
 			InteropHelp.TestIfAvailableClient();

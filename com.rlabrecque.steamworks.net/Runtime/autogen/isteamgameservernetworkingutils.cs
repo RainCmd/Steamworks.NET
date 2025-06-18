@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -63,7 +63,7 @@ namespace Steamworks {
 		/// <para>访问 Steam Datagram Relay (SDR) 网络</para>
 		/// <para>初始化和状态检查</para>
 		/// <para>如果您知道您将使用中继网络（例如，因为您预计将进行P2P连接），请调用此方法来初始化中继网络。 如果您没有调用此方法，初始化将延迟到您首次使用需要访问中继网络的特性时，从而延迟首次访问。</para>
-		/// <para>你也可以通过调用此函数来强制重试，如果之前的尝试失败了。 任何需要访问中继网络的动作也会触发重试，因此调用此函数在严格意义上并不必要，但如果在预期访问中继网络时，在程序启动时调用它可能会有用。</para>
+		/// <para>你也可以调用这个函数来强制重试，如果之前的尝试失败了。 任何需要访问中继网络的动作也会触发重试，因此调用这个函数在严格意义上是不必要的，但如果在预期访问中继网络时，在程序启动时调用它可能会有用。</para>
 		/// <para>使用GetRelayNetworkStatus或监听SteamRelayNetworkStatus_t回调，以了解初始化是否完成。通常初始化会在几秒钟内完成。</para>
 		/// <para>注意：在已知数据中心托管的专用服务器*不*需要调用此项，因为它们不会进行路由决策。但是，如果专用服务器将使用 P2P 功能，它将作为“客户端”而调用此项。</para>
 		/// </summary>
@@ -141,7 +141,7 @@ namespace Steamworks {
 		/// <para> Do you need to be able to do this from a backend/matchmaking server?</para>
 		/// <para> You are looking for the "game coordinator" library.</para>
 		/// <para>估算两个任意位置之间的往返延迟，单位为毫秒。这是一个保守的估计，基于通过中继网络路由。对于大多数基本的中继连接，这个延迟时间会相当准确，因为它将基于实际可能使用的路由。</para>
-		/// <para>如果使用直接 IP 路由（例如通过 NAT 穿透），则路由会不同，延迟可能更好。或者，它可能实际上会稍微变差！标准 IP 路由经常是不理想的！</para>
+		/// <para>如果使用直接 IP 路由（例如通过 NAT 穿透），则路由会不同，延迟可能更好。或者，它实际上可能更糟！标准 IP 路由经常是不理想的！</para>
 		/// <para>即使在这种情况下，使用这种方法获得的估计值仍然是延迟时间的合理上限。 (此外，它具有立即返回且不发送任何数据包的优势。)</para>
 		/// <para>在某些情况下，我们可能无法估算路线。在这种情况下，返回一个负值。k_nSteamNetworkingPing_Failed表示原因是由于一些网络问题（如未成功ping等）。k_nSteamNetworkingPing_Unknown表示我们目前无法以其他原因回答这个问题。</para>
 		/// <para>您需要从后端/匹配服务器执行此操作吗？您正在寻找“游戏协调器”库。</para>
@@ -313,7 +313,7 @@ namespace Steamworks {
 		/// <para>细节级别指示您在什么消息上调用回调函数。较低的数值意味着更重要，您传递的值是您希望接收回调函数的最低优先级（最高数值）。</para>
 		/// <para>此处的值控制大多数消息的详细程度。您可以通过调整配置值 k_ESteamNetworkingConfig_LogLevel_Xxxxx 来控制各种子系统（可能仅针对某些连接）的详细程度。</para>
 		/// <para>除非在调试时，否则你应该只使用 k_ESteamNetworkingSocketsDebugOutputType_Msg 或 k_ESteamNetworkingSocketsDebugOutputType_Warning。为了获得最佳性能，不要请求高详细程度，然后在回调中过滤消息。这会产生格式化消息的所有费用，而这些消息随后会被丢弃。设置高优先级值（低数值）在这里允许该库避免执行此操作。</para>
-		/// <para>重要提示：此函数可能在服务线程中调用，同时我们拥有互斥锁等资源。您的输出函数必须是线程安全的且快速！请勿在处理程序中进行任何其他 Steamworks 调用。</para>
+		/// <para>重要提示：此函数可能在服务线程中调用，同时我们拥有互斥锁等资源。您的输出函数必须线程安全且快速！请勿在处理程序中进行任何其他Steamworks调用。</para>
 		/// </summary>
 		public static void SetDebugOutputFunction(ESteamNetworkingSocketsDebugOutputType eDetailLevel, FSteamNetworkingSocketsDebugOutput pfnFunc) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -353,7 +353,7 @@ namespace Steamworks {
 		/// <para> indefinitely.</para>
 		/// <para>获取与给定 FakeIP 相关的真实身份。</para>
 		/// <para>在失败时，返回：- k_EResultInvalidParam：IP 不是 FakeIP。- k_EResultNoMatch：我们不认识这个 FakeIP，也不知道其对应的身份。</para>
-		/// <para>活跃连接使用的假IP，或分配给本地身份的假IP，始终有效。最近销毁的连接分配的假IP会继续返回结果一段时间，但不会永久存在。在某个时候，我们将忘记假IP以节省空间。可以合理地假设，在连接销毁后不久，您可以读取连接的真实身份。但是不要无限期地等待。</para>
+		/// <para>活跃连接使用的假IP，或分配给本地身份的假IP，始终有效。最近销毁的连接分配的假IP会继续返回结果一段时间，但不会永远。在某个时候，我们将忘记假IP以节省空间。可以合理地假设，在连接销毁后不久，您可以读取连接的真实身份。但是，不要无限期地等待。</para>
 		/// </summary>
 		public static EResult GetRealIdentityForFakeIP(ref SteamNetworkingIPAddr fakeIP, out SteamNetworkingIdentity pOutRealIdentity) {
 			InteropHelp.TestIfAvailableGameServer();

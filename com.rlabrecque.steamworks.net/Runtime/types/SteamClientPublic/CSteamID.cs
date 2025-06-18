@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -14,7 +14,7 @@
 using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 
-namespace Steamworks {
+﻿namespace Steamworks {
 	[System.Serializable]
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 4)]
 	public struct CSteamID : System.IEquatable<CSteamID>, System.IComparable<CSteamID> {
@@ -82,6 +82,7 @@ namespace Steamworks {
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this an anonymous game server login that will be filled in?
+		// 目的：这是一个将被填写的匿名游戏服务器登录吗？
 		//-----------------------------------------------------------------------------
 		public bool BBlankAnonAccount() {
 			return GetAccountID() == new AccountID_t(0) && BAnonAccount() && GetUnAccountInstance() == 0;
@@ -89,6 +90,7 @@ namespace Steamworks {
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a game server account id?  (Either persistent or anonymous)
+		// 目的：这是一个游戏服务器账号id吗？（持久化或匿名）
 		//-----------------------------------------------------------------------------
 		public bool BGameServerAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeGameServer || GetEAccountType() == EAccountType.k_EAccountTypeAnonGameServer;
@@ -96,6 +98,7 @@ namespace Steamworks {
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a persistent (not anonymous) game server account id?
+		// 目的：这是一个持久的（不是匿名的）游戏服务器账号id吗？
 		//-----------------------------------------------------------------------------
 		public bool BPersistentGameServerAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeGameServer;
@@ -103,6 +106,7 @@ namespace Steamworks {
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this an anonymous game server account id?
+		// 目的：这是一个匿名的游戏服务器账号id吗？
 		//-----------------------------------------------------------------------------
 		public bool BAnonGameServerAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeAnonGameServer;
@@ -110,6 +114,7 @@ namespace Steamworks {
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a content server account id?
+		// 目的：这是一个内容服务器帐户id吗？
 		//-----------------------------------------------------------------------------
 		public bool BContentServerAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeContentServer;
@@ -118,6 +123,7 @@ namespace Steamworks {
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a clan account id?
+		// 目的：这是一个部落账号id吗？
 		//-----------------------------------------------------------------------------
 		public bool BClanAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeClan;
@@ -126,6 +132,7 @@ namespace Steamworks {
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a chat account id?
+		// 目的：这是一个聊天账号id吗？
 		//-----------------------------------------------------------------------------
 		public bool BChatAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeChat;
@@ -133,6 +140,7 @@ namespace Steamworks {
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a chat account id?
+		// 目的：这是一个聊天账号id吗？
 		//-----------------------------------------------------------------------------
 		public bool IsLobby() {
 			return (GetEAccountType() == EAccountType.k_EAccountTypeChat)
@@ -142,6 +150,7 @@ namespace Steamworks {
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this an individual user account id?
+		// 目的：这是一个个人用户帐户id吗？
 		//-----------------------------------------------------------------------------
 		public bool BIndividualAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeIndividual || GetEAccountType() == EAccountType.k_EAccountTypeConsoleUser;
@@ -150,6 +159,7 @@ namespace Steamworks {
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this an anonymous account?
+		// 目的：这是一个匿名账户吗？
 		//-----------------------------------------------------------------------------
 		public bool BAnonAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeAnonUser || GetEAccountType() == EAccountType.k_EAccountTypeAnonGameServer;
@@ -157,6 +167,7 @@ namespace Steamworks {
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this an anonymous user account? ( used to create an account or reset a password )
+		// 目的：这是一个匿名用户帐户吗？（用于创建帐户或重置密码）
 		//-----------------------------------------------------------------------------
 		public bool BAnonUserAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeAnonUser;
@@ -164,6 +175,7 @@ namespace Steamworks {
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Is this a faked up Steam ID for a PSN friend account?
+		// 目的：这是一个伪造的PSN好友帐号的Steam ID吗？
 		//-----------------------------------------------------------------------------
 		public bool BConsoleUserAccount() {
 			return GetEAccountType() == EAccountType.k_EAccountTypeConsoleUser;
@@ -178,6 +190,7 @@ namespace Steamworks {
 		}
 
 		// This is a non standard/custom function not found in C++ Steamworks
+		// 这是一个在c++ Steamworks中找不到的非标准/自定义函数
 		public void SetEAccountType(EAccountType other) {
 			m_SteamID = (m_SteamID & ~(0xFul << (ushort)52)) | (((ulong)(other) & 0xFul) << (ushort)52);
 		}
@@ -223,6 +236,7 @@ namespace Steamworks {
 				if (GetAccountID() == new AccountID_t(0))
 					return false;
 				// Any limit on instances?  We use them for local users and bots
+				// 对实例有限制吗？我们将它们用于本地用户和机器人
 			}
 			return true;
 		}

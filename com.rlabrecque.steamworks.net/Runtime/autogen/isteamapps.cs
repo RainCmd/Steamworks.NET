@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -126,7 +126,7 @@ namespace Steamworks {
 		/// <para> to users when they purchase the game, before the game ships.</para>
 		/// <para> You'll receive an AppProofOfPurchaseKeyResponse_t callback when</para>
 		/// <para> the key is available (which may be immediately).</para>
-		/// <para>请求旧版CD-key，用于你自己或已购买的DLC。如果您对这些数据感兴趣，请务必在我们游戏发货前提供一份有效的密钥列表，以便在用户购买游戏时分发给他们。您将收到一个AppProofOfPurchaseKeyResponse_t回调，当密钥可用时（这可能立即发生）。</para>
+		/// <para>请求旧版CD-key，用于您自己或已购买的DLC。如果您对这些数据感兴趣，请在游戏发货前，向我们提供一份有效的密钥列表，以便在用户购买游戏时进行分发。您将收到一个AppProofOfPurchaseKeyResponse_t回调，当密钥可用时（可能立即）。</para>
 		/// </summary>
 		public static void RequestAppProofOfPurchaseKey(AppId_t nAppID) {
 			InteropHelp.TestIfAvailableClient();

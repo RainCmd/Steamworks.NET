@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -88,7 +88,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Legacy functions</para>
 		/// <para> used by only a few games to track usage events</para>
-		/// <para>仅用于少数游戏使用的遗留函数，用于跟踪使用事件。</para>
+		/// <para>仅用于少数游戏的遗留函数，用于跟踪使用事件。</para>
 		/// </summary>
 		public static void TrackAppUsageEvent(CGameID gameID, int eAppUsageEvent, string pchExtraInfo = "") {
 			InteropHelp.TestIfAvailableClient();
@@ -100,7 +100,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> get the local storage folder for current Steam account to write application data, e.g. save games, configs etc.</para>
 		/// <para> this will usually be something like "C:\Progam Files\Steam\userdata\&lt;SteamID&gt;\&lt;AppID&gt;\local"</para>
-		/// <para>获取当前Steam账户的本地存储文件夹用于写入应用程序数据，例如保存游戏、配置等。通常会是类似于“C:\\Progam Files\\Steam\\userdata\<SteamID>\<AppID>\local”的东西。</para>
+		/// <para>获取当前Steam账号的本地存储文件夹用于写入应用程序数据，例如保存游戏、配置等。通常会是类似于“C:\\Progam Files\\Steam\\userdata\\<SteamID>\<AppID>\\local”的东西。</para>
 		/// </summary>
 		public static bool GetUserDataFolder(out string pchBuffer, int cubBuffer) {
 			InteropHelp.TestIfAvailableClient();
@@ -219,7 +219,7 @@ namespace Steamworks {
 		/// <para> Request a ticket which will be used for webapi "ISteamUserAuth\AuthenticateUserTicket"</para>
 		/// <para> pchIdentity is an optional input parameter to identify the service the ticket will be sent to</para>
 		/// <para> the ticket will be returned in callback GetTicketForWebApiResponse_t</para>
-		/// <para>请求一个用于 WebAPI “ISteamUserAuth\AuthenticateUserTicket” 的票证，pchIdentity 是一个可选的输入参数，用于标识票证将发送到的服务，票证将在回调中返回。</para>
+		/// <para>请求一个用于 WebAPI “ISteamUserAuth\AuthenticateUserTicket” 的票据，pchIdentity 是一个可选的输入参数，用于标识票据将发送到的服务，票据将在回调中返回。</para>
 		/// </summary>
 		public static HAuthTicket GetAuthTicketForWebApi(string pchIdentity) {
 			InteropHelp.TestIfAvailableClient();
@@ -269,7 +269,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> returns true if this users looks like they are behind a NAT device. Only valid once the user has connected to steam</para>
 		/// <para> (i.e a SteamServersConnected_t has been issued) and may not catch all forms of NAT.</para>
-		/// <para>如果这个用户看起来位于 NAT 设备后面，则返回 true。仅在用户已连接到 Steam（即已发出 SteamServersConnected_t）时有效，且可能无法捕获所有类型的 NAT。</para>
+		/// <para>如果该用户看起来位于 NAT 设备后面，则返回 true。仅在用户已连接到 Steam（即已发出 SteamServersConnected_t）时有效，且可能无法捕获所有类型的 NAT。</para>
 		/// </summary>
 		public static bool BIsBehindNAT() {
 			InteropHelp.TestIfAvailableClient();
@@ -381,7 +381,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> gets whether the users phone number is awaiting (re)verification</para>
-		/// <para>获取用户电话号码是否正在等待（重新）验证</para>
+		/// <para>获取用户电话是否正在等待（重新）验证</para>
 		/// </summary>
 		public static bool BIsPhoneRequiringVerification() {
 			InteropHelp.TestIfAvailableClient();

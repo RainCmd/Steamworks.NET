@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -104,7 +104,7 @@ namespace Steamworks {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 4;
 		
 		public ulong m_ulSteamID;		// steamID of the friend who changed 朋友更改后的SteamID
-		public EPersonaChange m_nChangeFlags;		// what's changed 发生了什么变化？
+		public EPersonaChange m_nChangeFlags;		// what's changed 什么变化了？
 	}
 
 	//-----------------------------------------------------------------------------
@@ -119,7 +119,7 @@ namespace Steamworks {
 		public byte m_bActive;		// true if it's just been activated, false otherwise 如果是刚激活的，则为真；否则为假。
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bUserInitiated;	// true if the user asked for the overlay to be activated/deactivated 如果用户要求激活/停用叠加显示。
-		public AppId_t m_nAppID;		// the appID of the game (should always be the current game) 游戏的 AppID (应始终为当前游戏)
+		public AppId_t m_nAppID;		// the appID of the game (should always be the current game) 游戏的App ID（应始终为当前游戏）
 		public uint m_dwOverlayPID;	// used internally 内部使用
 	}
 
@@ -165,7 +165,7 @@ namespace Steamworks {
 		// the account type will be console user so you can tell at least that this was from a PSN friend
 		// rather than a Steam friend.
 		// 他们通过(如果不是直接通过朋友)加入会失效。
-	// 在PS3上，如果这个操作是通过XMB（主菜单）进行的PSN邀请触发的，则好友将失效；但账户类型仍然是“主机用户”，因此至少可以确定这是来自PSN好友而不是Steam好友。
+	// 在PS3上，如果通过XMB（主菜单）接受了PSN邀请，这个好友将失效；但账户类型仍然是主机用户，所以至少可以知道这是来自PSN好友而不是Steam好友。
 		public CSteamID m_steamIDFriend;
 	}
 
@@ -218,7 +218,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamFriendsCallbacks + 37)]
 	public struct GameRichPresenceJoinRequested_t {
 		public const int k_iCallback = Constants.k_iSteamFriendsCallbacks + 37;
-		public CSteamID m_steamIDFriend;		// the friend they did the join via (will be invalid if not directly via a friend) 如果不是直接通过朋友，这个加入方式将失效。
+		public CSteamID m_steamIDFriend;		// the friend they did the join via (will be invalid if not directly via a friend) 如果不是直接通过朋友加入，这个朋友链接将会失效。
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.k_cchMaxRichPresenceValueLength)]
 		private byte[] m_rgchConnect_;
 		public string m_rgchConnect
@@ -438,7 +438,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 1)]
 	public struct GSClientApprove_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 1;
-		public CSteamID m_SteamID;			// SteamID of approved player 已批准玩家的SteamID
+		public CSteamID m_SteamID;			// SteamID of approved player 批准玩家的SteamID
 		public CSteamID m_OwnerSteamID;	// SteamID of original owner for game license 游戏许可证原始所有者的SteamID
 	}
 
@@ -460,7 +460,7 @@ namespace Steamworks {
 	}
 
 	// request the game server should kick the user
-	// 请求服务器将用户踢下线
+	// 请求游戏服务器应该踢出用户
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	[CallbackIdentity(Constants.k_iSteamGameServerCallbacks + 3)]
 	public struct GSClientKick_t {
@@ -506,7 +506,7 @@ namespace Steamworks {
 	public struct GSGameplayStats_t {
 		public const int k_iCallback = Constants.k_iSteamGameServerCallbacks + 7;
 		public EResult m_eResult;					// Result of the call 通话结果
-		public int m_nRank;					// Overall rank of the server (0-based) 服务器总排名（0-基于）
+		public int m_nRank;					// Overall rank of the server (0-based) 服务器总排名 (0-基于)
 		public uint m_unTotalConnects;			// Total number of clients who have ever connected to the server 所有曾经连接过服务器的客户端总数
 		public uint m_unTotalMinutesPlayed;		// Total number of minutes ever played on the server 服务器上总共已玩分钟数
 	}
@@ -731,7 +731,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: results from a search
 	//-----------------------------------------------------------------------------
-	// 目的：来自搜索结果
+	// 目的：搜索结果
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 9)]
 	public struct HTML_SearchResults_t {
@@ -858,7 +858,7 @@ namespace Steamworks {
 	// a new browser in response to the attempted popup, if you wish to do so.
 	//-----------------------------------------------------------------------------
 	// 目的：正在创建一个新的 HTML 窗口。
-// 重要提示：目前，API 不允许您确认或渲染此新窗口的内容，因此新窗口会立即被销毁。新窗口的 URL 和其他参数会传递过来，以便您的应用程序有机会调用 CreateBrowser 并根据尝试弹窗的请求设置一个新的浏览器，如果您希望这样做的话。
+// 重要提示：目前，API 不允许您确认或渲染这个新窗口的内容，因此新窗口会立即被销毁。新窗口的 URL 和其他参数会传递过来，以便您的应用程序有机会调用 CreateBrowser 并在尝试弹出后设置一个新的浏览器，如果您希望这样做的话。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamHTMLSurfaceCallbacks + 21)]
 	public struct HTML_NewWindow_t {
@@ -866,7 +866,7 @@ namespace Steamworks {
 		public HHTMLBrowser unBrowserHandle; // the handle of the current surface 当前表面的把手
 		public string pchURL; // the page to load 加载的页面
 		public uint unX; // the x pos into the page to display the popup 将x坐标放入页面以显示弹出窗口
-		public uint unY; // the y pos into the page to display the popup 将y坐标移动到页面上显示弹窗。
+		public uint unY; // the y pos into the page to display the popup 将y坐标置于页面中以显示弹出窗口
 		public uint unWide; // the total width of the pBGRA texture pBGRA 纹理的总宽度
 		public uint unTall; // the total height of the pBGRA texture pBGRA 纹理的总高度
 		public HHTMLBrowser unNewWindow_BrowserHandle_IGNORE;
@@ -967,7 +967,7 @@ namespace Steamworks {
 		
 		// Will be the HTTP status code value returned by the server, k_EHTTPStatusCode200OK is the normal
 		// OK response, if you get something else you probably need to treat it as a failure.
-		// 将返回的 HTTP 状态码值，k_EHTTPStatusCode200OK 是正常的 OK 响应，如果得到其他值，你可能需要将其视为失败。
+		// 返回的 HTTP 状态码值将是服务器返回的，k_EHTTPStatusCode200OK 是正常的 OK 响应，如果得到其他值，你可能需要将其视为失败。
 		public EHTTPStatusCode m_eStatusCode;
 		
 		public uint m_unBodySize; // Same as GetHTTPResponseBodySize() 与GetHTTPResponseBodySize()相同
@@ -1124,7 +1124,7 @@ namespace Steamworks {
 		public CSteamID m_steamID;
 		public int m_numEligiblePromoItemDefs;
 		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bCachedData;	// indicates that the data was retrieved from the cache and not the server 表明数据是从缓存中获取的，而不是从服务器。
+		public bool m_bCachedData;	// indicates that the data was retrieved from the cache and not the server 表明数据是从缓存中获取的，而不是从服务器获取的。
 	}
 
 	// Triggered from StartPurchase call
@@ -1210,7 +1210,7 @@ namespace Steamworks {
 		public uint m_rgfChatPermissions;						// Permissions of the current user 当前用户的权限
 		[MarshalAs(UnmanagedType.I1)]
 		public bool m_bLocked;										// If true, then only invited users may join 如果为真，则只有邀请用户才能加入。
-		public uint m_EChatRoomEnterResponse;	// EChatRoomEnterResponse EChatRoomEnterResponse
+		public uint m_EChatRoomEnterResponse;	// EChatRoomEnterResponse
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1218,7 +1218,7 @@ namespace Steamworks {
 	//			if m_ulSteamIDMember is the steamID of a lobby member, use GetLobbyMemberData() to access per-user details
 	//			if m_ulSteamIDMember == m_ulSteamIDLobby, use GetLobbyData() to access lobby metadata
 	//-----------------------------------------------------------------------------
-	// 目的：如果 m_ulSteamIDMember 是一个游戏大厅成员的 steamID，则使用 GetLobbyMemberData() 函数来访问每位用户的详细信息。如果 m_ulSteamIDMember 等于 m_ulSteamIDLobby，则使用 GetLobbyData() 函数来访问游戏大厅元数据。
+	// 目的：如果 m_ulSteamIDMember 是一个游戏大厅成员的 steamID，则使用 GetLobbyMemberData() 函数来访问每个用户的详细信息。如果 m_ulSteamIDMember 等于 m_ulSteamIDLobby，则使用 GetLobbyData() 函数来访问游戏大厅元数据。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 5)]
 	public struct LobbyDataUpdate_t {
@@ -1241,11 +1241,11 @@ namespace Steamworks {
 	public struct LobbyChatUpdate_t {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 6;
 		
-		public ulong m_ulSteamIDLobby;			// Lobby ID Lobby ID
+		public ulong m_ulSteamIDLobby;			// Lobby ID
 		public ulong m_ulSteamIDUserChanged;		// user who's status in the lobby just changed - can be recipient 用户状态在大厅中发生了变化 - 可以是收件人
 		public ulong m_ulSteamIDMakingChange;		// Chat member who made the change (different from SteamIDUserChange if kicking, muting, etc.) 聊天成员，该更改者（不同于踢出、静音等操作的 SteamIDUserChange）
 											// for example, if one user kicks another from the lobby, this will be set to the id of the user who initiated the kick
-											// 例如，如果一个用户将另一个用户从大厅踢出，则会将其设置为发起踢出操作的用户ID。
+											// 例如，如果一个用户将另一个用户从大厅踢出，这将设置为发起踢出操作的用户ID。
 		public uint m_rgfChatMemberStateChange;	// bitfield of EChatMemberStateChange values EChatMemberStateChange 值的位域
 	}
 
@@ -1299,12 +1299,12 @@ namespace Steamworks {
 	// Purpose: posted if a user is forcefully removed from a lobby
 	//			can occur if a user loses connection to Steam
 	//-----------------------------------------------------------------------------
-	// 目的：当用户被强制从游戏大厅中移除时出现，可能发生在用户与Steam失去连接时。
+	// 目的：当用户被强制从游戏大厅中移除时出现，可能原因是用户与Steam失去连接。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 12)]
 	public struct LobbyKicked_t {
 		public const int k_iCallback = Constants.k_iSteamMatchmakingCallbacks + 12;
-		public ulong m_ulSteamIDLobby;			// Lobby Lobby
+		public ulong m_ulSteamIDLobby;			// Lobby
 		public ulong m_ulSteamIDAdmin;			// User who kicked you - possibly the ID of the lobby itself 用户踢你 - 可能就是游戏大厅的ID本身
 		public byte m_bKickedDueToDisconnect;		// true if you were kicked from the lobby due to the user losing connection to Steam (currently always true) 如果因用户断开与Steam的连接而被踢出大厅，则为真（目前始终为真）
 	}
@@ -1315,7 +1315,7 @@ namespace Steamworks {
 	//			at this point, the lobby has been joined and is ready for use
 	//			a LobbyEnter_t callback will also be received (since the local user is joining their own lobby)
 	//-----------------------------------------------------------------------------
-	// 目的：请求创建Lobby m_eResult == k_EResultOK 的结果。 在此成功后，Lobby已加入并已准备好使用。 还会收到LobbyEnter_t回调（因为本地用户正在加入他们自己的Lobby）
+	// 目的：请求创建Lobby m_eResult == k_EResultOK 的结果。 在此成功后，Lobby已加入并可用于使用。 还会收到LobbyEnter_t回调（因为本地用户正在加入他们自己的Lobby）
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamMatchmakingCallbacks + 13)]
 	public struct LobbyCreated_t {
@@ -1493,7 +1493,7 @@ namespace Steamworks {
 	// and we've reserved one of the open slots for them.
 	// You should confirm when they join your party by calling OnReservationCompleted().
 	// Otherwise, Steam may timeout their reservation eventually.
-	// 有人使用了传送锚点加入你的队伍 - 他们现在正在传送，我们已经为他们预留了一个空位。你应该在他们加入队伍时通过调用OnReservationCompleted()进行确认。否则，Steam可能会超时他们的预订。
+	// 有人使用了传送锚点加入你的队伍 - 他们现在正在传送，我们已经为他们预留了一个空位。你应该在他们加入队伍时通过调用 OnReservationCompleted() 进行确认。否则，Steam 可能会超时他们的预订。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamPartiesCallbacks + 3)]
 	public struct ReservationNotificationCallback_t {
@@ -1652,7 +1652,7 @@ namespace Steamworks {
 	// callback notification - packets can't get through to the specified user via the SendP2PPacket() API
 	// all packets queued packets unsent at this point will be dropped
 	// further attempts to send will retry making the connection (but will be dropped if we fail again)
-	// 回调通知 - 包裹无法通过 SendP2PPacket() API 传递到指定用户。所有排队的包裹将在此处被丢弃。再次尝试发送将重试连接（但如果再次失败则会断开连接）。
+	// 回调通知 - 包裹无法通过 SendP2PPacket() API 传递到指定用户。所有排队的包裹将在此处被丢弃。再次尝试发送将重试连接（但如果再次失败，则会丢弃连接）。
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	[CallbackIdentity(Constants.k_iSteamNetworkingCallbacks + 3)]
 	public struct P2PSessionConnectFail_t {
@@ -1827,7 +1827,7 @@ namespace Steamworks {
 		///
 		/// Failure to obtain the network config almost always indicates
 		/// a problem with the local internet connection.
-		/// 获取网络配置中。这是访问网络相关的先决条件。
+		/// 获取网络配置中。这是访问网络转发的先决条件。
 	/// 未能获取网络配置几乎总是表明本地互联网连接存在问题。
 		public ESteamNetworkingAvailability m_eAvailNetworkConfig;
 		
@@ -2399,7 +2399,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: result for ISteamUGC::SubmitItemUpdate()
 	//-----------------------------------------------------------------------------
-	// 目的：结果 for ISteamUGC::SubmitItemUpdate()
+	// 目的：结果对于 ISteamUGC::SubmitItemUpdate()
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 4)]
 	public struct SubmitItemUpdateResult_t {
@@ -2589,7 +2589,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: signal that the list of subscribed items changed
 	//-----------------------------------------------------------------------------
-	// 目的：指示已订阅的项目列表已更改
+	// 目的：指示已订阅的项列表已更改
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUGCCallbacks + 18)]
 	public struct UserSubscribedItemsListChanged_t {
@@ -2811,7 +2811,7 @@ namespace Steamworks {
 	// It is also fired in response to calls to GetDurationControl().
 	//-----------------------------------------------------------------------------
 	// 目的：为启用了反沉迷/时间控制的游戏，以及启用了这些功能的玩家，提供支持。让游戏知道玩家是否可以继续游玩，或者游戏应该退出，并返回剩余游戏时间信息。
-// 这个回调是在响应定时器触发时异步执行的。它还会在响应对 GetDurationControl() 的调用时触发。
+// 这个回调是在响应定时器触发时异步执行的。它也响应 GetDurationControl() 的调用。
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUserCallbacks + 67)]
 	public struct DurationControl_t {
@@ -3087,7 +3087,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Full Screen gamepad text input has been closed
 	//-----------------------------------------------------------------------------
-	// k_iSteamUtilsCallbacks + 13 is taken
+	// 
 // 全屏手柄文本输入已关闭
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 14)]
@@ -3100,7 +3100,7 @@ namespace Steamworks {
 	}
 
 	// k_iSteamUtilsCallbacks + 15 through 35 are taken
-	// k_iSteamUtilsCallbacks + 15 through 35 are taken
+	// 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 36)]
 	public struct AppResumingFromSuspend_t {
@@ -3111,7 +3111,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// The floating on-screen keyboard has been closed
 	//-----------------------------------------------------------------------------
-	// k_iSteamUtilsCallbacks + 37 is taken
+	// 
 // 浮动屏幕键盘已关闭
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value, Size = 1)]
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 38)]
@@ -3127,7 +3127,7 @@ namespace Steamworks {
 	[CallbackIdentity(Constants.k_iSteamUtilsCallbacks + 39)]
 	public struct FilterTextDictionaryChanged_t {
 		public const int k_iCallback = Constants.k_iSteamUtilsCallbacks + 39;
-		public int m_eLanguage;	// One of ELanguage, or k_LegallyRequiredFiltering One of ELanguage, or k_LegallyRequiredFiltering
+		public int m_eLanguage;	// One of ELanguage, or k_LegallyRequiredFiltering
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]

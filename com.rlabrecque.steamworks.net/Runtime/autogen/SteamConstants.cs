@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -111,7 +111,7 @@ namespace Steamworks {
 		public const int k_cchDeveloperMetadataMax = 5000;
 		public const int k_nCubTicketMaxLength = 2560;
 		// size limit on stat or achievement name (UTF-8 encoded)
-		// 状态或成就名称大小限制 (UTF-8 编码)
+		// 状态或成就名称大小限制（UTF-8 编码）
 		public const int k_cchStatNameMax = 128;
 		// maximum number of bytes for a leaderboard name (UTF-8 encoded)
 		// 排行榜名称的最大字节数（UTF-8 编码）
@@ -265,7 +265,7 @@ namespace Steamworks {
 		// in the server simulation tick to a particular client), and you use this flag to flush all
 		// messages.
 		// 禁用 Nagle 算法。 默认情况下，Nagle 算法应用于所有发送消息。 这意味着消息将不会立即发送，如果很快又发送了其他消息，它们可以被分组在一起。 只要有足够的缓冲数据来填充一个数据包，数据包将被立即发送出去，但部分填充的数据包将在 Nagle 计时器到期时才发送。 参见 ISteamNetworkingSockets::FlushMessagesOnConnection, ISteamNetworkingMessages::FlushMessagesToUser
-		// 注意：不要发送所有消息而不启用Nagle，因为你希望数据包更快地到达。 确保你理解Nagle解决的问题后再禁用它。 如果你发送的是小消息，并且通常一次发送很多，那么启用Nagle可能更有效。 这种标志的典型用法是在你发送已知将是最后发送的消息一段时间内的消息时（例如，服务器模拟步时向特定客户端发送的最后一条消息），并使用此标志来刷新所有消息。
+		// 注意：不要发送所有消息而不启用Nagle，因为你希望数据包更快地到达。 确保你理解Nagle解决的问题后再禁用它。 如果你发送的是小消息，并且通常一次发送很多，那么启用Nagle可能更有效。 这种标志的典型用法是在你发送已知将是最后一条消息一段时间内的消息时（例如，服务器模拟节拍中的最后一条消息发送给特定客户端），并使用此标志来刷新所有消息。
 		public const int k_nSteamNetworkingSend_NoNagle = 1;
 		// Send a message unreliably, bypassing Nagle's algorithm for this message and any messages
 		// currently pending on the Nagle timer.  This is equivalent to using k_ESteamNetworkingSend_Unreliable
@@ -304,7 +304,7 @@ namespace Steamworks {
 		//
 		// Migration note: This is NOT the same as k_EP2PSendReliable, it's more like k_EP2PSendReliableWithBuffering
 		// 可靠的消息发送。可以单次发送最多 k_cbMaxSteamNetworkingSocketsMessageSizeSend 字节的消息。在底层进行消息分段/重组，以及滑动窗口，以高效地发送大量数据。
-		// 使用 Nagle 算法。 参见 k_ESteamNetworkingSendType_Unreliable 的备注以获取更多详细信息。 参见 k_ESteamNetworkingSendType_ReliableNoNagle, ISteamNetworkingSockets::FlushMessagesOnConnection, ISteamNetworkingMessages::FlushMessagesToUser
+		// 使用 Nagle 算法。 参见 k_ESteamNetworkingSendType_Unreliable 关于更多细节的说明。 参见 k_ESteamNetworkingSendType_ReliableNoNagle, ISteamNetworkingSockets::FlushMessagesOnConnection, ISteamNetworkingMessages::FlushMessagesToUser
 		// 迁移说明：这与 k_EP2PSendReliable 不同，更像是 k_EP2PSendReliableWithBuffering
 		public const int k_nSteamNetworkingSend_Reliable = 8;
 		// Send a message reliably, but bypass Nagle's algorithm.
@@ -348,7 +348,7 @@ namespace Steamworks {
 		// If you are not using any reliable messages (e.g. you are using ISteamNetworkingMessages
 		// exactly as a transport replacement for UDP-style datagrams only), you may not need to
 		// know when an underlying connection fails, and so you may not need this notification.
-		// 当使用IStreamNetworkingMessages发送消息时，自动重新建立断开的会话，无需返回k_EResultNoConnection。如果没有此标志，如果尝试发送消息，并且会话被同伴主动关闭，或者发生导致通信中断的错误，则必须使用IStreamNetworkingMessages::CloseSessionWithUser关闭会话，然后再尝试发送其他消息。 (或者，只需添加此标志并重试)。 这样可以防止中断被忽略，并可以确定更清晰的事件顺序。 这在可靠消息的使用中尤其重要，因为如果连接中断，其中一些消息将无法传递，而且通常无法知道哪些消息没有传递。 尽管在发生错误时会发布SteamNetworkingMessagesSessionFailed_t回调以通知您已发生失败，但回调是异步的，因此无法准确知道何时发生。 并且因为IStreamNetworkingMessages的主要目的是像UDP一样，当同伴关闭会话时不会有任何通知。
+		// 当使用IStreamNetworkingMessages发送消息时，自动重新建立断开的会话，无需返回k_EResultNoConnection。如果没有此标志，如果尝试发送消息，并且会话被同伴主动关闭，或者发生导致通信中断的错误，则必须使用IStreamNetworkingMessages::CloseSessionWithUser关闭会话，然后再尝试发送其他消息。 (或者，只需添加此标志并重试)。 这样可以防止中断被忽略，并可以确定更清晰的事件顺序。 这在可靠消息的使用中尤其重要，因为如果连接中断，其中一些消息将无法传递，而且通常无法知道哪些消息没有传递。 尽管当发生错误时，会发布SteamNetworkingMessagesSessionFailed_t回调以通知您已发生失败，但回调是异步的，因此无法准确知道何时发生。 并且因为IStreamNetworkingMessages的主要目的是像UDP一样，当同伴关闭会话时不会有通知。
 		// 如果你没有使用任何可靠的消息（例如，你正在使用ISteamNetworkingMessages作为UDP风格数据包的传输方式），你可能不需要知道底层连接失败时，因此你可能不需要这个通知。
 		public const int k_nSteamNetworkingSend_AutoRestartBrokenSession = 32;
 		// Max possible length of a ping location, in string format.  This is

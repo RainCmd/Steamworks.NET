@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -60,7 +60,7 @@ namespace Steamworks {
 		/// <para>使用不同的渠道与同一用户交流仍然会使用相同的底层连接，从而节省资源。如果不需要此功能，请使用 0。否则，较小的整数是最有效的。</para>
 		/// <para>如果消息被接收的话，同一台主机同一通道上可靠的消息将被远程主机接收一次且顺序与发送顺序相同。</para>
 		/// <para>其他任何订单均不作任何保证！特别是，不可靠的消息可能会丢失、与其它消息顺序错乱，包括与可靠数据，或者可能被多次接收。不同渠道的消息*不*保证按照发送顺序接收。</para>
-		/// <para>对于熟悉 TCP/IP 端口或转换现有代码库（该代码库打开了多个套接字的人）：你可能会注意到只有一个通道，并且在 TCP/IP 中，每个端点都有一个端口号。你可以将通道号视为*目标*端口。如果需要每个消息都包含一个“源端口”（以便接收方可以路由回复），则只需在消息中添加它。这基本上就是 UDP 的工作方式！</para>
+		/// <para>对于熟悉 TCP/IP 端口或转换现有代码库（该代码库打开了多个套接字的人）：你可能会注意到只有一个通道，并且在 TCP/IP 中，每个端点都有一个端口号。你可以将通道号视为*目标*端口。如果需要每个消息都包含一个“源端口”（以便接收方可以路由回复），则只需在消息中添加该值。这基本上就是 UDP 的工作方式！</para>
 		/// <para>Returns: - k_EResultOK on success. - k_EResultNoConnection, if the session has failed or was closed by the peer and k_nSteamNetworkingSend_AutoRestartBrokenSession was not specified. (You can use GetSessionConnectionInfo to get the details.) In order to acknowledge the broken session and start a new one, you must call CloseSessionWithUser, or you may repeat the call with k_nSteamNetworkingSend_AutoRestartBrokenSession. See k_nSteamNetworkingSend_AutoRestartBrokenSession for more details. - See ISteamNetworkingSockets::SendMessageToConnection for more possible return values</para>
 		/// </summary>
 		public static EResult SendMessageToUser(ref SteamNetworkingIdentity identityRemote, IntPtr pubData, uint cubData, int nSendFlags, int nRemoteChannel) {
@@ -93,7 +93,7 @@ namespace Steamworks {
 		/// <para> existing active session, this function will return true, even if it is not pending.</para>
 		/// <para> Calling SendMessageToUser() will implicitly accepts any pending session request to that user.</para>
 		/// <para>这是一种对 SteamNetworkingMessagesSessionRequest_t 回调的响应。SteamNetworkingMessagesSessionRequest_t 在用户尝试向你发送消息时发布，而你尚未尝试与他们交流时。如果你不想与他们交流，只需忽略请求。如果用户继续向你发送消息，SteamNetworkingMessagesSessionRequest_t 回调将定期继续发布。</para>
-		/// <para>如果存在没有与用户关联的会话或其它情况，则返回false。如果存在有效的活动会话，此函数将返回true，即使该会话没有处于待定状态。</para>
+		/// <para>如果存在没有与用户关联的会话或其它情况，则返回false。如果存在有效的活跃会话，此函数将返回true，即使该会话没有处于待定状态。</para>
 		/// <para>调用 SendMessageToUser() 函数会隐式接受到该用户的任何未决会话请求。</para>
 		/// </summary>
 		public static bool AcceptSessionWithUser(ref SteamNetworkingIdentity identityRemote) {

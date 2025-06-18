@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -14,7 +14,7 @@
 using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 
-namespace Steamworks {
+﻿namespace Steamworks {
 	[System.Serializable]
 	public struct CGameID : System.IEquatable<CGameID>, System.IComparable<CGameID> {
 		public ulong m_GameID;
@@ -72,6 +72,7 @@ namespace Steamworks {
 
 		public bool IsValid() {
 			// Each type has it's own invalid fixed point:
+			// 每种类型都有自己的无效固定点：
 			switch (Type()) {
 				case EGameIDType.k_EGameIDTypeApp:
 					return AppID() != AppId_t.Invalid;

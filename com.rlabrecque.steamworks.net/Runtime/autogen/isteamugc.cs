@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -411,7 +411,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> change the metadata of an UGC item (max = k_cchDeveloperMetadataMax)</para>
-		/// <para>更改UGC物品的元数据（最大值 = k_cchDeveloperMetadataMax）</para>
+		/// <para>更改UGC项目的元数据（最大值 = k_cchDeveloperMetadataMax）</para>
 		/// </summary>
 		public static bool SetItemMetadata(UGCUpdateHandle_t handle, string pchMetaData) {
 			InteropHelp.TestIfAvailableClient();
@@ -775,7 +775,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> delete the item without prompting the user</para>
-		/// <para>删除该项目，无需提示用户。</para>
+		/// <para>删除该项目，无需提示用户</para>
 		/// </summary>
 		public static SteamAPICall_t DeleteItem(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableClient();
@@ -784,7 +784,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Show the app's latest Workshop EULA to the user in an overlay window, where they can accept it or not</para>
-		/// <para>向用户显示应用程序的最新Workshop EULA（授权协议）在弹窗窗口中，让他们可以接受或拒绝。</para>
+		/// <para>向用户显示应用程序的最新Workshop EULA（电子授权协议）在叠加窗口中，让他们可以接受或拒绝。</para>
 		/// </summary>
 		public static bool ShowWorkshopEULA() {
 			InteropHelp.TestIfAvailableClient();

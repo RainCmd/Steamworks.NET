@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -16,7 +16,7 @@ using IntPtr = System.IntPtr;
 
 namespace Steamworks {
 	// friend game played information
-	// 朋友游戏信息
+	// 游戏信息
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct FriendGameInfo_t {
 		public CGameID m_gameID;
@@ -66,7 +66,7 @@ namespace Steamworks {
 		
 		// Filtering: When rotating the controller at low speeds, low level noise is filtered out without noticeable latency. High speed movement is always unfiltered.
 		// Drift: Gyroscopic "Drift" can be fixed using the Steam Input "Gyro Calibration" button. Users will have to be informed of this feature.
-		// 陀螺仪四元数：从唤醒后控制器绝对旋转，使用启动时的加速度计读数来确定第一个值。这意味着真实世界的“上”是已知的，但方向未知。每个旋转包都使用传感器时间差进行积分，并且这种变化被用来更新这个四元数。当四元数身份（x:0, y:0, z:0, w:1）在控制器 IMU 唤醒期间发送时，会发送四元数身份；有些控制器在这些值应被使用之前有一个短“预热”期。在每个控制器句柄上首次调用 GetMotionData 之后，IMU 将保持活动状态，直到您的应用程序关闭。唯一例外是索尼 Dualshock，它将保持开启状态，直到控制器被关闭。滤波：当旋转控制器时，低速时，低层噪声会被过滤，不会产生明显的延迟。高速运动始终不会进行过滤。漂移：陀螺仪“漂移”可以使用 Steam Input “陀螺仪校准”按钮进行修复。用户需要被告知此功能。
+		// 陀螺仪四元数：从唤醒后控制器绝对旋转，使用启动时的加速度计读数来确定第一个值。这意味着真实世界的“上”方向已知，但方向未知。每个旋转包都使用传感器时间差进行积分，并且这种变化被用来更新这个四元数。当控制器的IMU仍在唤醒时，将发送四元数恒等值（x:0, y:0, z:0, w:1）；某些控制器在这些值应被使用之前具有短暂的“预热”期。在每个控制器句柄上首次调用GetMotionData之后，IMU将保持活动状态，直到您的应用程序关闭。唯一例外是索尼Dualshock，它将保持开启状态，直到控制器被关闭。滤波：当旋转控制器时，低速时，低层噪声会被过滤掉，并且没有可察觉的延迟。高速运动始终未过滤。漂移：陀螺仪“漂移”可以使用Steam Input“陀螺仪校准”按钮进行修复。用户需要被告知此功能。
 		public float rotQuatX;
 		public float rotQuatY;
 		public float rotQuatZ;
@@ -76,7 +76,7 @@ namespace Steamworks {
 		// This represents only the latest hardware packet's state.
 		// Values range from -SHRT_MAX..SHRT_MAX
 		// This represents -2G..+2G along each axis
-		// 位置加速：这仅代表最新的硬件数据包状态。值范围为 -SHRT_MAX..SHRT_MAX，即 -2G..+2G 沿每个轴。
+		// 位置加速：这仅代表最新的硬件包的状态。值范围为 -SHRT_MAX..SHRT_MAX，表示 -2G..+2G 沿每个轴。
 		public float posAccelX; // +tive when controller's Right hand side is pointed toward the sky. 当控制器右侧指向天空时。
 		public float posAccelY; // +tive when controller's charging port (forward side of controller) is pointed toward the sky. 当控制器充电端口（控制器前方侧）朝向天空时，会发生...
 		public float posAccelZ; // +tive when controller's sticks point toward the sky. 当手柄的摇杆指向天空时。
@@ -207,7 +207,7 @@ namespace Steamworks {
 	[StructLayout(LayoutKind.Sequential, Pack = Packsize.value)]
 	public struct LeaderboardEntry_t {
 		public CSteamID m_steamIDUser; // user with the entry - use SteamFriends()->GetFriendPersonaName() & SteamFriends()->GetFriendAvatar() to get more info 用户使用 SteamFriends()->GetFriendPersonaName() & SteamFriends()->GetFriendAvatar() 获取更多信息。
-		public int m_nGlobalRank;	// [1..N], where N is the number of users with an entry in the leaderboard [1..N], where N is the number of users with an entry in the leaderboard
+		public int m_nGlobalRank;	// [1..N], where N is the number of users with an entry in the leaderboard
 		public int m_nScore;			// score as set in the leaderboard 记录分数
 		public int m_cDetails;		// number of int32 details available for this entry 此条目可用的int32详细信息数量
 		public UGCHandle_t m_hUGC;		// handle for UGC attached to the entry UGC 关联的入口处理程序
@@ -269,7 +269,7 @@ namespace Steamworks {
 		public ushort m__pad1;
 		
 		/// What data center is the remote host in?  (0 if we don't know.)
-		/// 远程主机位于哪个数据中心？（如果未知则为0。）
+		/// 远程主机位于哪个数据中心？(如果未知则为0。)
 		public SteamNetworkingPOPID m_idPOPRemote;
 		
 		/// What relay are we using to communicate with the remote host?
@@ -407,7 +407,7 @@ namespace Steamworks {
 		/// the value in SteamNetConnectionRealTimeLaneStatus_t.
 		///
 		/// Nagle delay is ignored for the purposes of this calculation.
-		/// 如果您现在排队发送一条消息，大约会在我们真正开始将它的数据打包成数据包发送到网络上等待多久？
+		/// 如果您现在排队发送一条消息，大约会在我们真正开始将它的数据打包成数据包时等待多久？
 	/// 一般来说，应用程序发送的数据受到通道带宽的限制。如果发送数据速度超过此限制，则必须排队并以计费速率放入网络中。即使发送少量数据（例如几MTU，大约3k）也会导致部分数据需要延迟一段时间。
 	/// 忽略多个车道，预计延误时间约为…
 	/// (m_cbPendingUnreliable+m_cbPendingReliable) / m_nSendRateBytesPerSecond

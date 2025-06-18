@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -90,7 +90,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> returns the current status of the specified user</para>
 		/// <para> this will only be known by the local user if steamIDFriend is in their friends list; on the same game server; in a chat room or lobby; or in a small group with the local user</para>
-		/// <para>返回指定用户的当前状态，只有本地用户才能知道；如果在同一游戏服务器、聊天室或大厅，或与本地用户一起组成小组中，则有效。</para>
+		/// <para>返回指定用户的当前状态，只有本地用户才能知道；如果在同一游戏服务器、聊天室或大厅，或与本地用户一起组成小组中，则适用。</para>
 		/// </summary>
 		public static EPersonaState GetFriendPersonaState(CSteamID steamIDFriend) {
 			InteropHelp.TestIfAvailableClient();
@@ -236,7 +236,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> for clans a user is a member of, they will have reasonably up-to-date information, but for others you'll have to download the info to have the latest</para>
-		/// <para>对于用户加入的公会，他们会有相当及时的信息，但对于其他人，您需要下载信息以获取最新信息。</para>
+		/// <para>对于用户加入的公会，他们会有相当及时的信息，但对于其他人，你需要下载信息以获取最新数据。</para>
 		/// </summary>
 		public static SteamAPICall_t DownloadClanActivityCounts(CSteamID[] psteamIDClans, int cClansToRequest) {
 			InteropHelp.TestIfAvailableClient();

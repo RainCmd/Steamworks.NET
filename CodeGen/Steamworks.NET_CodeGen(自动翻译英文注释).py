@@ -42,7 +42,7 @@ def translate(text):
     response = requests.post(url, json=data)
     result = response.json().get("response", "")
     print(f"翻译结果: {result}")
-    if result == "(null)":
+    if result == "(null)" or result == text:
         return ""
     return result.replace("\n", " ").strip()
 

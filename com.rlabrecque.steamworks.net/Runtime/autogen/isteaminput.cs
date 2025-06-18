@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -105,7 +105,7 @@ namespace Steamworks {
 		/// <para> Each controller that is already connected will generate a device connected</para>
 		/// <para> callback when you enable them</para>
 		/// <para>回调函数</para>
-		/// <para>控制器配置加载完毕 - 这些回调将在您有处理程序的情况下始终触发。注意：此函数在 SteamInput()->RunFrame 或 SteamAPI_RunCallbacks 中被调用，并且也调用了 SteamInputDeviceConnected_t 和 SteamInputDeviceDisconnected_t 回调。每个已连接的控制器在您启用它们时都会生成一个设备连接回调。</para>
+		/// <para>控制器配置加载完毕 - 这些回调将在您有处理程序的情况下始终触发。注意：此函数在 SteamInput()->RunFrame 或 SteamAPI_RunCallbacks 中被调用，并且也调用 SteamInputDeviceConnected_t 和 SteamInputDeviceDisconnected_t 回调。每个已连接的控制器在您启用它们时都会生成一个设备连接回调。</para>
 		/// </summary>
 		public static void EnableDeviceCallbacks() {
 			InteropHelp.TestIfAvailableClient();

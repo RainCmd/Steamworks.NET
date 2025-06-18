@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -86,7 +86,7 @@ namespace Steamworks {
 		/// <para> Invite a friend to Remote Play Together, or create a guest invite if steamIDFriend is empty</para>
 		/// <para> This will automatically start Remote Play Together if it hasn't already been started</para>
 		/// <para> This returns false if the invite can't be sent or your game is not configured for Remote Play Together</para>
-		/// <para>邀请一位朋友进行远程一起玩，或者创建访客邀请，如果 steamIDFriend 为空，则会自动启动远程一起玩。如果邀请无法发送或你的游戏未配置为远程一起玩，则返回 false。</para>
+		/// <para>邀请好友进行远程一起玩，或者创建访客邀请，如果 steamIDFriend 为空，则会自动启动远程一起玩。如果邀请无法发送或你的游戏未配置为远程一起玩，则返回 false。</para>
 		/// </summary>
 		public static bool BSendRemotePlayTogetherInvite(CSteamID steamIDFriend) {
 			InteropHelp.TestIfAvailableClient();

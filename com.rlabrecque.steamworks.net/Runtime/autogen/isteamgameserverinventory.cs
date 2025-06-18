@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -154,7 +154,7 @@ namespace Steamworks {
 		/// <para> Results have a built-in timestamp which will be considered "expired" after</para>
 		/// <para> an hour has elapsed. See DeserializeResult for expiration handling.</para>
 		/// <para>结果序列化和认证</para>
-		/// <para>序列化结果集包含一个短签名，无法在不同的游戏会话中被伪造或重放。结果集可以在本地客户端进行序列化，通过你的游戏网络传输给其他玩家，并在远程玩家端进行反序列化。 这种方式是一种安全的防止黑客冒充拥有稀有/高价值物品的方法。 将结果集与签名字节写入到输出缓冲区。 将输出缓冲区设置为 NULL 以通过 punOutBufferSize 获取所需的尺寸。 序列化结果集的大小取决于正在序列化的项目数量。 在安全地将物品传输给其他玩家时，建议首先使用“GetItemsByID”创建最小的结果集。 结果集内置时间戳，在经过一小时后将被视为“过期”。 请参阅 DeserializeResult 以获取过期处理。</para>
+		/// <para>序列化结果集包含一个短签名，无法在不同的游戏会话中被伪造或重放。结果集可以在本地客户端进行序列化，通过你的游戏网络传输给其他玩家，并由远程玩家进行反序列化。 这种方式是一种安全的防止黑客冒充拥有稀有/高价值物品的方法。 将结果集与签名字节写入输出缓冲区。 将输出缓冲区设置为 NULL 以通过 punOutBufferSize 获取所需的尺寸。 序列化结果集的大小取决于正在序列化的项目数量。 在安全地将物品传输给其他玩家时，建议首先使用“GetItemsByID”创建最小的结果集。 结果集内置时间戳，在经过一小时后将被视为“过期”。 请参阅 DeserializeResult 以获取过期处理。</para>
 		/// </summary>
 		public static bool SerializeResult(SteamInventoryResult_t resultHandle, byte[] pOutBuffer, out uint punOutBufferSize) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -206,7 +206,7 @@ namespace Steamworks {
 		/// <para> and grants the items (one time only).  On success, the result set will include items which</para>
 		/// <para> were granted, if any. If no items were granted because the user isn't eligible for any</para>
 		/// <para> promotions, this is still considered a success.</para>
-		/// <para>GrantPromoItems() 检查用户可能符合资格的促销物品列表，并授予这些物品（一次性）。如果成功，结果集中会包含授予的物品（如果有）。如果由于用户不符合任何促销条件，因此未授予任何物品，仍然被认为是成功的。</para>
+		/// <para>GrantPromoItems() 检查用户可能符合资格的促销物品列表，并授予这些物品（一次性）。如果成功，结果集中会包含授予的物品（如果有）。如果由于用户不符合任何促销条件，因此未授予任何物品，仍然被认为是成功。</para>
 		/// </summary>
 		public static bool GrantPromoItems(out SteamInventoryResult_t pResultHandle) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -262,7 +262,7 @@ namespace Steamworks {
 		/// <para> quantity greater than one). It can be used to split a stack into two, or to transfer</para>
 		/// <para> quantity from one stack into another stack of identical items. To split one stack into</para>
 		/// <para> two, pass k_SteamItemInstanceIDInvalid for itemIdDest and a new item will be generated.</para>
-		/// <para>TransferItemQuantity() 旨在用于“可堆叠”项目（可以有数量大于一个的项目）。它可以用于将一个堆栈分割成两个，或者将一个堆栈中的数量转移到另一个相同项目的堆栈中。要将一个堆栈分割成两个，请将 itemIdDest 设置为 k_SteamItemInstanceIDInvalid，一个新的项目将被生成。</para>
+		/// <para>TransferItemQuantity() 旨在用于“可堆叠”项目（可以有数量大于一个的项目）。它可以用于将一个堆栈分割成两个，或者将一个堆栈中的数量转移到另一个包含相同项目的堆栈中。要将一个堆栈分割成两个，请将 itemIdDest 设置为 k_SteamItemInstanceIDInvalid，一个新的项目将被生成。</para>
 		/// </summary>
 		public static bool TransferItemQuantity(out SteamInventoryResult_t pResultHandle, SteamItemInstanceID_t itemIdSource, uint unQuantity, SteamItemInstanceID_t itemIdDest) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -320,7 +320,7 @@ namespace Steamworks {
 		/// <para> callback will be fired.</para>
 		/// <para>物品定义</para>
 		/// <para>项目定义是对“定义 ID”（介于 1 到 1000000 之间的整数）进行映射，将其与一组字符串属性进行关联。其中一些属性是必需的，用于在 Steam 社区网站上显示项目。其他属性可以由应用程序定义。使用这些函数是可选的；如果您的游戏硬编码了数字定义 ID（例如，紫色面罩 = 20，蓝色武器模组 = 55），并且不允许通过客户端补丁添加新的项目类型，则无需调用 LoadItemDefinitions。</para>
-		/// <para>LoadItemDefinitions 会自动加载和刷新物品定义。 每次新的物品定义可用时（例如，在玩家仍在游戏中时，动态添加新物品类型），都会触发一个 SteamInventoryDefinitionUpdate_t 回调。</para>
+		/// <para>LoadItemDefinitions 会自动加载和刷新物品定义。 每次新的物品定义可用时（例如，在玩家仍在游戏中时，新物品类型动态添加），都会触发一个 SteamInventoryDefinitionUpdate_t 回调。</para>
 		/// </summary>
 		public static bool LoadItemDefinitions() {
 			InteropHelp.TestIfAvailableGameServer();

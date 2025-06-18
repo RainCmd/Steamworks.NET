@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -159,7 +159,7 @@ namespace Steamworks {
 		/// <para> specific, it is safe to set them on the connection before accepting the connection.</para>
 		/// <para>接受一个通过监听套接字接收到的传入连接。</para>
 		/// <para>当收到连接尝试（可能在几个基本的握手包交换后，以防止无效伪造）后，会在 `k_ESteamNetworkingConnectionState_Connecting` 状态下创建一个连接接口对象，并发布一个 `SteamNetConnectionStatusChangedCallback_t`。 在此时，你的应用程序必须要么接受，要么关闭该连接。（它不能忽略它。）接受连接会将其过渡到连接状态或查找路由状态，具体取决于连接类型。</para>
-		/// <para>你应该在1到2秒内采取行动，因为接受连接实际上会发送通知客户端已连接的回复。 如果你延迟采取行动，从客户端的角度来看，与网络无响应相同，客户端可能会超时连接尝试。 换句话说，客户端无法区分因网络问题导致的延迟和因应用程序导致的延迟。</para>
+		/// <para>你应该在1到2秒内采取行动，因为接受连接实际上会发送通知客户端已连接的回复。 如果你延迟采取行动，从客户端的角度来看，与网络无响应相同，客户端可能会超时连接尝试。 换句话说，客户端无法区分因网络问题造成的延迟和因应用程序造成的延迟。</para>
 		/// <para>这意味着，如果你的应用程序在处理回调超过几秒钟（例如，在加载地图时），则有可能会在那个时间间隔内尝试连接并由于超时而失败。</para>
 		/// <para>如果应用程序未能及时响应连接尝试，并且我们不再接收来自客户端的通信，则本地连接尝试将超时，并过渡到 k_ESteamNetworkingConnectionState_ProblemDetectedLocally 状态。 客户端也可能在连接被接受之前关闭连接，并且具体事件序列取决于，过渡到 k_ESteamNetworkingConnectionState_ClosedByPeer 也是可能的。</para>
 		/// <para>如果句柄无效，则返回 k_EResultInvalidParam。如果连接状态不正确，则返回 k_EResultInvalidState。 (请记住，在通知发布到队列和应用程序接收通知之间，连接状态可能会发生变化。)</para>
@@ -313,7 +313,7 @@ namespace Steamworks {
 		/// <para>nSendFlags 确定将提供的交付保证、数据应缓冲的时间等。例如，k_nSteamNetworkingSend_Unreliable</para>
 		/// <para>请注意，我们用于消息的语义与标准“流”套接字（SOCK_STREAM）的语义并不完全相同。对于普通的流套接字，数据块之间的边界不被认为是相关的，写入的数据块的大小可能与另一端读取返回的块大小不匹配。远程主机可能会读取一个部分块，或者块可能会合并。但是，对于此处使用的消息语义，大小会匹配。每个发送调用将对应于远程主机的一个成功的读取调用。如果您将现有的面向流的代码移植到可靠消息的语义，您的代码将正常工作，因为可靠消息语义比流语义更严格。唯一的注意事项是与性能相关：为了保留消息大小，存在每条消息的开销，因此，如果您的代码发送许多小数据块，则性能会受到影响。基于流套接字的任何不写入过度小数据块的代码都不会需要任何更改。</para>
 		/// <para>pOutMessageNumber 是一个可选的指针，用于接收发送成功后分配的消息编号。</para>
-		/// <para>返回：- k_EResultInvalidParam：连接句柄无效，或消息内容过大。（参见 k_cbMaxSteamNetworkingSocketsMessageSizeSend）- k_EResultInvalidState：连接处于无效状态- k_EResultNoConnection：连接已断开- k_EResultIgnored：您使用了 k_nSteamNetworkingSend_NoDelay，消息被丢弃是因为我们尚未准备好发送它。- k_EResultLimitExceeded：已排队的数据过多，无法发送。（参见 k_ESteamNetworkingConfig_SendBufferSize）</para>
+		/// <para>返回：- k_EResultInvalidParam：连接句柄无效，或消息太大。（参见 k_cbMaxSteamNetworkingSocketsMessageSizeSend）- k_EResultInvalidState：连接处于无效状态- k_EResultNoConnection：连接已断开- k_EResultIgnored：您使用了 k_nSteamNetworkingSend_NoDelay，消息被丢弃是因为我们尚未准备好发送它。- k_EResultLimitExceeded：已排队的数据过多，无法发送。（参见 k_ESteamNetworkingConfig_SendBufferSize）</para>
 		/// </summary>
 		public static EResult SendMessageToConnection(HSteamNetConnection hConn, IntPtr pData, uint cbData, int nSendFlags, out long pOutMessageNumber) {
 			InteropHelp.TestIfAvailableClient();
@@ -373,7 +373,7 @@ namespace Steamworks {
 		/// <para> k_EResultNoConnection: connection has ended</para>
 		/// <para> k_EResultIgnored: We weren't (yet) connected, so this operation has no effect.</para>
 		/// <para>清除Nagle计时器上的所有等待消息，并在下一次传输机会时发送它们（通常意味着现在）。</para>
-		/// <para>如果Nagle协议已启用（默认启用），则调用SendMessageToConnection时，消息将被缓冲，直到Nagle时间之前，以便将小消息合并到同一个数据包中。（参见k_ESteamNetworkingConfig_NagleTime）</para>
+		/// <para>如果Nagle已启用（默认启用），则调用SendMessageToConnection时，消息将被缓冲，直到Nagle时间之前，将其合并到同一个数据包中。（参见k_ESteamNetworkingConfig_NagleTime）</para>
 		/// <para>返回：k_EResultInvalidParam：无效连接句柄 k_EResultInvalidState：连接处于无效状态 k_EResultNoConnection：连接已断开 k_EResultIgnored：我们尚未连接，因此此操作没有效果。</para>
 		/// </summary>
 		public static EResult FlushMessagesOnConnection(HSteamNetConnection hConn) {
@@ -463,7 +463,7 @@ namespace Steamworks {
 		/// <para> An IPv6 address of ::0 means "any IPv4 or IPv6"</para>
 		/// <para> An IPv6 address of ::ffff:0000:0000 means "any IPv4"</para>
 		/// <para>返回使用 CreateListenSocketIP 创建的监听套接字所绑定的本地 IP 和端口。</para>
-		/// <para>一个 IPv6 地址为 ::0 表示“任何 IPv4 或 IPv6”。一个 IPv6 地址为 ::ffff:0000:0000 表示“任何 IPv4”。</para>
+		/// <para>一个 IPv6 地址为 ::0 表示“任何 IPv4 或 IPv6” 一个 IPv6 地址为 ::ffff:0000:0000 表示“任何 IPv4”</para>
 		/// </summary>
 		public static bool GetListenSocketAddress(HSteamListenSocket hSocket, out SteamNetworkingIPAddr address) {
 			InteropHelp.TestIfAvailableClient();
@@ -560,12 +560,12 @@ namespace Steamworks {
 		/// <para> - k_EResultInvalidState - Connection is already dead, etc</para>
 		/// <para> See also:</para>
 		/// <para> SteamNetworkingMessage_t::m_idxLane</para>
-		/// <para>配置多个出站消息流（“lanes”）在连接上，并控制它们之间的头文件阻塞。 消息在给定的通道中始终按队列顺序发送，但来自不同通道的消息可能按顺序发送。 每个通道都有自己的消息编号序列。 每个通道发送的第一个消息将被分配为 1。</para>
+		/// <para>配置多个出站消息流（“lanes”）在连接上，并控制它们之间的头文件阻塞。在给定的lanes内，消息始终按照它们排队的顺序发送，但来自不同lanes的消息可能按顺序发送。每个lanes都有自己的消息编号序列。每个lanes中首先发送的消息将被分配数字 1。</para>
 		/// <para>每个通道都有一个“优先级”。具有较高数字值的通道只有在所有具有较低数字值的通道都为空时才会进行处理。优先级值的 magnitudes 不重要，只重要的是它们的排序顺序。</para>
 		/// <para>每个通道也被分配了一个权重，它控制了该通道将消耗的带宽比例，相对于相同优先级的其他通道。 （前提是该通道保持繁忙。空闲的通道不会积累“信用”用于在消息排队后花费。） 这种值仅在与其他具有相同优先级的通道进行比较时才有意义。对于具有不同优先级的通道，严格的优先级顺序将生效，并且它们之间的相对权重不相关。因此，如果一个通道具有唯一的优先级值，则该通道的权重值不相关。</para>
 		/// <para>示例：3条线路，优先级为[0, 10, 10]和权重为[(NA), 20, 5]。在第一条线路发送的消息将始终优先发送，在其他两条线路的消息之前。其权重值不重要，因为没有其他优先级为0的线路。另外两条线路将共享带宽，第二条和第三条线路将使用大约4:1的比例共享带宽。（权重[NA, 4, 1]等效。）</para>
 		/// <para>备注：- 在编写时，某些代码具有与行数成线性关系的性能成本，因此请将行数保持在绝对最小值。3个左右是可以的；>8个很多。Steam的最大行数为255，这是一个非常大的数字，不建议使用！如果您从源代码编译此库，请参阅STEAMNETWORKINGSOCKETS_MAX_LANES。- 行优先级值可以是任何整数。其绝对值不重要，仅顺序重要。- 权重必须为正数，并且由于实现细节，它们受到16位值的限制。绝对大小不重要，仅比例重要。- 在非0行索引上发送的消息会产生少量线路开销，因此为了最大限度地提高线路效率，无论优先级或权重如何，行0应是“最常见”的行。- 连接默认具有单行。使用nNumLanes=1调用此函数在法律上有效，但毫无意义，因为在这种情况下，优先级和权重值不重要。- 您可以随时重新配置连接行，但减少行数是不允许的。- 重新配置行可能会重新启动任何带宽共享平衡。通常您会调用此函数一次，在连接的开始附近，例如在交换了几条消息后。- 要为所有行分配相同的优先级，可以使用pLanePriorities=NULL。- 如果您希望具有相同优先级的所有行以相同的带宽共享（或如果两个行没有相同的优先级值，因此优先级值不重要），则可以使用pLaneWeights=NULL- 优先级和权重确定消息在“线路”上发送的顺序。但没有关于消息接收顺序的任何保证！由于包丢失、乱序交付和包序列化细微之处，消息仍然可能略微乱序接收。*唯一*的保证是*可靠*消息在*同一行*上按发送顺序交付。</para>
-		/// <para>返回值：- k_EResultNoConnection - bad hConn - k_EResultInvalidParam - 无效的通道数量、无效的权重，或者你尝试减少通道数量 - k_EResultInvalidState - 连接已断开，等。</para>
+		/// <para>返回值：- k_EResultNoConnection - bad hConn - k_EResultInvalidParam - 无效的通道数量、无效的权重，或者您尝试减少通道数量 - k_EResultInvalidState - 连接已断开，等。</para>
 		/// <para>参见：SteamNetworkingMessage_t::m_idxLane</para>
 		/// </summary>
 		public static EResult ConfigureConnectionLanes(HSteamNetConnection hConn, int nNumLanes, int[] pLanePriorities, ushort[] pLaneWeights) {
@@ -608,9 +608,9 @@ namespace Steamworks {
 		/// <para> You can use GetAuthenticationStatus or listen for SteamNetAuthenticationStatus_t</para>
 		/// <para> to monitor the status.</para>
 		/// <para> Returns the current value that would be returned from GetAuthenticationStatus.</para>
-		/// <para>表明我们希望能够参与认证通信。如果目前我们还未准备好，则将采取措施获取所需的证书。（包括为我们颁发的证书，以及用于认证同伴所需的任何CA证书。）</para>
+		/// <para>表明我们希望能够参与认证通信。如果目前还未准备好，将采取措施获取所需的证书。（包括为我们颁发的证书，以及用于认证同伴所需的任何CA证书。）</para>
 		/// <para>你可以在此程序初始化时调用它，如果你知道你将要建立认证连接，以便我们能够在这些连接尝试时立即准备就绪。 (注意，基本上所有连接都需要认证，除非使用 k_ESteamNetworkingConfig_IP_AllowWithoutAuth 禁用认证的普通 UDP 连接。) 如果你没有调用此函数，我们将等待某个功能被使用时才需要这些资源。</para>
-		/// <para>你也可以调用这个函数来强制重试，如果发生失败情况。一旦我们尝试并失败，系统就不会自动重试。在这一点，尝试并失败后系统的行为与第一次尝试之前完全相同：尝试进行身份验证的通信或调用这个函数都会将系统引导至尝试获取所需资源的尝试。</para>
+		/// <para>你也可以调用这个函数来强制重试，如果发生失败情况。一旦我们尝试并失败，系统就不会自动重试。在这一点，尝试并失败后系统的行为与第一次尝试之前完全相同：尝试进行身份验证的通信或调用这个函数都会使系统尝试获取所需的资源。</para>
 		/// <para>你可以使用 GetAuthenticationStatus 或监听 SteamNetAuthenticationStatus_t 来监控状态。</para>
 		/// <para>返回当前由 GetAuthenticationStatus 函数将返回的值。</para>
 		/// </summary>
@@ -640,7 +640,7 @@ namespace Steamworks {
 		/// <para> actually don't have an API to "poll" the connection *state*, like BSD sockets.)</para>
 		/// <para> Create a new poll group.</para>
 		/// <para> You should destroy the poll group when you are done using DestroyPollGroup</para>
-		/// <para>调查组。调查组是一个可以高效调查的连接集合。 (在我们的API中，“调查”一个连接意味着检索所有待处理的消息。我们实际上没有“调查”连接*状态*的API，例如BSD套接字。)</para>
+		/// <para>调查组。调查组是一个可以高效调查的连接集合。 (在我们的API中，“调查”一个连接意味着检索所有待处理消息。我们实际上没有“调查”连接*状态*的API，比如BSD套接字。)</para>
 		/// <para>创建新的投票组。</para>
 		/// <para>你应该在完成使用时销毁投票组。</para>
 		/// </summary>
@@ -877,7 +877,7 @@ namespace Steamworks {
 		/// <para>在调用函数之前：- 将应用数据填充到 pLoginInfo (m_cbAppData 和 m_appData) 中。你可以让其他所有字段未初始化。- *pcbSignedBlob 包含 pBlob 缓冲区的尺寸。（它应至少为 k_cbMaxSteamDatagramGameCoordinatorServerLoginSerialized。）</para>
 		/// <para>在成功退出时：- 返回 k_EResultOK - 所有剩余的 pLoginInfo 字段将被填充 - *pcbSignedBlob 包含已放入 pBlob 中的序列化 blob 的大小。</para>
 		/// <para>失败退出：- 返回值不是 k_EResultOK - k_EResultNotLoggedOn：您尚未登录（正在登录） - 参见 GetHostedDedicatedServerAddress 了解更多潜在的失败返回值。 - 故障原因的非本地化诊断调试消息将被放置在 pBlob 中。</para>
-		/// <para>这通过对 SteamDatagramGameCoordinatorServerLogin 的内容进行签名，使用该服务器颁发的证书。在开发环境中，如果未提供证书也可以。 (您需要在 SteamDatagram_ParseHostedServerLogin 中启用不安全开发登录。) 否则，您需要一个签名证书。</para>
+		/// <para>这通过使用向此服务器颁发的证书对 SteamDatagramGameCoordinatorServerLogin 的内容进行签名来工作。在开发环境中，如果缺少证书也可以。 (您需要在 SteamDatagram_ParseHostedServerLogin 中启用不安全开发登录。) 否则，您需要一个签名证书。</para>
 		/// <para>注意：此处返回的路由块未加密。请将其发送到您的后端，不要直接与客户端共享。</para>
 		/// </summary>
 		public static EResult GetGameCoordinatorServerLogin(IntPtr pLoginInfo, out int pcbSignedBlob, IntPtr pBlob) {
@@ -958,7 +958,7 @@ namespace Steamworks {
 		/// <para> to call ISteamNetworkingUtils::InitRelayNetworkAccess() when your app initializes</para>
 		/// <para>当自定义信号已接收到消息时调用。当你的信号通道接收到消息时，应将信封中包含的任何路由信息保存到上下文对象中，然后将有效负载传递给此函数。</para>
 		/// <para>接下来可能会发生一些不同的事情，取决于信息内容：</para>
-		/// <para>如果信号与现有连接相关联，则会立即处理。如果需要发送任何回复，它们将使用与该连接相关的ISteamNetworkingConnectionSignaling进行发送。  如果消息代表连接请求（且该请求对于现有连接不是冗余），则将创建一个新的连接，并调用你的上下文对象上的ReceivedConnectRequest来确定如何继续操作。  否则，消息是针对不存在（或已不再存在）的连接。在这种情况下，我们*可能*会调用你的上下文对象上的SendRejectionReply。</para>
+		/// <para>如果信号与现有连接相关联，则会立即处理。如果需要发送任何回复，它们将使用与该连接相关的ISteamNetworkingConnectionSignaling进行发送。  如果消息代表连接请求（并且该请求对于现有连接不是冗余的），则将创建一个新的连接，并调用你的上下文对象上的ReceivedConnectRequest来确定如何继续操作。  否则，消息是针对不存在（或已不再存在）的连接。在这种情况下，我们*可能*会调用你的上下文对象上的SendRejectionReply。</para>
 		/// <para>总之，在该函数返回后，我们不会保存或访问 pContext。</para>
 		/// <para>如果消息已解析并已成功分发，且没有发生任何异常或可疑情况，则返回true。如果消息存在问题，导致无法进行普通处理，则返回false。（调试输出通常会提供更多信息。）</para>
 		/// <para>如果你预计将使用中继连接，那么你可能需要在你的应用程序初始化时调用ISteamNetworkingUtils::InitRelayNetworkAccess()</para>
@@ -1079,9 +1079,9 @@ namespace Steamworks {
 		/// <para> use CreateFakeUDPPort.</para>
 		/// <para>假IP系统。</para>
 		/// <para>一个假IP本质上是一个临时、任意的标识符，恰好是一个有效的 IPv4 地址。该系统的目的是方便与使用 IPv4 地址识别主机现有代码的集成。假IP 地址永远不会实际用于在 Internet 上发送或接收任何数据包，它严格来说只是一个标识符。</para>
-		/// <para>假IP地址的设计目的是（希望）尽可能透明地通过现有代码，同时与网络中（包括互联网和局域网）可能使用的“真实”地址冲突，并且在代码中尽量减少冲突。 在编写此评论时，它们来自 169.254.0.0/16 范围，端口号始终大于 1024。 但是，这可能会发生变化！ 不要对这些地址做出任何假设，否则您的代码可能会在未来中断。 尤其，您应该使用诸如 ISteamNetworkingUtils::IsFakeIP 之类的函数来确定一个 IP 地址是否是此系统使用的“假”地址。</para>
-		/// <para>开始异步进程，为其他同伴分配一个虚假的 IPv4 地址，以便他们可以通过 P2P 联系我们。此函数返回的 IP 地址在给定 appid 范围内全局唯一。</para>
-		/// <para>NumPorts 是你希望预留的端口数量。这与监听多个 UDP 端口同样有道理，因为它们适用于不同类型的流量。由于这些分配来自全局命名空间，因此你可能请求的最大端口数量受到相对严格的限制（在当时写这篇文档时，限制为 4）。端口分配*不*保证具有任何特定的顺序或关系！即使在实践中这通常会发生，也不要假设它们是连续的。</para>
+		/// <para>假IP地址的设计目的是（希望）尽可能透明地通过现有代码，同时与网络中（包括互联网和局域网）可能使用的“真实”地址冲突，并且在代码中尽量减少冲突。 在编写此评论时，它们来自 169.254.0.0/16 范围，端口号始终大于 1024。 但是，这可能会发生变化！ 不要对这些地址做出任何假设，否则您的代码可能会在未来中断。 尤其，您应该使用诸如 ISteamNetworkingUtils::IsFakeIP 之类的函数来确定 IP 地址是否为该系统使用的“假”地址。</para>
+		/// <para>开始异步进程，为其他节点分配一个虚假的 IPv4 地址，以便他们可以通过 P2P 联系我们。此函数返回的 IP 地址在给定 appid 范围内全局唯一。</para>
+		/// <para>NumPorts 是你希望预留的端口数量。这与监听多个 UDP 端口同样有道理，因为它们可以用于不同类型的流量。由于这些分配来自全局命名空间，因此你可能请求的最大端口数量受到相对严格的限制（截至本文撰写时，限制为 4）。端口分配*不*保证具有任何特定的顺序或关系！即使在实践中这通常会发生，也不要假设它们是连续的。</para>
 		/// <para>如果请求正在进行中，则返回false，如果启动了新的请求，则返回true。当请求完成时，会发布一个SteamNetworkingFakeIPResult_t。</para>
 		/// <para>对于游戏服务器，您*必须*在初始化 SDK 之后，但在开始登录之前调用此方法。Steam 需要提前知道 FakeIP 将被使用。 您的公共 IP 通常出现的任何地方（例如服务器浏览器）都将被 FakeIP 替换，以及索引为 0 的虚假端口。 请求实际上会排队直到登录完成，因此您不能在分配完成之前登录。 仅限可以本地检测的轻微失败（例如无效参数），SteamNetworkingFakeIPResult_t 回调（无论成功与否）都不会在登录完成后发布。 此外，假定 FakeIP 分配对您的应用程序的功能至关重要，因此失败将不会在*多次*重试尝试后报告。 此过程可能持续数分钟。 强烈建议将失败视为致命。</para>
 		/// <para>使用连接式（TCP 风格）API进行通信： - 服务器使用 CreateListenSocketP2PFakeIP 创建监听套接字。 - 客户端使用 ConnectByIPAddress 连接，传递 FakeIP 地址。 - 连接将表现出类似于 P2P 连接的行为。 SteamNetConnectionInfo_t 中显示的身份将在我们知道真实身份之前是 FakeIP 身份。然后它将是真实身份。如果 SteamNetConnectionInfo_t::m_addrRemote 有效，它将是 NAT 穿透连接的真实 IPv4 地址。否则，它将无效。</para>
@@ -1134,7 +1134,7 @@ namespace Steamworks {
 		/// <para> On failure, returns:</para>
 		/// <para> - k_EResultInvalidParam: invalid connection handle</para>
 		/// <para> - k_EResultIPNotFound: This connection wasn't made using FakeIP system</para>
-		/// <para>如果连接是通过“FakeIP”系统启动的，那么我们可以获取远程主机的IP地址。如果远程主机在连接建立时拥有全局的FakeIP，则此函数将返回该全局IP。否则，将从本地FakeIP地址空间分配一个独特的本地FakeIP，并返回该FakeIP。</para>
+		/// <para>如果连接是通过“FakeIP”系统启动的，那么我们可以获取远程主机的IP地址。如果远程主机在连接建立时拥有一个全局的FakeIP，则此函数将返回该全局IP。否则，将从本地FakeIP地址空间中分配一个本地唯一的FakeIP，并返回该FakeIP。</para>
 		/// <para>本地假IP的分配试图以一致的方式分配地址。如果对同一个远程主机建立了多个连接，它们*可能*会返回相同的假IP。但是，由于命名空间有限，这无法保证。</para>
 		/// <para>在失败时，返回：- k_EResultInvalidParam：无效连接句柄 - k_EResultIPNotFound：此连接未使用 FakeIP 系统建立</para>
 		/// </summary>

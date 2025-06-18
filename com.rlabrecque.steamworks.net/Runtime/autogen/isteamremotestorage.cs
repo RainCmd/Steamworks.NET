@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -435,7 +435,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Indicate to Steam the beginning / end of a set of local file</para>
 		/// <para> operations - for example, writing a game save that requires updating two files.</para>
-		/// <para>告知Steam一组本地文件操作的开始/结束时间 - 例如，编写一个需要更新两个文件的游戏存档。</para>
+		/// <para>告知Steam一组本地文件操作的开始/结束 - 例如，编写一个需要更新两个文件的游戏存档。</para>
 		/// </summary>
 		public static bool BeginFileWriteBatch() {
 			InteropHelp.TestIfAvailableClient();

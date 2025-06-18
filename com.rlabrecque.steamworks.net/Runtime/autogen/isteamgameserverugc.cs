@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -411,7 +411,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> change the metadata of an UGC item (max = k_cchDeveloperMetadataMax)</para>
-		/// <para>更改UGC项目的元数据（最大值 = k_cchDeveloperMetadataMax）</para>
+		/// <para>更改UGC物品的元数据（最大值 = k_cchDeveloperMetadataMax）</para>
 		/// </summary>
 		public static bool SetItemMetadata(UGCUpdateHandle_t handle, string pchMetaData) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -698,7 +698,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> game servers can set a specific workshop folder before issuing any UGC commands.</para>
 		/// <para> This is helpful if you want to support multiple game servers running out of the same install folder</para>
-		/// <para>游戏服务器可以设置一个特定的工作区文件夹，在发出任何 UGC 命令之前。这在您想支持多个游戏服务器从同一安装文件夹中运行时非常有用。</para>
+		/// <para>游戏服务器可以设置一个特定的工作区文件夹，在发出任何 UGC 命令之前。这在您想支持多个游戏服务器从同一安装文件夹中运行时很有帮助。</para>
 		/// </summary>
 		public static bool BInitWorkshopForGameServer(DepotId_t unWorkshopDepotID, string pszFolder) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -775,7 +775,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> delete the item without prompting the user</para>
-		/// <para>删除该项目，无需提示用户</para>
+		/// <para>删除该项目，无需提示用户。</para>
 		/// </summary>
 		public static SteamAPICall_t DeleteItem(PublishedFileId_t nPublishedFileID) {
 			InteropHelp.TestIfAvailableGameServer();

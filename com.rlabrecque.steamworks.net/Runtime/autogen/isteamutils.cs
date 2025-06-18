@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -350,7 +350,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns true if currently running on the Steam Deck device</para>
-		/// <para>如果当前在 Steam Deck 设备上运行，则返回 true</para>
+		/// <para>如果当前正在 Steam Deck 设备上运行，则返回 true</para>
 		/// </summary>
 		public static bool IsSteamRunningOnSteamDeck() {
 			InteropHelp.TestIfAvailableClient();

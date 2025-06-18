@@ -1,4 +1,4 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
+﻿// This file is provided under The MIT License as part of Steamworks.NET.
 // Copyright (c) 2013-2022 Riley Labrecque
 // Please see the included LICENSE.txt for additional information.
 
@@ -85,7 +85,7 @@ namespace Steamworks {
 		k_nUserRestrictionNone		= 0,	// no known chat/content restriction 未知的聊天/内容限制
 		k_nUserRestrictionUnknown	= 1,	// we don't know yet (user offline) 我们还不清楚 (用户已下线)
 		k_nUserRestrictionAnyChat	= 2,	// user is not allowed to (or can't) send/recv any chat 用户不允许（或不能）发送/接收任何聊天信息。
-		k_nUserRestrictionVoiceChat	= 4,	// user is not allowed to (or can't) send/recv voice chat 用户不允许（或不能）发送/接收语音聊天。
+		k_nUserRestrictionVoiceChat	= 4,	// user is not allowed to (or can't) send/recv voice chat 用户不允许（或无法）发送/接收语音聊天。
 		k_nUserRestrictionGroupChat	= 8,	// user is not allowed to (or can't) send/recv group chat 用户不允许（或不能）发送/接收群聊。
 		k_nUserRestrictionRating	= 16,	// user is too young according to rating in current region 用户年龄不足，根据当前地区评分。
 		k_nUserRestrictionGameInvites	= 32,	// user cannot send or recv game invites (e.g. mobile) 用户无法发送或接收游戏邀请（例如移动版）
@@ -133,9 +133,9 @@ namespace Steamworks {
 		k_ECommunityProfileItemProperty_InternalName   = 2, // string 字符串
 		k_ECommunityProfileItemProperty_Title		   = 3, // string 字符串
 		k_ECommunityProfileItemProperty_Description	   = 4, // string 字符串
-		k_ECommunityProfileItemProperty_AppID		   = 5, // uint32 uint32
-		k_ECommunityProfileItemProperty_TypeID		   = 6, // uint32 uint32
-		k_ECommunityProfileItemProperty_Class		   = 7, // uint32 uint32
+		k_ECommunityProfileItemProperty_AppID		   = 5, // uint32
+		k_ECommunityProfileItemProperty_TypeID		   = 6, // uint32
+		k_ECommunityProfileItemProperty_Class		   = 7, // uint32
 		k_ECommunityProfileItemProperty_MovieWebM	   = 8, // string 字符串
 		k_ECommunityProfileItemProperty_MovieMP4	   = 9, // string 字符串
 		k_ECommunityProfileItemProperty_MovieWebMSmall = 10, // string 字符串
@@ -381,7 +381,7 @@ namespace Steamworks {
 		k_EInputActionOrigin_PS4_Reserved10,
 
 		// XBox One
-		// XBox One
+		// 
 		k_EInputActionOrigin_XBoxOne_A,
 		k_EInputActionOrigin_XBoxOne_B,
 		k_EInputActionOrigin_XBoxOne_X,
@@ -529,7 +529,7 @@ namespace Steamworks {
 		k_EInputActionOrigin_Switch_RightGrip_Upper,  // Right JoyCon SR Button 右摇杆 SR 按钮
 		k_EInputActionOrigin_Switch_JoyConButton_N, // With a Horizontal JoyCon this will be Y or what would be Dpad Right when vertical 使用水平Joy-Con时，这将是Y键或垂直方向的Dpad右键。
 		k_EInputActionOrigin_Switch_JoyConButton_E, // X X
-		k_EInputActionOrigin_Switch_JoyConButton_S, // A A
+		k_EInputActionOrigin_Switch_JoyConButton_S, // A
 		k_EInputActionOrigin_Switch_JoyConButton_W, // B B
 		k_EInputActionOrigin_Switch_Reserved15,
 		k_EInputActionOrigin_Switch_Reserved16,
@@ -811,7 +811,7 @@ namespace Steamworks {
 
 		// Modifiers
 		// Default ABXY/PS equivalent glyphs have a solid fill w/ color matching the physical buttons on the device
-		// 修改器默认 ABXY/PS 对应符号具有与设备物理按键颜色相匹配的实心填充。
+		// 修改器默认的 ABXY/PS 对应符号具有与设备物理按键相匹配的实心填充颜色。
 		ESteamInputGlyphStyle_NeutralColorABXY 	= 0x10, // ABXY Buttons will match the base style color instead of their normal associated color ABXY 按钮将采用基色而非其正常关联的颜色。
 		ESteamInputGlyphStyle_SolidABXY 		= 0x20,	// ABXY Buttons will have a solid fill ABXY 按钮将具有实心填充。
 	}
@@ -824,7 +824,7 @@ namespace Steamworks {
 	[Flags]
 	public enum ESteamItemFlags : int {
 		// Item status flags - these flags are permanently attached to specific item instances
-		// 物品状态标志 - 这些标志永久地附加到特定物品实例上。
+		// 物品状态标志 - 这些标志永久地附加到特定物品实例上
 		k_ESteamItemNoTrade = 1 << 0, // This item is account-locked and cannot be traded or given away. 此物品已锁定在账户上，无法交易或赠送。
 
 		// Action confirmation flags - these flags are set one time only, as part of a result set
@@ -1220,7 +1220,7 @@ namespace Steamworks {
 		k_EUGCMatchingUGCType_UsableInGame		 = 10,		// ready-to-use items and integrated guides 可直接使用项目和集成指南
 		k_EUGCMatchingUGCType_ControllerBindings = 11,
 		k_EUGCMatchingUGCType_GameManagedItems	 = 12,		// game managed items (not managed by users) 游戏管理项目（不由用户管理）
-		k_EUGCMatchingUGCType_All				 = ~0,		// @note: will only be valid for CreateQueryUserUGCRequest requests @note: will only be valid for CreateQueryUserUGCRequest requests
+		k_EUGCMatchingUGCType_All				 = ~0,		// @note: will only be valid for CreateQueryUserUGCRequest requests
 	}
 
 	// Different lists of published UGC for a user.
@@ -1276,7 +1276,7 @@ namespace Steamworks {
 	}
 
 	public enum EItemUpdateStatus : int {
-		k_EItemUpdateStatusInvalid 				= 0, // The item update handle was invalid, job might be finished, listen too SubmitItemUpdateResult_t 项目更新句柄无效，任务可能已完成，请稍候SubmitItemUpdateResult_t
+		k_EItemUpdateStatusInvalid 				= 0, // The item update handle was invalid, job might be finished, listen too SubmitItemUpdateResult_t 项目更新句柄无效，任务可能已完成，请监听 SubmitItemUpdateResult_t
 		k_EItemUpdateStatusPreparingConfig 		= 1, // The item update is processing configuration data 项目更新正在处理配置数据
 		k_EItemUpdateStatusPreparingContent		= 2, // The item update is reading and processing content files 项目更新正在读取和处理内容文件。
 		k_EItemUpdateStatusUploadingContent		= 3, // The item update is uploading content changes to Steam 物品更新正在上传 Steam 中的内容更改。
@@ -1325,7 +1325,7 @@ namespace Steamworks {
 																	// |   |Dn |       |
 																	// +---+---+---+---+
 																	// |   |Up |       |
-																// | L | F | R | B |
+																// 
 																// |   |Dn |       |
 		k_EItemPreviewType_EnvironmentMap_LatLong			= 4,	// standard image file expected 标准图像文件预期
 		k_EItemPreviewType_Clip								= 5,	// clip id is stored 剪辑ID已存储
@@ -1382,7 +1382,7 @@ namespace Steamworks {
 	public enum ESteamAPICallFailure : int {
 		k_ESteamAPICallFailureNone = -1,			// no failure 无失败
 		k_ESteamAPICallFailureSteamGone = 0,		// the local Steam process has gone away 本地Steam进程已关闭
-		k_ESteamAPICallFailureNetworkFailure = 1,	// the network connection to Steam has been broken, or was already broken Steam的网络连接中断，或者已经中断。
+		k_ESteamAPICallFailureNetworkFailure = 1,	// the network connection to Steam has been broken, or was already broken Steam的网络连接中断，或者之前就已中断。
 		// SteamServersDisconnected_t callback will be sent around the same time
 		// SteamServersConnected_t will be sent when the client is able to talk to the Steam servers again
 		// SteamServersDisconnected_t 回调将在客户端再次能够与 Steam 服务器通信时，大约同时发送，SteamServersConnected_t 也会被发送。
@@ -1407,7 +1407,7 @@ namespace Steamworks {
 	public enum EFloatingGamepadTextInputMode : int {
 		k_EFloatingGamepadTextInputModeModeSingleLine = 0,		// Enter dismisses the keyboard Enter 取消键盘
 		k_EFloatingGamepadTextInputModeModeMultipleLines = 1,	// User needs to explictly close the keyboard 用户需要明确关闭键盘。
-		k_EFloatingGamepadTextInputModeModeEmail = 2,			// Keyboard layout is email, enter dismisses the keyboard 键盘布局为邮件，按键Enter收回键盘。
+		k_EFloatingGamepadTextInputModeModeEmail = 2,			// Keyboard layout is email, enter dismisses the keyboard 键盘布局为邮件，按键 Enter 隐藏键盘。
 		k_EFloatingGamepadTextInputModeModeNumeric = 3,			// Keyboard layout is numeric, enter dismisses the keyboard 键盘布局为数字，按回车键可关闭键盘。
 
 	}
@@ -1436,7 +1436,7 @@ namespace Steamworks {
 	public enum EMatchMakingServerResponse : int {
 		eServerResponded = 0,
 		eServerFailedToRespond,
-		eNoServersListedOnMasterServer // for the Internet query type, returned in response callback if no servers of this type match 对于互联网查询类型，在无匹配服务器类型时，通过响应回调返回。
+		eNoServersListedOnMasterServer // for the Internet query type, returned in response callback if no servers of this type match 对于互联网查询类型，如果在响应回调中未找到任何此类型的服务器
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -1526,10 +1526,10 @@ namespace Steamworks {
 		k_EResultPSNTicketInvalid = 58,				// PSN ticket was invalid PSN 票据已失效
 		k_EResultExternalAccountAlreadyLinked = 59,	// External account (PSN, Facebook...) is already linked to some other account, must explicitly request to replace/delete the link first 外部账户（PSN、Facebook...）已与另一个账户关联，必须首先明确请求替换/删除该关联。
 		k_EResultRemoteFileConflict = 60,			// The sync cannot resume due to a conflict between the local and remote files 由于本地文件和远程文件之间存在冲突，无法恢复同步。
-		k_EResultIllegalPassword = 61,				// The requested new password is not legal 请求的新密码不合法
+		k_EResultIllegalPassword = 61,				// The requested new password is not legal 请求的新密码无效
 		k_EResultSameAsPreviousValue = 62,			// new value is the same as the old one ( secret question and answer ) 新值与旧值相同（秘密问题和答案）
 		k_EResultAccountLogonDenied = 63,			// account login denied due to 2nd factor authentication failure 由于第二因子身份验证失败，账户登录被拒绝。
-		k_EResultCannotUseOldPassword = 64,			// The requested new password is not legal 请求的新密码无效
+		k_EResultCannotUseOldPassword = 64,			// The requested new password is not legal 请求的新密码不合法
 		k_EResultInvalidLoginAuthCode = 65,			// account login denied due to auth code invalid 由于身份验证码无效，登入失败。
 		k_EResultAccountLogonDeniedNoMail = 66,		// account login denied due to 2nd factor auth failure - and no mail has been sent - partner site specific 账户登录被拒绝，因为第二因素身份验证失败 - 并且没有发送邮件 - 合作伙伴特定
 		k_EResultHardwareNotCapableOfIPT = 67,		//
@@ -1658,7 +1658,7 @@ namespace Steamworks {
 		k_EAuthSessionResponseAuthTicketCanceled = 6,			// The ticket has been canceled by the issuer 票已由发行方取消。
 		k_EAuthSessionResponseAuthTicketInvalidAlreadyUsed = 7,	// This ticket has already been used, it is not valid. 这张票券已经使用过，现在不生效。
 		k_EAuthSessionResponseAuthTicketInvalid = 8,			// This ticket is not from a user instance currently connected to steam. 这张票不是来自当前连接到Steam的用户实例。
-		k_EAuthSessionResponsePublisherIssuedBan = 9,			// The user is banned for this game. The ban came via the web api and not VAC 该用户因该游戏被封禁。封禁是通过Web API进行的，而不是VAC。
+		k_EAuthSessionResponsePublisherIssuedBan = 9,			// The user is banned for this game. The ban came via the web api and not VAC 该用户因该游戏被封禁。封禁是通过Web API进行的，而非VAC。
 		k_EAuthSessionResponseAuthTicketNetworkIdentityFailure = 10,	// The network identity in the ticket does not match the server authenticating the ticket 票据中的网络身份不与验证票据的服务器匹配。
 	}
 
@@ -1724,7 +1724,7 @@ namespace Steamworks {
 		k_EChatRoomEnterResponseSuccess = 1,		// Success 成功
 		k_EChatRoomEnterResponseDoesntExist = 2,	// Chat doesn't exist (probably closed) 聊天不存在（可能已关闭）
 		k_EChatRoomEnterResponseNotAllowed = 3,		// General Denied - You don't have the permissions needed to join the chat 通用拒绝 - 您缺少所需的权限加入聊天室。
-		k_EChatRoomEnterResponseFull = 4,			// Chat room has reached its maximum size 聊天室已达到最大容量。
+		k_EChatRoomEnterResponseFull = 4,			// Chat room has reached its maximum size 聊天室已达到最大人数。
 		k_EChatRoomEnterResponseError = 5,			// Unexpected Error 意外错误
 		k_EChatRoomEnterResponseBanned = 6,			// You are banned from this chat room and may not join 你已被封禁此聊天室，不得加入。
 		k_EChatRoomEnterResponseLimited = 7,		// Joining this chat is not allowed because you are a limited user (no value on account) 加入此聊天室不允许，因为您是有限用户（账户没有价值）。
@@ -1741,7 +1741,7 @@ namespace Steamworks {
 
 	// Special flags for Chat accounts - they go in the top 8 bits
 	// of the steam ID's "instance", leaving 12 for the actual instances
-	// 特殊聊天账号标志 - 它们位于 Steam ID 的“instance”部分的顶 8 位，其余 12 位用于实际实例。
+	// 特殊聊天账户标志 - 它们位于 Steam ID 的“instance”部分的顶 8 位，其余 12 位用于实际实例。
 	[Flags]
 	public enum EChatSteamIDInstanceFlags : int {
 		k_EChatAccountInstanceMask = 0x00000FFF, // top 8 bits are flags 顶8位是标志位
@@ -1865,7 +1865,7 @@ namespace Steamworks {
 		k_EMarketNotAllowedReason_NewPaymentMethodCannotBeVerified = (1 << 13),
 
 		// Not only is the account not trusted, but they have no recent purchases at all
-		// 这个账号不被信任，而且他们最近根本没有购买任何东西。
+		// 这个账户不被信任，而且他们最近根本没有购买任何东西。
 		k_EMarketNotAllowedReason_NoRecentPurchases = (1 << 14),
 
 		// User accepted a wallet gift that was recently purchased
@@ -1878,7 +1878,7 @@ namespace Steamworks {
 	// anti-indulgence enabled for minor Steam China users.
 	//
 	// WARNING: DO NOT RENUMBER
-	// 对中国小号用户启用的游戏，对具有时长控制/反沉迷功能的XP/进度限制描述。
+	// 适用于具有持续控制/反沉迷功能且针对中国Steam小号的XP/进度限制描述。
 // 警告：不要重新编号
 	public enum EDurationControlProgress : int {
 		k_EDurationControlProgress_Full = 0,	// Full progress 全部进度
@@ -1915,7 +1915,7 @@ namespace Steamworks {
 	// 指定游戏在与时间控制相关的在线状态。
 	public enum EDurationControlOnlineState : int {
 		k_EDurationControlOnlineState_Invalid = 0,				// nil value 空值
-		k_EDurationControlOnlineState_Offline = 1,				// currently in offline play - single-player, offline co-op, etc. 目前处于离线模式 - 单人、离线联机合作等。
+		k_EDurationControlOnlineState_Offline = 1,				// currently in offline play - single-player, offline co-op, etc. 目前处于离线模式 - 单人游玩、离线联机合作等。
 		k_EDurationControlOnlineState_Online = 2,				// currently in online play 目前在线中
 		k_EDurationControlOnlineState_OnlineHighPri = 3,		// currently in online play and requests not to be interrupted 目前正在在线游戏中，请勿打断。
 	}
@@ -2104,7 +2104,7 @@ namespace Steamworks {
 		// Basic platform-specific identifiers.
 		//
 		// 基本平台特定标识符。
-		k_ESteamNetworkingIdentityType_SteamID = 16, // 64-bit CSteamID 64-bit CSteamID
+		k_ESteamNetworkingIdentityType_SteamID = 16, // 64-bit CSteamID
 		k_ESteamNetworkingIdentityType_XboxPairwiseID = 17, // Publisher-specific user identity, as string 发布者特定用户身份，作为字符串
 		k_ESteamNetworkingIdentityType_SonyPSN = 18, // 64-bit ID 64 位 ID
 
@@ -2241,7 +2241,7 @@ namespace Steamworks {
 		/// in the queue are available.
 		/// 本地检测到连接中断。 (例如：超时、本地互联网连接中断等)
 	/// 从API角度来看，连接仍然存在。您必须关闭句柄以释放资源。
-	/// 尝试发送更多消息将失败。队列中剩余接收到的消息可用。
+	/// 尝试发送更多消息将会失败。队列中剩余接收到的消息可用。
 		k_ESteamNetworkingConnectionState_ProblemDetectedLocally = 5,
 
 	//
@@ -2478,7 +2478,7 @@ namespace Steamworks {
 			// A server in a dedicated hosting situation has no relay sessions
 			// active with which to talk back to a client.  (It's the client's
 			// job to open and maintain those sessions.)
-			// 在专用托管环境中，服务器没有活动的中继会话，无法与客户端进行回传。 (这是客户端负责打开和维护这些会话的。)
+			// 在专用托管环境中，服务器没有活动的回放会话，无法与客户端对话。 (这是客户端负责打开和维护这些会话的。)
 		k_ESteamNetConnectionEnd_Misc_NoRelaySessionsToClient = 5006,
 
 			// While trying to initiate a connection, we never received
@@ -2513,7 +2513,7 @@ namespace Steamworks {
 			//   reason (perhaps a bug), and believes that is it is
 			//   acknowledging our closure.
 			// 我们的同伴回复说它没有记录该连接。这在正常情况下不应该发生，但可能会在少数异常情况下发生：
-		// 这是一个旧连接，对方已经清理并忘记了它。（也许它超时并被关闭，并且未能告知我们。）- 一个 bug 或内部协议错误导致我们尝试与对方讨论连接，在我们收到对方已接受连接的确认之前。- 对方认为我们已经关闭了该连接（也许是 bug），并且认为它在回应我们的关闭。
+		// 这是一个旧连接，对方已经清理并遗忘它了。（也许它超时并被关闭，并且未能告知我们。）- 一个 bug 或内部协议错误导致我们尝试在收到对方已接受连接的确认之前与对方进行通信。- 对方认为我们已经关闭了该连接（也许是 bug），并且认为它在回应我们的关闭。
 		k_ESteamNetConnectionEnd_Misc_PeerSentNoConnection = 5010,
 
 		k_ESteamNetConnectionEnd_Misc_Max = 5999,
@@ -2671,7 +2671,7 @@ namespace Steamworks {
 		///   using ISteamNetworkingSockets::GetConnectionUserData, to
 		//    ensure you have the current value.
 		/// [连接 int64] 将用户数据作为配置选项获取/设置。默认值为 -1。您可能希望将用户数据作为配置值设置，而不是在特定情况下使用 ISteamNetworkingSockets::SetConnectionUserData：
-	/// 您希望在创建出站连接时原子地设置userdata，以便为任何发生的回调正确填充数据。但是，请注意，这个技巧仅适用于本地发起的连接！对于入站连接，可能会发生多个状态转换以及回调被排队，在你能够服务第一个回调之前！请小心！
+	/// 您希望在创建出站连接时原子地设置userdata，以便为任何发生的回调正确填充数据。但是，请注意，这个技巧仅适用于本地发起的连接！对于入站连接，可能发生多个状态转换和回调被排队，在您能够服务第一个回调之前！请小心！
 	/// 你可以通过在更高层级（例如监听套接字或全局级别）设置此值来设置所有新创建连接的默认用户数据。然后，此默认值将在创建连接时继承。这在-1是一个有效的用户数据值，并且您希望使用其他值作为默认值，以便您可以确定它是否已设置时非常有用。
 	/// 然而：一旦连接建立，有效值将绑定到该连接。与其它连接选项不同，如果更高层级中重新更改它，新值将不会被连接继承。
 	/// 使用回调结构体中的userdata字段不建议，因为它存在复杂的竞争条件。相反，您可以尝试以下方法：
@@ -2831,10 +2831,10 @@ namespace Steamworks {
 		/// application code.  The previous connection must be closed or resolved first.)
 		/// [连接 int32] 将此设置为 1 以便在出站连接和监听套接字上启用“对称连接模式”，这在以下常见点对点用例中很有用：
 	/// 这两个同伴彼此“相等”。（双方均不明确是“客户端”或“服务器”）- 任何一方都可以发起连接，而且他们可以同时这样做 - 这些同伴只希望彼此之间建立一个单一的连接，如果双方同时发起连接，则需要一个协议来解决冲突，以便最终建立一个单一的连接。
-	/// 这个用例既常见，又涉及微妙的竞争条件和棘手的陷阱，因此API支持处理它。
+	/// 这个用例既常见，又涉及微妙的竞争条件和棘手的陷阱，因此API也提供了处理它的支持。
 	/// 如果通过监听套接字或自定义信号指示到达一个传入连接，并且应用程序尚未尝试以对称模式建立匹配的向往连接，则该传入连接可以正常接受。 “匹配”连接意味着相关端点信息匹配。 (在编写此注释时，此功能仅支持点对点连接，这意味着对等方身份必须匹配，虚拟端口也必须匹配。 稍后，对称模式可能也支持其他连接类型。）
 	/// 如果连接是由双方同时发起，则可能出现竞态条件，但幸运的是，大多数情况都由内部处理，不需要应用程序进行任何特殊处理。然而，有一个重要的案例需要应用程序代码意识到：如果应用程序代码尝试使用对称模式通过 ConnectXxx 函数发起出站连接，并且一个匹配的入站连接已经在监听套接字上等待，则 ConnectXxx 调用不会形成一个新的连接，而是会接受现有的入站连接，并返回该接受的连接的处理句柄。重要：在这种情况下，很可能已经为该入站连接发布了 SteamNetConnectionStatusChangedCallback_t 到队列中！（一旦回调被发布到队列中，它们将不会被修改。）即使回调没有被应用程序消费，也不会有影响。因此，使用对称连接的应用程序代码必须意识到，在处理一个入站连接的 SteamNetConnectionStatusChangedCallback_t 时，m_hConn 可能会引用一个应用程序尚未见过的全新连接（通常的情况），但它也可能引用一个通过调用 Connect() 隐式接受的已存在连接！在这种情况下，AcceptConnection() 将返回 k_EResultDuplicateRequest。
-	/// 任何给定同态连接只能在任何给定虚拟端口上存在一个。如果客户端代码尝试创建连接，并且本地主机上已存在（活动）连接，则要么现有的连接将被接受，如上所述，要么创建新连接的尝试将会失败。此外，同态连接不支持延迟模式功能。
+	/// 任何给定同态连接只能在任何给定虚拟端口上存在一个。如果客户端代码尝试创建连接，并且本地主机上已存在（活动）连接，则要么现有的连接将被如上所述接受，要么创建新连接的尝试将会失败。此外，同态连接不支持延迟模式功能。
 	/// 如果两个同伴大致同时发起连接，可能会出现更复杂的竞争条件。在这种情况下，每个同伴都会收到来自其他同伴的传入连接，此时应用程序代码已经向该同伴发起了一条出站连接。同伴必须解决这种冲突，决定谁将充当“服务器”，谁将充当“客户端”。通常情况下，应用程序不需要意识到这种情况，因为它在内部被处理。双方都会观察到它们的出站连接被“接受”，尽管其中一个可能在内部被转换成“服务器”的角色。
 	/// 总的来说，对称模式应该是全开或全关：不要将对称连接与可能“匹配”的非对称连接混合使用。如果使用任何连接的对称模式，则双方都应该使用该模式在所有连接上，以及相应的监听套接字（如果存在）。当对称连接和普通连接混合使用时，此API的行为未定义，因此你不应依赖它。 (此建议仅适用于连接可能“匹配”的情况。例如，在单个虚拟端口上使用所有对称模式连接，在另一个虚拟端口上使用所有普通、非对称连接是可以的，因为不存在歧义。)
 	/// 在使用该功能时，您应在以下情况下的适用对象上进行设置：
@@ -2930,7 +2930,7 @@ namespace Steamworks {
 		/// Fake jitter is simulated after fake lag, but before reordering.
 		/// 模拟抖动/聚类。
 	/// 对于每个数据包，会确定一个抖动值（可能为零）。这个值会作为额外的延迟添加到数据包中。当后续数据包排队时，它会从当前时间获得自己的随机抖动值。如果这样做会导致数据包按顺序交付，则较晚的队列时间会被调整为在第一个数据包之后发生。因此，抖动本身不会重新排序数据包，但它可以“聚拢”它们。
-	/// - Avg：使用指数分布生成一个随机抖动时间，并将其作为平均值（ms）。默认值为零，禁用随机抖动。 - Max：将随机抖动时间限制为该值（ms）。 - Pct：一个随机包抖动值生成的概率（0-100）。否则，使用零抖动值，并且只有在抖动系统需要保留顺序时，包才会受到抖动系统的影响，这是由于先前包的抖动造成的。
+	/// - Avg：使用指数分布生成一个随机抖动时间，并将其作为平均值（ms）。默认值为零，禁用随机抖动。 - Max：将随机抖动时间限制为该值（ms）。 - Pct：一个随机包抖动值生成的概率（0-100）。否则，使用零抖动值，并且只有在抖动系统需要保留顺序时，包才会受到抖动系统的影响，这是由于之前包的抖动造成的。
 	/// 所有值都是 [global float]
 	/// 模拟假延迟后，在重排序之前模拟假抖动。
 		k_ESteamNetworkingConfig_FakePacketJitter_Send_Avg = 53,
@@ -2965,7 +2965,7 @@ namespace Steamworks {
 
 		/// [global int32] Amount of delay, in ms, to delay duplicated packets.
 		/// (We chose a random delay between 0 and this value)
-		/// [全局 int32] 延迟量，毫秒，用于延迟复制包。 (我们选择一个介于 0 和该值之间的随机延迟)
+		/// [全局 int32] 延迟量，单位为毫秒，用于延迟复制包。 (我们选择一个介于 0 和该值之间的随机延迟)
 		k_ESteamNetworkingConfig_FakePacketDup_TimeMax = 28,
 
 		/// [global int32] Trace every UDP packet, similar to Wireshark or tcpdump.
@@ -3013,9 +3013,9 @@ namespace Steamworks {
 		// dequeued by the app yet.  However, when out-of-order packets are corrected
 		// at the packet layer, they will not reduce the connection quality measure.
 		// (E.g. SteamNetConnectionRealTimeStatus_t::m_flConnectionQualityLocal)
-		// 超时用于乱序纠正。当我们在一个数据包流中看到序列号上的小间隙时，就会使用它。例如，让我们假设我们正在处理数据包 105，而最近一个数据包是 103。数据包 104 可能会丢失，但也存在数据包只是被重新排序的可能性。在某些类型的连接上，数据包 104 可能会在 105 之后很快到达，尤其是在 104 较大且 105 较小的情况下。在这种情况下，当我们看到数据包 105 时，我们会将其移到一边并进行等待，希望很快就能看到 104。如果 104 在超时发生之前到达，我们就可以将数据包按顺序交付给剩余的数据包处理，并将此情况记录为“可修复”的乱序情况。如果计时器超时，则我们会处理数据包 105，并暂时假设 104 已丢失。 (如果 104 稍后到达，我们会处理它，但它将被记录为未纠正。)
+		// 超时用于乱序纠正。当我们在一个数据包流中看到序列号上的小间隙时，就会使用它。例如，让我们假设我们正在处理数据包 105，而最近一个数据包是 103。数据包 104 可能会丢失，但也存在数据包只是被重新排序的可能性。在某些类型的连接上，数据包 104 可能会在 105 之后很快到达，尤其是在 104 较大且 105 较小的情况下。在这种情况下，当我们看到数据包 105 时，我们会将其移到一边并进行等待，希望很快就能看到 104。如果 104 在超时发生之前到达，我们就可以将数据包按顺序交付给剩余的数据包处理，并将此情况记录为“可修复”的乱序情况。如果计时器超时，则我们会处理数据包 105，并暂时假设 104 已丢失。 (如果 104 稍后到达，我们会处理它，但这种情况会被记录为未更正。)
 	// 默认值为1000微秒。请注意，Windows调度器不具备微秒精度。
-	// 将值设置为 0 以在数据包层禁用乱序校正。在许多情况下，由于消息片段的重组对乱序到达的片段包具有容忍性，我们仍然可以有效地纠正这种情况。 此外，当消息被解码并插入到应用程序接收它们的队列中时，我们还会纠正尚未被应用程序dequeue的乱序消息。 但是，在数据包层进行乱序包的校正不会降低连接质量指标。（例如：SteamNetConnectionRealTimeStatus_t::m_flConnectionQualityLocal）
+	// 将值设置为 0 以在数据包层禁用乱序校正。在许多情况下，由于消息片段的重组对乱序到达的片段包具有容忍性，我们仍然可以有效地纠正这种情况。 此外，当消息被解码并插入到应用程序接收它们的队列中时，我们还会纠正尚未从队列中删除的乱序消息。 但是，在数据包层进行乱序包的校正不会降低连接质量指标。（例如：SteamNetConnectionRealTimeStatus_t::m_flConnectionQualityLocal）
 		k_ESteamNetworkingConfig_OutOfOrderCorrectionWindowMicroseconds = 51,
 
 	//
@@ -3059,7 +3059,7 @@ namespace Steamworks {
 // 此外，ISteamNetworkingUtils 也有一些帮助函数来全局设置这些选项。[connection FnSteamNetConnectionStatusChanged] 回调函数将在连接状态发生变化时被调用。
 // 重要提示：回调函数会被发送到事件发生时有效的处理程序，这可能在另一个线程中。例如，在立即创建监听套接字后，你可能会收到一个传入的连接。然后，紧接着，远程主机可能会关闭该连接。所有这些都可能在创建监听套接字的功能返回之前发生。因此，回调函数通常必须在对象创建时生效。这意味着你应该在创建监听套接字或连接时设置它们，或者确保它们在对象创建时生效，以便继承它们。
 // 例如：
-// exterm void MyStatusChangedFunc( SteamNetConnectionStatusChangedCallback_t *info ); SteamNetworkingConfigValue_t opt; opt.SetPtr( k_ESteamNetworkingConfig_Callback_ConnectionStatusChanged, MyStatusChangedFunc ); SteamNetworkingIPAddr localAddress; localAddress.Clear(); HSteamListenSocket hListenSock = SteamNetworkingSockets()->CreateListenSocketIP( localAddress, 1, &opt );
+// 
 // 当接受传入连接时，没有原子方式来切换回调。但是，如果连接已损坏（DOA），AcceptConnection() 将失败，并且你可以在此时获取连接的状态。
 // 如果所有连接和监听套接字都可以使用相同的回调，最简单的做法是在创建任何监听套接字或连接之前全局设置它。
 		k_ESteamNetworkingConfig_Callback_ConnectionStatusChanged = 201,
@@ -3207,7 +3207,7 @@ namespace Steamworks {
 		///
 		/// This is a dev configuration value, you probably should not let users modify it
 		/// in production.
-		/// [全球字符串] 用于调试。强制将集群的 ping 时间设置为指定的值。一个逗号分隔的 <cluster>=<ms> 值列表。例如：“sto=32,iad=100”
+		/// [全球字符串] 用于调试。强制将集群的 ping 时间设置为指定的值。一个逗号分隔的 `<cluster>=<ms>` 值的列表。例如：“sto=32,iad=100”
 	/// 这是一个开发配置值，您可能不应该让用户在生产环境中修改它。
 		k_ESteamNetworkingConfig_SDRClient_FakeClusterPing = 36,
 
@@ -3274,7 +3274,7 @@ namespace Steamworks {
 		k_ESteamNetworkingSocketsDebugOutputType_Msg = 5, // Recommended amount 推荐金额
 		k_ESteamNetworkingSocketsDebugOutputType_Verbose = 6, // Quite a bit 相当多
 		k_ESteamNetworkingSocketsDebugOutputType_Debug = 7, // Practically everything 几乎所有东西
-		k_ESteamNetworkingSocketsDebugOutputType_Everything = 8, // Wall of text, detailed packet contents breakdown, etc 文本墙，详细的数据包内容分解等。
+		k_ESteamNetworkingSocketsDebugOutputType_Everything = 8, // Wall of text, detailed packet contents breakdown, etc 文本墙，详细的包内容分解等。
 
 		k_ESteamNetworkingSocketsDebugOutputType__Force32Bit = 0x7fffffff
 	}
@@ -3293,7 +3293,7 @@ namespace Steamworks {
 		k_EUniverseInternal = 3,
 		k_EUniverseDev = 4,
 		// k_EUniverseRC = 5,				// no such universe anymore
-		// k_EUniverseRC = 5,				// no such universe anymore
+		// 
 		k_EUniverseMax
 	}
 
