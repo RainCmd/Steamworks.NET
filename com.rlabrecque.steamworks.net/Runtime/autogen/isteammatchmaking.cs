@@ -20,7 +20,7 @@ namespace Steamworks {
 		/// <para> game server favorites storage</para>
 		/// <para> saves basic details about a multiplayer game server locally</para>
 		/// <para> returns the number of favorites servers the user has stored</para>
-		/// <para>游戏服务器喜爱存储保存了多玩游戏服务器的本地基本信息，并返回用户存储的喜爱服务器数量。</para>
+		/// <para>游戏服务器喜爱存储保存基本信息，关于一个多玩家游戏服务器，本地返回用户存储的喜爱服务器数量</para>
 		/// </summary>
 		public static int GetFavoriteGameCount() {
 			InteropHelp.TestIfAvailableClient();
@@ -33,7 +33,7 @@ namespace Steamworks {
 		/// <para> *pnIP, *pnConnPort are filled in the with IP:port of the game server</para>
 		/// <para> *punFlags specify whether the game server was stored as an explicit favorite or in the history of connections</para>
 		/// <para> *pRTime32LastPlayedOnServer is filled in the with the Unix time the favorite was added</para>
-		/// <para>返回游戏服务器的详细信息，iGame的范围是[0,GetFavoriteGameCount()) *pnIP，*pnConnPort 填充为游戏服务器的IP:端口，*punFlags 填充为游戏服务器是否作为明确的收藏或连接历史存储，*pRTime32LastPlayedOnServer 填充为收藏被添加的 Unix 时间。</para>
+		/// <para>返回游戏服务器 iGame 的详细信息，范围为 [0, GetFavoriteGameCount()) *pnIP, *pnConnPort 被填充为游戏服务器的 IP:端口，*punFlags 指定游戏服务器是否以明确的收藏或连接历史记录存储，*pRTime32LastPlayedOnServer 被填充为收藏被添加的 Unix 时间。</para>
 		/// </summary>
 		public static bool GetFavoriteGame(int iGame, out AppId_t pnAppID, out uint pnIP, out ushort pnConnPort, out ushort pnQueryPort, out uint punFlags, out uint pRTime32LastPlayedOnServer) {
 			InteropHelp.TestIfAvailableClient();
@@ -42,7 +42,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> adds the game server to the local list; updates the time played of the server if it already exists in the list</para>
-		/// <para>将游戏服务器添加到本地列表；如果该服务器已存在于列表中，则更新其游戏时间。</para>
+		/// <para>添加游戏服务器到本地列表；如果该服务器已存在于列表中，则更新其游戏时间。</para>
 		/// </summary>
 		public static int AddFavoriteGame(AppId_t nAppID, uint nIP, ushort nConnPort, ushort nQueryPort, uint unFlags, uint rTime32LastPlayedOnServer) {
 			InteropHelp.TestIfAvailableClient();
@@ -80,12 +80,12 @@ namespace Steamworks {
 		/// <para>				// lobby list has be retrieved from Steam back-end, use results</para>
 		/// <para>			}</para>
 		/// <para>		}</para>
-		/// <para>				// 游戏大厅功能 获取相关大厅列表 这是一个异步请求，结果将通过 `LobbyMatchList_t` 回调函数返回，并包含找到的大厅数量。此功能不会返回已满的大厅，以便添加更多过滤条件。以下过滤调用必须在每次 `RequestLobbyList()` 调用之前进行。
-				// 请提供具体的代码或描述，我将直接翻译为简体中文并输出。
+		/// <para>				// 游戏大厅功能 获取相关大厅列表这是一个异步请求结果将通过LobbyMatchList_t回调函数返回，包含找到的大厅数量，此功能不会返回已满的大厅，以便添加更多筛选。筛选调用需要在每次RequestLobbyList()调用之前进行。
+				// 使用 `CCallResult<>` 对象在 `steam_api.h` 中，将 SteamAPICall_t 调用结果与对象中的一个函数进行匹配，例如，类 `CMyLobbyListManager`。
 				// CCallResult<CMyLobbyListManager, LobbyMatchList_t> m_CallResultLobbyMatchList; void FindLobbies()
-				// SteamMatchmaking()->AddRequestLobbyListFilter*() 函数在此调用，在 RequestLobbyList() SteamAPICall_t hSteamAPICall = SteamMatchmaking()->RequestLobbyList(); m_CallResultLobbyMatchList.Set( hSteamAPICall, this, &CMyLobbyListManager::OnLobbyMatchList );
+				// SteamMatchmaking()->AddRequestLobbyListFilter*() 函数在此调用，在 RequestLobbyList() 调用之前。 m_CallResultLobbyMatchList.Set( hSteamAPICall, this, &CMyLobbyListManager::OnLobbyMatchList );
 				// void OnLobbyMatchList( LobbyMatchList_t *pLobbyMatchList, bool bIOFailure )
-				// 已从 Steam 后端检索到大厅列表，使用结果。</para>
+				// Lobby列表已从Steam后端检索，使用结果</para>
 		/// </summary>
 		public static SteamAPICall_t RequestLobbyList() {
 			InteropHelp.TestIfAvailableClient();
@@ -96,7 +96,7 @@ namespace Steamworks {
 		/// <para> filters for lobbies</para>
 		/// <para> this needs to be called before RequestLobbyList() to take effect</para>
 		/// <para> these are cleared on each call to RequestLobbyList()</para>
-		/// <para>过滤器需要在调用 RequestLobbyList() 之前生效，并且在每次调用 RequestLobbyList() 时都会清除。</para>
+		/// <para>过滤器用于房间，需要在调用 RequestLobbyList() 之前使用，每次调用 RequestLobbyList() 时都会清除这些过滤器。</para>
 		/// </summary>
 		public static void AddRequestLobbyListStringFilter(string pchKeyToMatch, string pchValueToMatch, ELobbyComparison eComparisonType) {
 			InteropHelp.TestIfAvailableClient();
@@ -119,7 +119,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns results closest to the specified value. Multiple near filters can be added, with early filters taking precedence</para>
-		/// <para>返回最接近指定值的结果。可以添加多个近值过滤器，并且早期的过滤器优先级更高。</para>
+		/// <para>返回结果，使其尽可能接近指定值。可以添加多个附近的过滤器，并且早期的过滤器具有优先权。</para>
 		/// </summary>
 		public static void AddRequestLobbyListNearValueFilter(string pchKeyToMatch, int nValueToBeCloseTo) {
 			InteropHelp.TestIfAvailableClient();
@@ -130,7 +130,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns only lobbies with the specified number of slots available</para>
-		/// <para>只返回具有指定数量的槽位进行的房间。</para>
+		/// <para>仅返回具有指定数量空闲插槽的房间。</para>
 		/// </summary>
 		public static void AddRequestLobbyListFilterSlotsAvailable(int nSlotsAvailable) {
 			InteropHelp.TestIfAvailableClient();
@@ -139,7 +139,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> sets the distance for which we should search for lobbies (based on users IP address to location map on the Steam backed)</para>
-		/// <para>设置用于搜索游戏大厅的距离（基于用户 IP 地址和 Steam 提供的地图位置）</para>
+		/// <para>设置搜索大厅的距离（基于用户 IP 地址和 Steam 提供的地图位置）</para>
 		/// </summary>
 		public static void AddRequestLobbyListDistanceFilter(ELobbyDistanceFilter eLobbyDistanceFilter) {
 			InteropHelp.TestIfAvailableClient();
@@ -148,7 +148,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> sets how many results to return, the lower the count the faster it is to download the lobby results &amp; details to the client</para>
-		/// <para>设置返回多少结果，结果数量越小，下载游戏大厅的结果和细节到客户端的速度就越快。</para>
+		/// <para>设置返回多少结果，计数越低，下载游戏大厅结果和详情到客户端的速度就越快。</para>
 		/// </summary>
 		public static void AddRequestLobbyListResultCountFilter(int cMaxResults) {
 			InteropHelp.TestIfAvailableClient();
@@ -165,7 +165,7 @@ namespace Steamworks {
 		/// <para> should only be called after a LobbyMatchList_t callback is received</para>
 		/// <para> iLobby is of the range [0, LobbyMatchList_t::m_nLobbiesMatching)</para>
 		/// <para> the returned CSteamID::IsValid() will be false if iLobby is out of range</para>
-		/// <para>RequestLobbyList 调用的 CSteamID 结果应仅在收到 LobbyMatchList_t 回调后调用。如果 iLobby 的范围在 [0, LobbyMatchList_t::m_nLobbiesMatching)，则返回的 CSteamID::IsValid() 将为 false。</para>
+		/// <para>返回Lobby的CSteamID，如通过RequestLobbyList调用获取，只能在收到LobbyMatchList_t回调后调用。如果iLobby的范围在[0, LobbyMatchList_t::m_nLobbiesMatching)，返回的CSteamID::IsValid()将为false，如果iLobby超出范围。</para>
 		/// </summary>
 		public static CSteamID GetLobbyByIndex(int iLobby) {
 			InteropHelp.TestIfAvailableClient();
@@ -179,7 +179,7 @@ namespace Steamworks {
 		/// <para> this is an asynchronous request</para>
 		/// <para> results will be returned by LobbyCreated_t callback and call result; lobby is joined &amp; ready to use at this point</para>
 		/// <para> a LobbyEnter_t callback will also be received (since the local user is joining their own lobby)</para>
-		/// <para>创建一个 Steam 服务器上的房间。如果房间是私有的，则它不会通过 RequestLobbyList() 调用返回；房间的 CSteamID 需要通过游戏频道或通过 InviteUserToLobby() 方式进行通信。结果将通过 LobbyCreated_t 回调进行异步请求返回，并调用结果；在此时，房间已加入并可使用，同时还会收到 LobbyEnter_t 回调（因为本地用户正在加入他们自己的房间）。</para>
+		/// <para>创建一个 Steam 服务器上的房间。如果房间是私有的，则它不会被任何 RequestLobbyList() 调用返回；房间的 CSteamID 需要通过游戏频道或通过 InviteUserToLobby() 进行通信。这是一个异步请求，结果将通过 LobbyCreated_t 回调函数以及调用结果返回； 此时房间已加入并可使用，同时还会收到 LobbyEnter_t 回调（因为本地用户正在加入自己的房间）。</para>
 		/// </summary>
 		public static SteamAPICall_t CreateLobby(ELobbyType eLobbyType, int cMaxMembers) {
 			InteropHelp.TestIfAvailableClient();
@@ -191,7 +191,7 @@ namespace Steamworks {
 		/// <para> this is an asynchronous request</para>
 		/// <para> results will be returned by LobbyEnter_t callback &amp; call result, check m_EChatRoomEnterResponse to see if was successful</para>
 		/// <para> lobby metadata is available to use immediately on this call completing</para>
-		/// <para>加入一个现有游戏房间是一个异步请求，结果将通过LobbyEnter_t回调函数返回，并调用result，检查m_EChatRoomEnterResponse以查看是否成功，Lobby元数据可以在调用完成时立即使用。</para>
+		/// <para>加入现有游戏大厅，这是一个异步请求，结果将通过LobbyEnter_t回调函数和调用结果返回，检查m_EChatRoomEnterResponse以查看是否成功，大厅元数据可以在调用完成时立即使用。</para>
 		/// </summary>
 		public static SteamAPICall_t JoinLobby(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
@@ -215,7 +215,7 @@ namespace Steamworks {
 		/// <para> returns false if the local user is not connected to the Steam servers</para>
 		/// <para> if the other user clicks the join link, a GameLobbyJoinRequested_t will be posted if the user is in-game,</para>
 		/// <para> or if the game isn't running yet the game will be launched with the parameter +connect_lobby &lt;64-bit lobby id&gt;</para>
-		/// <para>邀请另一个用户到游戏大厅，目标用户将收到LobbyInvite_t回调。如果邀请成功发送，无论目标用户是否响应，都返回true；如果本地用户未连接到Steam服务器，则返回false。如果其他用户点击加入链接，将会发布GameLobbyJoinRequested_t；如果用户尚未在游戏中，或者游戏尚未运行，则游戏将被启动，并带有参数+connect_lobby <64-bit lobby id>。</para>
+		/// <para>邀请另一个用户到游玩区，目标用户将收到 LobbyInvite_t 回调。如果邀请成功发送，无论目标用户是否响应，返回 true；如果本地用户未连接到 Steam 服务器，返回 false。如果其他用户点击加入链接，将发布 GameLobbyJoinRequested_t；如果用户在游戏中，或者游戏尚未运行，则游戏将被启动，并带有参数 +connect_lobby <64-bit lobby id>。</para>
 		/// </summary>
 		public static bool InviteUserToLobby(CSteamID steamIDLobby, CSteamID steamIDInvitee) {
 			InteropHelp.TestIfAvailableClient();
@@ -228,7 +228,7 @@ namespace Steamworks {
 		/// <para> persona information for other lobby members (name, avatar, etc.) will be asynchronously received</para>
 		/// <para> and accessible via ISteamFriends interface</para>
 		/// <para> returns the number of users in the specified lobby</para>
-		/// <para>Lobby 迭代，仅用于查看指定 Lobby 成员的详细信息。对于其他 Lobby 成员（姓名、头像等）的信息将异步接收，并通过 ISteamFriends 接口访问。返回指定 Lobby 中的用户数量。</para>
+		/// <para>Lobby迭代，仅用于查看指定Lobby中的用户详情。其他Lobby成员的个人信息（姓名、头像等）将异步接收，并通过ISteamFriends接口访问。返回指定Lobby中的用户数量。</para>
 		/// </summary>
 		public static int GetNumLobbyMembers(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
@@ -239,7 +239,7 @@ namespace Steamworks {
 		/// <para> returns the CSteamID of a user in the lobby</para>
 		/// <para> iMember is of range [0,GetNumLobbyMembers())</para>
 		/// <para> note that the current user must be in a lobby to retrieve CSteamIDs of other users in that lobby</para>
-		/// <para>返回Lobby中用户的CSteamID，如果iMember在[0,GetNumLobbyMembers())范围内，并且当前用户必须在Lobby中才能检索该Lobby中其他用户的CSteamID。</para>
+		/// <para>返回Lobby中用户的CSteamID。iMember在[0,GetNumLobbyMembers())范围内。注意，当前用户必须在Lobby中才能检索该Lobby中其他用户的CSteamID。</para>
 		/// </summary>
 		public static CSteamID GetLobbyMemberByIndex(CSteamID steamIDLobby, int iMember) {
 			InteropHelp.TestIfAvailableClient();
@@ -250,7 +250,7 @@ namespace Steamworks {
 		/// <para> Get data associated with this lobby</para>
 		/// <para> takes a simple key, and returns the string associated with it</para>
 		/// <para> "" will be returned if no value is set, or if steamIDLobby is invalid</para>
-		/// <para>获取与此游戏房间关联的数据需要一个简单的键，如果未设置任何值，或者如果 steamIDLobby 无效，则返回一个空字符串 ""。</para>
+		/// <para>获取与此大厅相关的数据需要一个简单的键，如果未设置值或`steamIDLobby`无效，则返回空字符串。</para>
 		/// </summary>
 		public static string GetLobbyData(CSteamID steamIDLobby, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
@@ -265,7 +265,7 @@ namespace Steamworks {
 		/// <para> this can be used to set lobby names, map, etc.</para>
 		/// <para> to reset a key, just set it to ""</para>
 		/// <para> other users in the lobby will receive notification of the lobby data change via a LobbyDataUpdate_t callback</para>
-		/// <para>每个房间用户都会广播一个键值对，新的值会广播给任何加入房间的新用户，并且任何新的用户加入都会收到所有现有数据。要重置一个键，只需将其设置为""，其他房间用户将通过 LobbyDataUpdate_t 回调函数收到房间数据更改的通知。</para>
+		/// <para>每个游戏大厅的用户都会广播一个键值对，新的值会广播给任何加入的新用户，并且可以用来设置游戏大厅名称、地图等。要重置一个键，只需将其设置为""，其他游戏大厅的用户将通过 LobbyDataUpdate_t 回调函数接收游戏大厅数据更改的通知。</para>
 		/// </summary>
 		public static bool SetLobbyData(CSteamID steamIDLobby, string pchKey, string pchValue) {
 			InteropHelp.TestIfAvailableClient();
@@ -277,7 +277,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the number of metadata keys set on the specified lobby</para>
-		/// <para>返回指定主机的元数据键数量。</para>
+		/// <para>返回指定Lobby上设置的元数据键的数量。</para>
 		/// </summary>
 		public static int GetLobbyDataCount(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
@@ -286,7 +286,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns a lobby metadata key/values pair by index, of range [0, GetLobbyDataCount())</para>
-		/// <para>返回指定索引处的游戏大厅元数据键值对，范围在 [0, GetLobbyDataCount()) 之间。</para>
+		/// <para>返回一个指定索引的Lobby数据键值对，范围是[0, GetLobbyDataCount())</para>
 		/// </summary>
 		public static bool GetLobbyDataByIndex(CSteamID steamIDLobby, int iLobbyData, out string pchKey, int cchKeyBufferSize, out string pchValue, int cchValueBufferSize) {
 			InteropHelp.TestIfAvailableClient();
@@ -302,7 +302,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> removes a metadata key from the lobby</para>
-		/// <para>移除大厅的元数据键。</para>
+		/// <para>移除大厅中的元数据键</para>
 		/// </summary>
 		public static bool DeleteLobbyData(CSteamID steamIDLobby, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
@@ -313,7 +313,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Gets per-user metadata for someone in this lobby</para>
-		/// <para>获取该游戏大厅中某人的用户元数据</para>
+		/// <para>获取该房间中某人的个人元数据</para>
 		/// </summary>
 		public static string GetLobbyMemberData(CSteamID steamIDLobby, CSteamID steamIDUser, string pchKey) {
 			InteropHelp.TestIfAvailableClient();
@@ -324,7 +324,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Sets per-user metadata (for the local user implicitly)</para>
-		/// <para>设置用户别名（对本地用户隐式）</para>
+		/// <para>设置用户别名（隐式为本地用户）</para>
 		/// </summary>
 		public static void SetLobbyMemberData(CSteamID steamIDLobby, string pchKey, string pchValue) {
 			InteropHelp.TestIfAvailableClient();
@@ -340,7 +340,7 @@ namespace Steamworks {
 		/// <para> returns true if the message is successfully sent</para>
 		/// <para> pvMsgBody can be binary or text data, up to 4k</para>
 		/// <para> if pvMsgBody is text, cubMsgBody should be strlen( text ) + 1, to include the null terminator</para>
-		/// <para>向所有游戏大厅中的用户广播一条聊天消息。所有用户（包括本地用户）都会收到一个 LobbyChatMsg_t 回调。如果消息发送成功，则返回 true。pvMsgBody 可以是二进制或文本数据，最多 4k，如果 pvMsgBody 是文本，则 cubMsgBody 应该为 strlen(text) + 1，包括空终止符。</para>
+		/// <para>向Lobby中的所有用户（包括本地用户）广播一条聊天消息。如果消息发送成功，则返回true。pvMsgBody可以是二进制或文本数据，最多4KB。如果pvMsgBody是文本，则cubMsgBody应为strlen(text) + 1，包括空终止符。</para>
 		/// </summary>
 		public static bool SendLobbyChatMsg(CSteamID steamIDLobby, byte[] pvMsgBody, int cubMsgBody) {
 			InteropHelp.TestIfAvailableClient();
@@ -353,7 +353,7 @@ namespace Steamworks {
 		/// <para> *pSteamIDUser is filled in with the CSteamID of the member</para>
 		/// <para> *pvData is filled in with the message itself</para>
 		/// <para> return value is the number of bytes written into the buffer</para>
-		/// <para>获取一个在LobbyChatMsg_t回调中指定的聊天消息。iChatID的值是LobbyChatMsg_t::m_iChatID的值，在回调中*pSteamIDUser会被填充为成员的CSteamID，*pvData会被填充为消息本身。返回值是写入缓冲区中的字节数。</para>
+		/// <para>获取指定 LobbyChatMsg_t 回调中的聊天消息。iChatID 是回调中的 LobbyChatMsg_t::m_iChatID 值。*pSteamIDUser 填充为成员的 CSteamID。*pvData 填充为消息本身。返回值是写入缓冲区中的字节数。</para>
 		/// </summary>
 		public static int GetLobbyChatEntry(CSteamID steamIDLobby, int iChatID, out CSteamID pSteamIDUser, byte[] pvData, int cubData, out EChatEntryType peChatEntryType) {
 			InteropHelp.TestIfAvailableClient();
@@ -368,7 +368,7 @@ namespace Steamworks {
 		/// <para> returns false if the local user is not connected to the Steam servers</para>
 		/// <para> results will be returned by a LobbyDataUpdate_t callback</para>
 		/// <para> if the specified lobby doesn't exist, LobbyDataUpdate_t::m_bSuccess will be set to false</para>
-		/// <para>刷新你可能不当前处于的房间的元数据，你永远不会这样做，也不会为你所在的房间进行刷新，只有当你这样做时，它会向下发送与房间相关的所有元数据。这是一个异步调用，如果本地用户未连接到 Steam 服务器，则返回 false。结果将通过 LobbyDataUpdate_t 回调返回，如果指定的房间不存在，LobbyDataUpdate_t::m_bSuccess 将被设置为 false。</para>
+		/// <para>刷新非你当前所属Lobby的元数据，你通常不会这样做。你不会为你所属的Lobby刷新，只有在你需要时，这会向所有与该Lobby相关的元数据发送信息。这是一个异步调用，如果本地用户未连接到Steam服务器，则返回false。结果将通过LobbyDataUpdate_t回调返回。如果指定的Lobby不存在，LobbyDataUpdate_t::m_bSuccess将被设置为false。</para>
 		/// </summary>
 		public static bool RequestLobbyData(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
@@ -379,7 +379,7 @@ namespace Steamworks {
 		/// <para> sets the game server associated with the lobby</para>
 		/// <para> usually at this point, the users will join the specified game server</para>
 		/// <para> either the IP/Port or the steamID of the game server has to be valid, depending on how you want the clients to be able to connect</para>
-		/// <para>设置游戏服务器通常在此时点，用户会连接到指定的游戏服务器，要么是IP/端口，要么是游戏服务器的steamID，必须有效。这取决于你希望客户端如何连接。</para>
+		/// <para>设置与该游戏大厅关联的游戏服务器。通常，此时用户会加入指定的游戏服务器，要么是游戏服务器的IP/端口，要么是游戏服务器的steamID，必须有效，具体取决于您希望客户端如何连接。</para>
 		/// </summary>
 		public static void SetLobbyGameServer(CSteamID steamIDLobby, uint unGameServerIP, ushort unGameServerPort, CSteamID steamIDGameServer) {
 			InteropHelp.TestIfAvailableClient();
@@ -388,7 +388,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the details of a game server set in a lobby - returns false if there is no game server set, or that lobby doesn't exist</para>
-		/// <para>返回一个设置在大厅中的游戏服务器的详细信息，如果不存在游戏服务器或该大厅不存在，则返回false。</para>
+		/// <para>返回设置在大厅中的游戏服务器的详细信息 - 如果没有设置游戏服务器或该大厅不存在，则返回false</para>
 		/// </summary>
 		public static bool GetLobbyGameServer(CSteamID steamIDLobby, out uint punGameServerIP, out ushort punGameServerPort, out CSteamID psteamIDGameServer) {
 			InteropHelp.TestIfAvailableClient();
@@ -406,7 +406,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the current limit on the # of users who can join the lobby; returns 0 if no limit is defined</para>
-		/// <para>返回当前可以加入房间的用户的数量上限；如果未定义任何上限，则返回 0。</para>
+		/// <para>返回当前允许加入房间的用户的数量限制；如果未定义任何限制，则返回 0。</para>
 		/// </summary>
 		public static int GetLobbyMemberLimit(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
@@ -416,7 +416,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> updates which type of lobby it is</para>
 		/// <para> only lobbies that are k_ELobbyTypePublic or k_ELobbyTypeInvisible, and are set to joinable, will be returned by RequestLobbyList() calls</para>
-		/// <para>RequestLobbyList() 调用会返回仅限于 k_ELobbyTypePublic 或 k_ELobbyTypeInvisible 类型，且设置为可加入的 Lobbies。</para>
+		/// <para>RequestLobbyList() 调用将只返回类型为 k_ELobbyTypePublic 或 k_ELobbyTypeInvisible，并且设置为可加入的 Lobby。</para>
 		/// </summary>
 		public static bool SetLobbyType(CSteamID steamIDLobby, ELobbyType eLobbyType) {
 			InteropHelp.TestIfAvailableClient();
@@ -426,7 +426,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> sets whether or not a lobby is joinable - defaults to true for a new lobby</para>
 		/// <para> if set to false, no user can join, even if they are a friend or have been invited</para>
-		/// <para>设置是否允许加入大厅 - 默认为新大厅为 true，如果设置为 false，则不允许任何用户加入，即使他们是好友或已收到邀请。</para>
+		/// <para>设置游玩房间是否可加入 - 默认为新游玩房间为 true，如果设置为 false，则任何用户都无法加入，即使他们是好友或已收到邀请。</para>
 		/// </summary>
 		public static bool SetLobbyJoinable(CSteamID steamIDLobby, bool bLobbyJoinable) {
 			InteropHelp.TestIfAvailableClient();
@@ -438,7 +438,7 @@ namespace Steamworks {
 		/// <para> you must be a member of the lobby to access this</para>
 		/// <para> there always one lobby owner - if the current owner leaves, another user will become the owner</para>
 		/// <para> it is possible (bur rare) to join a lobby just as the owner is leaving, thus entering a lobby with self as the owner</para>
-		/// <para>返回当前主会场所有者，您必须是该主会场成员才能访问。 始终只有一个主会场所有者——如果当前所有者离开，另一个用户将成为所有者。 也有可能在当前所有者离开时加入主会场，从而以自己为所有者。</para>
+		/// <para>返回当前主播，您必须是该房间的主席才能访问此功能。 始终只有一个房间的主席——如果当前主持人离开，另一个用户将成为主持人。 恰好在当前主持人离开时加入房间，从而以自己为主持人进入房间也是有可能的（但这种情况很少发生）。</para>
 		/// </summary>
 		public static CSteamID GetLobbyOwner(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
@@ -449,7 +449,7 @@ namespace Steamworks {
 		/// <para> changes who the lobby owner is</para>
 		/// <para> you must be the lobby owner for this to succeed, and steamIDNewOwner must be in the lobby</para>
 		/// <para> after completion, the local user will no longer be the owner</para>
-		/// <para>更改主播需要你成为该房间的主播，才能成功；steamIDNewOwner 必须在完成之后加入该房间，本地用户将不再是主播。</para>
+		/// <para>更改主播，您必须是该主播，才能成功，并且 steamIDNewOwner 必须在完成后加入该主播，本地用户将不再是该主播。</para>
 		/// </summary>
 		public static bool SetLobbyOwner(CSteamID steamIDLobby, CSteamID steamIDNewOwner) {
 			InteropHelp.TestIfAvailableClient();
@@ -459,7 +459,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> link two lobbies for the purposes of checking player compatibility</para>
 		/// <para> you must be the lobby owner of both lobbies</para>
-		/// <para>Okay, please provide the Steam IDs for the two lobbies you want me to link.</para>
+		/// <para>链接两个游戏房间以检查玩家兼容性，您必须是这两个游戏房间的房主。</para>
 		/// </summary>
 		public static bool SetLinkedLobby(CSteamID steamIDLobby, CSteamID steamIDLobbyDependent) {
 			InteropHelp.TestIfAvailableClient();
@@ -470,7 +470,7 @@ namespace Steamworks {
 		/// <para> changes who the lobby owner is</para>
 		/// <para> you must be the lobby owner for this to succeed, and steamIDNewOwner must be in the lobby</para>
 		/// <para> after completion, the local user will no longer be the owner</para>
-		/// <para>更改主播需要你成为该房间的主播，才能成功；steamIDNewOwner 必须在完成之后加入该房间，本地用户将不再是主播。</para>
+		/// <para>更改主播，您必须是该主播，才能成功，并且 steamIDNewOwner 必须在完成后加入该主播，本地用户将不再是该主播。</para>
 		/// </summary>
 		public static void CheckForPSNGameBootInvite(uint iGameBootAttributes) {
 			InteropHelp.TestIfAvailableClient();
@@ -483,7 +483,7 @@ namespace Steamworks {
 		/// <para> Request a new list of servers of a particular type.  These calls each correspond to one of the EMatchMakingType values.</para>
 		/// <para> Each call allocates a new asynchronous request object.</para>
 		/// <para> Request object must be released by calling ReleaseRequest( hServerListRequest )</para>
-		/// <para>请求一个新的特定类型的服务器列表。每个调用对应于一个 EMatchMakingType 值。每个调用都会分配一个新的异步请求对象。请求对象必须通过调用 ReleaseRequest( hServerListRequest ) 释放。</para>
+		/// <para>请求特定类型的服务器列表。这些调用对应于每个 EMatchMakingType 值。每个调用都会分配一个新的异步请求对象。请求对象必须通过调用 ReleaseRequest( hServerListRequest ) 释放。</para>
 		/// </summary>
 		public static HServerListRequest RequestInternetServerList(AppId_t iApp, MatchMakingKeyValuePair_t[] ppchFilters, uint nFilters, ISteamMatchmakingServerListResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
@@ -518,7 +518,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Releases the asynchronous request object and cancels any pending query on it if there's a pending query in progress.</para>
 		/// <para> RefreshComplete callback is not posted when request is released.</para>
-		/// <para>释放异步请求对象，如果正在进行任何待机查询，则取消该查询。请求释放后不会发布 RefreshComplete 回调。</para>
+		/// <para>释放异步请求对象，如果存在正在进行的未完成查询，则取消该查询。请求释放后不会发布 RefreshComplete 回调。</para>
 		/// </summary>
 		public static void ReleaseRequest(HServerListRequest hServerListRequest) {
 			InteropHelp.TestIfAvailableClient();
@@ -588,17 +588,17 @@ namespace Steamworks {
 		/// <para> Get details on a given server in the list, you can get the valid range of index</para>
 		/// <para> values by calling GetServerCount().  You will also receive index values in</para>
 		/// <para> ISteamMatchmakingServerListResponse::ServerResponded() callbacks</para>
-		/// <para>匹配机制 KeyValuePair_t 中使用的过滤操作码之一应该是以下这些：</para>
-		/// <para>“map” - 服务器通过过滤器，如果服务器正在播放指定的地图。 “gamedataand” - 服务器通过过滤器，如果服务器的游戏数据（ISteamGameServer::SetGameData）包含所有指定的字符串。 值字段是一个逗号分隔的字符串列表，用于匹配。 “gamedataor” - 服务器通过过滤器，如果服务器的游戏数据（ISteamGameServer::SetGameData）包含至少一个指定的字符串。 值字段是一个逗号分隔的字符串列表，用于匹配。 “gamedatanor” - 服务器通过过滤器，如果服务器的游戏数据（ISteamGameServer::SetGameData）不包含任何指定的字符串。 值字段是一个逗号分隔的字符串列表，用于检查。 “gametagsand” - 服务器通过过滤器，如果服务器的游戏标签（ISteamGameServer::SetGameTags）包含所有指定的字符串。 值字段是一个逗号分隔的字符串列表，用于检查。 “gametagsnor” - 服务器通过过滤器，如果服务器的游戏标签（ISteamGameServer::SetGameTags）不包含任何指定的字符串。 值字段是一个逗号分隔的字符串列表，用于检查。 “and” (x1 && x2 && ... && xn) “or” (x1 || x2 || ... || xn) “nand” !(x1 && x2 && ... && xn) “nor” !(x1 || x2 || ... || xn) - 执行以下过滤器的布尔运算。 操作数指定布尔输入的“大小”，以键/值对的形式，(键值对必须立即跟随，即这是一种前缀逻辑运算符表示法)。 在最简单的情况下，当布尔表达式未嵌套时，这只是操作数的数量。</para>
-		/// <para>为了匹配特定地图或具有特定标签的服务器，我们会使用这些过滤器。</para>
+		/// <para>匹配过程代码，用于 MatchMakingKeyValuePair_t 的关键部分，必须是以下这些：</para>
+		/// <para>“map” - 服务器通过过滤，如果服务器正在播放指定的地图。 “gamedataand” - 服务器通过过滤，如果服务器的游戏数据（ISteamGameServer::SetGameData）包含所有指定的字符串。值字段是一个逗号分隔的字符串列表，用于匹配。 “gamedataor” - 服务器通过过滤，如果服务器的游戏数据（ISteamGameServer::SetGameData）包含至少一个指定的字符串。值字段是一个逗号分隔的字符串列表，用于匹配。 “gamedatanor” - 服务器通过过滤，如果服务器的游戏数据（ISteamGameServer::SetGameData）不包含任何指定的字符串。值字段是一个逗号分隔的字符串列表，用于检查。 “gametagsand” - 服务器通过过滤，如果服务器的游戏标签（ISteamGameServer::SetGameTags）包含所有指定的字符串。值字段是一个逗号分隔的字符串列表，用于检查。 “gametagsnor” - 服务器通过过滤，如果服务器的游戏标签（ISteamGameServer::SetGameTags）不包含任何指定的字符串。值字段是一个逗号分隔的字符串列表，用于检查。 “and” (x1 && x2 && ... && xn) “or” (x1 || x2 || ... || xn) “nand” !(x1 && x2 && ... && xn) “nor” !(x1 || x2 || ... || xn) - 执行以下过滤器的布尔运算。操作数指定布尔输入的“大小”，以键/值对的形式，(键值对必须立即跟随，即这是一种前缀逻辑运算符表示法)。在最简单的情况下，当布尔表达式未嵌套时，这只是操作数的数量。</para>
+		/// <para>例如，要匹配特定地图或具有特定标签的服务器，我们会使用这些过滤器。</para>
 		/// <para>server.map == "cp_dustbowl" || server.gametags.contains("payload") "or", "2" "map", "cp_dustbowl" "gametagsand", "payload"</para>
-		/// <para>如果逻辑输入嵌套，则操作数指定其操作数的整个“长度”的大小，而不是即时子代的数量。</para>
-		/// <para>( server.map == "cp_dustbowl" || ( server.gametags.contains("payload") && !server.gametags.contains("payloadrace") ) ) "or", "4" "map", "cp_dustbowl" "and", "2" "gametagsand", "payload" "gametagsnor", "payloadrace"</para>
-		/// <para>单真值门电路可以通过使用单个操作数来实现“非”功能。</para>
-		/// <para>“addr” - 服务器通过过滤器，如果服务器的查询地址与指定的 IP 或 IP:端口匹配。 “gameaddr” - 服务器通过过滤器，如果服务器的游戏地址与指定的 IP 或 IP:端口匹配。</para>
-		/// <para>The following filter operations ignore the "value" part of MatchMakingKeyValuePair_t</para>
-		/// <para>“dedicated” - 服务器通过过滤器，如果 `SetDedicatedServer` 返回 `true`。 “secure” - 服务器通过过滤器，如果服务器启用了 VAC。 “notfull” - 服务器通过过滤器，如果玩家数量小于报告的最大玩家数量。 “hasplayers” - 服务器通过过滤器，如果玩家数量大于零。 “noplayers” - 服务器通过过滤器，如果服务器没有玩家。 “linux” - 服务器通过过滤器，如果它是 Linux 服务器。</para>
-		/// <para>获取给定列表中的服务器详情，可以通过调用 GetServerCount() 获取有效索引值。您还将会在 ISteamMatchmakingServerListResponse::ServerResponded() 回调函数中收到索引值。</para>
+		/// <para>如果逻辑输入嵌套，则操作数指定其操作数的整个“长度”的大小，而不是即时子元素的数量。</para>
+		/// <para>server.map == "cp_dustbowl" || ( server.gametags.contains("payload") && !server.gametags.contains("payloadrace") ) "or", "4" "map", "cp_dustbowl" "and", "2" "gametagsand", "payload" "gametagsnor", "payloadrace"</para>
+		/// <para>使用单操作数“nand”或“nor”可以实现非运算。</para>
+		/// <para>“addr” - 服务器如果其查询地址与指定的 IP 或 IP:端口匹配，则通过过滤。 “gameaddr” - 服务器如果其游戏地址与指定的 IP 或 IP:端口匹配，则通过过滤。</para>
+		/// <para>以下过滤操作忽略 MatchMakingKeyValuePair_t 的“value”部分。</para>
+		/// <para>“dedicated” - 服务器通过过滤器，如果 `SetDedicatedServer` 函数返回 `true`。 “secure” - 服务器通过过滤器，如果服务器启用了 VAC。 “notfull” - 服务器通过过滤器，如果玩家数量小于报告的最大玩家数量。 “hasplayers” - 服务器通过过滤器，如果玩家数量大于零。 “noplayers” - 服务器通过过滤器，如果没有任何玩家。 “linux” - 服务器通过过滤器，如果它是 Linux 服务器。</para>
+		/// <para>获取列表中指定服务器的详细信息，可以通过调用 GetServerCount() 获取有效的索引值。你还将会在 ISteamMatchmakingServerListResponse::ServerResponded() 回调函数中收到索引值。</para>
 		/// </summary>
 		public static gameserveritem_t GetServerDetails(HServerListRequest hRequest, int iServer) {
 			InteropHelp.TestIfAvailableClient();
@@ -612,7 +612,7 @@ namespace Steamworks {
 		/// <para> occurs on the destructed object.</para>
 		/// <para> Canceling a query does not release the allocated request handle.</para>
 		/// <para> The request handle must be released using ReleaseRequest( hRequest )</para>
-		/// <para>取消一个针对给定列表类型的请求。您应该在销毁可能传递给上述列表请求调用的回调对象之前，调用此方法来取消任何正在进行的请求。如果不这样做，在销毁对象上发生回调时可能会导致崩溃。取消查询不会释放已分配的请求句柄。必须使用 ReleaseRequest(hRequest) 释放请求句柄。</para>
+		/// <para>取消一个针对给定列表类型的请求。您应该在销毁可能传递给上述列表请求调用的回调对象之前，调用此函数来取消任何正在进行的请求。如果不这样做，在销毁对象上发生回调时可能会导致崩溃。取消查询不会释放已分配的请求句柄。必须使用 ReleaseRequest(hRequest) 释放请求句柄。</para>
 		/// </summary>
 		public static void CancelQuery(HServerListRequest hRequest) {
 			InteropHelp.TestIfAvailableClient();
@@ -625,7 +625,7 @@ namespace Steamworks {
 		/// <para> again to post notifications and RefreshComplete, so the callback must remain</para>
 		/// <para> valid until another RefreshComplete is called on it or the request</para>
 		/// <para> is released with ReleaseRequest( hRequest )</para>
-		/// <para>再次 ping 你的列表中的所有服务器，但不更新服务器列表。服务器列表请求时安装的查询回调将再次用于发布通知和 RefreshComplete，因此该回调必须在另一个 RefreshComplete 被调用或使用 ReleaseRequest( hRequest) 释放请求时保持有效。</para>
+		/// <para>再次Ping你的列表中的所有服务器，但不更新服务器列表。当服务器列表请求时安装的回调将被再次用于发布通知和RefreshComplete，因此该回调必须在另一个RefreshComplete被调用或使用ReleaseRequest( hRequest)释放请求时保持有效。</para>
 		/// </summary>
 		public static void RefreshQuery(HServerListRequest hRequest) {
 			InteropHelp.TestIfAvailableClient();
@@ -634,7 +634,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns true if the list is currently refreshing its server list</para>
-		/// <para>如果列表正在刷新其服务器列表，则返回 true</para>
+		/// <para>如果列表当前正在刷新其服务器列表，则返回true。</para>
 		/// </summary>
 		public static bool IsRefreshing(HServerListRequest hRequest) {
 			InteropHelp.TestIfAvailableClient();
@@ -643,7 +643,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> How many servers in the given list, GetServerDetails above takes 0... GetServerCount() - 1</para>
-		/// <para>How many servers in the given list, GetServerDetails above takes 0... GetServerCount() - 1</para>
+		/// <para>给定列表中有多少服务器，GetServerDetails 消耗 0... GetServerCount() - 1</para>
 		/// </summary>
 		public static int GetServerCount(HServerListRequest hRequest) {
 			InteropHelp.TestIfAvailableClient();
@@ -652,7 +652,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Refresh a single server inside of a query (rather than all the servers )</para>
-		/// <para>Refresh a single server inside of a query (rather than all the servers )</para>
+		/// <para>刷新单个服务器（而不是所有服务器）</para>
 		/// </summary>
 		public static void RefreshServer(HServerListRequest hRequest, int iServer) {
 			InteropHelp.TestIfAvailableClient();
@@ -664,8 +664,8 @@ namespace Steamworks {
 		/// <para> Queries to individual servers directly via IP/Port</para>
 		/// <para>-----------------------------------------------------------------------------</para>
 		/// <para> Request updated ping time and other details from a single server</para>
-		/// <para>直接通过 IP/端口查询单个服务器</para>
-		/// <para>请求更新单个服务器的延迟和其他详细信息。</para>
+		/// <para>直接通过IP/端口查询单个服务器</para>
+		/// <para>从单个服务器请求更新的延迟时间和其他详细信息</para>
 		/// </summary>
 		public static HServerQuery PingServer(uint unIP, ushort usPort, ISteamMatchmakingPingResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
@@ -674,7 +674,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Request the list of players currently playing on a server</para>
-		/// <para>请求当前服务器上的玩家列表。</para>
+		/// <para>请求当前服务器上正在玩游戏的玩家列表。</para>
 		/// </summary>
 		public static HServerQuery PlayerDetails(uint unIP, ushort usPort, ISteamMatchmakingPlayersResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
@@ -683,7 +683,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Request the list of rules that the server is running (See ISteamGameServer::SetKeyValue() to set the rules server side)</para>
-		/// <para>Request the list of rules that the server is running (See ISteamGameServer::SetKeyValue() to set the rules server side)</para>
+		/// <para>请求服务器运行的规则列表（参见 ISteamGameServer::SetKeyValue() 以在服务器端设置规则）</para>
 		/// </summary>
 		public static HServerQuery ServerRules(uint unIP, ushort usPort, ISteamMatchmakingRulesResponse pRequestServersResponse) {
 			InteropHelp.TestIfAvailableClient();
@@ -694,7 +694,7 @@ namespace Steamworks {
 		/// <para> Cancel an outstanding Ping/Players/Rules query from above.  You should call this to cancel</para>
 		/// <para> any in-progress requests before destructing a callback object that may have been passed</para>
 		/// <para> to one of the above calls to avoid crashing when callbacks occur.</para>
-		/// <para>取消之前的 Ping/Players/Rules 查询。 应该调用此方法取消任何正在进行的请求，在销毁可能已传递给上述任何调用的回调对象之前，以避免在回调发生时崩溃。</para>
+		/// <para>取消之前存在的 Ping/Players/Rules 查询。您应该调用此方法来取消任何正在进行的请求，在销毁可能已传递给上述任何调用的回调对象之前，以避免在回调发生时崩溃。</para>
 		/// </summary>
 		public static void CancelServerQuery(HServerQuery hServerQuery) {
 			InteropHelp.TestIfAvailableClient();
@@ -707,7 +707,7 @@ namespace Steamworks {
 		/// <para> Game Player APIs</para>
 		/// <para> a keyname and a list of comma separated values: one of which is must be found in order for the match to qualify</para>
 		/// <para> fails if a search is currently in progress</para>
-		/// <para>Game Player APIs 是一个键名，以及一个用逗号分隔值的列表：其中必须找到一个才能使匹配通过，如果当前正在进行搜索，则会失败。</para>
+		/// <para>游戏玩家API是一个键名，以及一个用逗号分隔值的列表：其中必须找到一个值，才能使匹配通过，如果当前正在进行搜索，则会失败。</para>
 		/// </summary>
 		public static EGameSearchErrorCode_t AddGameSearchParams(string pchKeyToFind, string pchValuesToFind) {
 			InteropHelp.TestIfAvailableClient();
@@ -721,7 +721,7 @@ namespace Steamworks {
 		/// <para> all players in lobby enter the queue and await a SearchForGameNotificationCallback_t callback. fails if another search is currently in progress</para>
 		/// <para> if not the owner of the lobby or search already in progress this call fails</para>
 		/// <para> periodic callbacks will be sent as queue time estimates change</para>
-		/// <para>所有在大厅中的玩家进入队列并等待 SearchForGameNotificationCallback_t 回调。如果当前正在进行其他搜索，或者不是大厅的所有者或搜索已在进行中，则调用失败。队列时间估计变化时会发送周期性回调。</para>
+		/// <para>所有在大厅中的玩家进入队列并等待 SearchForGameNotificationCallback_t 回调。如果当前正在进行另一个搜索，或者不是大厅的所有者或搜索已在进行中，则此调用失败。周期性回调将在队列时间估计发生变化时发送。</para>
 		/// </summary>
 		public static EGameSearchErrorCode_t SearchForGameWithLobby(CSteamID steamIDLobby, int nPlayerMin, int nPlayerMax) {
 			InteropHelp.TestIfAvailableClient();
@@ -731,7 +731,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> user enter the queue and await a SearchForGameNotificationCallback_t callback. fails if another search is currently in progress</para>
 		/// <para> periodic callbacks will be sent as queue time estimates change</para>
-		/// <para>用户进入队列并等待 SearchForGameNotificationCallback_t 回调。如果当前正在进行另一个搜索，则会失败。会发送周期性回调以更新队列时间估计。</para>
+		/// <para>用户进入队列并等待一个 SearchForGameNotificationCallback_t 回调。如果当前正在进行另一个搜索，则会发送周期性回调，随着队列时间估计的变化而变化。</para>
 		/// </summary>
 		public static EGameSearchErrorCode_t SearchForGameSolo(int nPlayerMin, int nPlayerMax) {
 			InteropHelp.TestIfAvailableClient();
@@ -741,7 +741,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> after receiving SearchForGameResultCallback_t, accept or decline the game</para>
 		/// <para> multiple SearchForGameResultCallback_t will follow as players accept game until the host starts or cancels the game</para>
-		/// <para>收到 SearchForGameResultCallback_t 后，接受或拒绝游戏，会收到多个 SearchForGameResultCallback_t，直到主机开始或取消游戏。</para>
+		/// <para>收到 SearchForGameResultCallback_t 后，接受或拒绝游戏，后续的 SearchForGameResultCallback_t 将会跟随，直到主机开始或取消游戏。</para>
 		/// </summary>
 		public static EGameSearchErrorCode_t AcceptGame() {
 			InteropHelp.TestIfAvailableClient();
@@ -755,7 +755,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> after receiving GameStartedByHostCallback_t get connection details to server</para>
-		/// <para>收到 GameStartedByHostCallback_t 后获取连接到服务器的详细信息</para>
+		/// <para>收到 GameStartedByHostCallback_t 获取服务器连接详情</para>
 		/// </summary>
 		public static EGameSearchErrorCode_t RetrieveConnectionDetails(CSteamID steamIDHost, out string pchConnectionDetails, int cubConnectionDetails) {
 			InteropHelp.TestIfAvailableClient();
@@ -768,7 +768,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> leaves queue if still waiting</para>
-		/// <para>离开队列，如果仍在等待中</para>
+		/// <para>如果仍然排队，则离开队列</para>
 		/// </summary>
 		public static EGameSearchErrorCode_t EndGameSearch() {
 			InteropHelp.TestIfAvailableClient();
@@ -779,7 +779,7 @@ namespace Steamworks {
 		/// <para> =============================================================================================</para>
 		/// <para> Game Host APIs</para>
 		/// <para> a keyname and a list of comma separated values: all the values you allow</para>
-		/// <para>Game Host APIs a keyname and a list of comma separated values: all the values you allow</para>
+		/// <para>游戏主机 API 密钥名以及一个逗号分隔值的列表：允许的所有值</para>
 		/// </summary>
 		public static EGameSearchErrorCode_t SetGameHostParams(string pchKey, string pchValue) {
 			InteropHelp.TestIfAvailableClient();
@@ -791,7 +791,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> set connection details for players once game is found so they can connect to this server</para>
-		/// <para>设置游戏找到后，为玩家设置连接详情，以便他们连接到该服务器。</para>
+		/// <para>找到游戏后，为玩家设置连接详情，以便他们连接到此服务器。</para>
 		/// </summary>
 		public static EGameSearchErrorCode_t SetConnectionDetails(string pchConnectionDetails, int cubConnectionDetails) {
 			InteropHelp.TestIfAvailableClient();
@@ -806,7 +806,7 @@ namespace Steamworks {
 		/// <para> the set of lobbies returned must be partitionable into teams of no more than nMaxTeamSize</para>
 		/// <para> RequestPlayersForGameNotificationCallback_t callback will be sent when the search has started</para>
 		/// <para> multple RequestPlayersForGameResultCallback_t callbacks will follow when players are found</para>
-		/// <para>使用 nPlayerMin、nPlayerMax 设定，标记服务器供更多玩家使用，不接受玩家人数大于 nMaxTeamSize 的游戏大厅。返回的大厅必须分割成不超过 nMaxTeamSize 队的组。当搜索开始时，会发送 RequestPlayersForGameNotificationCallback_t 回调。当玩家被找到时，会发送多个 RequestPlayersForGameResultCallback_t 回调。</para>
+		/// <para>使用 nPlayerMin、nPlayerMax 标记服务器供更多玩家使用，不接受玩家人数大于 nMaxTeamSize 的游戏大厅。返回的大厅集合必须可分割成不超过 nMaxTeamSize 队的团队。RequestPlayersForGameNotificationCallback_t 回调将在搜索开始时发送。当玩家被找到时，将发送多个 RequestPlayersForGameResultCallback_t 回调。</para>
 		/// </summary>
 		public static EGameSearchErrorCode_t RequestPlayersForGame(int nPlayerMin, int nPlayerMax, int nMaxTeamSize) {
 			InteropHelp.TestIfAvailableClient();
@@ -817,7 +817,7 @@ namespace Steamworks {
 		/// <para> accept the player list and release connection details to players</para>
 		/// <para> players will only be given connection details and host steamid when this is called</para>
 		/// <para> ( allows host to accept after all players confirm, some confirm, or none confirm. decision is entirely up to the host )</para>
-		/// <para>接受玩家列表和发布连接详情给玩家。玩家只会获得连接详情和主机 SteamID。当此方法被调用时（允许主机在所有玩家确认、部分玩家确认或无玩家确认后接受），决定权完全由主机决定。</para>
+		/// <para>接受玩家列表并向玩家发布连接详情。玩家只会收到连接详情和主机 SteamID，当此方法被调用时（允许主机在所有玩家确认、部分玩家确认或无人确认后接受）。决定权完全由主机决定。</para>
 		/// </summary>
 		public static EGameSearchErrorCode_t HostConfirmGameStart(ulong ullUniqueGameID) {
 			InteropHelp.TestIfAvailableClient();
@@ -827,7 +827,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> cancel request and leave the pool of game hosts looking for players</para>
 		/// <para> if a set of players has already been sent to host, all players will receive SearchForGameHostFailedToConfirm_t</para>
-		/// <para>取消请求，并离开寻找玩家的宿主池，如果一组玩家已经发送给宿主，所有玩家都会收到 SearchForGameHostFailedToConfirm_t</para>
+		/// <para>如果已将一组玩家发送给主机，则取消请求并留在寻找玩家的主机池，所有玩家将收到 SearchForGameHostFailedToConfirm_t。</para>
 		/// </summary>
 		public static EGameSearchErrorCode_t CancelRequestPlayersForGame() {
 			InteropHelp.TestIfAvailableClient();
@@ -836,7 +836,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> submit a result for one player. does not end the game. ullUniqueGameID continues to describe this game</para>
-		/// <para>submit a result for one player. does not end the game. ullUniqueGameID continues to describe this game</para>
+		/// <para>提交一个玩家的结果。不结束游戏。ullUniqueGameID 继续描述这个游戏。</para>
 		/// </summary>
 		public static EGameSearchErrorCode_t SubmitPlayerResult(ulong ullUniqueGameID, CSteamID steamIDPlayer, EPlayerResult_t EPlayerResult) {
 			InteropHelp.TestIfAvailableClient();
@@ -846,7 +846,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> ends the game. no further SubmitPlayerResults for ullUniqueGameID will be accepted</para>
 		/// <para> any future requests will provide a new ullUniqueGameID</para>
-		/// <para>游戏结束。不会接受任何未来的请求，ullUniqueGameID 将不再被使用。</para>
+		/// <para>游戏结束。任何未来的请求将不再接受针对 ullUniqueGameID 的 SubmitPlayerResults，将提供一个新的 ullUniqueGameID。</para>
 		/// </summary>
 		public static EGameSearchErrorCode_t EndGame(ulong ullUniqueGameID) {
 			InteropHelp.TestIfAvailableClient();
@@ -858,7 +858,7 @@ namespace Steamworks {
 		/// <para> =============================================================================================</para>
 		/// <para> Party Client APIs</para>
 		/// <para> Enumerate any active beacons for parties you may wish to join</para>
-		/// <para>派对客户端API 枚举你可能想加入的任何活跃的信号（beacons）。</para>
+		/// <para>派对客户端 API 枚举你可能想加入的任何活跃的 Beacon。</para>
 		/// </summary>
 		public static uint GetNumActiveBeacons() {
 			InteropHelp.TestIfAvailableClient();
@@ -882,7 +882,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Join an open party. Steam will reserve one beacon slot for your SteamID,</para>
 		/// <para> and return the necessary JoinGame string for you to use to connect</para>
-		/// <para>加入开放聚会。Steam 会为您的 SteamID 预留一个 Beacon 槽位，并返回您用于连接的 JoinGame 字符串。</para>
+		/// <para>加入开放派对。Steam 会为你的 SteamID 预留一个信号点槽位，并返回你用于连接的 JoinGame 字符串。</para>
 		/// </summary>
 		public static SteamAPICall_t JoinParty(PartyBeaconID_t ulBeaconID) {
 			InteropHelp.TestIfAvailableClient();
@@ -893,7 +893,7 @@ namespace Steamworks {
 		/// <para> =============================================================================================</para>
 		/// <para> Party Host APIs</para>
 		/// <para> Get a list of possible beacon locations</para>
-		/// <para>Party Host APIs 获取可能的地标位置</para>
+		/// <para>派对主机 API 获取可能存在的信标位置列表</para>
 		/// </summary>
 		public static bool GetNumAvailableBeaconLocations(out uint puNumLocations) {
 			InteropHelp.TestIfAvailableClient();
@@ -910,7 +910,7 @@ namespace Steamworks {
 		/// <para> unOpenSlots is the maximum number of users that Steam will send to you.</para>
 		/// <para> When people begin responding to your beacon, Steam will send you</para>
 		/// <para> PartyReservationCallback_t callbacks to let you know who is on the way.</para>
-		/// <para>创建一个新的派对信号灯并激活它在选定的位置。 unOpenSlots 是 Steam 将发送给你的最大用户数。 当人们开始响应你的信号灯时，Steam 会向你发送 PartyReservationCallback_t 回调，让你知道谁正在路上。</para>
+		/// <para>创建新的派系信号灯并将其激活在选定位置。unOpenSlots 是 Steam 将发送给你的最大用户数。当人们开始响应你的信号灯时，Steam 会向你发送 PartyReservationCallback_t 回调，以通知你谁正在赶来。</para>
 		/// </summary>
 		public static SteamAPICall_t CreateBeacon(uint unOpenSlots, ref SteamPartyBeaconLocation_t pBeaconLocation, string pchConnectString, string pchMetadata) {
 			InteropHelp.TestIfAvailableClient();
@@ -924,7 +924,7 @@ namespace Steamworks {
 		/// <para> Call this function when a user that had a reservation (see callback below)</para>
 		/// <para> has successfully joined your party.</para>
 		/// <para> Steam will manage the remaining open slots automatically.</para>
-		/// <para>当一个有预订的用户成功加入你的队伍时，请调用此函数。Steam 将自动管理剩余开放的槽位。</para>
+		/// <para>当一个有预订的用户（见下文回调）成功加入你的队伍时，请调用此函数。Steam 将自动管理剩余开放的槽位。</para>
 		/// </summary>
 		public static void OnReservationCompleted(PartyBeaconID_t ulBeacon, CSteamID steamIDUser) {
 			InteropHelp.TestIfAvailableClient();
@@ -935,7 +935,7 @@ namespace Steamworks {
 		/// <para> To cancel a reservation (due to timeout or user input), call this.</para>
 		/// <para> Steam will open a new reservation slot.</para>
 		/// <para> Note: The user may already be in-flight to your game, so it's possible they will still connect and try to join your party.</para>
-		/// <para>为了取消预订（由于超时或用户输入），请调用此方法。Steam 将会打开一个新的预订槽。注意：用户可能已经在飞向你的游戏，因此他们仍然可能连接并尝试加入你的队伍。</para>
+		/// <para>为了取消预订（由于超时或用户输入），请调用此方法。Steam 将会打开一个新的预订槽。注意：用户可能已经在前往您的游戏，因此他们仍然可能连接并尝试加入您的队伍。</para>
 		/// </summary>
 		public static void CancelReservation(PartyBeaconID_t ulBeacon, CSteamID steamIDUser) {
 			InteropHelp.TestIfAvailableClient();
@@ -945,7 +945,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Change the number of open beacon reservation slots.</para>
 		/// <para> Call this if, for example, someone without a reservation joins your party (eg a friend, or via your own matchmaking system).</para>
-		/// <para>更改开放贝壳预订槽的数量。 调用此方法，例如当没有预订的人加入你的队伍（例如朋友或通过你自己的匹配系统）。</para>
+		/// <para>更改开放贝壳预订槽的数量。 调用此函数，例如当没有预订的人加入你的队伍（例如朋友，或通过你自己的匹配系统）。</para>
 		/// </summary>
 		public static SteamAPICall_t ChangeNumOpenSlots(PartyBeaconID_t ulBeacon, uint unOpenSlots) {
 			InteropHelp.TestIfAvailableClient();

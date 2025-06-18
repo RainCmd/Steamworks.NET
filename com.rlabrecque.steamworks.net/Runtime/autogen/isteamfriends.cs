@@ -22,7 +22,7 @@ namespace Steamworks {
 		/// <para> this is stored in UTF-8 format</para>
 		/// <para> like all the other interface functions that return a char *, it's important that this pointer is not saved</para>
 		/// <para> off; it will eventually be free'd or re-allocated</para>
-		/// <para>返回本地玩家的名字 - 保证不会为NULL。这个名字与用户的社区资料页面上相同，以UTF-8格式存储，就像所有返回char*的界面函数一样，重要的是不要保存这个指针，因为它最终会被释放或重新分配。</para>
+		/// <para>返回本地玩家的名字 - 保证不会为NULL。这个名字与用户的社区个人资料页面上相同。它以UTF-8格式存储，就像所有其他返回char*的界面函数一样。重要的是，这个指针不应该被保存，因为它最终会被释放或重新分配。</para>
 		/// </summary>
 		public static string GetPersonaName() {
 			InteropHelp.TestIfAvailableClient();
@@ -35,9 +35,9 @@ namespace Steamworks {
 		/// <para> The final results are available through the return value SteamAPICall_t, using SetPersonaNameResponse_t.</para>
 		/// <para> If the name change fails to happen on the server, then an additional global PersonaStateChange_t will be posted</para>
 		/// <para> to change the name back, in addition to the SetPersonaNameResponse_t callback.</para>
-		/// <para>设置玩家名称，将其存储在服务器上并发布给所有在线的朋友。更改会立即在本地生效，并发布一个 PersonaStateChange_t，假设成功。</para>
-		/// <para>最终结果可通过返回值 SteamAPICall_t，使用 SetPersonaNameResponse_t 获取。</para>
-		/// <para>如果名称更改失败，则会发布一个额外的全局 PersonaStateChange_t 来将名称更改回原样，此外还会收到 SetPersonaNameResponse_t 回调。</para>
+		/// <para>设置玩家名称，将其存储在服务器上并向所有在线好友发布更改。更改会立即在本地生效，并发布一个 PersonaStateChange_t，假设成功。</para>
+		/// <para>最终结果可通过返回值 SteamAPICall_t 获得，使用 SetPersonaNameResponse_t。</para>
+		/// <para>如果服务器端名称更改失败，则会发布一个额外的全局 PersonaStateChange_t 消息来将名称更改回原，此外还会收到 SetPersonaNameResponse_t 回调。</para>
 		/// </summary>
 		public static SteamAPICall_t SetPersonaName(string pchPersonaName) {
 			InteropHelp.TestIfAvailableClient();
@@ -59,7 +59,7 @@ namespace Steamworks {
 		/// <para> friend iteration</para>
 		/// <para> takes a set of k_EFriendFlags, and returns the number of users the client knows about who meet that criteria</para>
 		/// <para> then GetFriendByIndex() can then be used to return the id's of each of those users</para>
-		/// <para>朋友迭代接收一个 `kEFriendFlags` 集合，并返回客户端知道的符合该条件的用户的数量。然后可以使用 `GetFriendByIndex()` 函数返回这些用户的 ID。</para>
+		/// <para>朋友迭代会接受一个 `kEFriendFlags` 集合，并返回客户端知道的符合该条件的用户的数量。然后可以使用 `GetFriendByIndex()` 函数返回这些用户的 ID。</para>
 		/// </summary>
 		public static int GetFriendCount(EFriendFlags iFriendFlags) {
 			InteropHelp.TestIfAvailableClient();
@@ -71,7 +71,7 @@ namespace Steamworks {
 		/// <para> iFriend is a index of range [0, GetFriendCount())</para>
 		/// <para> iFriendsFlags must be the same value as used in GetFriendCount()</para>
 		/// <para> the returned CSteamID can then be used by all the functions below to access details about the user</para>
-		/// <para>返回一个用户 SteamID。iFriend 是 [0, GetFriendCount()) 范围内的索引。iFriendsFlags 必须与 GetFriendCount() 中使用相同的值。然后可以利用返回的 CSteamID 在所有下面的函数中访问该用户的详细信息。</para>
+		/// <para>返回一个iFriend的SteamID，iFriend的索引范围为[0, GetFriendCount())。iFriendsFlags的值必须与GetFriendCount()中使用的值相同。返回的CSteamID可以随后被所有下面的函数用于访问该用户的详细信息。</para>
 		/// </summary>
 		public static CSteamID GetFriendByIndex(int iFriend, EFriendFlags iFriendFlags) {
 			InteropHelp.TestIfAvailableClient();
@@ -90,7 +90,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> returns the current status of the specified user</para>
 		/// <para> this will only be known by the local user if steamIDFriend is in their friends list; on the same game server; in a chat room or lobby; or in a small group with the local user</para>
-		/// <para>如果指定用户的当前状态只由本地用户知道，前提是 steamIDFriend 在他们的好友列表中；在同一个游戏服务器；聊天室或大厅；或与本地用户一起组成的小组中。</para>
+		/// <para>返回指定用户的当前状态，只有本地用户才能知道；如果在同一游戏服务器、聊天室或大厅，或与本地用户一起组成小组中，则有效。</para>
 		/// </summary>
 		public static EPersonaState GetFriendPersonaState(CSteamID steamIDFriend) {
 			InteropHelp.TestIfAvailableClient();
@@ -101,7 +101,7 @@ namespace Steamworks {
 		/// <para> returns the name another user - guaranteed to not be NULL.</para>
 		/// <para> same rules as GetFriendPersonaState() apply as to whether or not the user knowns the name of the other user</para>
 		/// <para> note that on first joining a lobby, chat room or game server the local user will not known the name of the other users automatically; that information will arrive asyncronously</para>
-		/// <para>返回另一个用户的名称 - 保证不会为NULL。与GetFriendPersonaState()相同，关于用户是否知道其他用户名称的规则也适用。在首次加入聊天室、游戏服务器或Lobby时，本地用户不会自动知道其他用户的名称；该信息将异步到达。</para>
+		/// <para>返回另一个用户 - 保证不会为NULL。与 GetFriendPersonaState() 相同，关于用户是否知道另一个用户名称的规则适用。请注意，在首次加入聊天室、游戏服务器或Lobby时，本地用户不会自动知道其他用户的名称；该信息将异步到达。</para>
 		/// </summary>
 		public static string GetFriendPersonaName(CSteamID steamIDFriend) {
 			InteropHelp.TestIfAvailableClient();
@@ -110,7 +110,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns true if the friend is actually in a game, and fills in pFriendGameInfo with an extra details</para>
-		/// <para>如果朋友实际上正在游戏中，则将 pFriendGameInfo 填充额外的详细信息。</para>
+		/// <para>如果朋友实际上正在玩游戏，并且用 pFriendGameInfo 填充额外的详细信息。</para>
 		/// </summary>
 		public static bool GetFriendGamePlayed(CSteamID steamIDFriend, out FriendGameInfo_t pFriendGameInfo) {
 			InteropHelp.TestIfAvailableClient();
@@ -119,7 +119,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> accesses old friends names - returns an empty string when their are no more items in the history</para>
-		/// <para>访问旧朋友的名字 - 返回一个空字符串如果没有更多项目</para>
+		/// <para>访问旧朋友的名字 - 当没有更多历史记录时，返回一个空字符串。</para>
 		/// </summary>
 		public static string GetFriendPersonaNameHistory(CSteamID steamIDFriend, int iPersonaName) {
 			InteropHelp.TestIfAvailableClient();
@@ -128,7 +128,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> friends steam level</para>
-		/// <para>好友 Steam 级</para>
+		/// <para>好友Steam等级</para>
 		/// </summary>
 		public static int GetFriendSteamLevel(CSteamID steamIDFriend) {
 			InteropHelp.TestIfAvailableClient();
@@ -138,7 +138,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Returns nickname the current user has set for the specified player. Returns NULL if the no nickname has been set for that player.</para>
 		/// <para> DEPRECATED: GetPersonaName follows the Steam nickname preferences, so apps shouldn't need to care about nicknames explicitly.</para>
-		/// <para>返回指定玩家设置的当前用户昵称。如果未设置该玩家的昵称，则返回NULL。已废弃：GetPersonaName会遵循Steam昵称偏好，因此应用程序不应显式关心昵称。</para>
+		/// <para>返回指定玩家当前用户设置的昵称。如果该玩家未设置昵称，则返回NULL。已弃用：GetPersonaName遵循Steam昵称偏好，因此应用程序不应显式关心昵称。</para>
 		/// </summary>
 		public static string GetPlayerNickname(CSteamID steamIDPlayer) {
 			InteropHelp.TestIfAvailableClient();
@@ -148,7 +148,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> friend grouping (tag) apis</para>
 		/// <para> returns the number of friends groups</para>
-		/// <para>好友分组（标签）API 返回好友群组的数量。</para>
+		/// <para>好友分组（标签）API 返回好友组的数量</para>
 		/// </summary>
 		public static int GetFriendsGroupCount() {
 			InteropHelp.TestIfAvailableClient();
@@ -157,7 +157,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the friends group ID for the given index (invalid indices return k_FriendsGroupID_Invalid)</para>
-		/// <para>返回给定索引的“朋友组ID”（无效索引返回 k_FriendsGroupID_Invalid）</para>
+		/// <para>返回指定索引对应的好友组ID（无效索引返回k_FriendsGroupID_Invalid）</para>
 		/// </summary>
 		public static FriendsGroupID_t GetFriendsGroupIDByIndex(int iFG) {
 			InteropHelp.TestIfAvailableClient();
@@ -166,7 +166,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the name for the given friends group (NULL in the case of invalid friends group IDs)</para>
-		/// <para>returns the name for the given friends group (NULL in the case of invalid friends group IDs)</para>
+		/// <para>返回给定好友组的名称（如果好友组 ID 无效则返回 NULL）</para>
 		/// </summary>
 		public static string GetFriendsGroupName(FriendsGroupID_t friendsGroupID) {
 			InteropHelp.TestIfAvailableClient();
@@ -175,7 +175,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the number of members in a given friends group</para>
-		/// <para>返回给定好友群组中的成员数量。</para>
+		/// <para>返回给定好友组中的成员数量</para>
 		/// </summary>
 		public static int GetFriendsGroupMembersCount(FriendsGroupID_t friendsGroupID) {
 			InteropHelp.TestIfAvailableClient();
@@ -184,7 +184,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> gets up to nMembersCount members of the given friends group, if fewer exist than requested those positions' SteamIDs will be invalid</para>
-		/// <para>最多可以达到nMemberCount成员的指定好友组，如果好友组成员数量少于请求的数量，则这些SteamID将无效。</para>
+		/// <para>最多可以获得nMembersCount名给定好友组的成员，如果成员数少于请求数量，则这些SteamID将无效。</para>
 		/// </summary>
 		public static void GetFriendsGroupMembersList(FriendsGroupID_t friendsGroupID, CSteamID[] pOutSteamIDMembers, int nMembersCount) {
 			InteropHelp.TestIfAvailableClient();
@@ -194,7 +194,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> returns true if the specified user meets any of the criteria specified in iFriendFlags</para>
 		/// <para> iFriendFlags can be the union (binary or, |) of one or more k_EFriendFlags values</para>
-		/// <para>返回 true 如果指定的用户满足 iFriendFlags 中指定的任何标准。iFriendFlags 可以是 one 或 more k_EFriendFlags 值的并集（二进制或 |）。</para>
+		/// <para>如果指定的用户满足 iFriendFlags 中指定的任何标准，则返回 true。iFriendFlags 可以是多个 k_EFriendFlags 值的联合（二进制或 |）。</para>
 		/// </summary>
 		public static bool HasFriend(CSteamID steamIDFriend, EFriendFlags iFriendFlags) {
 			InteropHelp.TestIfAvailableClient();
@@ -227,7 +227,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the most recent information we have about what's happening in a clan</para>
-		/// <para>returns the most recent information we have about what's happening in a clan</para>
+		/// <para>返回我们对氏族中最新情况的信息。</para>
 		/// </summary>
 		public static bool GetClanActivityCounts(CSteamID steamIDClan, out int pnOnline, out int pnInGame, out int pnChatting) {
 			InteropHelp.TestIfAvailableClient();
@@ -236,7 +236,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> for clans a user is a member of, they will have reasonably up-to-date information, but for others you'll have to download the info to have the latest</para>
-		/// <para>对于用户加入的公会，他们会有相对及时的信息，但对于其他信息，你需要下载才能获取最新数据。</para>
+		/// <para>对于用户加入的公会，他们会有相当及时的信息，但对于其他人，您需要下载信息以获取最新信息。</para>
 		/// </summary>
 		public static SteamAPICall_t DownloadClanActivityCounts(CSteamID[] psteamIDClans, int cClansToRequest) {
 			InteropHelp.TestIfAvailableClient();
@@ -248,7 +248,7 @@ namespace Steamworks {
 		/// <para> note that large clans that cannot be iterated by the local user</para>
 		/// <para> note that the current user must be in a lobby to retrieve CSteamIDs of other users in that lobby</para>
 		/// <para> steamIDSource can be the steamID of a group, game server, lobby or chat room</para>
-		/// <para>迭代器用于获取聊天室、大厅、游戏服务器或公会中的用户。请注意，大型公会无法通过本地用户迭代，当前用户必须在大厅中才能检索该大厅中其他用户的 SteamIDSource 可以是群组、游戏服务器、大厅或聊天室的 SteamID</para>
+		/// <para>迭代器用于获取聊天室、大厅、游戏服务器或公会中的用户。请注意，无法通过本地用户迭代的大公会。当前用户必须在大厅中才能检索该大厅中其他用户的CSteamID。steamIDSource可以是群组、游戏服务器、大厅或聊天室的steamID。</para>
 		/// </summary>
 		public static int GetFriendCountFromSource(CSteamID steamIDSource) {
 			InteropHelp.TestIfAvailableClient();
@@ -262,7 +262,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns true if the local user can see that steamIDUser is a member or in steamIDSource</para>
-		/// <para>returns true if the local user can see that steamIDUser is a member or in steamIDSource</para>
+		/// <para>如果本地用户可以看到 steamIDUser 是一个成员或在 steamIDSource 中的成员，则返回 true</para>
 		/// </summary>
 		public static bool IsUserInSource(CSteamID steamIDUser, CSteamID steamIDSource) {
 			InteropHelp.TestIfAvailableClient();
@@ -271,7 +271,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> User is in a game pressing the talk button (will suppress the microphone for all voice comms from the Steam friends UI)</para>
-		/// <para>用户正在游戏中按下语音聊天按钮（将抑制所有 Steam 朋友 UI 的语音通信）。</para>
+		/// <para>用户正在游戏中按下语音聊天按钮（将会抑制 Steam 朋友 UI 中的所有语音通信麦克风）。</para>
 		/// </summary>
 		public static void SetInGameVoiceSpeaking(CSteamID steamIDUser, bool bSpeaking) {
 			InteropHelp.TestIfAvailableClient();
@@ -282,7 +282,7 @@ namespace Steamworks {
 		/// <para> activates the game overlay, with an optional dialog to open</para>
 		/// <para> valid options include "Friends", "Community", "Players", "Settings", "OfficialGameGroup", "Stats", "Achievements",</para>
 		/// <para> "chatroomgroup/nnnn"</para>
-		/// <para>激活游戏叠加层，并可选地显示对话框以打开有效选项，包括“Friends”、“Community”、“Players”、“Settings”、“OfficialGameGroup”、“Stats”、“Achievements”、“chatroomgroup/nnnn”</para>
+		/// <para>激活游戏叠加层，并可选地显示包含“Friends”、“Community”、“Players”、“Settings”、“OfficialGameGroup”、“Stats”、“Achievements”、“chatroomgroup/nnnn”等选项的对话框。</para>
 		/// </summary>
 		public static void ActivateGameOverlay(string pchDialog) {
 			InteropHelp.TestIfAvailableClient();
@@ -303,7 +303,7 @@ namespace Steamworks {
 		/// <para>		"friendremove" - opens the overlay in minimal mode prompting the user to remove the target friend</para>
 		/// <para>		"friendrequestaccept" - opens the overlay in minimal mode prompting the user to accept an incoming friend invite</para>
 		/// <para>		"friendrequestignore" - opens the overlay in minimal mode prompting the user to ignore an incoming friend invite</para>
-		/// <para>activates game overlay to a specific place valid options are "steamid" - opens the overlay web browser to the specified user or groups profile "chat" - opens a chat window to the specified user, or joins the group chat "jointrade" - opens a window to a Steam Trading session that was started with the ISteamEconomy/StartTrade Web API "stats" - opens the overlay web browser to the specified user's stats "achievements" - opens the overlay web browser to the specified user's achievements "friendadd" - opens the overlay in minimal mode prompting the user to add the target user as a friend "friendremove" - opens the overlay in minimal mode prompting the user to remove the target friend "friendrequestaccept" - opens the overlay in minimal mode prompting the user to accept an incoming friend invite "friendrequestignore" - opens the overlay in minimal mode prompting the user to ignore an incoming friend invite</para>
+		/// <para>激活游戏叠加层到特定位置，有效选项包括： "steamid" - 打开叠加层浏览器到指定用户或群组的个人资料 "chat" - 打开到指定用户的聊天窗口，或加入群聊 "jointrade" - 打开到 Steam 交易会的窗口，该交易会是通过 ISteamEconomy/StartTrade Web API 启动的 "stats" - 打开叠加层浏览器到指定用户的统计信息 "achievements" - 打开叠加层浏览器到指定用户的成就 "friendadd" - 在叠加层中以最小模式启动，提示用户添加目标用户为好友 "friendremove" - 在叠加层中以最小模式启动，提示用户移除目标好友 "friendrequestaccept" - 在叠加层中以最小模式启动，提示用户接受好友邀请 "friendrequestignore" - 在叠加层中以最小模式启动，提示用户忽略好友邀请</para>
 		/// </summary>
 		public static void ActivateGameOverlayToUser(string pchDialog, CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();
@@ -315,7 +315,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> activates game overlay web browser directly to the specified URL</para>
 		/// <para> full address with protocol type is required, e.g. http://www.steamgames.com/</para>
-		/// <para>激活游戏叠加层，直接打开指定URL完整地址，协议类型必须指定，例如：http://www.steamgames.com/</para>
+		/// <para>直接激活游戏叠加层，并将其网页浏览器指向指定的URL完整地址，包括协议类型，例如：http://www.steamgames.com/</para>
 		/// </summary>
 		public static void ActivateGameOverlayToWebPage(string pchURL, EActivateGameOverlayToWebPageMode eMode = EActivateGameOverlayToWebPageMode.k_EActivateGameOverlayToWebPageMode_Default) {
 			InteropHelp.TestIfAvailableClient();
@@ -326,7 +326,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> activates game overlay to store page for app</para>
-		/// <para>激活游戏叠加层以访问应用商店页面。</para>
+		/// <para>激活游戏叠加层以存储页面为应用</para>
 		/// </summary>
 		public static void ActivateGameOverlayToStore(AppId_t nAppID, EOverlayToStoreFlag eFlag) {
 			InteropHelp.TestIfAvailableClient();
@@ -336,7 +336,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Mark a target user as 'played with'. This is a client-side only feature that requires that the calling user is</para>
 		/// <para> in game</para>
-		/// <para>将目标用户标记为“一起玩过”。这是一个仅在客户端生效的功能，需要调用用户处于游戏中。</para>
+		/// <para>将目标用户标记为“一起玩过”。这是一个仅在客户端生效的功能，需要调用者正在游戏中。</para>
 		/// </summary>
 		public static void SetPlayedWith(CSteamID steamIDUserPlayedWith) {
 			InteropHelp.TestIfAvailableClient();
@@ -354,7 +354,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> gets the small (32x32) avatar of the current user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if none set</para>
-		/// <para>获取当前用户的较小（32x32）头像，作为用于 IClientUtils::GetImageRGBA() 的句柄，如果未设置则返回 0。</para>
+		/// <para>获取当前用户的较小 (32x32) 头像，这是一个用于在 IClientUtils::GetImageRGBA() 中使用的句柄，如果未设置则返回 0。</para>
 		/// </summary>
 		public static int GetSmallFriendAvatar(CSteamID steamIDFriend) {
 			InteropHelp.TestIfAvailableClient();
@@ -363,7 +363,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> gets the medium (64x64) avatar of the current user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if none set</para>
-		/// <para>获取当前用户的（64x64）头像，作为用于 IClientUtils::GetImageRGBA() 的句柄，如果未设置则返回 0。</para>
+		/// <para>获取当前用户的（64x64）头像，这是一个用于在IClientUtils::GetImageRGBA()中使用，如果未设置则返回0。</para>
 		/// </summary>
 		public static int GetMediumFriendAvatar(CSteamID steamIDFriend) {
 			InteropHelp.TestIfAvailableClient();
@@ -373,7 +373,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> gets the large (184x184) avatar of the current user, which is a handle to be used in IClientUtils::GetImageRGBA(), or 0 if none set</para>
 		/// <para> returns -1 if this image has yet to be loaded, in this case wait for a AvatarImageLoaded_t callback and then call this again</para>
-		/// <para>获取当前用户的较大（184x184）头像，作为用于 IClientUtils::GetImageRGBA() 的句柄，如果未设置则返回 0；如果此图像尚未加载，则返回 -1，此时等待 AvatarImageLoaded_t 回调并再次调用此函数。</para>
+		/// <para>获取当前用户的较大（184x184）头像，这是一个用于在IClientUtils::GetImageRGBA()中使用，如果未设置则返回0，如果此图像尚未加载，则返回-1，此时等待AvatarImageLoaded_t回调，然后再次调用此函数。</para>
 		/// </summary>
 		public static int GetLargeFriendAvatar(CSteamID steamIDFriend) {
 			InteropHelp.TestIfAvailableClient();
@@ -386,7 +386,7 @@ namespace Steamworks {
 		/// <para> - it's a lot slower to download avatars and churns the local cache, so if you don't need avatars, don't request them</para>
 		/// <para> if returns true, it means that data is being requested, and a PersonaStateChanged_t callback will be posted when it's retrieved</para>
 		/// <para> if returns false, it means that we already have all the details about that user, and functions can be called immediately</para>
-		/// <para>请求用户信息 - 姓名和头像。如果 `bRequireNameOnly` 设置为真，则不会下载用户的头像，因为下载头像速度较慢，会消耗本地缓存，所以如果不需要头像，则不要请求。如果返回 `true`，则表示正在请求数据，并且在获取数据后会发布 `PersonaStateChanged_t` 回调。如果返回 `false`，则表示我们已经拥有关于该用户的所有详细信息，并且可以立即调用函数。</para>
+		/// <para>请求关于用户的个人信息 - 姓名和头像，如果 `bRequireNameOnly` 设置为 true，则不会下载用户的头像 - 下载头像速度较慢，会消耗本地缓存，因此如果不需要头像，则不要请求它们。如果返回 true，表示正在请求数据，并且在获取数据后会发布一个 `PersonaStateChanged_t` 回调。如果返回 false，表示我们已经拥有关于该用户的所有详细信息，并且可以立即调用函数。</para>
 		/// </summary>
 		public static bool RequestUserInformation(CSteamID steamIDUser, bool bRequireNameOnly) {
 			InteropHelp.TestIfAvailableClient();
@@ -400,7 +400,7 @@ namespace Steamworks {
 		/// <para> you can only ask about clans that a user is a member of</para>
 		/// <para> note that this won't download avatars automatically; if you get an officer,</para>
 		/// <para> and no avatar image is available, call RequestUserInformation( steamID, false ) to download the avatar</para>
-		/// <para>请求关于完整的氏族官员列表信息，数据返回在 ClanOfficerListResponse_t 调用结果中可用。这使得下面的调用可用。只能询问用户是成员的氏族。请注意，这不会自动下载头像；如果获得官员，且没有可用的头像图像，请调用 RequestUserInformation( steamID, false ) 以下载头像。</para>
+		/// <para>请求关于氏族官员列表的信息，当数据完整时，数据将返回在 ClanOfficerListResponse_t 调用结果中，这使得下面的调用可用。只能询问用户是成员的氏族。请注意，这不会自动下载头像；如果获取到官员，且没有头像图像可用，请调用 RequestUserInformation( steamID, false ) 来下载头像。</para>
 		/// </summary>
 		public static SteamAPICall_t RequestClanOfficerList(CSteamID steamIDClan) {
 			InteropHelp.TestIfAvailableClient();
@@ -410,7 +410,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> iteration of clan officers - can only be done when a RequestClanOfficerList() call has completed</para>
 		/// <para> returns the steamID of the clan owner</para>
-		/// <para>迭代公会官员 - 只能在完成调用 RequestClanOfficerList() 时返回 SteamID 的公会所有者时执行。</para>
+		/// <para>迭代氏族官员 - 只能在完成 `RequestClanOfficerList()` 调用后返回氏族所有者的 steamID 时执行。</para>
 		/// </summary>
 		public static CSteamID GetClanOwner(CSteamID steamIDClan) {
 			InteropHelp.TestIfAvailableClient();
@@ -419,7 +419,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the number of officers in a clan (including the owner)</para>
-		/// <para>返回氏族中的军官数量（包括所有者）。</para>
+		/// <para>返回氏族中的军官数量（包括所有者）</para>
 		/// </summary>
 		public static int GetClanOfficerCount(CSteamID steamIDClan) {
 			InteropHelp.TestIfAvailableClient();
@@ -428,7 +428,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the steamID of a clan officer, by index, of range [0,GetClanOfficerCount)</para>
-		/// <para>返回氏族官员的 SteamID，通过索引，范围在 [0, GetClanOfficerCount) 之间。</para>
+		/// <para>返回氏族官员的 SteamID，通过索引，范围为 [0, GetClanOfficerCount)</para>
 		/// </summary>
 		public static CSteamID GetClanOfficerByIndex(CSteamID steamIDClan, int iOfficer) {
 			InteropHelp.TestIfAvailableClient();
@@ -439,7 +439,7 @@ namespace Steamworks {
 		/// <para> if current user is chat restricted, he can't send or receive any text/voice chat messages.</para>
 		/// <para> the user can't see custom avatars. But the user can be online and send/recv game invites.</para>
 		/// <para> a chat restricted user can't add friends or join any groups.</para>
-		/// <para>如果当前用户被聊天限制，他不能发送或接收任何文本/语音聊天消息。用户不能查看自定义头像。但是，用户可以保持在线状态并发送/接收游戏邀请。聊天限制用户不能添加好友或加入任何群组。</para>
+		/// <para>如果当前用户受到聊天限制，他不能发送或接收任何文本/语音聊天消息。用户不能查看自定义头像。但是，用户可以保持在线状态并发送/接收游戏邀请。一个受到聊天限制的用户不能添加好友或加入任何群组。</para>
 		/// </summary>
 		public static uint GetUserRestrictions() {
 			InteropHelp.TestIfAvailableClient();
@@ -463,7 +463,7 @@ namespace Steamworks {
 		/// <para> SetRichPresence() to a NULL or an empty string deletes the key</para>
 		/// <para> You can iterate the current set of keys for a friend with GetFriendRichPresenceKeyCount()</para>
 		/// <para> and GetFriendRichPresenceKeyByIndex() (typically only used for debugging)</para>
-		/// <para>好友之间会自动共享 Rich Presence 数据。每个用户拥有一组 Key/Value 键值对。请注意以下限制：k_cchMaxRichPresenceKeys、k_cchMaxRichPresenceKeyLength、k_cchMaxRichPresenceValueLength  有五个魔法键： "status" - 一个 UTF-8 字符串，会在 Steam 朋友列表中“查看游戏信息”对话框中显示； "connect" - 一个 UTF-8 字符串，包含好友可以连接游戏的命令行； "steam_display" - 指定一个 Rich Presence 本地化标记，将在观看用户选择的语言中 Steam 客户端 UI 中显示； 更多信息：https://partner.steamgames.com/doc/api/ISteamFriends#richpresencelocalization； "steam_player_group" - 当设置为非空时，指示 Steam 客户端玩家属于特定组； 组内的玩家可能会在 Steam UI 的各种位置进行组织； "steam_player_group_size" - 当设置为非空时，指示 steam_player_group 中的玩家总数； Steam 客户端可以使用此数字在用户不在该玩家好友列表中的情况下显示有关组的信息； GetFriendRichPresence() 如果没有设置任何值，则返回一个空字符串 ""； SetRichPresence() 将其设置为 NULL 或空字符串会删除键； 您可以使用 GetFriendRichPresenceKeyCount() 和 GetFriendRichPresenceKeyByIndex() 迭代当前键集（通常仅用于调试）</para>
+		/// <para>富友度数据会与同一局的朋友之间自动共享。每个用户拥有一组 Key/Value 对。请注意以下限制：k_cchMaxRichPresenceKeys、k_cchMaxRichPresenceKeyLength、k_cchMaxRichPresenceValueLength。  有五个魔法键： “status” - 一个 UTF-8 字符串，会在 Steam 朋友列表中“查看游戏信息”对话框中显示。 “connect” - 一个 UTF-8 字符串，包含朋友如何连接到游戏的命令行。 “steam_display” - 一个指代富友度本地化标记的字符串，将在观看用户的选定语言中 Steam 客户端 UI 中显示。 更多信息：https://partner.steamgames.com/doc/api/ISteamFriends#richpresencelocalization “steam_player_group” - 当设置时，指示 Steam 客户端玩家属于特定组。同一组的玩家可能会在 Steam UI 的各种位置一起组织。 “steam_player_group_size” - 当设置时，指示 steam_player_group 中的玩家总数。Steam 客户端可以使用此数字在所有成员不在用户好友列表中时显示有关组的额外信息。 GetFriendRichPresence() 如果没有设置任何值，则返回一个空字符串 ""。 SetRichPresence() 将其设置为 NULL 或一个空字符串会删除该键。 你可以使用 GetFriendRichPresenceKeyCount() 和 GetFriendRichPresenceKeyByIndex() 迭代当前键集（通常仅用于调试）。</para>
 		/// </summary>
 		public static bool SetRichPresence(string pchKey, string pchValue) {
 			InteropHelp.TestIfAvailableClient();
@@ -497,7 +497,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Requests rich presence for a specific user.</para>
-		/// <para>为特定用户显示游戏状态。</para>
+		/// <para>为特定用户显示Steam状态。</para>
 		/// </summary>
 		public static void RequestFriendRichPresence(CSteamID steamIDFriend) {
 			InteropHelp.TestIfAvailableClient();
@@ -508,7 +508,7 @@ namespace Steamworks {
 		/// <para> Rich invite support.</para>
 		/// <para> If the target accepts the invite, a GameRichPresenceJoinRequested_t callback is posted containing the connect string.</para>
 		/// <para> (Or you can configure your game so that it is passed on the command line instead.  This is a deprecated path; ask us if you really need this.)</para>
-		/// <para>Rich 邀请支持。如果目标接受邀请，将发布一个 GameRichPresenceJoinRequested_t 回调，其中包含连接字符串。 (或者你可以配置你的游戏使其通过命令行传递。 这是一个已弃用的路径；如果您真的需要它，请向我们咨询。)</para>
+		/// <para>Rich 邀请支持。如果目标接受邀请，将会发布一个 GameRichPresenceJoinRequested_t 回调，其中包含连接字符串。 (或者你可以配置你的游戏，使其通过命令行传递。 这是一个已弃用的路径；如果您确实需要它，请向我们咨询。)</para>
 		/// </summary>
 		public static bool InviteUserToGame(CSteamID steamIDFriend, string pchConnectString) {
 			InteropHelp.TestIfAvailableClient();
@@ -521,7 +521,7 @@ namespace Steamworks {
 		/// <para> recently-played-with friends iteration</para>
 		/// <para> this iterates the entire list of users recently played with, across games</para>
 		/// <para> GetFriendCoplayTime() returns as a unix time</para>
-		/// <para>最近一起游玩的朋友迭代，遍历所有最近一起游玩的用户，跨越游戏。GetFriendCoplayTime() 返回为 Unix 时间。</para>
+		/// <para>最近一起游玩好友迭代，此迭代遍历所有最近一起游玩的用户列表，跨越所有游戏。GetFriendCoplayTime() 返回值为 Unix 时间。</para>
 		/// </summary>
 		public static int GetCoplayFriendCount() {
 			InteropHelp.TestIfAvailableClient();
@@ -548,7 +548,7 @@ namespace Steamworks {
 		/// <para> this allows in-game access to group (clan) chats from in the game</para>
 		/// <para> the behavior is somewhat sophisticated, because the user may or may not be already in the group chat from outside the game or in the overlay</para>
 		/// <para> use ActivateGameOverlayToUser( "chat", steamIDClan ) to open the in-game overlay version of the chat</para>
-		/// <para>游戏聊天界面，允许从游戏中访问群组（公会）聊天。行为较为复杂，因为用户可能已经在游戏外加入群组聊天，或者通过叠加显示打开。使用 ActivateGameOverlayToUser("chat", steamIDClan) 打开游戏内叠加显示版本的聊天。</para>
+		/// <para>游戏聊天界面，这允许在游戏中访问组（公会）聊天。行为有些复杂，因为用户可能已经在游戏外已加入组聊，也可能在叠加显示中加入。使用 ActivateGameOverlayToUser( "chat", steamIDClan ) 打开游戏内的聊天叠加显示版本。</para>
 		/// </summary>
 		public static SteamAPICall_t JoinClanChatRoom(CSteamID steamIDClan) {
 			InteropHelp.TestIfAvailableClient();
@@ -593,7 +593,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> interact with the Steam (game overlay / desktop)</para>
-		/// <para>与 Steam (游戏叠加层/桌面) 互动</para>
+		/// <para>与Steam（游戏叠加/桌面）互动</para>
 		/// </summary>
 		public static bool IsClanChatWindowOpenInSteam(CSteamID steamIDClanChat) {
 			InteropHelp.TestIfAvailableClient();
@@ -613,7 +613,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> peer-to-peer chat interception</para>
 		/// <para> this is so you can show P2P chats inline in the game</para>
-		/// <para>点对点聊天截取，这是让你在游戏中内联显示P2P聊天。</para>
+		/// <para>点对点聊天截取，这是为了让你能在游戏中内联显示P2P聊天。</para>
 		/// </summary>
 		public static bool SetListenForFriendsMessages(bool bInterceptEnabled) {
 			InteropHelp.TestIfAvailableClient();
@@ -638,7 +638,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> following apis</para>
-		/// <para>遵循的API</para>
+		/// <para>以下API</para>
 		/// </summary>
 		public static SteamAPICall_t GetFollowerCount(CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();
@@ -671,8 +671,8 @@ namespace Steamworks {
 		/// <para> notification, and depends on user settings.</para>
 		/// <para> You can register for UnreadChatMessagesChanged_t callbacks to know when this</para>
 		/// <para> has potentially changed.</para>
-		/// <para>Return the number of chats (friends or chat rooms) with unread messages. A "priority" message is one that would generate some sort of toast or notification, and depends on user settings.</para>
-		/// <para>你可以注册 UnreadChatMessagesChanged_t 回调，以了解何时可能发生此更改。</para>
+		/// <para>返回具有未读消息的聊天数量（朋友或聊天室）。“优先级”消息是指会生成某种提示或通知的消息，取决于用户设置。</para>
+		/// <para>你可以注册 UnreadChatMessagesChanged_t 回调函数，以了解何时可能发生更改。</para>
 		/// </summary>
 		public static int GetNumChatsWithUnreadPriorityMessages() {
 			InteropHelp.TestIfAvailableClient();
@@ -681,7 +681,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> activates game overlay to open the remote play together invite dialog. Invitations will be sent for remote play together</para>
-		/// <para>激活游戏叠加层以打开远程一起玩邀请对话。邀请将发送给远程一起玩。</para>
+		/// <para>激活游戏叠加层以打开远程一起邀请对话。邀请将发送给远程一起。</para>
 		/// </summary>
 		public static void ActivateGameOverlayRemotePlayTogetherInviteDialog(CSteamID steamIDLobby) {
 			InteropHelp.TestIfAvailableClient();
@@ -692,7 +692,7 @@ namespace Steamworks {
 		/// <para> Call this before calling ActivateGameOverlayToWebPage() to have the Steam Overlay Browser block navigations</para>
 		/// <para> to your specified protocol (scheme) uris and instead dispatch a OverlayBrowserProtocolNavigation_t callback to your game.</para>
 		/// <para> ActivateGameOverlayToWebPage() must have been called with k_EActivateGameOverlayToWebPageMode_Modal</para>
-		/// <para>在调用 ActivateGameOverlayToWebPage() 之前，请调用 Call this 以阻止 Steam Overlay Browser 对您指定的协议 (scheme) URI 的导航，并代替将 OverlayBrowserProtocolNavigation_t 回调函数发送到您的游戏。 ActivateGameOverlayToWebPage() 必须已使用 k_EActivateGameOverlayToWebPageMode_Modal 调用。</para>
+		/// <para>请在调用 ActivateGameOverlayToWebPage() 之前调用此方法，以便 Steam Overlay Browser 阻止导航到您指定的协议 (scheme) URI，并代替将 OverlayBrowserProtocolNavigation_t 回调函数发送到您的游戏。ActivateGameOverlayToWebPage() 必须已使用 k_EActivateGameOverlayToWebPageMode_Modal 调用。</para>
 		/// </summary>
 		public static bool RegisterProtocolInOverlayBrowser(string pchProtocol) {
 			InteropHelp.TestIfAvailableClient();
@@ -715,7 +715,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Steam Community items equipped by a user on their profile</para>
 		/// <para> You can register for EquippedProfileItemsChanged_t to know when a friend has changed their equipped profile items</para>
-		/// <para>Steam社区物品用户在个人资料上装备的物品。你可以注册 EquippedProfileItemsChanged_t 以了解好友的装备变化。</para>
+		/// <para>Steam社区物品，用户在个人资料上装备的物品。你可以注册 EquippedProfileItemsChanged_t 来知道朋友的装备的个人资料物品是否发生变化。</para>
 		/// </summary>
 		public static SteamAPICall_t RequestEquippedProfileItems(CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();

@@ -27,7 +27,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Get the currently connected Steam Remote Play session ID at the specified index. Returns zero if index is out of bounds.</para>
-		/// <para>获取指定索引处的当前已连接的 Steam 远程播放会话 ID。如果索引超出范围，则返回 0。</para>
+		/// <para>获取当前已连接的Steam远程播放会话ID，在指定索引处。如果索引超出范围，则返回0。</para>
 		/// </summary>
 		public static RemotePlaySessionID_t GetSessionID(int iSessionIndex) {
 			InteropHelp.TestIfAvailableClient();
@@ -75,7 +75,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Start Remote Play Together and optionally show the UI in the overlay</para>
 		/// <para> This returns false if Remote Play Together can't be started or your game is not configured for Remote Play Together</para>
-		/// <para>开始远程一起玩，并可选地在叠加层中显示 UI。如果无法启动远程一起玩或你的游戏未配置为支持远程一起玩，则返回 false。</para>
+		/// <para>开始远程一起玩，并可选地在叠加层中显示UI。如果无法启动远程一起玩或你的游戏未配置为支持远程一起玩，则返回false。</para>
 		/// </summary>
 		public static bool BStartRemotePlayTogether(bool bShowOverlay = true) {
 			InteropHelp.TestIfAvailableClient();
@@ -86,7 +86,7 @@ namespace Steamworks {
 		/// <para> Invite a friend to Remote Play Together, or create a guest invite if steamIDFriend is empty</para>
 		/// <para> This will automatically start Remote Play Together if it hasn't already been started</para>
 		/// <para> This returns false if the invite can't be sent or your game is not configured for Remote Play Together</para>
-		/// <para>邀请好友到远程游玩，或者创建访客邀请，如果 steamIDFriend 为空则创建访客邀请。这将自动启动远程游玩，如果邀请无法发送或你的游戏未配置为远程游玩，则返回 false。</para>
+		/// <para>邀请一位朋友进行远程一起玩，或者创建访客邀请，如果 steamIDFriend 为空，则会自动启动远程一起玩。如果邀请无法发送或你的游戏未配置为远程一起玩，则返回 false。</para>
 		/// </summary>
 		public static bool BSendRemotePlayTogetherInvite(CSteamID steamIDFriend) {
 			InteropHelp.TestIfAvailableClient();

@@ -20,7 +20,7 @@ namespace Steamworks {
 		/// <para> Init and Shutdown must be called when starting/ending use of this interface.</para>
 		/// <para> if bExplicitlyCallRunFrame is called then you will need to manually call RunFrame</para>
 		/// <para> each frame, otherwise Steam Input will updated when SteamAPI_RunCallbacks() is called</para>
-		/// <para>初始化和关闭必须在启动/结束使用此接口时调用。如果 bExplicitlyCallRunFrame 为真，则需要手动在每一帧调用 RunFrame，否则 Steam Input 会在 SteamAPI_RunCallbacks() 被调用时更新。</para>
+		/// <para>启动和关闭必须在开始/结束使用此接口时调用。如果 bExplicitlyCallRunFrame 为真，则需要手动在每一帧调用 RunFrame，否则 Steam Input会在 SteamAPI_RunCallbacks()被调用时更新。</para>
 		/// </summary>
 		public static bool Init(bool bExplicitlyCallRunFrame) {
 			InteropHelp.TestIfAvailableClient();
@@ -36,7 +36,7 @@ namespace Steamworks {
 		/// <para> Set the absolute path to the Input Action Manifest file containing the in-game actions</para>
 		/// <para> and file paths to the official configurations. Used in games that bundle Steam Input</para>
 		/// <para> configurations inside of the game depot instead of using the Steam Workshop</para>
-		/// <para>设置输入动作 Manifest 文件的绝对路径，其中包含游戏内的动作以及官方配置文件的路径。用于在游戏捆绑了 Steam Input 配置，而不是使用 Steam Workshop 的游戏 depot 中。</para>
+		/// <para>设置输入动作清单文件的绝对路径，该清单文件包含游戏内的动作和官方配置的文件路径。用于那些在游戏 depot 中打包 Steam Input 配置，而不是使用 Steam Workshop 的游戏。</para>
 		/// </summary>
 		public static bool SetInputActionManifestFilePath(string pchInputActionManifestAbsolutePath) {
 			InteropHelp.TestIfAvailableClient();
@@ -51,7 +51,7 @@ namespace Steamworks {
 		/// <para> possible latency, you call this directly before reading controller state.</para>
 		/// <para> Note: This must be called from somewhere before GetConnectedControllers will</para>
 		/// <para> return any handles</para>
-		/// <para>同步API状态与最新的Steam输入动作数据。这由SteamAPI_RunCallbacks自动执行，但为了实现绝对最低的延迟，您应该在读取控制器状态之前直接调用它。注意：必须在GetConnectedControllers返回任何句柄之前调用它。</para>
+		/// <para>与最新的 Steam Input 行动数据同步 API 状态。这由 SteamAPI_RunCallbacks 自动执行，但为了实现绝对最低的延迟，您应该在读取控制器状态之前直接调用它。注意：必须在 GetConnectedControllers 返回任何句柄之前调用它。</para>
 		/// </summary>
 		public static void RunFrame(bool bReservedValue = true) {
 			InteropHelp.TestIfAvailableClient();
@@ -62,7 +62,7 @@ namespace Steamworks {
 		/// <para> Waits on an IPC event from Steam sent when there is new data to be fetched from</para>
 		/// <para> the data drop. Returns true when data was recievied before the timeout expires.</para>
 		/// <para> Useful for games with a dedicated input thread</para>
-		/// <para>等待来自 Steam 的 IPC 事件，当有新的数据需要从数据 drop 中获取时发送。在超时过期之前收到数据时返回 true。对于具有专用输入线程的游戏很有用。</para>
+		/// <para>等待来自 Steam 的 IPC 事件，当从数据降落点获取新数据时发送。在超时过期之前收到数据时返回 true。适用于具有专用输入线程的游戏。</para>
 		/// </summary>
 		public static bool BWaitForData(bool bWaitForever, uint unTimeout) {
 			InteropHelp.TestIfAvailableClient();
@@ -73,7 +73,7 @@ namespace Steamworks {
 		/// <para> Returns true if new data has been received since the last time action data was accessed</para>
 		/// <para> via GetDigitalActionData or GetAnalogActionData. The game will still need to call</para>
 		/// <para> SteamInput()-&gt;RunFrame() or SteamAPI_RunCallbacks() before this to update the data stream</para>
-		/// <para>如果新数据已收到自上次访问动作数据（通过 GetDigitalActionData 或 GetAnalogActionData）以来，则返回 true。游戏仍需要调用 SteamInput()->RunFrame() 或 SteamAPI_RunCallbacks() 以更新数据流。</para>
+		/// <para>如果收到新的数据，则返回 true，自上次访问动作数据（通过 GetDigitalActionData 或 GetAnalogActionData）以来。游戏仍需要在调用此方法之前调用 SteamInput()->RunFrame() 或 SteamAPI_RunCallbacks() 以更新数据流。</para>
 		/// </summary>
 		public static bool BNewDataAvailable() {
 			InteropHelp.TestIfAvailableClient();
@@ -85,7 +85,7 @@ namespace Steamworks {
 		/// <para> the Steam Input settings in the Steamworks site or users can opt-in in their controller settings in Steam.</para>
 		/// <para> handlesOut should point to a STEAM_INPUT_MAX_COUNT sized array of InputHandle_t handles</para>
 		/// <para> Returns the number of handles written to handlesOut</para>
-		/// <para>枚举当前已连接的 Steam Input 启用设备 - 开发者可以通过 Steam Input 设置中的 Steamworks 站点或在 Steam 控制器设置中进行选择，按类型（例如：Xbox/Playstation/等）进行控制器选择进行加入；handlesOut 应指向一个 STEAM_INPUT_MAX_COUNT 大小的 InputHandle_t handles 数组。返回写入到 handlesOut 数组中的 handle 数量。</para>
+		/// <para>枚举当前已连接的 Steam Input 启用设备 - 开发者可以通过 Steamworks 网站的 Steam Input 设置（例如：Xbox/Playstation/等类型）选择加入控制器，或者用户可以在 Steam 控制器设置中选择加入。handlesOut 应指向一个大小为 STEAM_INPUT_MAX_COUNT 的 InputHandle_t 数组。返回写入到 handlesOut 数组中的句柄数量。</para>
 		/// </summary>
 		public static int GetConnectedControllers(InputHandle_t[] handlesOut) {
 			InteropHelp.TestIfAvailableClient();
@@ -105,7 +105,7 @@ namespace Steamworks {
 		/// <para> Each controller that is already connected will generate a device connected</para>
 		/// <para> callback when you enable them</para>
 		/// <para>回调函数</para>
-		/// <para>手柄配置已加载 - 这些回调将始终触发，如果存在处理程序。注意：这将在 SteamInput()->RunFrame 或 SteamAPI_RunCallbacks 启用 SteamInputDeviceConnected_t 和 SteamInputDeviceDisconnected_t 回调时调用。已连接的所有手柄将在启用它们时生成设备连接回调。</para>
+		/// <para>控制器配置加载完毕 - 这些回调将在您有处理程序的情况下始终触发。注意：此函数在 SteamInput()->RunFrame 或 SteamAPI_RunCallbacks 中被调用，并且也调用了 SteamInputDeviceConnected_t 和 SteamInputDeviceDisconnected_t 回调。每个已连接的控制器在您启用它们时都会生成一个设备连接回调。</para>
 		/// </summary>
 		public static void EnableDeviceCallbacks() {
 			InteropHelp.TestIfAvailableClient();
@@ -124,7 +124,7 @@ namespace Steamworks {
 		/// <para> Enable SteamInputActionEvent_t callbacks. Directly calls your callback function</para>
 		/// <para> for lower latency than standard Steam callbacks. Supports one callback at a time.</para>
 		/// <para> Note: this is called within either SteamInput()-&gt;RunFrame or by SteamAPI_RunCallbacks</para>
-		/// <para>控制器已连接 - 提供有关单个新连接的控制器的信息。注意：此函数在 SteamInput()->RunFrame 或 SteamAPI_RunCallbacks 中调用。  控制器已断开连接 - 提供有关单个断开连接的控制器的信息。注意：此函数在 SteamInput()->RunFrame 或 SteamAPI_RunCallbacks 中调用。  使用游戏手柄模拟（XInput、DirectInput 等）的控制器将按照输入发送的顺序排列。此回调将在每个设备的第一个输入和用户通过 Steam 叠加层手动更改顺序时触发。此回调也包含设备类型信息，以便您无需进行额外的 API 调用即可更改符号集。启用 SteamInputActionEvent_t 回调。直接调用您的回调函数以获得更低的延迟，低于标准 Steam 回调。支持一次一个回调。</para>
+		/// <para>控制器连接 - 提供单个新连接控制器的信息。注意：此函数在 `SteamInput()->RunFrame` 或 `SteamAPI_RunCallbacks` 中调用。  控制器断开连接 - 提供单个断开连接控制器的信息。注意：此函数在 `SteamInput()->RunFrame` 或 `SteamAPI_RunCallbacks` 中调用。  使用游戏手柄模拟（XInput、DirectInput 等）的控制器将按照输入发送的顺序排列。此回调将在每个设备的第一个输入时触发，并且当用户通过 Steam 叠加层手动更改顺序时也会触发。此回调还包含设备类型信息，以便您可以在不进行额外的 API 调用的情况下更改符号集。启用 `SteamInputActionEvent_t` 回调。直接调用您的回调函数以获得低于标准 Steam 回调的延迟。支持一次一个回调。</para>
 		/// </summary>
 		public static void EnableActionEventCallbacks(SteamInputActionEventCallbackPointer pCallback) {
 			InteropHelp.TestIfAvailableClient();
@@ -136,7 +136,7 @@ namespace Steamworks {
 		/// <para> ACTION SETS</para>
 		/// <para>-----------------------------------------------------------------------------</para>
 		/// <para> Lookup the handle for an Action Set. Best to do this once on startup, and store the handles for all future API calls.</para>
-		/// <para>ACTION SETS</para>
+		/// <para>动作集</para>
 		/// <para>查找 Action Set 的句柄。最好在启动时一次性查找，并将所有未来的 API 调用中的句柄存储起来。</para>
 		/// </summary>
 		public static InputActionSetHandle_t GetActionSetHandle(string pszActionSetName) {
@@ -150,7 +150,7 @@ namespace Steamworks {
 		/// <para> Reconfigure the controller to use the specified action set (ie 'Menu', 'Walk' or 'Drive')</para>
 		/// <para> This is cheap, and can be safely called repeatedly. It's often easier to repeatedly call it in</para>
 		/// <para> your state loops, instead of trying to place it in all of your state transitions.</para>
-		/// <para>重新配置控制器以使用指定的动作集（例如“菜单”、“行走”或“驾驶”）。 这很廉价，可以安全地反复调用。 通常在状态循环中反复调用它更容易，而不是在所有状态转换中尝试放置它。</para>
+		/// <para>重新配置控制器以使用指定的动作集（例如“菜单”、“行走”或“驾驶”）。 这很廉价，可以安全地反复调用。 通常在状态循环中反复调用它更容易，而不是试图将其放在所有状态转换中。</para>
 		/// </summary>
 		public static void ActivateActionSet(InputHandle_t inputHandle, InputActionSetHandle_t actionSetHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -164,7 +164,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> ACTION SET LAYERS</para>
-		/// <para>ACTION SET LAYERS</para>
+		/// <para>动作集层</para>
 		/// </summary>
 		public static void ActivateActionSetLayer(InputHandle_t inputHandle, InputActionSetHandle_t actionSetLayerHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -185,7 +185,7 @@ namespace Steamworks {
 		/// <para> Enumerate currently active layers.</para>
 		/// <para> handlesOut should point to a STEAM_INPUT_MAX_ACTIVE_LAYERS sized array of InputActionSetHandle_t handles</para>
 		/// <para> Returns the number of handles written to handlesOut</para>
-		/// <para>枚举当前活动层。handlesOut 应指向一个 STEAM_INPUT_MAX_ACTIVE_LAYERS 大小的 InputActionSetHandle_t 数组。它返回写入到 handlesOut 数组中的句柄数量。</para>
+		/// <para>枚举当前活动层。handlesOut 应指向一个 STEAM_INPUT_MAX_ACTIVE_LAYERS 大小的 InputActionSetHandle_t 数组。返回写入到 handlesOut 数组中的句柄数量。</para>
 		/// </summary>
 		public static int GetActiveActionSetLayers(InputHandle_t inputHandle, InputActionSetHandle_t[] handlesOut) {
 			InteropHelp.TestIfAvailableClient();
@@ -200,8 +200,8 @@ namespace Steamworks {
 		/// <para> ACTIONS</para>
 		/// <para>-----------------------------------------------------------------------------</para>
 		/// <para> Lookup the handle for a digital action. Best to do this once on startup, and store the handles for all future API calls.</para>
-		/// <para>ACTIONS</para>
-		/// <para>Lookup the handle for a digital action. Best to do this once on startup, and store the handles for all future API calls.</para>
+		/// <para>动作</para>
+		/// <para>查找数字动作的句柄。最好在启动时一次性执行，并将所有未来的API调用中的句柄存储起来。</para>
 		/// </summary>
 		public static InputDigitalActionHandle_t GetDigitalActionHandle(string pszActionName) {
 			InteropHelp.TestIfAvailableClient();
@@ -212,7 +212,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns the current state of the supplied digital game action</para>
-		/// <para>返回所提供的数字游戏动作的当前状态。</para>
+		/// <para>返回所提供的数字游戏动作的当前状态</para>
 		/// </summary>
 		public static InputDigitalActionData_t GetDigitalActionData(InputHandle_t inputHandle, InputDigitalActionHandle_t digitalActionHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -223,7 +223,7 @@ namespace Steamworks {
 		/// <para> Get the origin(s) for a digital action within an action set. Returns the number of origins supplied in originsOut. Use this to display the appropriate on-screen prompt for the action.</para>
 		/// <para> originsOut should point to a STEAM_INPUT_MAX_ORIGINS sized array of EInputActionOrigin handles. The EInputActionOrigin enum will get extended as support for new controller controllers gets added to</para>
 		/// <para> the Steam client and will exceed the values from this header, please check bounds if you are using a look up table.</para>
-		/// <para>获取动作集内数字动作的来源(来源)。返回 `originsOut` 数组中来源的数量。使用此信息显示适当的屏幕提示。`originsOut` 应该指向一个 `STEAM_INPUT_MAX_ORIGINS` 大小的 `EInputActionOrigin` 处理程序的数组。`EInputActionOrigin` 枚举将随着 Steam 客户端中新控制器支持的增加而扩展，并且将超过此标题中的值，请在您使用查找表时检查边界。</para>
+		/// <para>获取动作集中的数字动作的起源(s)。返回起源数组中提供的数量。使用此方法显示动作的适当屏幕提示。起源数组应指向一个大小为 `STEAM_INPUT_MAX_ORIGINS` 的 `EInputActionOrigin` 处理程序数组。`EInputActionOrigin` 枚举将随着 Steam 客户端中新控制器支持的增加而扩展，并且将超过此标题中的值，因此如果使用查找表，请检查边界。</para>
 		/// </summary>
 		public static int GetDigitalActionOrigins(InputHandle_t inputHandle, InputActionSetHandle_t actionSetHandle, InputDigitalActionHandle_t digitalActionHandle, EInputActionOrigin[] originsOut) {
 			InteropHelp.TestIfAvailableClient();
@@ -235,7 +235,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns a localized string (from Steam's language setting) for the user-facing action name corresponding to the specified handle</para>
-		/// <para>返回一个本地化的字符串（来自 Steam 的语言设置）作为用户界面上对应指定处理的动作名称。</para>
+		/// <para>返回一个本地化的字符串（来自 Steam 的语言设置）作为用户界面上对应指定句柄的操作名称。</para>
 		/// </summary>
 		public static string GetStringForDigitalActionName(InputDigitalActionHandle_t eActionHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -244,7 +244,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Lookup the handle for an analog action. Best to do this once on startup, and store the handles for all future API calls.</para>
-		/// <para>查找模拟动作的句柄。最好在启动时一次性执行，并将所有未来的 API 调用中的句柄存储起来。</para>
+		/// <para>查找模拟动作的句柄。最好在启动时一次执行，并将所有后续 API 调用中的句柄存储起来。</para>
 		/// </summary>
 		public static InputAnalogActionHandle_t GetAnalogActionHandle(string pszActionName) {
 			InteropHelp.TestIfAvailableClient();
@@ -255,7 +255,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns the current state of these supplied analog game action</para>
-		/// <para>Returns the current state of these supplied analog game actions.</para>
+		/// <para>返回这些提供的模拟游戏动作的当前状态。</para>
 		/// </summary>
 		public static InputAnalogActionData_t GetAnalogActionData(InputHandle_t inputHandle, InputAnalogActionHandle_t analogActionHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -266,7 +266,7 @@ namespace Steamworks {
 		/// <para> Get the origin(s) for an analog action within an action set. Returns the number of origins supplied in originsOut. Use this to display the appropriate on-screen prompt for the action.</para>
 		/// <para> originsOut should point to a STEAM_INPUT_MAX_ORIGINS sized array of EInputActionOrigin handles. The EInputActionOrigin enum will get extended as support for new controller controllers gets added to</para>
 		/// <para> the Steam client and will exceed the values from this header, please check bounds if you are using a look up table.</para>
-		/// <para>获取动作集内等效动作的来源(s)。返回来源(s) 在 originsOut 中的数量。使用此信息显示适当的屏幕提示。originsOut 应该指向一个 STEAM_INPUT_MAX_ORIGINS 大小的 EInputActionOrigin 处理程序的数组。EInputActionOrigin 枚举将随着 Steam 客户端中新控制器支持的增加而扩展，并且将超过此标题中的值，请在使用查找表时检查边界。</para>
+		/// <para>获取动作集中的一个模拟动作的来源。返回 `originsOut` 中提供的来源数量。使用此方法显示动作的适当屏幕提示。`originsOut` 应该指向一个大小为 `STEAM_INPUT_MAX_ORIGINS` 的 `EInputActionOrigin` 处理程序的数组。`EInputActionOrigin` 枚举将随着新控制器支持添加到 Steam 客户端而扩展，并且将超过此标题中的值，因此如果使用查找表，请检查边界。</para>
 		/// </summary>
 		public static int GetAnalogActionOrigins(InputHandle_t inputHandle, InputActionSetHandle_t actionSetHandle, InputAnalogActionHandle_t analogActionHandle, EInputActionOrigin[] originsOut) {
 			InteropHelp.TestIfAvailableClient();
@@ -278,7 +278,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Get a local path to a PNG file for the provided origin's glyph.</para>
-		/// <para>请提供 origin 的 glyph。</para>
+		/// <para>获取来自给定Origin的符号的本地PNG文件路径。</para>
 		/// </summary>
 		public static string GetGlyphPNGForActionOrigin(EInputActionOrigin eOrigin, ESteamInputGlyphSize eSize, uint unFlags) {
 			InteropHelp.TestIfAvailableClient();
@@ -287,7 +287,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Get a local path to a SVG file for the provided origin's glyph.</para>
-		/// <para>请提供源文件，我将翻译成简体中文并输出。</para>
+		/// <para>获取提供源的符号对应的本地 SVG 文件路径。</para>
 		/// </summary>
 		public static string GetGlyphSVGForActionOrigin(EInputActionOrigin eOrigin, uint unFlags) {
 			InteropHelp.TestIfAvailableClient();
@@ -296,7 +296,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Get a local path to an older, Big Picture Mode-style PNG file for a particular origin</para>
-		/// <para>获取特定起源的旧版 Big Picture 模式 PNG 文件的本地路径</para>
+		/// <para>获取特定起源的旧版 Big Picture Mode 风格 PNG 文件的本地路径。</para>
 		/// </summary>
 		public static string GetGlyphForActionOrigin_Legacy(EInputActionOrigin eOrigin) {
 			InteropHelp.TestIfAvailableClient();
@@ -314,7 +314,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns a localized string (from Steam's language setting) for the user-facing action name corresponding to the specified handle</para>
-		/// <para>返回一个本地化的字符串（来自 Steam 的语言设置）作为用户界面上对应指定处理的动作名称。</para>
+		/// <para>返回一个本地化的字符串（来自 Steam 的语言设置）作为用户界面上对应指定句柄的操作名称。</para>
 		/// </summary>
 		public static string GetStringForAnalogActionName(InputAnalogActionHandle_t eActionHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -323,7 +323,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Stop analog momentum for the action if it is a mouse action in trackball mode</para>
-		/// <para>停止轨道模式下鼠标操作的模拟动量。</para>
+		/// <para>如果是在球形轨迹模式下，并且是鼠标操作，则停止模拟动量。</para>
 		/// </summary>
 		public static void StopAnalogActionMomentum(InputHandle_t inputHandle, InputAnalogActionHandle_t eAction) {
 			InteropHelp.TestIfAvailableClient();
@@ -344,8 +344,8 @@ namespace Steamworks {
 		/// <para> OUTPUTS</para>
 		/// <para>-----------------------------------------------------------------------------</para>
 		/// <para> Trigger a vibration event on supported controllers - Steam will translate these commands into haptic pulses for Steam Controllers</para>
-		/// <para>OUTPUTS</para>
-		/// <para>触发受支持控制器上的震动事件 - Steam会将这些命令翻译成Steam 控制器的触觉脉冲。</para>
+		/// <para>输出</para>
+		/// <para>触发支持的控制器上的震动事件 - Steam会将这些命令翻译为Steam 控制器的触觉脉冲。</para>
 		/// </summary>
 		public static void TriggerVibration(InputHandle_t inputHandle, ushort usLeftSpeed, ushort usRightSpeed) {
 			InteropHelp.TestIfAvailableClient();
@@ -354,7 +354,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Trigger a vibration event on supported controllers including Xbox trigger impulse rumble - Steam will translate these commands into haptic pulses for Steam Controllers</para>
-		/// <para>触发支持的控制器上的震动事件，包括 Xbox 触发脉冲震动 - Steam 将会将这些命令翻译为 Steam 控制器的触觉脉冲。</para>
+		/// <para>触发支持的控制器（包括 Xbox 触发器触感震动）上的震动事件 - Steam会将这些命令翻译为 Steam 控制器的触觉脉冲。</para>
 		/// </summary>
 		public static void TriggerVibrationExtended(InputHandle_t inputHandle, ushort usLeftSpeed, ushort usRightSpeed, ushort usLeftTriggerSpeed, ushort usRightTriggerSpeed) {
 			InteropHelp.TestIfAvailableClient();
@@ -363,7 +363,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Send a haptic pulse, works on Steam Deck and Steam Controller devices</para>
-		/// <para>发送触觉脉冲，适用于 Steam Deck 和 Steam 控制器设备。</para>
+		/// <para>发送一个触觉脉冲，适用于Steam Deck和Steam Controller设备。</para>
 		/// </summary>
 		public static void TriggerSimpleHapticEvent(InputHandle_t inputHandle, EControllerHapticLocation eHapticLocation, byte nIntensity, char nGainDB, byte nOtherIntensity, char nOtherGainDB) {
 			InteropHelp.TestIfAvailableClient();
@@ -373,7 +373,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Set the controller LED color on supported controllers. nFlags is a bitmask of values from ESteamInputLEDFlag - 0 will default to setting a color. Steam will handle</para>
 		/// <para> the behavior on exit of your program so you don't need to try restore the default as you are shutting down</para>
-		/// <para>设置支持的控制器LED颜色。nFlags是一个位掩码，包含来自ESteamInputLEDFlag的值。0将默认设置颜色。Steam将在你的程序退出时处理行为，因此你无需尝试恢复默认值，因为你正在关闭程序。</para>
+		/// <para>设置支持的控制器LED颜色。nFlags是一个位掩码，包含来自 ESteamInputLEDFlag 的值 - 0 将默认设置颜色。Steam会在你的程序退出时处理行为，因此你无需尝试恢复默认值，因为你正在关闭程序。</para>
 		/// </summary>
 		public static void SetLEDColor(InputHandle_t inputHandle, byte nColorR, byte nColorG, byte nColorB, uint nFlags) {
 			InteropHelp.TestIfAvailableClient();
@@ -383,7 +383,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Trigger a haptic pulse on a Steam Controller - if you are approximating rumble you may want to use TriggerVibration instead.</para>
 		/// <para> Good uses for Haptic pulses include chimes, noises, or directional gameplay feedback (taking damage, footstep locations, etc).</para>
-		/// <para>触发 Steam 控制器的触觉脉冲 - 如果您近似震动，可能需要使用 TriggerVibration。 触觉脉冲的良好用途包括铃声、声音或方向性游戏反馈（例如，受 daño、脚步位置等）。</para>
+		/// <para>触发Steam 控制器上的触觉脉冲 - 如果你正在模拟震动，你可能需要使用 TriggerVibration。 触觉脉冲的良好用途包括铃声、声音或方向性游戏反馈（例如，受到伤害、脚步位置等）。</para>
 		/// </summary>
 		public static void Legacy_TriggerHapticPulse(InputHandle_t inputHandle, ESteamControllerPad eTargetPad, ushort usDurationMicroSec) {
 			InteropHelp.TestIfAvailableClient();
@@ -393,7 +393,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Trigger a haptic pulse with a duty cycle of usDurationMicroSec / usOffMicroSec, unRepeat times. If you are approximating rumble you may want to use TriggerVibration instead.</para>
 		/// <para> nFlags is currently unused and reserved for future use.</para>
-		/// <para>触发一个触觉脉冲，具有一个周期为 usDurationMicroSec / usOffMicroSec，不重复 times 次。如果正在近似震动效果，建议使用 TriggerVibration。nFlags 当前未使用且保留用于未来使用。</para>
+		/// <para>触发一个具有周期为 usDurationMicroSec / usOffMicroSec 的触觉脉冲，重复 times 次。如果你正在模拟震动，可能想要使用 TriggerVibration。nFlags 当前未使用且保留用于未来使用。</para>
 		/// </summary>
 		public static void Legacy_TriggerRepeatedHapticPulse(InputHandle_t inputHandle, ESteamControllerPad eTargetPad, ushort usDurationMicroSec, ushort usOffMicroSec, ushort unRepeat, uint nFlags) {
 			InteropHelp.TestIfAvailableClient();
@@ -406,8 +406,8 @@ namespace Steamworks {
 		/// <para>-----------------------------------------------------------------------------</para>
 		/// <para> Invokes the Steam overlay and brings up the binding screen if the user is using Big Picture Mode</para>
 		/// <para> If the user is not in Big Picture Mode it will open up the binding in a new window</para>
-		/// <para>Utility functions available without using the rest of Steam Input API</para>
-		/// <para>如果用户正在使用 Big Picture 模式，则调用 Steam 叠加层并显示绑定屏幕。如果用户未在 Big Picture 模式下，则会在新窗口中打开绑定。</para>
+		/// <para>无需使用 Steam Input API 的其余部分，即可使用这些实用函数。</para>
+		/// <para>如果用户使用 Big Picture 模式，则调用 Steam 叠加层并显示绑定屏幕。如果用户未在 Big Picture 模式下，则会在新窗口中打开绑定。</para>
 		/// </summary>
 		public static bool ShowBindingPanel(InputHandle_t inputHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -427,7 +427,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Returns the associated controller handle for the specified emulated gamepad - can be used with the above 2 functions</para>
 		/// <para> to identify controllers presented to your game over Xinput. Returns 0 if the Xinput index isn't associated with Steam Input</para>
-		/// <para>返回与指定模拟游戏手柄关联的句柄 - 可用于与上述 2 个函数一起识别游戏通过 Xinput 呈现的控制器。 如果 Xinput 索引未与 Steam Input 相关联，则返回 0。</para>
+		/// <para>返回与指定模拟游戏手柄关联的控制器句柄 - 可用于与上述 2 个函数一起，识别游戏中通过 Xinput 呈现的控制器。如果 Xinput 索引与 Steam Input 不关联，则返回 0。</para>
 		/// </summary>
 		public static InputHandle_t GetControllerForGamepadIndex(int nIndex) {
 			InteropHelp.TestIfAvailableClient();
@@ -436,7 +436,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns the associated gamepad index for the specified controller, if emulating a gamepad or -1 if not associated with an Xinput index</para>
-		/// <para>返回指定控制器的关联游戏手柄索引，如果正在模拟游戏手柄则返回索引，否则返回 -1。</para>
+		/// <para>返回指定控制器关联的游戏手柄索引，如果模拟游戏手柄则返回该索引，否则返回 -1。</para>
 		/// </summary>
 		public static int GetGamepadIndexForController(InputHandle_t ulinputHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -445,7 +445,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns a localized string (from Steam's language setting) for the specified Xbox controller origin.</para>
-		/// <para>返回针对指定Xbox控制器原点的本地化字符串（来自Steam语言设置）。</para>
+		/// <para>返回来自 Xbox 控制器原点的本地化字符串（来自 Steam 的语言设置）。</para>
 		/// </summary>
 		public static string GetStringForXboxOrigin(EXboxOrigin eOrigin) {
 			InteropHelp.TestIfAvailableClient();
@@ -454,7 +454,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Get a local path to art for on-screen glyph for a particular Xbox controller origin</para>
-		/// <para>获取特定 Xbox 控制器原点上的屏幕符文所需的本地路径。</para>
+		/// <para>获取特定 Xbox 控制器原点上的屏幕符文使用的本地路径。</para>
 		/// </summary>
 		public static string GetGlyphForXboxOrigin(EXboxOrigin eOrigin) {
 			InteropHelp.TestIfAvailableClient();
@@ -464,7 +464,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Get the equivalent ActionOrigin for a given Xbox controller origin this can be chained with GetGlyphForActionOrigin to provide future proof glyphs for</para>
 		/// <para> non-Steam Input API action games. Note - this only translates the buttons directly and doesn't take into account any remapping a user has made in their configuration</para>
-		/// <para>获取给定 Xbox 控制器原点的等效 ActionOrigin，可以与 GetGlyphForActionOrigin 链接使用，以提供对非 Steam Input API 游戏未来的兼容性表情符号。注意 - 这仅翻译按钮，不考虑用户在其配置中进行的任何重新映射。</para>
+		/// <para>获取给定 Xbox 控制器原点的等效 ActionOrigin，这可以与 GetGlyphForActionOrigin 链接使用，以提供对非 Steam Input API 动作游戏未来的兼容性表情符号。注意 - 这仅翻译按钮本身，不考虑用户在其配置中进行的任何重新映射。</para>
 		/// </summary>
 		public static EInputActionOrigin GetActionOriginFromXboxOrigin(InputHandle_t inputHandle, EXboxOrigin eOrigin) {
 			InteropHelp.TestIfAvailableClient();
@@ -475,7 +475,7 @@ namespace Steamworks {
 		/// <para> Convert an origin to another controller type - for inputs not present on the other controller type this will return k_EInputActionOrigin_None</para>
 		/// <para> When a new input type is added you will be able to pass in k_ESteamInputType_Unknown and the closest origin that your version of the SDK recognized will be returned</para>
 		/// <para> ex: if a Playstation 5 controller was released this function would return Playstation 4 origins.</para>
-		/// <para>将一个原点转换为另一种控制器类型 - 对于其他控制器类型中不存在的输入，将返回 k_EInputActionOrigin_None。当新的输入类型被添加时，你可以传入 k_ESteamInputType_Unknown，并将 SDK 版本中识别的最接近的原点返回。例如，如果 PlayStation 5 控制器发布后，此函数将返回 PlayStation 4 的原点。</para>
+		/// <para>将 Origin 转换为另一种控制器类型 - 对于其他控制器类型上不存在的输入，此函数将返回 k_EInputActionOrigin_None。当添加新的输入类型时，你可以传入 k_ESteamInputType_Unknown，并返回 SDK 版本所识别的最接近的 Origin。例如：如果 PlayStation 5 控制器发布后，此函数将返回 PlayStation 4 的 Origin。</para>
 		/// </summary>
 		public static EInputActionOrigin TranslateActionOrigin(ESteamInputType eDestinationInputType, EInputActionOrigin eSourceOrigin) {
 			InteropHelp.TestIfAvailableClient();
@@ -484,7 +484,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Get the binding revision for a given device. Returns false if the handle was not valid or if a mapping is not yet loaded for the device</para>
-		/// <para>获取指定设备的绑定修订版。如果句柄无效或设备未加载映射，则返回false。</para>
+		/// <para>获取指定设备的Binding Revision。如果句柄无效或设备未加载映射，则返回false。</para>
 		/// </summary>
 		public static bool GetDeviceBindingRevision(InputHandle_t inputHandle, out int pMajor, out int pMinor) {
 			InteropHelp.TestIfAvailableClient();
@@ -513,7 +513,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Set the trigger effect for a DualSense controller</para>
-		/// <para>设置双肩触觉反馈效果</para>
+		/// <para>设置双肩触感器（DualSense）的触发器效果</para>
 		/// </summary>
 		public static void SetDualSenseTriggerEffect(InputHandle_t inputHandle, IntPtr pParam) {
 			InteropHelp.TestIfAvailableClient();

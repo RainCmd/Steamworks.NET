@@ -109,7 +109,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> volume is between 0.0 and 1.0</para>
-		/// <para>音量在 0.0 到 1.0 之间。</para>
+		/// <para>音量在 0.0 到 1.0 之间</para>
 		/// </summary>
 		public static bool UpdateVolume(float flValue) {
 			InteropHelp.TestIfAvailableClient();
@@ -118,7 +118,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Current Entry</para>
-		/// <para>Current Entry</para>
+		/// <para>当前条目</para>
 		/// </summary>
 		public static bool CurrentEntryWillChange() {
 			InteropHelp.TestIfAvailableClient();

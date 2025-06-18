@@ -42,8 +42,8 @@ namespace Steamworks {
 		/// <para> section of this interface (AllowStartRequest, etc) for more details. If you do</para>
 		/// <para> not implement these callback handlers, the browser may appear to hang instead of</para>
 		/// <para> navigating to new pages or triggering javascript popups.</para>
-		/// <para>创建一个浏览器对象，用于显示 HTML 页面。创建完成后，`handle` 将返回一个 `HTML_BrowserReady_t` 回调函数，用于你的新浏览器中的 `HHTMLBrowser`。用户代理字符串是一个子字符串，用于添加到通用的用户代理字符串中，以便在 Web 服务器上识别你的客户端。用户CSS 字符串允许你将 CSS 样式表应用于每个显示的页面，如果不需要此功能，则留空。</para>
-		/// <para>你必须实现 HANDLERS FOR HTML_BrowserReady_t, HTML_StartRequest_t, HTML_JSAlert_t, HTML_JSConfirm_t, 和 HTML_FileOpenDialog_t！ 参见 INTERFACE 的 CALLBACKS 部分（AllowStartRequest 等）以获取更多详细信息。 如果你不实现这些回调处理程序，浏览器可能会卡住，而不是导航到新页面或触发 JavaScript 弹出窗口。</para>
+		/// <para>为显示 HTML 页面创建一个浏览器对象，完成创建后，`handle` 将返回一个 `HTML_BrowserReady_t` 回调函数，用于你的新浏览器中的 `HHTMLBrowser`。用户代理字符串是一个要添加到通用用户代理字符串的子字符串，以便你在 Web 服务器上识别你的客户端。用户CSS 字符串允许你将 CSS 样式表应用于每个显示的页面，如果不需要此功能，请留空。</para>
+		/// <para>您必须实现 HANDLERS_t、HTML_StartRequest_t、HTML_JSAlert_t、HTML_JSConfirm_t 和 HTML_FileOpenDialog_t！请参阅此接口的 CALLBACKS 部分（AllowStartRequest 等）以获取更多详细信息。如果您未实现这些回调处理程序，浏览器可能会显示挂起，而不是导航到新页面或触发 JavaScript 弹出窗口。</para>
 		/// </summary>
 		public static SteamAPICall_t CreateBrowser(string pchUserAgent, string pchUserCSS) {
 			InteropHelp.TestIfAvailableClient();
@@ -55,7 +55,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Call this when you are done with a html surface, this lets us free the resources being used by it</para>
-		/// <para>请调用此方法在完成对 HTML 表面处理后，这能释放该表面所使用的资源。</para>
+		/// <para>当您完成处理 HTML 表面时，请调用此方法，这能释放该表面所使用的资源。</para>
 		/// </summary>
 		public static void RemoveBrowser(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -64,7 +64,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Navigate to this URL, results in a HTML_StartRequest_t as the request commences</para>
-		/// <para>导航到此 URL，结果生成一个 HTML_StartRequest_t 作为请求开始。</para>
+		/// <para>前往此 URL，会导致请求开始时生成一个 HTML_StartRequest_t 对象。</para>
 		/// </summary>
 		public static void LoadURL(HHTMLBrowser unBrowserHandle, string pchURL, string pchPostData) {
 			InteropHelp.TestIfAvailableClient();
@@ -76,7 +76,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Tells the surface the size in pixels to display the surface</para>
-		/// <para>告知表面以像素显示表面的尺寸。</para>
+		/// <para>告知表面以像素大小显示表面</para>
 		/// </summary>
 		public static void SetSize(HHTMLBrowser unBrowserHandle, uint unWidth, uint unHeight) {
 			InteropHelp.TestIfAvailableClient();
@@ -85,7 +85,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Stop the load of the current html page</para>
-		/// <para>停止当前 HTML 页面的加载。</para>
+		/// <para>停止当前 HTML 页面的加载</para>
 		/// </summary>
 		public static void StopLoad(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -103,7 +103,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> navigate back in the page history</para>
-		/// <para>返回页面历史</para>
+		/// <para>返回页面历史记录</para>
 		/// </summary>
 		public static void GoBack(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -112,7 +112,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> navigate forward in the page history</para>
-		/// <para>前进浏览页面历史</para>
+		/// <para>前进浏览页面历史记录</para>
 		/// </summary>
 		public static void GoForward(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -121,7 +121,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> add this header to any url requests from this browser</para>
-		/// <para>请提供需要添加的header信息。</para>
+		/// <para>将此标头添加到来自此浏览器的任何 URL 请求中。</para>
 		/// </summary>
 		public static void AddHeader(HHTMLBrowser unBrowserHandle, string pchKey, string pchValue) {
 			InteropHelp.TestIfAvailableClient();
@@ -133,7 +133,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> run this javascript script in the currently loaded page</para>
-		/// <para>运行当前页面中的 JavaScript 脚本。</para>
+		/// <para>在当前加载的页面中运行此 JavaScript 脚本</para>
 		/// </summary>
 		public static void ExecuteJavascript(HHTMLBrowser unBrowserHandle, string pchScript) {
 			InteropHelp.TestIfAvailableClient();
@@ -172,7 +172,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> nDelta is pixels of scroll</para>
-		/// <para>nDelta 是滚动像素</para>
+		/// <para>nDelta 是像素的滚动量</para>
 		/// </summary>
 		public static void MouseWheel(HHTMLBrowser unBrowserHandle, int nDelta) {
 			InteropHelp.TestIfAvailableClient();
@@ -182,7 +182,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> keyboard interactions, native keycode is the virtual key code value from your OS, system key flags the key to not</para>
 		/// <para> be sent as a typed character as well as a key down</para>
-		/// <para>键盘交互，原生键码是您操作系统中的虚拟键码值，系统键码用于标记键不作为按键字符发送，同时还标记键按下事件。</para>
+		/// <para>键盘交互，原生键码是您操作系统中的虚拟键码值，系统键位标志将键设置为不作为已输入的字符发送，以及键按下。</para>
 		/// </summary>
 		public static void KeyDown(HHTMLBrowser unBrowserHandle, uint nNativeKeyCode, EHTMLKeyModifiers eHTMLKeyModifiers, bool bIsSystemKey = false) {
 			InteropHelp.TestIfAvailableClient();
@@ -196,7 +196,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> cUnicodeChar is the unicode character point for this keypress (and potentially multiple chars per press)</para>
-		/// <para>cUnicodeChar is the Unicode character point for this keypress (and potentially multiple chars per press)</para>
+		/// <para>cUnicodeChar 是此按键操作的 Unicode 字符点（以及每次操作可能包含的多个字符）。</para>
 		/// </summary>
 		public static void KeyChar(HHTMLBrowser unBrowserHandle, uint cUnicodeChar, EHTMLKeyModifiers eHTMLKeyModifiers) {
 			InteropHelp.TestIfAvailableClient();
@@ -205,7 +205,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> programmatically scroll this many pixels on the page</para>
-		/// <para>程序性地滚动该数量的像素到页面上。</para>
+		/// <para>程序性地滚动该数量的像素。</para>
 		/// </summary>
 		public static void SetHorizontalScroll(HHTMLBrowser unBrowserHandle, uint nAbsolutePixelScroll) {
 			InteropHelp.TestIfAvailableClient();
@@ -219,7 +219,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> tell the html control if it has key focus currently, controls showing the I-beam cursor in text controls amongst other things</para>
-		/// <para>```html <input type="text" onfocus={() => {   // Add your logic here to handle focus events   console.log("Input control has focus"); }} /> ```</para>
+		/// <para>告知 HTML 控制元素，如果当前有键盘焦点，则显示文本控件中的 I 型光标等其他功能。</para>
 		/// </summary>
 		public static void SetKeyFocus(HHTMLBrowser unBrowserHandle, bool bHasKeyFocus) {
 			InteropHelp.TestIfAvailableClient();
@@ -228,7 +228,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> open the current pages html code in the local editor of choice, used for debugging</para>
-		/// <para>打开当前页面的 HTML 代码在您选择的本地编辑器中，用于调试。</para>
+		/// <para>打开当前页面的 HTML 代码，在您选择的本地编辑器中进行调试。</para>
 		/// </summary>
 		public static void ViewSource(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -237,7 +237,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> copy the currently selected text on the html page to the local clipboard</para>
-		/// <para>复制当前选中文本到本地剪贴板</para>
+		/// <para>将当前选中文本复制到本地剪贴板</para>
 		/// </summary>
 		public static void CopyToClipboard(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -246,7 +246,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> paste from the local clipboard to the current html page</para>
-		/// <para>复制从本地剪贴板到当前 HTML 页面</para>
+		/// <para>将本地剪贴板内容粘贴到当前 HTML 页面</para>
 		/// </summary>
 		public static void PasteFromClipboard(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -255,7 +255,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> find this string in the browser, if bCurrentlyInFind is true then instead cycle to the next matching element</para>
-		/// <para>查找该字符串在浏览器中，如果 bCurrentlyInFind 为 true 则循环到下一个匹配元素</para>
+		/// <para>如果在浏览器中找到这个字符串，如果 bCurrentlyInFind 为 true，则循环到下一个匹配的元素。</para>
 		/// </summary>
 		public static void Find(HHTMLBrowser unBrowserHandle, string pchSearchStr, bool bCurrentlyInFind, bool bReverse) {
 			InteropHelp.TestIfAvailableClient();
@@ -266,7 +266,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> cancel a currently running find</para>
-		/// <para>取消当前正在进行的find</para>
+		/// <para>取消正在运行的查找</para>
 		/// </summary>
 		public static void StopFind(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -275,7 +275,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> return details about the link at position x,y on the current page</para>
-		/// <para>返回当前页面上位置 x, y 的链接的详细信息。</para>
+		/// <para>返回当前页面上位置 x,y 的链接详情。</para>
 		/// </summary>
 		public static void GetLinkAtPosition(HHTMLBrowser unBrowserHandle, int x, int y) {
 			InteropHelp.TestIfAvailableClient();
@@ -284,7 +284,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> set a webcookie for the hostname in question</para>
-		/// <para>设置一个网站Cookie，用于指定该主机名。</para>
+		/// <para>为该主机名设置一个网络Cookie。</para>
 		/// </summary>
 		public static void SetCookie(string pchHostname, string pchKey, string pchValue, string pchPath = "/", uint nExpires = 0, bool bSecure = false, bool bHTTPOnly = false) {
 			InteropHelp.TestIfAvailableClient();
@@ -298,7 +298,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Zoom the current page by flZoom ( from 0.0 to 2.0, so to zoom to 120% use 1.2 ), zooming around point X,Y in the page (use 0,0 if you don't care)</para>
-		/// <para>放大当前页面，使用 flZoom (从 0.0 到 2.0 缩放，使用 1.2 达到 120% 缩放)，围绕点 X,Y 缩放 (使用 0,0 如果不关心)</para>
+		/// <para>使用 flZoom 调整当前页面缩放（范围为 0.0 到 2.0，使用 1.2 可以缩放至 120%），围绕页面上的点 X,Y 进行缩放（如果不在意，则使用 0,0）</para>
 		/// </summary>
 		public static void SetPageScaleFactor(HHTMLBrowser unBrowserHandle, float flZoom, int nPointX, int nPointY) {
 			InteropHelp.TestIfAvailableClient();
@@ -310,7 +310,7 @@ namespace Steamworks {
 		/// <para> more aggressively purged from memory, and audio/video elements are paused. When background mode is enabled,</para>
 		/// <para> all HTML5 video and audio objects will execute ".pause()" and gain the property "._steam_background_paused = 1".</para>
 		/// <para> When background mode is disabled, any video or audio objects with that property will resume with ".play()".</para>
-		/// <para>启用/禁用低资源背景模式，其中 JavaScript 和回车定时器会受到限制，内存会更积极地从缓存中清除，音频/视频元素会被暂停。当背景模式启用时，所有 HTML5 视频和音频对象都会执行 ".pause()" 并获得 "_steam_background_paused = 1" 属性。当背景模式禁用时，具有该属性的任何视频或音频对象都会恢复执行 ".play()"。</para>
+		/// <para>启用/禁用低资源背景模式，其中 JavaScript 和回车定时器会被限制，内存中更积极地清除资源，音频/视频元素会被暂停。当背景模式启用时，所有 HTML5 视频和音频对象都会执行 ".pause()" 并获得 "_steam_background_paused = 1" 属性。当背景模式禁用时，具有该属性的任何视频或音频对象都会使用 ".play()" 恢复播放。</para>
 		/// </summary>
 		public static void SetBackgroundMode(HHTMLBrowser unBrowserHandle, bool bBackgroundMode) {
 			InteropHelp.TestIfAvailableClient();
@@ -320,7 +320,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Scale the output display space by this factor, this is useful when displaying content on high dpi devices.</para>
 		/// <para> Specifies the ratio between physical and logical pixels.</para>
-		/// <para>调整输出显示空间，按此比例进行缩放，这在显示高 DPI 设备上的内容时非常有用。指定物理像素与逻辑像素之间的比率。</para>
+		/// <para>将输出显示空间按此比例缩放，这在向高 DPI 设备显示内容时很有用。指定物理像素与逻辑像素之间的比率。</para>
 		/// </summary>
 		public static void SetDPIScalingFactor(HHTMLBrowser unBrowserHandle, float flDPIScaling) {
 			InteropHelp.TestIfAvailableClient();
@@ -329,7 +329,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Open HTML/JS developer tools</para>
-		/// <para>打开 HTML/JS 开发者工具</para>
+		/// <para>开放 HTML/JS 开发工具</para>
 		/// </summary>
 		public static void OpenDeveloperTools(HHTMLBrowser unBrowserHandle) {
 			InteropHelp.TestIfAvailableClient();
@@ -345,7 +345,7 @@ namespace Steamworks {
 		/// <para> allowed in your HTML surface.</para>
 		/// <para>回调函数</para>
 		/// <para>这些函数组被用作回调请求的响应。</para>
-		/// <para>您必须通过调用 HTML_StartRequest_t 回调函数时，将 bAllowed 设置为 true 以允许此导航，false 以取消它并停留在当前页面。您可以使用此功能来限制允许的有效页面在您的 HTML 表面中。</para>
+		/// <para>您必须在响应 HTML_StartRequest_t 回调时，将 bAllowed 设置为 true 以允许此导航，将 bAllowed 设置为 false 以取消它并停留在当前页面。您可以使用此功能来限制允许的有效页面在您的 HTML 表面。</para>
 		/// </summary>
 		public static void AllowStartRequest(HHTMLBrowser unBrowserHandle, bool bAllowed) {
 			InteropHelp.TestIfAvailableClient();
@@ -355,7 +355,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> You MUST call this in response to a HTML_JSAlert_t or HTML_JSConfirm_t callback</para>
 		/// <para>  Set bResult to true for the OK option of a confirm, use false otherwise</para>
-		/// <para>必须在对 confirm 确认对话框的 OK 选项使用时，将 bResult 设置为 true，否则设置为 false。</para>
+		/// <para>您必须在对 HTML_JSAlert_t 或 HTML_JSConfirm_t 回调进行响应时调用它。将 bResult 设置为 true 以用于确认对话框的“确定”选项，否则设置为 false。</para>
 		/// </summary>
 		public static void JSDialogResponse(HHTMLBrowser unBrowserHandle, bool bResult) {
 			InteropHelp.TestIfAvailableClient();
@@ -364,7 +364,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> You MUST call this in response to a HTML_FileOpenDialog_t callback</para>
-		/// <para>您必须响应此回调。</para>
+		/// <para>您必须在对 HTML_FileOpenDialog_t 回调进行响应时调用它。</para>
 		/// </summary>
 		public static void FileLoadDialogResponse(HHTMLBrowser unBrowserHandle, IntPtr pchSelectedFiles) {
 			InteropHelp.TestIfAvailableClient();

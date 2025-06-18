@@ -31,9 +31,9 @@ namespace Steamworks {
 		/// <para> m_cbSize will be zero, and m_pfnFreeData will be NULL.  You will need to</para>
 		/// <para> set each of these.</para>
 		/// <para>高效消息发送</para>
-		/// <para>分配并初始化一个消息对象。通常你调用这个是因为要将其传递给 ISteamNetworkingSockets::SendMessages。返回的对象将具有所有相关字段清零。</para>
-		/// <para>如果 cbAllocateBuffer 不为零，系统将分配至少 cbAllocateBuffer 字节的内存来存储有效载荷。m_pData 将指向分配的缓冲区，m_cbSize 将被设置为大小，并且 m_pfnFreeData 将被设置为用于释放缓冲区的正确函数。</para>
-		/// <para>如果 cbAllocateBuffer=0，则不分配缓冲区。m_pData 将为 NULL，m_cbSize 将为零，m_pfnFreeData 将为 NULL。你需要设置这三个。</para>
+		/// <para>分配并初始化一个消息对象。通常你调用这个方法是将其传递给 ISteamNetworkingSockets::SendMessages。返回的对象将所有相关字段清零。</para>
+		/// <para>可选地，您还可以要求该系统为自身的数据包分配空间。如果 cbAllocateBuffer 不为零，系统将分配至少 cbAllocateBuffer 字节的内存来存储数据包。m_pData 将指向分配的缓冲区，m_cbSize 将设置为大小，m_pfnFreeData 将设置为用于释放缓冲区的正确函数。</para>
+		/// <para>如果 cbAllocateBuffer=0，则不分配缓冲区。m_pData 将为 NULL，m_cbSize 将为零，m_pfnFreeData 将为 NULL。你需要分别设置这三个。</para>
 		/// </summary>
 		public static IntPtr AllocateMessage(int cbAllocateBuffer) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -60,12 +60,12 @@ namespace Steamworks {
 		/// <para> to call this, since they do not make routing decisions.  However, if</para>
 		/// <para> the dedicated server will be using P2P functionality, it will act as</para>
 		/// <para> a "client" and this should be called.</para>
-		/// <para>Steam Datagram Relay (SDR) 网络访问</para>
+		/// <para>访问 Steam Datagram Relay (SDR) 网络</para>
 		/// <para>初始化和状态检查</para>
-		/// <para>如果您知道您将使用中继网络（例如，因为您预计将进行P2P连接），请调用此方法来初始化中继网络。 如果没有调用此方法，初始化将延迟到首次使用需要访问中继网络的特性时，届时会延迟首次访问。</para>
-		/// <para>你也可以用它来强制重试，如果之前的尝试失败了。 任何需要访问中继网络的动作也会触发重试，因此调用此函数在严格意义上是不必要的，但如果在预期访问中继网络时，可以在程序启动时调用它，可能会有用。</para>
-		/// <para>使用 GetRelayNetworkStatus 或监听 SteamRelayNetworkStatus_t 回调函数以了解初始化是否完成。通常初始化会在几秒钟内完成。</para>
-		/// <para>注意：在已知数据中心托管的专用服务器*不*需要调用此方法，因为它们不会进行路由决策。但是，如果专用服务器将使用 P2P 功能，它将作为“客户端”而调用此方法。</para>
+		/// <para>如果您知道您将使用中继网络（例如，因为您预计将进行P2P连接），请调用此方法来初始化中继网络。 如果您没有调用此方法，初始化将延迟到您首次使用需要访问中继网络的特性时，从而延迟首次访问。</para>
+		/// <para>你也可以通过调用此函数来强制重试，如果之前的尝试失败了。 任何需要访问中继网络的动作也会触发重试，因此调用此函数在严格意义上并不必要，但如果在预期访问中继网络时，在程序启动时调用它可能会有用。</para>
+		/// <para>使用GetRelayNetworkStatus或监听SteamRelayNetworkStatus_t回调，以了解初始化是否完成。通常初始化会在几秒钟内完成。</para>
+		/// <para>注意：在已知数据中心托管的专用服务器*不*需要调用此项，因为它们不会进行路由决策。但是，如果专用服务器将使用 P2P 功能，它将作为“客户端”而调用此项。</para>
 		/// </summary>
 		public static void InitRelayNetworkAccess() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -81,7 +81,7 @@ namespace Steamworks {
 		/// <para> more details, you can pass a non-NULL value.</para>
 		/// <para>获取当前中继网络状态。</para>
 		/// <para>SteamRelayNetworkStatus_t 也是一个回调。它会在用户和游戏服务器接口上任何状态改变、ping测量开始或停止时触发。</para>
-		/// <para>SteamRelayNetworkStatus_t::m_eAvail 返回。 如果您需要更多细节，可以传递一个非NULL值。</para>
+		/// <para>SteamRelayNetworkStatus_t::m_eAvail 返回可用状态。如果需要更多细节，可以传递一个非NULL值。</para>
 		/// </summary>
 		public static ESteamNetworkingAvailability GetRelayNetworkStatus(out SteamRelayNetworkStatus_t pDetails) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -109,12 +109,12 @@ namespace Steamworks {
 		/// <para> the data may not be available yet.</para>
 		/// <para> This always return the most up-to-date information we have available</para>
 		/// <para> right now, even if we are in the middle of re-calculating ping times.</para>
-		/// <para>“Ping location” 功能</para>
-		/// <para>我们使用到Valve部署在全球各地的继电器的时间（ping times）来生成一个“标记”，描述一个互联网主机的地理位置。 针对两个这样的标记，我们可以估计两个主机之间的网络延迟，而无需发送任何数据包。 这种估计是基于Valve网络中找到的最优路由。 如果您正在使用Valve网络传输流量，那么这就是您想要的时间（ping）测量。 如果您没有使用Valve网络传输流量，那么这个ping时间仍然可能是一个合理的估计。</para>
+		/// <para>“Ping 位置”功能</para>
+		/// <para>我们使用到全球部署的Valve继电器的时间戳（ping times）来生成一个“标记”，描述一个互联网主机的地理位置。 鉴于两个这样的标记，我们可以估计两个主机之间的网络延迟，而无需发送任何数据包。 估计基于通过Valve网络中找到的最优路由。 如果您正在使用Valve网络传输流量，那么这就是您想要的时间戳。 如果您没有，则时间戳仍然可能是一个合理的估计。</para>
 		/// <para>这对于选择匹配对手非常有用！</para>
-		/// <para>这些标记也可以转换为字符串，以便进行传输。您可以使用一个单独的库在应用程序的匹配/协调服务器上操作这些对象。 (参见 steamdatagram_gamecoordinator.h) 返回当前主机的地理位置信息。返回数据的近似年龄，以秒为单位，如果未提供数据则返回 -1。</para>
+		/// <para>这些标记也可以转换为字符串，以便进行传输。我们有一个单独的库，您可以在应用程序的匹配/协调服务器上使用，用于操纵这些对象。（参见 steamdatagram_gamecoordinator.h）返回当前主机的定位信息。返回数据的近似年龄，以秒为单位，如果未提供数据则返回 -1。</para>
 		/// <para>初始化对中继网络的访问需要几秒钟。如果在调用 InitRelayNetworkAccess 之后立即调用此方法，数据可能尚未可用。</para>
-		/// <para>这总是返回我们目前可用的最新信息，即使我们在重新计算延迟时间。</para>
+		/// <para>这始终返回我们目前可用的最新信息，即使我们在重新计算延迟时间时。</para>
 		/// </summary>
 		public static float GetLocalPingLocation(out SteamNetworkPingLocation_t result) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -140,11 +140,11 @@ namespace Steamworks {
 		/// <para> currently answer the question for some other reason.</para>
 		/// <para> Do you need to be able to do this from a backend/matchmaking server?</para>
 		/// <para> You are looking for the "game coordinator" library.</para>
-		/// <para>估计通过中继网络往返延迟，以毫秒为单位。这是一个保守的估计，基于路由。对于大多数基本的中继连接，这个延迟时间会相当准确，因为它将基于实际可能使用的路由。</para>
-		/// <para>如果使用直接 IP 路由（例如通过 NAT 穿透），则路由会不同，延迟可能会更好。或者，它实际上可能会更糟！标准 IP 路由经常是不理想的！</para>
-		/// <para>即使在这种情况下，使用这种方法获得的估计值仍然是对延迟时间的合理上限。 (此外，它具有立即返回且不发送任何数据包的优势。)</para>
-		/// <para>在某些情况下，我们可能无法估算路线。在这种情况下，返回一个负值。k_nSteamNetworkingPing_Failed表示原因是由于某些网络困难（如未成功ping等）。k_nSteamNetworkingPing_Unknown如果目前无法回答问题，则返回。</para>
-		/// <para>你需要能够从后端/匹配服务器执行这项任务吗？你正在寻找“游戏协调器”库。</para>
+		/// <para>估算两个任意位置之间的往返延迟，单位为毫秒。这是一个保守的估计，基于通过中继网络路由。对于大多数基本的中继连接，这个延迟时间会相当准确，因为它将基于实际可能使用的路由。</para>
+		/// <para>如果使用直接 IP 路由（例如通过 NAT 穿透），则路由会不同，延迟可能更好。或者，它可能实际上会稍微变差！标准 IP 路由经常是不理想的！</para>
+		/// <para>即使在这种情况下，使用这种方法获得的估计值仍然是延迟时间的合理上限。 (此外，它具有立即返回且不发送任何数据包的优势。)</para>
+		/// <para>在某些情况下，我们可能无法估算路线。在这种情况下，返回一个负值。k_nSteamNetworkingPing_Failed表示原因是由于一些网络问题（如未成功ping等）。k_nSteamNetworkingPing_Unknown表示我们目前无法以其他原因回答这个问题。</para>
+		/// <para>您需要从后端/匹配服务器执行此操作吗？您正在寻找“游戏协调器”库。</para>
 		/// </summary>
 		public static int EstimatePingTimeBetweenTwoLocations(ref SteamNetworkPingLocation_t location1, ref SteamNetworkPingLocation_t location2) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -159,8 +159,8 @@ namespace Steamworks {
 		/// <para> GetLocalPingLocation with EstimatePingTimeBetweenTwoLocations.  That's because</para>
 		/// <para> this function uses a slightly more complete set of information about what</para>
 		/// <para> route would be taken.</para>
-		/// <para>与 EstimatePingTime 相同，但假设一个位置是本地主机。这会更快一些，尤其是在需要循环计算大量这些值以找到最快的一个时。</para>
-		/// <para>在罕见情况下，这可能会返回与结合使用 GetLocalPingLocation 和 EstimatePingTimeBetweenTwoLocations 的方法返回的略有不同的估计值。这是因为该函数使用关于将采取的路线的稍微更完整的信息。</para>
+		/// <para>与EstimatePingTime相同，但假设一个位置是本地主机。这会更快，尤其是在需要循环计算大量这些值以找到最快的那个时。</para>
+		/// <para>在罕见情况下，这可能会返回与结合使用 GetLocalPingLocation 和 EstimatePingTimeBetweenTwoLocations 的方法略有不同的估算值。这是因为该函数使用关于将采取哪条路线的稍微更完整的信息集。</para>
 		/// </summary>
 		public static int EstimatePingTimeFromLocalHost(ref SteamNetworkPingLocation_t remoteLocation) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -172,7 +172,7 @@ namespace Steamworks {
 		/// <para> The format is a compact and human readable.  However, it is subject to change</para>
 		/// <para> so please do not parse it yourself.  Your buffer must be at least</para>
 		/// <para> k_cchMaxSteamNetworkingPingLocationString bytes.</para>
-		/// <para>Please provide the ping location data you want me to convert. I need the data itself to perform the translation and formatting.</para>
+		/// <para>将 Ping 位置转换为适合通过网络发送的文本格式。格式应简洁且易于阅读。但是，格式可能随时更改，请勿自行解析它。你的缓冲区必须至少为 k_cchMaxSteamNetworkingPingLocationString 字节。</para>
 		/// </summary>
 		public static void ConvertPingLocationToString(ref SteamNetworkPingLocation_t location, out string pszBuf, int cchBufSize) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -185,7 +185,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Parse back SteamNetworkPingLocation_t string.  Returns false if we couldn't understand</para>
 		/// <para> the string.</para>
-		/// <para>解析 SteamNetworkPingLocation_t 字符串。如果无法理解字符串，则返回 false。</para>
+		/// <para>解析回声的 SteamNetworkPingLocation_t 字符串。如果无法理解字符串，则返回 false。</para>
 		/// </summary>
 		public static bool ParsePingLocationString(string pszString, out SteamNetworkPingLocation_t result) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -210,10 +210,10 @@ namespace Steamworks {
 		/// <para> You can use GetRelayNetworkStatus or listen for SteamRelayNetworkStatus_t</para>
 		/// <para> to know when ping measurement completes.</para>
 		/// <para>检查是否有足够新鲜度的ping数据可用，如果数据太旧，则开始刷新它。</para>
-		/// <para>请仅在真正需要强制刷新数据时调用此函数。（例如，作为特定用户输入响应来刷新此信息。）不要“碰巧”在每次连接前调用它，这会发送不必要的额外流量。该库将自动在需要时刷新信息。</para>
-		/// <para>如果已经有足够新的数据，则返回 true。</para>
-		/// <para>如果缺乏足够近期的数据，则返回false。在这种情况下，会启动ping测量，如果它尚未激活。 (你无法重启正在进行的测量。)</para>
-		/// <para>你可以使用 GetRelayNetworkStatus 或监听 SteamRelayNetworkStatus_t 来知道 ping 测量是否完成。</para>
+		/// <para>请仅在您*确实*需要强制刷新数据时才调用此函数。 (例如，作为特定用户输入响应来更新此信息。) 不要“以防万一”在每次连接之前调用它等。 这会导致发送额外的流量，没有任何好处。 库会自动在需要时刷新信息。</para>
+		/// <para>如果已经有足够新的数据，则返回true。</para>
+		/// <para>如果无法获取足够近期的数据，则返回false。在这种情况下，会启动ping测量，如果它尚未激活。 (您无法重启正在进行的测量。)</para>
+		/// <para>你可以使用 GetRelayNetworkStatus 或监听 SteamRelayNetworkStatus_t 以了解何时完成 ping 测量。</para>
 		/// </summary>
 		public static bool CheckPingDataUpToDate(float flMaxAgeSeconds) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -226,8 +226,8 @@ namespace Steamworks {
 		/// <para> latency to a cloud data center where we are running relays.</para>
 		/// <para> Fetch ping time of best available relayed route from this host to</para>
 		/// <para> the specified data center.</para>
-		/// <para>I do not have access to a list of Valve data centers and their ping times. I am a language model and do not have real-time access to that kind of information. That data is proprietary to Valve.</para>
-		/// <para>从此主机到指定数据中心的最佳可用中继路由的延迟请求。</para>
+		/// <para>Valve数据中心列表，以及到它们的延迟时间。 这可能对您有帮助，如果您使用我们的托管服务，或者只是需要测量到云数据中心（我们运行中继服务器的地方）的延迟。</para>
+		/// <para>从本主机到指定数据中心的最佳可用中继路由的延迟获取。</para>
 		/// </summary>
 		public static int GetPingToDataCenter(SteamNetworkingPOPID popID, out SteamNetworkingPOPID pViaRelayPoP) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -236,7 +236,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Get *direct* ping time to the relays at the data center.</para>
-		/// <para>获取到数据中心复现器的直接延迟时间。</para>
+		/// <para>获取到数据中心复用站点的直接回延迟时间。</para>
 		/// </summary>
 		public static int GetDirectPingToPOP(SteamNetworkingPOPID popID) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -245,7 +245,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Get number of network points of presence in the config</para>
-		/// <para>获取配置中的网络点呢喃数量</para>
+		/// <para>获取配置中的网络点呢喃数量。</para>
 		/// </summary>
 		public static int GetPOPCount() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -279,10 +279,10 @@ namespace Steamworks {
 		/// <para> The value is only meaningful for this run of the process.  Don't compare</para>
 		/// <para> it to values obtained on another computer, or other runs of the same process.</para>
 		/// <para>杂项</para>
-		/// <para>获取当前时间戳。这个计时器具有以下特性：</para>
-		/// <para>-  monotonicity 保证。 - 初始值将至少为 24*3600*30*1e6，即大约 30 天份的微秒。 这样，0 的时间戳值将始终至少为“30 天前”。 - 环绕 / 溢出不是一个实际的顾虑。</para>
-		/// <para>如果在调试器下停止进程，时钟可能不会推进实际的墙时时间。如果进程没有被阻止进行正常操作，时间戳值会跟踪墙时时间，即使你没有频繁调用该函数。</para>
-		/// <para>这个值仅对本次流程有效。不要将其与在另一台计算机或其他本次流程中获得的数值进行比较。</para>
+		/// <para>获取当前时间戳。这个定时器具有以下属性：</para>
+		/// <para>单调性已保证。初始值至少为 24*3600*30*1e6，即大约 30 天份的微秒。 这样，0 的时间戳值始终至少为“30 天前”。 负数不会被返回。 环绕/溢出不是一个实际的顾虑。</para>
+		/// <para>如果在调试器下运行并停止进程，时钟可能不会推进实际经过的真实时间。如果进程没有被阻止正常运行，时间戳值会跟踪真实时间，即使你没有频繁调用该函数。</para>
+		/// <para>这个值仅在本次流程运行中才有意义。不要将其与在另一台计算机或同一流程的其他运行中获得的数值进行比较。</para>
 		/// </summary>
 		public static SteamNetworkingMicroseconds GetLocalTimestamp() {
 			InteropHelp.TestIfAvailableGameServer();
@@ -309,11 +309,11 @@ namespace Steamworks {
 		/// <para> IMPORTANT: This may be called from a service thread, while we own a mutex, etc.</para>
 		/// <para> Your output function must be threadsafe and fast!  Do not make any other</para>
 		/// <para> Steamworks calls from within the handler.</para>
-		/// <para>设置一个函数来接收与网络相关的有用信息，这在调试时非常有用，也可以帮助技术熟练的最终用户解决网络问题。如果客户可以查看控制台或其他日志，这些日志消息通常可以帮助解决网络问题。（尤其是任何警告/错误消息。）</para>
-		/// <para>细节级别指示您回调消息的触发方式。较低的数值意味着更重要，您传递的值是您希望接收回调的最低优先级（最高数值）。</para>
-		/// <para>此处的值控制大多数消息的详细程度。您可以通过调整配置值 k_ESteamNetworkingConfig_LogLevel_Xxxxx 来控制各种子系统的详细程度（可能仅针对某些连接）。</para>
-		/// <para>除非在调试时，否则应仅使用 k_ESteamNetworkingSocketsDebugOutputType_Msg 或 k_ESteamNetworkingSocketsDebugOutputType_Warning。为了获得最佳性能，不要请求高详细程度，然后在回调中过滤消息。这会产生格式化消息的所有费用，而这些消息随后会被丢弃。在此处设置高优先级值（低数值）允许该库避免执行此操作。</para>
-		/// <para>重要提示：此函数可能在服务线程中调用，同时我们拥有互斥锁等资源。您的输出函数必须是线程安全的且快速！请勿在此处理程序中进行任何其他Steamworks调用。</para>
+		/// <para>设置一个函数来接收与网络相关的调试信息。这在开发过程中非常有用，也可以帮助解决技术高手的用户遇到的问题。如果您有客户可以查看的控制台或日志，这些日志消息通常可以帮助您解决网络问题。（尤其是任何警告/错误消息。）</para>
+		/// <para>细节级别指示您在什么消息上调用回调函数。较低的数值意味着更重要，您传递的值是您希望接收回调函数的最低优先级（最高数值）。</para>
+		/// <para>此处的值控制大多数消息的详细程度。您可以通过调整配置值 k_ESteamNetworkingConfig_LogLevel_Xxxxx 来控制各种子系统（可能仅针对某些连接）的详细程度。</para>
+		/// <para>除非在调试时，否则你应该只使用 k_ESteamNetworkingSocketsDebugOutputType_Msg 或 k_ESteamNetworkingSocketsDebugOutputType_Warning。为了获得最佳性能，不要请求高详细程度，然后在回调中过滤消息。这会产生格式化消息的所有费用，而这些消息随后会被丢弃。设置高优先级值（低数值）在这里允许该库避免执行此操作。</para>
+		/// <para>重要提示：此函数可能在服务线程中调用，同时我们拥有互斥锁等资源。您的输出函数必须是线程安全的且快速！请勿在处理程序中进行任何其他 Steamworks 调用。</para>
 		/// </summary>
 		public static void SetDebugOutputFunction(ESteamNetworkingSocketsDebugOutputType eDetailLevel, FSteamNetworkingSocketsDebugOutput pfnFunc) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -326,9 +326,9 @@ namespace Steamworks {
 		/// <para> Return true if an IPv4 address is one that might be used as a "fake" one.</para>
 		/// <para> This function is fast; it just does some logical tests on the IP and does</para>
 		/// <para> not need to do any lookup operations.</para>
-		/// <para>虚假 IP</para>
-		/// <para>有用的方法是与假定同伴使用 IPv4 地址进行身份验证的代码进行交互。</para>
-		/// <para>返回一个 IPv4 地址是否可能被用作“假”地址。此函数速度快，它只进行一些逻辑测试，不需要进行任何查找操作。</para>
+		/// <para>假IP</para>
+		/// <para>适用于与使用 IPv4 地址识别同伴的代码进行交互。</para>
+		/// <para>如果一个 IPv4 地址可能被用作“假”地址，则返回 true。此函数速度快，它只进行一些逻辑测试，不需要进行任何查找操作。</para>
 		/// </summary>
 		public static bool IsFakeIPv4(uint nIPv4) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -351,9 +351,9 @@ namespace Steamworks {
 		/// <para> FakeIPs to save space.  It's reasonably safe to assume that you can read back the</para>
 		/// <para> real identity of a connection very soon after it is destroyed.  But do not wait</para>
 		/// <para> indefinitely.</para>
-		/// <para>获取与给定假IP地址关联的真实身份。</para>
-		/// <para>在失败时返回：- k_EResultInvalidParam：IP 不是 FakeIP。- k_EResultNoMatch：我们不认识这个 FakeIP，也不了解其对应的身份。</para>
-		/// <para>活跃连接使用的假IP，或分配给本地身份的假IP，始终有效。最近销毁的连接分配的假IP会继续返回结果一段时间，但不会永远。在某个时候，我们将忘记假IP以节省空间。可以合理地假设，在连接销毁后不久，您可以读取连接的真实身份。但是不要无限期地等待。</para>
+		/// <para>获取与给定 FakeIP 相关的真实身份。</para>
+		/// <para>在失败时，返回：- k_EResultInvalidParam：IP 不是 FakeIP。- k_EResultNoMatch：我们不认识这个 FakeIP，也不知道其对应的身份。</para>
+		/// <para>活跃连接使用的假IP，或分配给本地身份的假IP，始终有效。最近销毁的连接分配的假IP会继续返回结果一段时间，但不会永久存在。在某个时候，我们将忘记假IP以节省空间。可以合理地假设，在连接销毁后不久，您可以读取连接的真实身份。但是不要无限期地等待。</para>
 		/// </summary>
 		public static EResult GetRealIdentityForFakeIP(ref SteamNetworkingIPAddr fakeIP, out SteamNetworkingIdentity pOutRealIdentity) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -378,9 +378,9 @@ namespace Steamworks {
 		/// <para>   NOTE: When setting pointers (e.g. callback functions), do not pass the function pointer directly.</para>
 		/// <para>   Your argument should be a pointer to a function pointer.</para>
 		/// <para>设置和获取配置值，请参阅 ESteamNetworkingConfigValue 以获取详细描述。</para>
-		/// <para>常用情况快捷方式。 (已实现为下方的内联函数)</para>
-		/// <para>设置全局回调。如果您不想使用 Steam 的回调分发机制，并且想要在所有（或大多数）监听套接字和连接上使用相同的回调，只需首先安装这些回调，即可。请参见 ISteamNetworkingSockets::RunCallbacks</para>
-		/// <para>设置一个配置值。- eValue：正在设置的值 - eScope：应用于设置的对象的类型？ - scopeArg：您想要更改的对象 - eDataType：缓冲区中的数据类型。这必须与变量的类型完全匹配！ - pArg：要设置的值。您可以传递 NULL 以删除非全局设置，从而使该对象的有效值使用全局默认值。或者在全局范围内，传递 NULL 将重置任何自定义值并将其恢复为系统默认值。注意：设置指针（例如回调函数）时，不要直接传递函数指针。您的参数应为指向函数指针的指针。</para>
+		/// <para>常见情况快捷方式。(已实现为下面定义的内联函数)</para>
+		/// <para>设置全局回调。如果您不想使用 Steam 的回调分发机制，并且希望在所有（或大多数）监听套接字和连接上使用相同的回调，只需首先安装这些回调，即可。请参阅 ISteamNetworkingSockets::RunCallbacks</para>
+		/// <para>设置配置值。- eValue：正在设置的值 - eScope：您要将设置应用于哪种类型的对象？ - scopeArg：您想要更改哪个对象？（全局范围下忽略） 例如：连接句柄、监听套接字句柄、接口指针等。 - eDataType：缓冲区中的数据类型是什么？必须与变量的类型完全匹配！ - pArg：要设置为的值。您可以传递 NULL 以取消在当前范围内的非全局设置，从而使该对象的取值使用全局默认值。或者在全局范围下，传递 NULL 将重置任何自定义值并将其恢复为系统默认值。注意：当设置指针（例如回调函数）时，不要直接传递函数指针。您的参数应为指向函数指针的指针。</para>
 		/// </summary>
 		public static bool SetConfigValue(ESteamNetworkingConfigValue eValue, ESteamNetworkingConfigScope eScopeType, IntPtr scopeObj, ESteamNetworkingConfigDataType eDataType, IntPtr pArg) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -399,7 +399,7 @@ namespace Steamworks {
 		/// <para> - pOutDataType: If non-NULL, the data type of the value is returned.</para>
 		/// <para> - pResult: Where to put the result.  Pass NULL to query the required buffer size.  (k_ESteamNetworkingGetConfigValue_BufferTooSmall will be returned.)</para>
 		/// <para> - cbResult: IN: the size of your buffer.  OUT: the number of bytes filled in or required.</para>
-		/// <para>设置一个配置值，使用结构体传递值。（这只是一个便捷的捷径；下面介绍其实现以及关于如何使用 SteamNetworkingConfigValue_t 在监听套接字和连接创建过程中设置配置选项的更多信息。）获取一个配置值。- eValue：要获取的值 - eScopeType：查询设置的类型对象 - eScopeArg：要查询设置的对象 - pOutDataType：如果非 NULL，则返回值的类型。- pResult：用于存放结果的位置。传递 NULL 以查询所需的缓冲区大小。（将返回 k_ESteamNetworkingGetConfigValue_BufferTooSmall。）- cbResult：IN：你的缓冲区大小。OUT：填充或需要的字节数。</para>
+		/// <para>设置一个配置值，使用结构体传递值。（这只是一个便捷的快捷方式；下面介绍实现以及如何使用 SteamNetworkingConfigValue_t 在监听套接字和连接创建期间设置配置选项。） 获取一个配置值。 - eValue：要获取的值 - eScopeType：查询设置的类型对象 - eScopeArg：要查询设置的对象 - pOutDataType：如果非 NULL，则返回值的类型。 - pResult：用于存放结果的位置。 传递 NULL 以查询所需的缓冲区大小。（将返回 k_ESteamNetworkingGetConfigValue_BufferTooSmall。） - cbResult：IN：你的缓冲区大小。 OUT：填充或需要的字节数。</para>
 		/// </summary>
 		public static ESteamNetworkingGetConfigValueResult GetConfigValue(ESteamNetworkingConfigValue eValue, ESteamNetworkingConfigScope eScopeType, IntPtr scopeObj, out ESteamNetworkingConfigDataType pOutDataType, IntPtr pResult, ref ulong cbResult) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -410,7 +410,7 @@ namespace Steamworks {
 		/// <para> Get info about a configuration value.  Returns the name of the value,</para>
 		/// <para> or NULL if the value doesn't exist.  Other output parameters can be NULL</para>
 		/// <para> if you do not need them.</para>
-		/// <para>获取配置值信息。返回值的名称，如果值不存在则返回NULL。其他输出参数可以设置为NULL，如果您不需要它们。</para>
+		/// <para>获取配置值的详细信息。返回值的名称，如果值不存在则返回NULL。其他输出参数可以设置为NULL，如果您不需要它们。</para>
 		/// </summary>
 		public static string GetConfigValueInfo(ESteamNetworkingConfigValue eValue, out ESteamNetworkingConfigDataType pOutDataType, out ESteamNetworkingConfigScope pOutScope) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -425,8 +425,8 @@ namespace Steamworks {
 		/// <para> The bEnumerateDevVars argument can be used to include "dev" vars.  These are vars that</para>
 		/// <para> are recommended to only be editable in "debug" or "dev" mode and typically should not be</para>
 		/// <para> shown in a retail environment where a malicious local user might use this to cheat.</para>
-		/// <para>迭代当前环境中可能使用通用 UI 显示或编辑的所有配置值列表。为了获取第一个可迭代的值，请传递 k_ESteamNetworkingConfig_Invalid。返回 k_ESteamNetworkingConfig_Invalid 以指示列表结束。</para>
-		/// <para>bEnumerateDevVars 参数可以用来包含“dev”变量。这些变量建议仅在“debug”或“dev”模式下进行编辑，并且通常不应在零售环境中显示，因为恶意本地用户可能会利用这些变量作弊。</para>
+		/// <para>迭代当前环境的所有可配置值，以确定是否可以使用通用 UI 显示或编辑。要获取第一个可迭代的值，请传递 k_ESteamNetworkingConfig_Invalid。返回 k_ESteamNetworkingConfig_Invalid 以指示列表结束。</para>
+		/// <para>bEnumerateDevVars 参数可以用来包含“dev”变量。这些变量建议仅在“debug”或“dev”模式下进行编辑，通常不应在零售环境中显示，因为恶意本地用户可能会利用这些变量作弊。</para>
 		/// </summary>
 		public static ESteamNetworkingConfigValue IterateGenericEditableConfigValues(ESteamNetworkingConfigValue eCurrent, bool bEnumerateDevVars) {
 			InteropHelp.TestIfAvailableGameServer();

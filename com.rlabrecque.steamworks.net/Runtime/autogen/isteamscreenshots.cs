@@ -19,7 +19,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Writes a screenshot to the user's screenshot library given the raw image data, which must be in RGB format.</para>
 		/// <para> The return value is a handle that is valid for the duration of the game process and can be used to apply tags.</para>
-		/// <para>将原始图像数据（RGB格式）写入用户的截图库，必须根据原始图像数据生成截图，返回一个有效且在游戏进程期间有效，可用于应用标签的句柄。</para>
+		/// <para>将原始图像数据写入用户的截图库，该数据必须为 RGB 格式。返回值是一个有效期与游戏进程相同时效的句柄，可用于应用标签。</para>
 		/// </summary>
 		public static ScreenshotHandle WriteScreenshot(byte[] pubRGB, uint cubRGB, int nWidth, int nHeight) {
 			InteropHelp.TestIfAvailableClient();
@@ -31,7 +31,7 @@ namespace Steamworks {
 		/// <para> as the screenshot, otherwise a thumbnail will be generated if the user uploads the screenshot.  The screenshots must be in either JPEG or TGA format.</para>
 		/// <para> The return value is a handle that is valid for the duration of the game process and can be used to apply tags.</para>
 		/// <para> JPEG, TGA, and PNG formats are supported.</para>
-		/// <para>添加截图到用户的截图库中。如果提供缩略图，其必须为 200 像素宽，并且与截图的宽高比相同，否则将生成缩略图，如果用户上传截图。 截图必须使用 JPEG 或 TGA 格式。返回值是一个有效手柄，在游戏进程期间有效，可用于应用标签。 支持 JPEG、TGA 和 PNG 格式。</para>
+		/// <para>添加用户磁盘上的截图到用户截图库。如果提供缩略图，它必须宽度为 200 像素，并且与截图的宽高比相同，否则如果用户上传截图，则会生成缩略图。截图必须使用 JPEG 或 TGA 格式。返回值是一个有效期与游戏进程相同的手柄，可用于添加标签。支持 JPEG、TGA 和 PNG 格式。</para>
 		/// </summary>
 		public static ScreenshotHandle AddScreenshotToLibrary(string pchFilename, string pchThumbnailFilename, int nWidth, int nHeight) {
 			InteropHelp.TestIfAvailableClient();
@@ -43,7 +43,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Causes the Steam overlay to take a screenshot.  If screenshots are being hooked by the game then a ScreenshotRequested_t callback is sent back to the game instead.</para>
-		/// <para>Steam 覆盖层会触发截图。如果游戏正在拦截截图，则会向游戏发送 ScreenshotRequested_t 回调。</para>
+		/// <para>导致 Steam 叠加层截屏。如果游戏正在拦截屏幕截图，则会向游戏返回一个 ScreenshotRequested_t 回调。</para>
 		/// </summary>
 		public static void TriggerScreenshot() {
 			InteropHelp.TestIfAvailableClient();
@@ -54,7 +54,7 @@ namespace Steamworks {
 		/// <para> Toggles whether the overlay handles screenshots when the user presses the screenshot hotkey, or the game handles them.  If the game is hooking screenshots,</para>
 		/// <para> then the ScreenshotRequested_t callback will be sent if the user presses the hotkey, and the game is expected to call WriteScreenshot or AddScreenshotToLibrary</para>
 		/// <para> in response.</para>
-		/// <para>控制是否在用户按下截屏热键时，覆盖层处理截图，还是游戏本身处理截图。如果游戏钩取了截图，则当用户按下热键时，会发送 ScreenshotRequested_t 回调，并且游戏预计会调用 WriteScreenshot 或 AddScreenshotToLibrary 进行响应。</para>
+		/// <para>控制是否让叠加层处理用户按下截屏热键时的截图，还是让游戏本身处理。如果游戏已钩取截屏，则当用户按下热键时，将会发送 ScreenshotRequested_t 回调，并且游戏预计会调用 WriteScreenshot 或 AddScreenshotToLibrary 函数。</para>
 		/// </summary>
 		public static void HookScreenshots(bool bHook) {
 			InteropHelp.TestIfAvailableClient();
@@ -63,7 +63,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Sets metadata about a screenshot's location (for example, the name of the map)</para>
-		/// <para>设置截图的位置元数据（例如，地图名称）</para>
+		/// <para>设置关于屏幕截图位置的元数据（例如，地图名称）</para>
 		/// </summary>
 		public static bool SetLocation(ScreenshotHandle hScreenshot, string pchLocation) {
 			InteropHelp.TestIfAvailableClient();
@@ -74,7 +74,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Tags a user as being visible in the screenshot</para>
-		/// <para>请提供截图，我将翻译并标记用户为可见。</para>
+		/// <para>将用户标记为在截图中可见</para>
 		/// </summary>
 		public static bool TagUser(ScreenshotHandle hScreenshot, CSteamID steamID) {
 			InteropHelp.TestIfAvailableClient();
@@ -92,7 +92,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns true if the app has hooked the screenshot</para>
-		/// <para>如果应用已拦截屏幕截图</para>
+		/// <para>如果应用已拦截屏幕截图，则返回 true。</para>
 		/// </summary>
 		public static bool IsScreenshotsHooked() {
 			InteropHelp.TestIfAvailableClient();
@@ -105,7 +105,7 @@ namespace Steamworks {
 		/// <para> pchVRFilename should contain the image that matches the correct type</para>
 		/// <para> The return value is a handle that is valid for the duration of the game process and can be used to apply tags.</para>
 		/// <para> JPEG, TGA, and PNG formats are supported.</para>
-		/// <para>添加一个VR截图到用户的截图库中，从磁盘以支持的类型保存。pchFilename应该是一个用于库视图的正常2D图像，pchVRFilename应该包含与正确类型匹配的图像。返回值是一个句柄，在游戏进程期间有效，可用于应用标签。支持JPEG、TGA和PNG格式。</para>
+		/// <para>添加VR截图到用户的截图库中，从磁盘以支持的类型保存。pchFilename应为在库视图中使用的正常2D图像，pchVRFilename应包含与正确类型相匹配的图像。返回值是一个有效期与游戏进程相同且可用于添加标签的句柄。支持JPEG、TGA和PNG格式。</para>
 		/// </summary>
 		public static ScreenshotHandle AddVRScreenshotToLibrary(EVRScreenshotType eType, string pchFilename, string pchVRFilename) {
 			InteropHelp.TestIfAvailableClient();

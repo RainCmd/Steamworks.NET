@@ -23,7 +23,7 @@ namespace Steamworks {
 		/// <para> iterate the files, the filename returned will be "foo.bar".</para>
 		/// <para> file operations</para>
 		/// <para>注意</para>
-		/// <para>文件名不区分大小写，并且会自动转换为小写。因此，“foo.bar”和“Foo.bar”被认为是相同的文件，如果写“Foo.bar”然后迭代文件，返回的文件名将是“foo.bar”。</para>
+		/// <para>文件名不区分大小写，并且会自动转换为小写。因此，“foo.bar”和“Foo.bar”是相同的文件，如果写入“Foo.bar”然后迭代文件，返回的文件名将是“foo.bar”。</para>
 		/// <para>文件操作</para>
 		/// </summary>
 		public static bool FileWrite(string pchFile, byte[] pvData, int cubData) {
@@ -89,7 +89,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> file operations that cause network IO</para>
-		/// <para>File operations that cause network IO:  *   Downloading game files *   Uploading game files *   Steam Cloud synchronization *   Remote file sharing (e.g., using Steam Remote Play) *   Backup and restore operations involving game files *   Streaming game data over the network</para>
+		/// <para>网络IO引起的的文件操作</para>
 		/// </summary>
 		public static UGCFileWriteStreamHandle_t FileWriteStreamOpen(string pchFile) {
 			InteropHelp.TestIfAvailableClient();
@@ -195,7 +195,7 @@ namespace Steamworks {
 		/// <para> Downloads a UGC file.  A priority value of 0 will download the file immediately,</para>
 		/// <para> otherwise it will wait to download the file until all downloads with a lower priority</para>
 		/// <para> value are completed.  Downloads with equal priority will occur simultaneously.</para>
-		/// <para>用户生成内容下载一个UGC文件。优先级值为0会立即下载文件，否则会等待所有优先级值较低的文件下载完成后再下载该文件。具有相同优先级的下载将同时进行。</para>
+		/// <para>用户生成内容下载一个UGC文件。优先级值为0会立即下载文件，否则会等待所有优先级值较低的文件下载完成后再下载该文件。具有相同优先级的下载会同时进行。</para>
 		/// </summary>
 		public static SteamAPICall_t UGCDownload(UGCHandle_t hContent, uint unPriority) {
 			InteropHelp.TestIfAvailableClient();
@@ -205,7 +205,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Gets the amount of data downloaded so far for a piece of content. pnBytesExpected can be 0 if function returns false</para>
 		/// <para> or if the transfer hasn't started yet, so be careful to check for that before dividing to get a percentage</para>
-		/// <para>获取到目前为止某个内容下载的字节数。pnBytesExpected 如果函数返回 false 或者传输尚未开始，则可以设置为 0，因此在除法之前务必检查它，以避免出现错误。</para>
+		/// <para>获取到目前为止某个内容下载的数据量。pnBytesExpected 如果函数返回 false 或者传输尚未开始，则可以设置为 0，因此在除法之前务必检查它以获得百分比。</para>
 		/// </summary>
 		public static bool GetUGCDownloadProgress(UGCHandle_t hContent, out int pnBytesDownloaded, out int pnBytesExpected) {
 			InteropHelp.TestIfAvailableClient();
@@ -214,7 +214,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Gets metadata for a file after it has been downloaded. This is the same metadata given in the RemoteStorageDownloadUGCResult_t call result</para>
-		/// <para>获取下载后文件的元数据。这与 RemoteStorageDownloadUGCResult_t 调用结果中提供的元数据相同。</para>
+		/// <para>下载后获取文件的元数据。这与RemoteStorageDownloadUGCResult_t调用结果中提供的元数据相同。</para>
 		/// </summary>
 		public static bool GetUGCDetails(UGCHandle_t hContent, out AppId_t pnAppID, out string ppchName, out int pnFileSizeInBytes, out CSteamID pSteamIDOwner) {
 			InteropHelp.TestIfAvailableClient();
@@ -231,7 +231,7 @@ namespace Steamworks {
 		/// <para> enough memory for each chunk).  Once the last byte is read, the file is implicitly closed and further calls to UGCRead will fail</para>
 		/// <para> unless UGCDownload is called again.</para>
 		/// <para> For especially large files (anything over 100MB) it is a requirement that the file is read in chunks.</para>
-		/// <para>下载完成后，获取文件的内容。小文件可以通过调用此函数，偏移量为 0，cubDataToRead 等于文件大小来一次性读取。对于较大的文件，可以通过分块读取来减少内存使用（因为 IPC 客户端和游戏本身都需要为每个块分配足够的内存）。一旦读取到最后一个字节，文件将被隐式关闭，除非再次调用 UGCDownload，否则后续对 UGCRead 的调用将失败。对于特别大的文件（任何超过 100MB 的文件），必须分块读取文件。</para>
+		/// <para>下载后，获取文件的内容。小文件可以通过调用此函数，偏移量为0，cubDataToRead等于文件大小来一次性读取。较大的文件可以分块读取，以减少内存使用（因为IPC客户端的两端以及游戏本身必须为每个块分配足够的内存）。一旦读取了最后一个字节，文件将被隐式关闭，除非再次调用UGCDownload。对于特别大的文件（任何超过100MB的文件），必须分块读取文件。</para>
 		/// </summary>
 		public static int UGCRead(UGCHandle_t hContent, byte[] pvData, int cubDataToRead, uint cOffset, EUGCReadAction eAction) {
 			InteropHelp.TestIfAvailableClient();
@@ -240,7 +240,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Functions to iterate through UGC that has finished downloading but has not yet been read via UGCRead()</para>
-		/// <para>UGCRead() 迭代已下载但未读取的 UGC 函数</para>
+		/// <para>通过UGCRead()读取已完成下载但尚未读取的用户生成内容（UGC）的迭代函数。</para>
 		/// </summary>
 		public static int GetCachedUGCCount() {
 			InteropHelp.TestIfAvailableClient();
@@ -318,7 +318,7 @@ namespace Steamworks {
 		/// <para> Gets published file details for the given publishedfileid.  If unMaxSecondsOld is greater than 0,</para>
 		/// <para> cached data may be returned, depending on how long ago it was cached.  A value of 0 will force a refresh.</para>
 		/// <para> A value of k_WorkshopForceLoadPublishedFileDetailsFromCache will use cached data if it exists, no matter how old it is.</para>
-		/// <para>获取指定 publishedfileid 的发布文件详情。如果 unMaxSecondsOld 大于 0，则可能返回缓存数据，具体取决于缓存的时间。值为 0 将强制刷新。值为 k_WorkshopForceLoadPublishedFileDetailsFromCache 将无论数据多旧都使用缓存数据。</para>
+		/// <para>获取指定已发布文件ID的发布文件详情。如果 unMaxSecondsOld 大于 0，则可能返回缓存数据，具体取决于缓存的时间。值为 0 将强制刷新。值为 k_WorkshopForceLoadPublishedFileDetailsFromCache 将在存在缓存数据的情况下使用缓存数据，无论其多久。</para>
 		/// </summary>
 		public static SteamAPICall_t GetPublishedFileDetails(PublishedFileId_t unPublishedFileId, uint unMaxSecondsOld) {
 			InteropHelp.TestIfAvailableClient();
@@ -332,7 +332,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> enumerate the files that the current user published with this app</para>
-		/// <para>列出当前用户发布的文件</para>
+		/// <para>列出当前用户使用此应用发布的的文件。</para>
 		/// </summary>
 		public static SteamAPICall_t EnumerateUserPublishedFiles(uint unStartIndex) {
 			InteropHelp.TestIfAvailableClient();
@@ -404,7 +404,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> this method enumerates the public view of workshop files</para>
-		/// <para>此方法枚举工作坊文件的公共视图。</para>
+		/// <para>此方法枚举工作站文件的公共视图。</para>
 		/// </summary>
 		public static SteamAPICall_t EnumeratePublishedWorkshopFiles(EWorkshopEnumerationType eEnumerationType, uint unStartIndex, uint unCount, uint unDays, System.Collections.Generic.IList<string> pTags, System.Collections.Generic.IList<string> pUserTags) {
 			InteropHelp.TestIfAvailableClient();
@@ -435,7 +435,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Indicate to Steam the beginning / end of a set of local file</para>
 		/// <para> operations - for example, writing a game save that requires updating two files.</para>
-		/// <para>向Steam指示本地文件操作的开始/结束 - 例如，更新两个文件所需的游戏存档写入。</para>
+		/// <para>告知Steam一组本地文件操作的开始/结束时间 - 例如，编写一个需要更新两个文件的游戏存档。</para>
 		/// </summary>
 		public static bool BeginFileWriteBatch() {
 			InteropHelp.TestIfAvailableClient();

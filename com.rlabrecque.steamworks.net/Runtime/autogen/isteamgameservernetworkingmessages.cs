@@ -53,15 +53,15 @@ namespace Steamworks {
 		/// <para>   repeat the call with k_nSteamNetworkingSend_AutoRestartBrokenSession.  See</para>
 		/// <para>   k_nSteamNetworkingSend_AutoRestartBrokenSession for more details.</para>
 		/// <para> - See ISteamNetworkingSockets::SendMessageToConnection for more possible return values</para>
-		/// <para>发送消息到指定主机。如果与该用户没有已有的会话，会话将隐式创建。可能需要进行一些握手才能真正开始发送消息数据。如果握手失败且无法通过，错误将通过 SteamNetworkingMessagesSessionFailed_t 回调函数发布。不会有任何成功通知。（你应该让同伴发送回复用于此目的。）</para>
-		/// <para>发送一条消息给主机也会隐式接受该主机发来的任何传入连接。</para>
+		/// <para>向指定主机发送消息。如果尚不具备与该用户的会话，则会隐式创建会话。可能需要进行一些握手才能真正开始发送消息数据。如果握手失败且无法通过，将通过回调 SteamNetworkingMessagesSessionFailed_t 报告错误。不会有任何成功通知。（你应该让同伴为此目的发送回复。）</para>
+		/// <para>向主机发送消息也会隐式接受来自该主机的任何传入连接。</para>
 		/// <para>nSendFlags 是一个位掩码，包含 k_nSteamNetworkingSend_xxx 选项。</para>
-		/// <para>nRemoteChannel 是一种路由号码，可用于将消息路由到不同的系统。您必须使用相同的通道号码调用 ReceiveMessagesOnChannel() 才能从另一端检索数据。</para>
-		/// <para>使用不同的渠道与同一用户交流仍然会使用相同的底层连接，从而节省资源。如果您不需要此功能，请使用 0。否则，较小的整数是最有效的。</para>
-		/// <para>同一主机、同一通道内可靠的消息将准确地被远程主机接收一次，并且接收顺序与发送顺序一致。</para>
-		/// <para>其他任何订单均不保证！特别是，不可靠的消息可能会丢失、与其它消息顺序错乱，包括与可靠数据顺序错乱，或者可能被多次接收。不同渠道的消息*不*保证按照发送顺序接收。</para>
-		/// <para>一封给熟悉 TCP/IP 端口或需要转换现有代码库（该代码库同时打开了多个套接字）的开发者的一封说明：您可能会注意到只有一个通道，而 TCP/IP 中，每个端点都有一个端口号。您可以将通道号视为*目标端口*。如果需要每个消息都包含一个“源端口”（以便接收方可以路由回复），则只需在消息中添加该值。这基本上就是 UDP 的工作方式！</para>
-		/// <para>返回：在成功时返回 - k_EResultOK。如果会话已失败或被同伴关闭，且未指定 k_nSteamNetworkingSend_AutoRestartBrokenSession，则返回 k_EResultNoConnection。你可以使用 GetSessionConnectionInfo 获取详细信息。为了确认已断开的会话并启动一个新的会话，你必须调用 CloseSessionWithUser，或者重复调用，并指定 k_nSteamNetworkingSend_AutoRestartBrokenSession。有关更多信息，请参阅 k_nSteamNetworkingSend_AutoRestartBrokenSession。请参阅 ISteamNetworkingSockets::SendMessageToConnection 以获取更多可能返回值。</para>
+		/// <para>RemoteChannel 是一种路由号码，你可以用来将消息路由到不同的系统。你需要通过调用 ReceiveMessagesOnChannel() 函数，使用相同的频道号码来从另一端检索数据。</para>
+		/// <para>使用不同的渠道与同一用户交流仍然会使用相同的底层连接，从而节省资源。如果不需要此功能，请使用 0。否则，较小的整数是最有效的。</para>
+		/// <para>如果消息被接收的话，同一台主机同一通道上可靠的消息将被远程主机接收一次且顺序与发送顺序相同。</para>
+		/// <para>其他任何订单均不作任何保证！特别是，不可靠的消息可能会丢失、与其它消息顺序错乱，包括与可靠数据，或者可能被多次接收。不同渠道的消息*不*保证按照发送顺序接收。</para>
+		/// <para>对于熟悉 TCP/IP 端口或转换现有代码库（该代码库打开了多个套接字的人）：你可能会注意到只有一个通道，并且在 TCP/IP 中，每个端点都有一个端口号。你可以将通道号视为*目标*端口。如果需要每个消息都包含一个“源端口”（以便接收方可以路由回复），则只需在消息中添加它。这基本上就是 UDP 的工作方式！</para>
+		/// <para>Returns: - k_EResultOK on success. - k_EResultNoConnection, if the session has failed or was closed by the peer and k_nSteamNetworkingSend_AutoRestartBrokenSession was not specified. (You can use GetSessionConnectionInfo to get the details.) In order to acknowledge the broken session and start a new one, you must call CloseSessionWithUser, or you may repeat the call with k_nSteamNetworkingSend_AutoRestartBrokenSession. See k_nSteamNetworkingSend_AutoRestartBrokenSession for more details. - See ISteamNetworkingSockets::SendMessageToConnection for more possible return values</para>
 		/// </summary>
 		public static EResult SendMessageToUser(ref SteamNetworkingIdentity identityRemote, IntPtr pubData, uint cubData, int nSendFlags, int nRemoteChannel) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -72,8 +72,8 @@ namespace Steamworks {
 		/// <para> Reads the next message that has been sent from another user via SendMessageToUser() on the given channel.</para>
 		/// <para> Returns number of messages returned into your list.  (0 if no message are available on that channel.)</para>
 		/// <para> When you're done with the message object(s), make sure and call SteamNetworkingMessage_t::Release()!</para>
-		/// <para>读取指定通道上通过 SendMessageToUser() 发送的下一条消息。返回消息数量（如果通道中没有消息则返回 0）。</para>
-		/// <para>当你处理完消息对象(s) 时，务必调用 SteamNetworkingMessage_t::Release()!</para>
+		/// <para>读取来自其他用户通过 SendMessageToUser() 在给定频道上发送的下一个消息。返回已返回的消息数量（如果该频道上没有可用的消息，则返回 0）。</para>
+		/// <para>当你完成消息对象(s) 的使用后，务必调用 SteamNetworkingMessage_t::Release()！</para>
 		/// </summary>
 		public static int ReceiveMessagesOnChannel(int nLocalChannel, IntPtr[] ppOutMessages, int nMaxMessages) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -92,9 +92,9 @@ namespace Steamworks {
 		/// <para> Returns false if there is no session with the user pending or otherwise.  If there is an</para>
 		/// <para> existing active session, this function will return true, even if it is not pending.</para>
 		/// <para> Calling SendMessageToUser() will implicitly accepts any pending session request to that user.</para>
-		/// <para>这是一种对SteamNetworkingMessagesSessionRequest_t回调的响应。SteamNetworkingMessagesSessionRequest_t在用户尝试发送消息给你时发布，在你没有先尝试与他们交流时。如果你不想与他们交流，只需忽略请求。如果用户继续向你发送消息，SteamNetworkingMessagesSessionRequest_t回调将定期发布。</para>
-		/// <para>如果不存在与用户的待处理会话或任何其他会话，则返回false。如果存在有效的活动会话，此函数将返回true，即使它未处于待处理状态。</para>
-		/// <para>调用 SendMessageToUser() 会隐式接受到该用户的任何未决会话请求。</para>
+		/// <para>这是一种对 SteamNetworkingMessagesSessionRequest_t 回调的响应。SteamNetworkingMessagesSessionRequest_t 在用户尝试向你发送消息时发布，而你尚未尝试与他们交流时。如果你不想与他们交流，只需忽略请求。如果用户继续向你发送消息，SteamNetworkingMessagesSessionRequest_t 回调将定期继续发布。</para>
+		/// <para>如果存在没有与用户关联的会话或其它情况，则返回false。如果存在有效的活动会话，此函数将返回true，即使该会话没有处于待定状态。</para>
+		/// <para>调用 SendMessageToUser() 函数会隐式接受到该用户的任何未决会话请求。</para>
 		/// </summary>
 		public static bool AcceptSessionWithUser(ref SteamNetworkingIdentity identityRemote) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -106,7 +106,7 @@ namespace Steamworks {
 		/// <para> If the remote user tries to send data to you again, another SteamNetworkingMessagesSessionRequest_t</para>
 		/// <para> callback will be posted.</para>
 		/// <para> Note that sessions that go unused for a few minutes are automatically timed out.</para>
-		/// <para>当与用户对话结束后，立即释放后台资源。如果远程用户再次尝试向您发送数据，将会发布另一个 SteamNetworkingMessagesSessionRequest_t 回调。</para>
+		/// <para>当与用户结束对话时调用此方法，立即释放后台资源。如果远程用户再次尝试向您发送数据，将会发布另一个 SteamNetworkingMessagesSessionRequest_t 回调。</para>
 		/// <para>注意，长时间未使用的会话会自动超时。</para>
 		/// </summary>
 		public static bool CloseSessionWithUser(ref SteamNetworkingIdentity identityRemote) {
@@ -119,7 +119,7 @@ namespace Steamworks {
 		/// <para> open channels to a user have been closed, the open session to the user will be</para>
 		/// <para> closed, and any new data from this user will trigger a</para>
 		/// <para> SteamSteamNetworkingMessagesSessionRequest_t callback</para>
-		/// <para>当与用户在特定频道结束对话时，请调用此方法。一旦所有指向用户的开放频道都关闭，开放的会话将被关闭，并且来自此用户的任何新数据都将触发一个 SteamSteamNetworkingMessagesSessionRequest_t 回调。</para>
+		/// <para>当您完成与特定频道上的用户对话时，请调用此方法。一旦所有指向用户的打开频道都关闭后，用户打开的会话将被关闭，并且来自该用户的任何新数据都将触发一个 SteamSteamNetworkingMessagesSessionRequest_t 回调。</para>
 		/// </summary>
 		public static bool CloseChannelWithUser(ref SteamNetworkingIdentity identityRemote, int nLocalChannel) {
 			InteropHelp.TestIfAvailableGameServer();
@@ -135,8 +135,8 @@ namespace Steamworks {
 		/// <para> you do not need the corresponding details.  Note that sessions time out after a while,</para>
 		/// <para> so if a connection fails, or SendMessageToUser returns k_EResultNoConnection, you cannot wait</para>
 		/// <para> indefinitely to obtain the reason for failure.</para>
-		/// <para>返回指定同伴的连接最新状态，如果存在的话。主要用于调试目的，也可以用来获取更详细的故障信息。 (参见 SendMessageToUser 和 k_nSteamNetworkingSend_AutoRestartBrokenSession.)</para>
-		/// <para>返回 SteamNetConnectionInfo_t::m_eState 的值，或在指定同伴没有连接的情况下返回 k_ESteamNetworkingConnectionState_None。 您可以为两个参数都传递 nullptr，如果您不需要相应的信息。 请注意，会话会在一段时间后超时，因此如果连接失败或 SendMessageToUser 返回 k_EResultNoConnection，您无法无限期地获取失败的原因。</para>
+		/// <para>返回指定对等方（peer）的连接的最新状态信息，如果存在的话。主要用于调试目的，也可用于获取更详细的故障信息。 (参见 SendMessageToUser 和 k_nSteamNetworkingSend_AutoRestartBrokenSession.)</para>
+		/// <para>返回 SteamNetConnectionInfo_t::m_eState 的值，或在没有指定对端连接的情况下返回 k_ESteamNetworkingConnectionState_None。 如果你不需要相应详情，可以传递 nullptr 给任何一个参数。 请注意，会话会在一段时间后超时，因此如果连接失败或 SendMessageToUser 返回 k_EResultNoConnection，你不能无限期地等待以获取失败原因。</para>
 		/// </summary>
 		public static ESteamNetworkingConnectionState GetSessionConnectionInfo(ref SteamNetworkingIdentity identityRemote, out SteamNetConnectionInfo_t pConnectionInfo, out SteamNetConnectionRealTimeStatus_t pQuickStatus) {
 			InteropHelp.TestIfAvailableGameServer();

@@ -32,7 +32,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> the universe this client is connecting to</para>
-		/// <para>这个客户端连接的宇宙</para>
+		/// <para>连接的宇宙</para>
 		/// </summary>
 		public static EUniverse GetConnectedUniverse() {
 			InteropHelp.TestIfAvailableClient();
@@ -51,7 +51,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> returns the 2 digit ISO 3166-1-alpha-2 format country code this client is running in (as looked up via an IP-to-location database)</para>
 		/// <para> e.g "US" or "UK".</para>
-		/// <para>returns the 2 digit ISO 3166-1-alpha-2 format country code this client is running in (as looked up via an IP-to-location database) e.g "US" or "UK".</para>
+		/// <para>返回该客户端运行的 2 位 ISO 3166-1-alpha-2 格式国家代码（通过 IP 到位置数据库查找）。例如“US”或“UK”。</para>
 		/// </summary>
 		public static string GetIPCountry() {
 			InteropHelp.TestIfAvailableClient();
@@ -60,7 +60,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns true if the image exists, and valid sizes were filled out</para>
-		/// <para>如果图像存在且有效尺寸已填写完毕，则返回 true。</para>
+		/// <para>如果图像存在，并且有效尺寸已填写，则返回true。</para>
 		/// </summary>
 		public static bool GetImageSize(int iImage, out uint pnWidth, out uint pnHeight) {
 			InteropHelp.TestIfAvailableClient();
@@ -71,7 +71,7 @@ namespace Steamworks {
 		/// <para> returns true if the image exists, and the buffer was successfully filled out</para>
 		/// <para> results are returned in RGBA format</para>
 		/// <para> the destination buffer size should be 4 * height * width * sizeof(char)</para>
-		/// <para>如果图像存在，并且缓冲区已成功填充，则返回 true。结果以 RGBA 格式返回。目标缓冲区大小应为 4 * height * width * sizeof(char)</para>
+		/// <para>如果图像存在，并且缓冲区已成功填充，则返回 true。结果以 RGBA 格式返回。目标缓冲区大小应为 4 * height * width * sizeof(char)。</para>
 		/// </summary>
 		public static bool GetImageRGBA(int iImage, byte[] pubDest, int nDestBufferSize) {
 			InteropHelp.TestIfAvailableClient();
@@ -80,7 +80,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> return the amount of battery power left in the current system in % [0..100], 255 for being on AC power</para>
-		/// <para>返回当前系统剩余电量百分比 [0..100]，255 表示使用交流电</para>
+		/// <para>返回当前系统剩余的电池电量百分比 [0..100]，255 表示使用交流电供电。</para>
 		/// </summary>
 		public static byte GetCurrentBatteryPower() {
 			InteropHelp.TestIfAvailableClient();
@@ -99,7 +99,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Sets the position where the overlay instance for the currently calling game should show notifications.</para>
 		/// <para> This position is per-game and if this function is called from outside of a game context it will do nothing.</para>
-		/// <para>设置当前调用游戏中的叠加实例显示通知的位置。该位置是按游戏设置的，如果此函数从非游戏上下文中调用，则无效。</para>
+		/// <para>设置当前调用游戏中的叠加层实例显示通知的位置。该位置是按游戏设置的，如果此函数从非游戏上下文中调用，则无效。</para>
 		/// </summary>
 		public static void SetOverlayNotificationPosition(ENotificationPosition eNotificationPosition) {
 			InteropHelp.TestIfAvailableClient();
@@ -109,7 +109,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> API asynchronous call results</para>
 		/// <para> can be used directly, but more commonly used via the callback dispatch API (see steam_api.h)</para>
-		/// <para>API异步调用结果可以直接使用，但更常用的是回调派遣API（参见 steam_api.h）</para>
+		/// <para>API异步调用结果可以直接使用，但更常用的是通过回调 dispatch API（参见 steam_api.h）</para>
 		/// </summary>
 		public static bool IsAPICallCompleted(SteamAPICall_t hSteamAPICall, out bool pbFailed) {
 			InteropHelp.TestIfAvailableClient();
@@ -131,7 +131,7 @@ namespace Steamworks {
 		/// <para> Used for perf debugging so you can understand how many IPC calls your game makes per frame</para>
 		/// <para> Every IPC call is at minimum a thread context switch if not a process one so you want to rate</para>
 		/// <para> control how often you do them.</para>
-		/// <para>返回自上次调用该函数以来所做的 IPC 调用次数。用于性能调试，以便您了解游戏中的 IPC 调用次数每帧是多少。每个 IPC 调用至少会导致线程上下文切换，如果不是，则会导致进程切换，因此您需要控制它们发生的频率。</para>
+		/// <para>返回自上次调用此函数以来所做的 IPC 调用次数。用于性能调试，以便您了解您的游戏每帧所做的 IPC 调用次数。每个 IPC 调用至少会触发一次线程上下文切换，如果不是线程则至少会触发一次进程切换，因此您需要控制您执行它们的频率。</para>
 		/// </summary>
 		public static uint GetIPCCallCount() {
 			InteropHelp.TestIfAvailableClient();
@@ -143,7 +143,7 @@ namespace Steamworks {
 		/// <para> 'int' is the severity; 0 for msg, 1 for warning</para>
 		/// <para> 'const char *' is the text of the message</para>
 		/// <para> callbacks will occur directly after the API function is called that generated the warning or message</para>
-		/// <para>API 警告处理 'int' 是严重程度；0 表示消息，1 表示警告 'const char *' 是消息文本 回调将直接在生成警告或消息的 API 函数调用之后发生</para>
+		/// <para>API警告处理 'int' 是严重程度；0 表示消息，1 表示警告 'const char *' 是消息文本 回调将直接在生成警告或消息的 API 函数调用之后发生</para>
 		/// </summary>
 		public static void SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction) {
 			InteropHelp.TestIfAvailableClient();
@@ -153,7 +153,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Returns true if the overlay is running &amp; the user can access it. The overlay process could take a few seconds to</para>
 		/// <para> start &amp; hook the game process, so this function will initially return false while the overlay is loading.</para>
-		/// <para>如果覆盖显示正在运行并且用户可以访问它，此函数将返回 true。覆盖显示进程可能需要几秒钟才能启动并钩住游戏进程，因此该函数最初将返回 false，因为覆盖显示正在加载。</para>
+		/// <para>如果叠加显示正在运行且用户可以访问它，则此函数最初将返回 false，因为叠加显示正在加载。</para>
 		/// </summary>
 		public static bool IsOverlayEnabled() {
 			InteropHelp.TestIfAvailableClient();
@@ -169,8 +169,8 @@ namespace Steamworks {
 		/// <para> brought up over the game by a user.  You can use this API to ask the overlay if it currently need a present</para>
 		/// <para> in that case, and then you can check for this periodically (roughly 33hz is desirable) and make sure you</para>
 		/// <para> refresh the screen with Present or SwapBuffers to allow the overlay to do it's work.</para>
-		/// <para>正常情况下，如果你的游戏有一个持续运行的帧循环，并且每帧调用 D3D Present API 或 OGL SwapBuffers API，则此调用是不需要的。</para>
-		/// <para>然而，如果你的游戏仅以事件驱动的方式刷新屏幕，那么这可能会破坏叠加层，因为它使用你的 Present/SwapBuffers 调用来驱动其内部帧循环，并且它也可能需要 Present() 以任何需要通知的事件发生或用户将叠加层覆盖游戏时。你可以使用此 API 来询问叠加层是否在某个时间点需要 Present，然后你可以周期性地检查（大约 33Hz 理想）并确保使用 Present 或 SwapBuffers 刷新屏幕，以允许叠加层完成其工作。</para>
+		/// <para>通常情况下，如果你的游戏有一个持续运行的帧循环，并且每帧调用 D3D Present API 或 OGL SwapBuffers API，则此调用是不必要的。</para>
+		/// <para>但是，如果你的游戏仅在事件驱动的基础上刷新屏幕，那么这可能会破坏叠加显示，因为它使用你的 Present/SwapBuffers 调用来驱动其内部帧循环，并且它也可能需要 Present() 到屏幕上，只要任何需要通知的事件发生或用户将叠加显示覆盖在游戏上。你可以使用此 API 来询问叠加显示当前是否需要 Present，然后在定期检查（大约 33Hz 理想）时，确保使用 Present 或 SwapBuffers 刷新屏幕，以便叠加显示可以完成其工作。</para>
 		/// </summary>
 		public static bool BOverlayNeedsPresent() {
 			InteropHelp.TestIfAvailableClient();
@@ -186,7 +186,7 @@ namespace Steamworks {
 		/// <para>   k_ECheckFileSignatureFileNotFound - The file does not exist on disk.</para>
 		/// <para>   k_ECheckFileSignatureInvalidSignature - The file exists, and the signing tab has been set for this file, but the file is either not signed or the signature does not match.</para>
 		/// <para>   k_ECheckFileSignatureValidSignature - The file is signed and the signature is valid.</para>
-		/// <para>异步调用检查可执行文件是否使用合作伙伴网站上公钥集进行签名，例如拒绝加载修改后的可执行文件。结果返回在 CheckFileSignature_t 中。 k_ECheckFileSignatureNoSignaturesFoundForThisApp - 此应用程序未在合作伙伴网站的签名选项卡上配置为启用此功能。 k_ECheckFileSignatureNoSignaturesFoundForThisFile - 此文件未在合作伙伴网站的签名选项卡上列出。 k_ECheckFileSignatureFileNotFound - 文件未在磁盘上存在。 k_ECheckFileSignatureInvalidSignature - 文件存在，并且签名选项卡已设置为此文件，但文件要么未签名，要么签名不匹配。 k_ECheckFileSignatureValidSignature - 文件已签名且签名有效。</para>
+		/// <para>异步调用，检查可执行文件是否已使用合作伙伴网站签名选项卡上的公钥进行签名，例如拒绝加载修改后的可执行文件。结果返回在 CheckFileSignature_t 中。 k_ECheckFileSignatureNoSignaturesFoundForThisApp - 此应用程序未在合作伙伴网站的签名选项卡上进行配置以启用此功能。 k_ECheckFileSignatureNoSignaturesFoundForThisFile - 此文件未在合作伙伴网站的签名选项卡中列出。 k_ECheckFileSignatureFileNotFound - 文件不存在于磁盘上。 k_ECheckFileSignatureInvalidSignature - 文件存在，并且签名选项卡已设置为此文件，但文件未签名或签名不匹配。 k_ECheckFileSignatureValidSignature - 文件已签名且签名有效。</para>
 		/// </summary>
 		public static SteamAPICall_t CheckFileSignature(string szFileName) {
 			InteropHelp.TestIfAvailableClient();
@@ -197,7 +197,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Activates the full-screen text input dialog which takes a initial text string and returns the text the user has typed</para>
-		/// <para>激活全屏文本输入对话框，该对话框接受一个初始文本字符串，并返回用户输入的内容。</para>
+		/// <para>激活全屏文本输入对话框，它接受一个初始文本字符串，并返回用户输入的文本。</para>
 		/// </summary>
 		public static bool ShowGamepadTextInput(EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, string pchDescription, uint unCharMax, string pchExistingText) {
 			InteropHelp.TestIfAvailableClient();
@@ -209,7 +209,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns previously entered text &amp; length</para>
-		/// <para>返回之前输入的内容和长度</para>
+		/// <para>返回之前输入的文本和长度</para>
 		/// </summary>
 		public static uint GetEnteredGamepadTextLength() {
 			InteropHelp.TestIfAvailableClient();
@@ -227,7 +227,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns the language the steam client is running in, you probably want ISteamApps::GetCurrentGameLanguage instead, this is for very special usage cases</para>
-		/// <para>返回 Steam 客户端运行的语言，您可能需要 ISteamApps::GetCurrentGameLanguage，这仅适用于特殊情况。</para>
+		/// <para>返回 Steam 客户端运行的语言，你可能需要 ISteamApps::GetCurrentGameLanguage，这用于非常特殊的情况。</para>
 		/// </summary>
 		public static string GetSteamUILanguage() {
 			InteropHelp.TestIfAvailableClient();
@@ -236,7 +236,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns true if Steam itself is running in VR mode</para>
-		/// <para>如果 Steam 本身正在 VR 模式下运行，则返回 true</para>
+		/// <para>如果 Steam 本身以 VR 模式运行，则返回 true</para>
 		/// </summary>
 		public static bool IsSteamRunningInVR() {
 			InteropHelp.TestIfAvailableClient();
@@ -245,7 +245,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Sets the inset of the overlay notification from the corner specified by SetOverlayNotificationPosition.</para>
-		/// <para>设置从 SetOverlayNotificationPosition 指定的角部设置叠加通知的内边距。</para>
+		/// <para>设置从 SetOverlayNotificationPosition 中指定的角色的叠加通知的内边距。</para>
 		/// </summary>
 		public static void SetOverlayNotificationInset(int nHorizontalInset, int nVerticalInset) {
 			InteropHelp.TestIfAvailableClient();
@@ -256,7 +256,7 @@ namespace Steamworks {
 		/// <para> returns true if Steam &amp; the Steam Overlay are running in Big Picture mode</para>
 		/// <para> Games much be launched through the Steam client to enable the Big Picture overlay. During development,</para>
 		/// <para> a game can be added as a non-steam game to the developers library to test this feature</para>
-		/// <para>如果 Steam 和 Steam 叠加层在 Big Picture 模式下运行，则返回 true。 许多游戏必须通过 Steam 客户端启动才能启用 Big Picture 叠加层。 在开发过程中，游戏可以被添加到开发人员的库中作为非 Steam 游戏以测试此功能。</para>
+		/// <para>如果 Steam 和 Steam 叠加层在 Big Picture 模式下运行，则返回 true。 许多游戏必须通过 Steam 客户端启动才能启用 Big Picture 叠加层。 在开发过程中，游戏可以被添加到开发人员的非 Steam 游戏库中以测试此功能。</para>
 		/// </summary>
 		public static bool IsSteamInBigPictureMode() {
 			InteropHelp.TestIfAvailableClient();
@@ -265,7 +265,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> ask SteamUI to create and render its OpenVR dashboard</para>
-		/// <para>请SteamUI 创建并渲染其 OpenVR 仪表盘。</para>
+		/// <para>请让 SteamUI 创建并渲染其 OpenVR 仪表盘。</para>
 		/// </summary>
 		public static void StartVRDashboard() {
 			InteropHelp.TestIfAvailableClient();
@@ -274,7 +274,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns true if the HMD content will be streamed via Steam Remote Play</para>
-		/// <para>如果 HMD 内容将通过 Steam 远程播放流式传输，则返回 true</para>
+		/// <para>如果 HMD 内容将通过 Steam 远程播放流式传输，则返回 true。</para>
 		/// </summary>
 		public static bool IsVRHeadsetStreamingEnabled() {
 			InteropHelp.TestIfAvailableClient();
@@ -287,7 +287,7 @@ namespace Steamworks {
 		/// <para> If this is set to false, then the application window will be streamed instead, and remote input will be allowed.</para>
 		/// <para> The default is true unless "VRHeadsetStreaming" "0" is in the extended appinfo for a game.</para>
 		/// <para> (this is useful for games that have asymmetric multiplayer gameplay)</para>
-		/// <para>设置是否通过 Steam 远程播放流式 HMD 内容。如果设置为 true，则 HMD 头戴设备的场景将被流式传输，并且不允许远程输入。如果设置为 false，则应用程序窗口将被流式传输，并且允许远程输入。默认值为 true，除非“VRHeadsetStreaming”在扩展应用信息中为“0”，用于游戏具有非对称多人游戏玩法。</para>
+		/// <para>设置是否通过 Steam Remote Play 流式传输 HMD 内容。如果设置为 true，则 HMD 头戴设备中的场景将被流式传输，并且不允许远程输入。如果设置为 false，则会流式传输应用程序窗口，并且允许远程输入。默认值为 true，除非“VRHeadsetStreaming”在游戏扩展 AppInfo 中为“0”（这对于具有非对称多人游戏的游戏非常有用）。</para>
 		/// </summary>
 		public static void SetVRHeadsetStreamingEnabled(bool bEnabled) {
 			InteropHelp.TestIfAvailableClient();
@@ -296,7 +296,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Returns whether this steam client is a Steam China specific client, vs the global client.</para>
-		/// <para>返回此 Steam 客户端是否为中国 Steam 客户端，与全球客户端不同。</para>
+		/// <para>返回该Steam客户端是否为中国版Steam客户端，与全球客户端不同。</para>
 		/// </summary>
 		public static bool IsSteamChinaLauncher() {
 			InteropHelp.TestIfAvailableClient();
@@ -325,7 +325,7 @@ namespace Steamworks {
 		/// <para>   pchOutFilteredText is where the output will be placed, even if no filtering is performed</para>
 		/// <para>   nByteSizeOutFilteredText is the size (in bytes) of pchOutFilteredText, should be at least strlen(pchInputText)+1</para>
 		/// <para> Returns the number of characters (not bytes) filtered</para>
-		/// <para>Filters the provided input message and places the filtered result into pchOutFilteredText, using legally required filtering and additional filtering based on the context and user settings. eContext is the type of content in the input string. sourceSteamID is the Steam ID that is the source of the input string (e.g. the player with the name, or who said the chat text). pchInputText is the input string that should be filtered, which can be ASCII or UTF-8. pchOutFilteredText is where the output will be placed, even if no filtering is performed. nByteSizeOutFilteredText is the size (in bytes) of pchOutFilteredText, should be at least strlen(pchInputText)+1. Returns the number of characters (not bytes) filtered.</para>
+		/// <para>过滤提供的输入消息，并将过滤后的结果放入pchOutFilteredText，使用法律要求的过滤以及根据上下文和用户设置进行的额外过滤。eContext是输入字符串中内容的类型；sourceSteamID是输入字符串的来源Steam ID（例如，玩家姓名或说出聊天文本的人）；pchInputText是需要过滤的输入字符串，可以是ASCII或UTF-8；pchOutFilteredText是输出将放置的位置，即使没有进行过滤；nByteSizeOutFilteredText是pchOutFilteredText的大小（以字节为单位），应至少为strlen(pchInputText)+1。返回过滤的字符数（不是字节数）。</para>
 		/// </summary>
 		public static int FilterText(ETextFilteringContext eContext, CSteamID sourceSteamID, string pchInputMessage, out string pchOutFilteredText, uint nByteSizeOutFilteredText) {
 			InteropHelp.TestIfAvailableClient();
@@ -341,7 +341,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Return what we believe your current ipv6 connectivity to "the internet" is on the specified protocol.</para>
 		/// <para> This does NOT tell you if the Steam client is currently connected to Steam via ipv6.</para>
-		/// <para>Return what we believe your current IPv6 connectivity to “the internet” is on the specified protocol. This does NOT tell you if the Steam client is currently connected to Steam via IPv6.</para>
+		/// <para>请返回您当前通过指定协议与“互联网”的 IPv6 连接情况。这并不会告诉您 Steam 客户端是否通过 IPv6 与 Steam 连接。</para>
 		/// </summary>
 		public static ESteamIPv6ConnectivityState GetIPv6ConnectivityState(ESteamIPv6ConnectivityProtocol eProtocol) {
 			InteropHelp.TestIfAvailableClient();
@@ -360,7 +360,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Opens a floating keyboard over the game content and sends OS keyboard keys directly to the game.</para>
 		/// <para> The text field position is specified in pixels relative the origin of the game window and is used to position the floating keyboard in a way that doesn't cover the text field</para>
-		/// <para>在游戏内容上打开一个浮动键盘，并将操作系统键盘按键直接发送到游戏。文本字段的位置指定为相对于游戏窗口原点的像素值，用于以一种不会覆盖文本字段的方式定位浮动键盘。</para>
+		/// <para>在游戏内容上方打开一个浮动键盘，并将操作系统键盘按键直接发送到游戏。文本字段的位置以游戏窗口原点为基准，像素为单位指定，用于以一种方式放置浮动键盘，不会覆盖文本字段。</para>
 		/// </summary>
 		public static bool ShowFloatingGamepadTextInput(EFloatingGamepadTextInputMode eKeyboardMode, int nTextFieldXPosition, int nTextFieldYPosition, int nTextFieldWidth, int nTextFieldHeight) {
 			InteropHelp.TestIfAvailableClient();
@@ -369,7 +369,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> In game launchers that don't have controller support you can call this to have Steam Input translate the controller input into mouse/kb to navigate the launcher</para>
-		/// <para>在没有控制器支持的游戏启动器中，你可以调用它来将控制器的输入翻译成鼠标/键盘导航启动器。</para>
+		/// <para>在没有控制器支持的游戏启动器中，你可以调用它来将控制器输入翻译为鼠标/键盘，从而在启动器中导航。</para>
 		/// </summary>
 		public static void SetGameLauncherMode(bool bLauncherMode) {
 			InteropHelp.TestIfAvailableClient();

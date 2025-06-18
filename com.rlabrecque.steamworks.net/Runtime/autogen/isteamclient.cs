@@ -19,7 +19,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Creates a communication pipe to the Steam client.</para>
 		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
-		/// <para>创建与 Steam 客户端的通信管道。不线程安全 - 在调用时，请确保没有其他线程访问 Steamworks API。</para>
+		/// <para>创建一个与 Steam 客户端的通信管道。不线程安全 - 在调用时，请确保没有其他线程访问 Steamworks API。</para>
 		/// </summary>
 		public static HSteamPipe CreateSteamPipe() {
 			InteropHelp.TestIfAvailableClient();
@@ -29,7 +29,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> Releases a previously created communications pipe</para>
 		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
-		/// <para>发布一个先前创建的通信管道，但不保证线程安全 - 确保在调用时没有其他线程访问 Steamworks API。</para>
+		/// <para>发布一个先前创建的通信管道，但不保证线程安全 - 在调用时，请确保没有其他线程访问 Steamworks API。</para>
 		/// </summary>
 		public static bool BReleaseSteamPipe(HSteamPipe hSteamPipe) {
 			InteropHelp.TestIfAvailableClient();
@@ -40,7 +40,7 @@ namespace Steamworks {
 		/// <para> connects to an existing global user, failing if none exists</para>
 		/// <para> used by the game to coordinate with the steamUI</para>
 		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
-		/// <para>连接到已存在的全局用户，如果不存在则失败。游戏用于与 SteamUI 协调。不线程安全 - 确保在调用时，没有其他线程访问 Steamworks API。</para>
+		/// <para>连接到已存在的全局用户，如果不存在则失败。游戏使用该连接与 SteamUI 协调。不安全线程 - 确保在调用时，没有其他线程访问 Steamworks API。</para>
 		/// </summary>
 		public static HSteamUser ConnectToGlobalUser(HSteamPipe hSteamPipe) {
 			InteropHelp.TestIfAvailableClient();
@@ -50,7 +50,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> used by game servers, create a steam user that won't be shared with anyone else</para>
 		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
-		/// <para>用于游戏服务器，创建一个不会与其他用户共享的 Steam 用户，并且确保没有其他线程访问 Steamworks API 时调用。</para>
+		/// <para>用于游戏服务器使用，创建一个不会与其他用户共享的Steam用户，并且不保证线程安全（NOT THREADSAFE）——在调用时，确保没有任何其他线程访问Steamworks API。</para>
 		/// </summary>
 		public static HSteamUser CreateLocalUser(out HSteamPipe phSteamPipe, EAccountType eAccountType) {
 			InteropHelp.TestIfAvailableClient();
@@ -60,7 +60,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> removes an allocated user</para>
 		/// <para> NOT THREADSAFE - ensure that no other threads are accessing Steamworks API when calling</para>
-		/// <para>移除已分配的用户 - 不保证线程安全 - 在调用时确保没有其他线程访问 Steamworks API。</para>
+		/// <para>移除已分配的用户 - 确保在调用时，没有其他线程访问 Steamworks API。</para>
 		/// </summary>
 		public static void ReleaseUser(HSteamPipe hSteamPipe, HSteamUser hUser) {
 			InteropHelp.TestIfAvailableClient();
@@ -69,7 +69,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> retrieves the ISteamUser interface associated with the handle</para>
-		/// <para>检索与句柄关联的ISteamUser界面</para>
+		/// <para>检索与句柄关联的ISteamUser接口</para>
 		/// </summary>
 		public static IntPtr GetISteamUser(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
@@ -80,7 +80,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> retrieves the ISteamGameServer interface associated with the handle</para>
-		/// <para>检索与句柄关联的ISteamGameServer接口。</para>
+		/// <para>检索与句柄关联的ISteamGameServer接口</para>
 		/// </summary>
 		public static IntPtr GetISteamGameServer(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
@@ -92,7 +92,7 @@ namespace Steamworks {
 		/// <summary>
 		/// <para> set the local IP and Port to bind to</para>
 		/// <para> this must be set before CreateLocalUser()</para>
-		/// <para>设置本地 IP 和端口以绑定到此处，必须在 CreateLocalUser() 之前设置。</para>
+		/// <para>设置本地 IP 和端口以进行绑定，必须在调用 CreateLocalUser() 之前完成设置。</para>
 		/// </summary>
 		public static void SetLocalIPBinding(ref SteamIPAddress_t unIP, ushort usPort) {
 			InteropHelp.TestIfAvailableClient();
@@ -178,7 +178,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> returns apps interface</para>
-		/// <para>返回应用界面的</para>
+		/// <para>返回应用界面</para>
 		/// </summary>
 		public static IntPtr GetISteamApps(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
@@ -236,7 +236,7 @@ namespace Steamworks {
 		/// <para> Used for perf debugging so you can understand how many IPC calls your game makes per frame</para>
 		/// <para> Every IPC call is at minimum a thread context switch if not a process one so you want to rate</para>
 		/// <para> control how often you do them.</para>
-		/// <para>返回自上次调用该函数以来所做的 IPC 调用次数。用于性能调试，以便您了解游戏中的 IPC 调用次数每帧是多少。每个 IPC 调用至少会导致线程上下文切换，如果不是，则会导致进程切换，因此您需要控制它们发生的频率。</para>
+		/// <para>返回自上次调用此函数以来所做的 IPC 调用次数。用于性能调试，以便您了解您的游戏每帧所做的 IPC 调用次数。每个 IPC 调用至少会触发一次线程上下文切换，如果不是线程则至少会触发一次进程切换，因此您需要控制您执行它们的频率。</para>
 		/// </summary>
 		public static uint GetIPCCallCount() {
 			InteropHelp.TestIfAvailableClient();
@@ -248,7 +248,7 @@ namespace Steamworks {
 		/// <para> 'int' is the severity; 0 for msg, 1 for warning</para>
 		/// <para> 'const char *' is the text of the message</para>
 		/// <para> callbacks will occur directly after the API function is called that generated the warning or message.</para>
-		/// <para>API 警告处理 'int' 是严重程度；0 表示消息，1 表示警告。 'const char *' 是消息文本。回调将在生成警告或消息的 API 函数调用后直接发生。</para>
+		/// <para>API警告处理 'int' 是严重程度；0 表示消息，1 表示警告。 'const char *' 是消息文本。回调将在生成警告或消息的API函数调用后直接发生。</para>
 		/// </summary>
 		public static void SetWarningMessageHook(SteamAPIWarningMessageHook_t pFunction) {
 			InteropHelp.TestIfAvailableClient();
@@ -257,7 +257,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Trigger global shutdown for the DLL</para>
-		/// <para>触发全局 DLL 停机。</para>
+		/// <para>触发全局 DLL 停止</para>
 		/// </summary>
 		public static bool BShutdownIfAllPipesClosed() {
 			InteropHelp.TestIfAvailableClient();
@@ -277,7 +277,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Exposes the ISteamController interface - deprecated in favor of Steam Input</para>
-		/// <para>暴露 ISteamController 接口 - 取消使用，改为 Steam Input</para>
+		/// <para>暴露 ISteamController 接口 - 以 favor of Steam Input 为之废弃</para>
 		/// </summary>
 		public static IntPtr GetISteamController(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
@@ -310,7 +310,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Music Player Remote</para>
-		/// <para>音乐播放器远程</para>
+		/// <para>音乐播放器遥控器</para>
 		/// </summary>
 		public static IntPtr GetISteamMusicRemote(HSteamUser hSteamuser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
@@ -376,7 +376,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Steam Parties interface</para>
-		/// <para>Steam Parties interface</para>
+		/// <para>Steam Parties 界面</para>
 		/// </summary>
 		public static IntPtr GetISteamParties(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
@@ -387,7 +387,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// <para> Steam Remote Play interface</para>
-		/// <para>Steam 远程播放界面</para>
+		/// <para>Steam 远程游玩界面</para>
 		/// </summary>
 		public static IntPtr GetISteamRemotePlay(HSteamUser hSteamUser, HSteamPipe hSteamPipe, string pchVersion) {
 			InteropHelp.TestIfAvailableClient();
