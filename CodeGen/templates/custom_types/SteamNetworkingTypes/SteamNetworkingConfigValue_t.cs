@@ -1,4 +1,4 @@
-namespace Steamworks
+﻿namespace Steamworks
 {
 	/// In a few places we need to set configuration options on listen sockets and connections, and
 	/// have them take effect *before* the listen socket or connection really starts doing anything.

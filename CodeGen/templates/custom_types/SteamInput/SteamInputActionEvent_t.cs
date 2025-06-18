@@ -1,4 +1,4 @@
-namespace Steamworks
+﻿namespace Steamworks
 {
 	//-----------------------------------------------------------------------------
 	// Purpose: when callbacks are enabled this fires each time a controller action

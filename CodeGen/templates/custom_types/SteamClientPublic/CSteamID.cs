@@ -1,4 +1,4 @@
-namespace Steamworks {
+﻿namespace Steamworks {
 	[System.Serializable]
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 4)]
 	public struct CSteamID : System.IEquatable<CSteamID>, System.IComparable<CSteamID> {

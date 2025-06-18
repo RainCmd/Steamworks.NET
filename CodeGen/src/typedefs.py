@@ -153,7 +153,7 @@ g_translate_text = None
 def main(parser, translate_text = None):
     global g_translate_text
     g_translate_text = translate_text
-    with open("templates/header.txt", "r") as f:
+    with open("templates/header.txt", "r", encoding= 'utf-8') as f:
         HEADER = f.read()
 
     with open("templates/typetemplate.txt", "r") as f:
@@ -167,9 +167,10 @@ def main(parser, translate_text = None):
             except OSError:
                 pass
 
+            print(filename)
             with open(os.path.join(outputdir, filename), "wb") as out:
                 out.write(bytes(HEADER, "utf-8"))
-                with open(os.path.join(root, filename), "r") as customType:
+                with open(os.path.join(root, filename), "r", encoding= 'utf-8') as customType:
                     out.write(bytes(customType.read(), "utf-8"))
 
     for t in parser.typedefs:

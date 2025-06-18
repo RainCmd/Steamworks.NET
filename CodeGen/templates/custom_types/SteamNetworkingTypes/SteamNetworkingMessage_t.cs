@@ -1,4 +1,4 @@
-namespace Steamworks
+﻿namespace Steamworks
 {
 	/// A message that has been received.
 	/// 已收到的消息。

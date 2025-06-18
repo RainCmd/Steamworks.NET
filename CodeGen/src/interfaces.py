@@ -561,7 +561,7 @@ def main(parser, translate_text = None):
     except OSError:
         pass
 
-    with open("templates/header.txt", "r") as f:
+    with open("templates/header.txt", "r", encoding= "utf-8") as f:
         global HEADER
         HEADER = f.read()
 
@@ -572,7 +572,7 @@ def main(parser, translate_text = None):
 
     with open("../com.rlabrecque.steamworks.net/Runtime/autogen/NativeMethods.cs", "wb") as out:
         #out.write(bytes(HEADER, "utf-8"))
-        with open("templates/nativemethods.txt", "r") as f:
+        with open("templates/nativemethods.txt", "r", encoding= 'utf-8') as f:
             out.write(bytes(f.read(), "utf-8"))
         for line in g_NativeMethods:
             out.write(bytes(line + "\n", "utf-8"))

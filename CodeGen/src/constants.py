@@ -167,7 +167,7 @@ def main(parser, translate_text = None):
         lines.append("public const " + constant.type + " " + constant.name + constant.spacing + "= " + constant.value + ";" + constant.comment)
 
     with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamConstants.cs", "wb") as out:
-        with open("templates/header.txt", "r") as f:
+        with open("templates/header.txt", "r",encoding='utf-8') as f:
             out.write(bytes(f.read(), "utf-8"))
         out.write(bytes("namespace Steamworks {\n", "utf-8"))
         out.write(bytes("\tpublic static class Constants {\n", "utf-8"))

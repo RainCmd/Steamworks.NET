@@ -121,7 +121,7 @@ def main(parser, translate_text = None):
             callbacklines.extend(parse(callback))
 
     with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamStructs.cs", "wb") as out:
-        with open("templates/header.txt", "r") as f:
+        with open("templates/header.txt", "r",encoding= 'utf-8') as f:
             out.write(bytes(f.read(), "utf-8"))
         out.write(bytes("namespace Steamworks {\n", "utf-8"))
         for line in lines:
@@ -130,7 +130,7 @@ def main(parser, translate_text = None):
         out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
     with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamCallbacks.cs", "wb") as out:
-        with open("templates/header.txt", "r") as f:
+        with open("templates/header.txt", "r", encoding= 'utf-8') as f:
             out.write(bytes(f.read(), "utf-8"))
         out.write(bytes("namespace Steamworks {\n", "utf-8"))
         for line in callbacklines:
