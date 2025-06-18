@@ -145,15 +145,15 @@ def main(parser, translate_text = None):
             lines.append("\t}")
             lines.append("")
 
-    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamEnums.cs", "wb") as out:
+    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamEnums.cs", "w", encoding= 'utf-8') as out:
         with open("templates/header.txt", "r",encoding='utf-8') as f:
-            out.write(bytes(f.read(), "utf-8"))
-        out.write(bytes("using Flags = System.FlagsAttribute;\n\n", "utf-8"))
-        out.write(bytes("namespace Steamworks {\n", "utf-8"))
+            out.write(f.read())
+        out.write("using Flags = System.FlagsAttribute;\n\n")
+        out.write("namespace Steamworks {\n")
         for line in lines:
-            out.write(bytes(line + "\n", "utf-8"))
-        out.write(bytes("}\n\n", "utf-8"))
-        out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
+            out.write(line + "\n")
+        out.write("}\n\n")
+        out.write("#endif // !DISABLESTEAMWORKS\n")
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

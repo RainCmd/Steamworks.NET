@@ -166,16 +166,16 @@ def main(parser, translate_text = None):
                     lines.append("// " + text)
         lines.append("public const " + constant.type + " " + constant.name + constant.spacing + "= " + constant.value + ";" + constant.comment)
 
-    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamConstants.cs", "wb") as out:
+    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamConstants.cs", "w", encoding= 'utf-8') as out:
         with open("templates/header.txt", "r",encoding='utf-8') as f:
-            out.write(bytes(f.read(), "utf-8"))
-        out.write(bytes("namespace Steamworks {\n", "utf-8"))
-        out.write(bytes("\tpublic static class Constants {\n", "utf-8"))
+            out.write(f.read())
+        out.write("namespace Steamworks {\n")
+        out.write("\tpublic static class Constants {\n")
         for line in lines:
-            out.write(bytes("\t\t" + line + "\n", "utf-8"))
-        out.write(bytes("\t}\n", "utf-8"))
-        out.write(bytes("}\n\n", "utf-8"))
-        out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
+            out.write("\t\t" + line + "\n")
+        out.write("\t}\n")
+        out.write("}\n\n")
+        out.write("#endif // !DISABLESTEAMWORKS\n")
 
 def parse(parser):
     interfaceversions, defines = parse_defines(parser)

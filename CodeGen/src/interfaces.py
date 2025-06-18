@@ -570,15 +570,15 @@ def main(parser, translate_text = None):
     for f in parser.files:
         parse(f)
 
-    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/NativeMethods.cs", "wb") as out:
+    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/NativeMethods.cs", "w", encoding= 'utf-8') as out:
         #out.write(bytes(HEADER, "utf-8"))
         with open("templates/nativemethods.txt", "r", encoding= 'utf-8') as f:
-            out.write(bytes(f.read(), "utf-8"))
+            out.write(f.read())
         for line in g_NativeMethods:
-            out.write(bytes(line + "\n", "utf-8"))
-        out.write(bytes("\t}\n", "utf-8"))
-        out.write(bytes("}\n\n", "utf-8"))
-        out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
+            out.write(line + "\n")
+        out.write("\t}\n")
+        out.write("}\n\n")
+        out.write("#endif // !DISABLESTEAMWORKS\n")
 
 def get_arg_attribute(strEntryPoint, arg):
     return g_FixedAttributeValues.get(strEntryPoint, dict()).get(arg.name, arg.attribute)
@@ -594,13 +594,13 @@ def parse(f):
         parse_interface(f, interface)
 
     if g_Output:
-        with open('../com.rlabrecque.steamworks.net/Runtime/autogen/' + os.path.splitext(f.name)[0] + '.cs', 'wb') as out:
-            out.write(bytes(HEADER, "utf-8"))
-            out.write(bytes("namespace Steamworks {\n", "utf-8"))
+        with open('../com.rlabrecque.steamworks.net/Runtime/autogen/' + os.path.splitext(f.name)[0] + '.cs', 'w', encoding= 'utf-8') as out:
+            out.write(HEADER)
+            out.write("namespace Steamworks {\n")
             for line in g_Output:
-                out.write(bytes(line + "\n", "utf-8"))
-            out.write(bytes("}\n\n", "utf-8"))  # Namespace
-            out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
+                out.write(line + "\n")
+            out.write("}\n\n")  # Namespace
+            out.write("#endif // !DISABLESTEAMWORKS\n")
 
 
 def parse_interface(f, interface):

@@ -120,23 +120,23 @@ def main(parser, translate_text = None):
         for callback in f.callbacks:
             callbacklines.extend(parse(callback))
 
-    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamStructs.cs", "wb") as out:
+    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamStructs.cs", "w", encoding= 'utf-8') as out:
         with open("templates/header.txt", "r",encoding= 'utf-8') as f:
-            out.write(bytes(f.read(), "utf-8"))
-        out.write(bytes("namespace Steamworks {\n", "utf-8"))
+            out.write(f.read())
+        out.write("namespace Steamworks {\n")
         for line in lines:
-            out.write(bytes(line + "\n", "utf-8"))
-        out.write(bytes("}\n\n", "utf-8"))
-        out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
+            out.write(line + "\n")
+        out.write("}\n\n")
+        out.write("#endif // !DISABLESTEAMWORKS\n")
 
-    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamCallbacks.cs", "wb") as out:
+    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamCallbacks.cs", "w", encoding= 'utf-8') as out:
         with open("templates/header.txt", "r", encoding= 'utf-8') as f:
-            out.write(bytes(f.read(), "utf-8"))
-        out.write(bytes("namespace Steamworks {\n", "utf-8"))
+            out.write(f.read())
+        out.write("namespace Steamworks {\n")
         for line in callbacklines:
-            out.write(bytes(line + "\n", "utf-8"))
-        out.write(bytes("}\n\n", "utf-8"))
-        out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
+            out.write(line + "\n")
+        out.write("}\n\n")
+        out.write("#endif // !DISABLESTEAMWORKS\n")
 
 def parse(struct):
     if struct.name in g_SkippedStructs:

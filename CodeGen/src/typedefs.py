@@ -168,10 +168,10 @@ def main(parser, translate_text = None):
                 pass
 
             print(filename)
-            with open(os.path.join(outputdir, filename), "wb") as out:
-                out.write(bytes(HEADER, "utf-8"))
+            with open(os.path.join(outputdir, filename), "w", encoding= 'utf-8') as out:
+                out.write(HEADER)
                 with open(os.path.join(root, filename), "r", encoding= 'utf-8') as customType:
-                    out.write(bytes(customType.read(), "utf-8"))
+                    out.write(customType.read())
 
     for t in parser.typedefs:
         if t.name in g_UnusedTypedefs:
@@ -209,9 +209,9 @@ def main(parser, translate_text = None):
         except OSError:
             pass
 
-        with open("../com.rlabrecque.steamworks.net/Runtime/types/" + foldername + "/" + t.name + ".cs", "wb") as out:
-            out.write(bytes(HEADER, "utf-8"))
-            out.write(bytes(ourtemplate, "utf-8"))
+        with open("../com.rlabrecque.steamworks.net/Runtime/types/" + foldername + "/" + t.name + ".cs", "w", encoding='utf-8') as out:
+            out.write(HEADER)
+            out.write(ourtemplate)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

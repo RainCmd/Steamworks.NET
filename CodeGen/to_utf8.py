@@ -8,7 +8,7 @@ def convert(file, inType):
         print(inType + " to utf8 : " + file, flush = True)
         f = codecs.open(file, 'r', inType)
         content = f.read()
-        codecs.open(file, 'w', "UTF-8-sig").write(content)
+        codecs.open(file, 'w', "UTF-8").write(content)
     except IOError as err:
         print("IOERR:" + err)
 
