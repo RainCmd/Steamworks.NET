@@ -30,18 +30,20 @@ def translate(text):
     url = "http://localhost:11434/api/generate"
     data = {
         "model": "gemma3:4b",
-        "prompt": text,
+        "prompt": f'请翻译为中文:{text}',
         "stream": False,
         "options":{
             "temperature": 0.1,
             "top_p": 0.6,
             "top_k": 10,
         },
-        "system": "你是一个翻译助手，任何发送给你的内容都直接翻译为简体中文并输出，不要输出其他任何多余内容。请注意，Steam是软件名，保留英文原文，Valve是公司名，也保留英文原文。",
+        "system": "你是一个翻译助手，任何发送给你的内容都直接翻译为简体中文并输出，不要输出其他任何多余内容。请注意，Steam是软件名，保留英文原文，Valve是公司名，也保留英文原文。如果你觉得无需翻译就只输出(null)",
     }
     response = requests.post(url, json=data)
     result = response.json().get("response", "")
     print(f"翻译结果: {result}")
+    if result == "(null)":
+        return ""
     return result.replace("\n", " ").strip()
 
 def translate_text(text, forceTrim = False):
