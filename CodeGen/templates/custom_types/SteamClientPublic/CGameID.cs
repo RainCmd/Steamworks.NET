@@ -1,4 +1,4 @@
-﻿namespace Steamworks {
+namespace Steamworks {
 	[System.Serializable]
 	public struct CGameID : System.IEquatable<CGameID>, System.IComparable<CGameID> {
 		public ulong m_GameID;

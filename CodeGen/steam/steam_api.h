@@ -1,4 +1,4 @@
-﻿//====== Copyright Valve Corporation, All rights reserved. ====================
+//====== Copyright Valve Corporation, All rights reserved. ====================
 //
 // This header includes *all* of the interfaces and callback structures
 // in the Steamworks SDK, and some high level functions to control the SDK

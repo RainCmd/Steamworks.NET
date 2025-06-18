@@ -1,4 +1,4 @@
-﻿namespace Steamworks
+namespace Steamworks
 {
 	/// Network-routable identifier for a service.  This is an intentionally
 	/// opaque byte blob.  The relays know how to use this to forward it on

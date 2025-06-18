@@ -1,4 +1,4 @@
-﻿//====== Copyright Valve Corporation, All rights reserved. ====================
+//====== Copyright Valve Corporation, All rights reserved. ====================
 //
 // Purpose: interface to both friends list data and general information about users
 //

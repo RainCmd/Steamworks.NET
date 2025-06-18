@@ -1,4 +1,4 @@
-﻿//====== Copyright 1996-2018, Valve Corporation, All rights reserved. =======
+//====== Copyright 1996-2018, Valve Corporation, All rights reserved. =======
 //
 // Purpose: Steam Input is a flexible input API that supports over three hundred devices including all 
 //          common variants of Xbox, Playstation, Nintendo Switch Pro, and Steam Controllers.

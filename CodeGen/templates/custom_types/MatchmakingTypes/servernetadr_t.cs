@@ -1,4 +1,4 @@
-﻿namespace Steamworks {
+namespace Steamworks {
 	// servernetadr_t is all the addressing info the serverbrowser needs to know about a game server,
 	// namely: its IP, its connection port, and its query port.
 	// servernetadr_t是服务器浏览器需要知道的关于游戏服务器的所有地址信息，即：它的IP，它的连接端口和它的查询端口。

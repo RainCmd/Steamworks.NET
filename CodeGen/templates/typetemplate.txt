@@ -1,4 +1,4 @@
-﻿namespace Steamworks {
+namespace Steamworks {
 	[System.Serializable]
 	public struct {NAME} : System.IEquatable<{NAME}>, System.IComparable<{NAME}> {
 {READONLY}

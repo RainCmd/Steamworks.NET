@@ -1,4 +1,4 @@
-﻿namespace Steamworks
+namespace Steamworks
 {
 	[System.Serializable]
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]

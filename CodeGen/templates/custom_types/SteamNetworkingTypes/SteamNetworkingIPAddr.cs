@@ -1,4 +1,4 @@
-﻿namespace Steamworks
+namespace Steamworks
 {
 	/// Store an IP and port.  IPv6 is always used; IPv4 is represented using
 	/// "IPv4-mapped" addresses: IPv4 aa.bb.cc.dd => IPv6 ::ffff:aabb:ccdd

@@ -1,4 +1,4 @@
-﻿namespace Steamworks
+namespace Steamworks
 {
 	/// An abstract way to represent the identity of a network host.  All identities can
 	/// be represented as simple string.  Furthermore, this string representation is actually

@@ -1,4 +1,4 @@
-﻿namespace Steamworks
+namespace Steamworks
 {
 	/// Interface used to send signaling messages for a particular connection.
 	/// 用于为特定连接发送信令消息的接口。

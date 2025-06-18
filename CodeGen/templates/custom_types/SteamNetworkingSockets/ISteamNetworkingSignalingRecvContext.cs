@@ -1,4 +1,4 @@
-﻿namespace Steamworks
+namespace Steamworks
 {
 	/// Interface used when a custom signal is received.
 	/// See ISteamNetworkingSockets::ReceivedP2PCustomSignal
