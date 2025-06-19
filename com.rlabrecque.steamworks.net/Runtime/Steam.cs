@@ -20,6 +20,7 @@ namespace Steamworks {
 		//	Steam API setup & shutdown
 		//
 		//	These functions manage loading, initializing and shutdown of the steamclient.dll
+		//  这些功能负责管理 steamclient.dll 的加载、初始化以及关闭操作。
 		//
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 
@@ -29,15 +30,21 @@ namespace Steamworks {
 		//
 		// There are three different methods you can use to initialize the Steamworks SDK, depending on
 		// your project's environment. You should only use one method in your project.
+		// 有三种不同的方法可供您使用来初始化 Steamworks SDK，具体取决于您的项目环境。在您的项目中，您只能使用其中一种方法。
 		//
 		// If you are able to include this C++ header in your project, we recommend using the following
 		// initialization methods. They will ensure that all ISteam* interfaces defined in other
 		// C++ header files have versions that are supported by the user's Steam Client:
 		// - SteamAPI_InitEx() for new projects so you can show a detailed error message to the user
 		// - SteamAPI_Init() for existing projects that only display a generic error message
+		// 如果您能够在项目中引入此 C++ 头文件，我们建议采用以下初始化方法。
+		// 这些方法将确保其他 C++ 头文件中定义的所有 ISteam* 接口都有用户 Steam 客户端能够支持的版本：
+		// - 对于新项目，使用 SteamAPI_InitEx() 函数可以让您向用户显示详细的错误信息。
+		// - 对于那些仅显示通用错误信息的现有项目，使用“SteamAPI_Init()”函数
 		//
 		// If you are unable to include this C++ header in your project and are dynamically loading
 		// Steamworks SDK methods from dll/so, you can use the following method:
+		// 如果您无法将此 C++ 头文件包含到您的项目中，并且是通过动态加载 dll 或 so 文件来加载 Steamworks SDK 方法的话，您可以使用以下方法：
 		// - SteamAPI_InitFlat()
 
 
@@ -45,6 +52,10 @@ namespace Steamworks {
 		// On success k_ESteamAPIInitResult_OK is returned. Otherwise, returns a value that can be used
 		// to create a localized error message for the user. If pOutErrMsg is non-NULL,
 		// it will receive an example error message, in English, that explains the reason for the failure.
+		// 请参阅上述“初始化 Steamworks SDK”部分，以了解如何选择初始化方法。
+		// 如果操作成功，将返回值 k_ESteamAPIInitResult_OK。
+		// 否则，将返回一个可用于为用户创建本地化错误消息的值。
+		// 如果 pOutErrMsg 不为 NULL，则它将接收到一个用英语编写的示例错误消息，该消息解释了失败的原因。
 		//
 		// Example usage:
 		//
@@ -53,6 +64,7 @@ namespace Steamworks {
 		//       FatalError( "Failed to init Steam.  %s", errMsg );
 
 		// See "Initializing the Steamworks SDK" above for how to choose an init method.
+		// 请参阅上述“初始化 Steamworks SDK”部分，以了解如何选择初始化方法。
 		// Returns true on success
 		public static ESteamAPIInitResult InitEx(out string OutSteamErrMsg)
 		{
@@ -62,7 +74,9 @@ namespace Steamworks {
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMUTILS_INTERFACE_VERSION).Append("\0");
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMNETWORKINGUTILS_INTERFACE_VERSION).Append("\0");
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMAPPS_INTERFACE_VERSION).Append("\0");
-			//pszInternalCheckInterfaceVersions.Append(Constants.STEAMCONTROLLER_INTERFACE_VERSION).Append("\0"); // ISteamController is deprecated in favor of ISteamInput.
+			// ISteamController is deprecated in favor of ISteamInput.
+			// ISteamController 已被弃用，取而代之的是 ISteamInput。
+			//pszInternalCheckInterfaceVersions.Append(Constants.STEAMCONTROLLER_INTERFACE_VERSION).Append("\0"); 
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMFRIENDS_INTERFACE_VERSION).Append("\0");
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMGAMESEARCH_INTERFACE_VERSION).Append("\0");
 			pszInternalCheckInterfaceVersions.Append(Constants.STEAMHTMLSURFACE_INTERFACE_VERSION).Append("\0");
@@ -95,6 +109,8 @@ namespace Steamworks {
 				// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
 				// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
 				// before each call to any interface functions. That is in InteropHelp.cs
+				// 针对 Steamworks.NET 特性：目前我们是这样初始化 SteamAPI 上下文的，但每次 Unity 重新加载二进制文件时都需要进行此操作，
+				// 所以我们还会在每次调用任何接口函数之前检查指针是否可用且已初始化。这部分内容位于 InteropHelp.cs 文件中。
 				if (initResult == ESteamAPIInitResult.k_ESteamAPIInitResult_OK)
 				{
 					bool ret = CSteamAPIContext.Init();
@@ -119,6 +135,7 @@ namespace Steamworks {
 		}
 
 		// SteamAPI_Shutdown should be called during process shutdown if possible.
+		// 如果可能的话，在程序关闭时应调用 SteamAPI_Shutdown 函数。
 		public static void Shutdown() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamAPI_Shutdown();
@@ -127,15 +144,21 @@ namespace Steamworks {
 		}
 
 		// SteamAPI_RestartAppIfNecessary ensures that your executable was launched through Steam.
+		// “SteamAPI_RestartAppIfNecessary”函数的作用是确保您的可执行文件是通过 Steam 启动的。
 		//
 		// Returns true if the current process should terminate. Steam is now re-launching your application.
+		// 如果当前进程应终止，则返回真值。现在，Steam 正在重新启动您的应用程序。
 		//
 		// Returns false if no action needs to be taken. This means that your executable was started through
 		// the Steam client, or a steam_appid.txt file is present in your game's directory (for development).
 		// Your current process should continue if false is returned.
+		// 如果无需采取任何操作，则返回 false。这意味着您的可执行文件是通过 Steam 客户端启动的，
+		// 或者您的游戏目录中存在 steam_appid.txt 文件（用于开发）。如果返回 false，则您的当前进程应继续运行。
 		//
 		// NOTE: If you use the Steam DRM wrapper on your primary executable file, this check is unnecessary
 		// since the DRM wrapper will ensure that your application was launched properly through Steam.
+		// 注意：如果您在主可执行文件中使用了 Steam DRM 封装程序，那么此检查就无需进行，
+		// 因为 DRM 封装程序会确保您的应用程序是通过 Steam 正确启动的。
 		public static bool RestartAppIfNecessary(AppId_t unOwnAppID) {
 			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamAPI_RestartAppIfNecessary(unOwnAppID);
@@ -145,6 +168,8 @@ namespace Steamworks {
 		// SteamAPI_ReleaseCurrentThreadMemory() will free API memory associated with the calling thread.
 		// This function is also called automatically by SteamAPI_RunCallbacks(), so a single-threaded
 		// program never needs to explicitly call this function.
+		// 许多 Steam API 函数会为参数存储分配少量的线程局部内存。而 SteamAPI_ReleaseCurrentThreadMemory() 
+		// 函数则会释放与调用线程相关的 API 内存。此函数也会由 SteamAPI_RunCallbacks() 自动调用，因此单线程程序无需显式调用此函数。
 		public static void ReleaseCurrentThreadMemory() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamAPI_ReleaseCurrentThreadMemory();
@@ -152,52 +177,71 @@ namespace Steamworks {
 
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 		//	steam callback and call-result helpers
+		// steam回调和调用结果辅助函数
 		//
 		//	The following macros and classes are used to register your application for
 		//	callbacks and call-results, which are delivered in a predictable manner.
+		//  以下的宏和类用于为您的应用程序注册回调和调用结果，并且这些结果将以可预测的方式进行传递。
 		//
 		//	STEAM_CALLBACK macros are meant for use inside of a C++ class definition.
 		//	They map a Steam notification callback directly to a class member function
 		//	which is automatically prototyped as "void func( callback_type *pParam )".
+		//  STEAM_CALLBACK 宏用于在 C++ 类定义内部使用。他们将 Steam 通知回调直接映射到一个类成员函数上，
+		//  该函数会自动被编译为“void func( callback_type *pParam )”的格式。
 		//
 		//	CCallResult is used with specific Steam APIs that return "result handles".
 		//	The handle can be passed to a CCallResult object's Set function, along with
 		//	an object pointer and member-function pointer. The member function will
 		//	be executed once the results of the Steam API call are available.
+		//  CCallResult 与特定的 Steam API 结合使用，这些 API 会返回“结果句柄”。
+		//  该句柄可以传递给 CCallResult 对象的 Set 函数，同时还需要提供一个对象指针和成员函数指针。
+		//  当 Steam API 调用的结果可用时，该成员函数将被执行。
 		//
 		//	CCallback and CCallbackManual classes can be used instead of STEAM_CALLBACK
 		//	macros if you require finer control over registration and unregistration.
+		//  如果您希望对注册和注销操作有更精细的控制，那么可以使用 CCallback 和 CCallbackManual 类，
+		//  而无需使用 STEAM_CALLBACK 宏。
 		//
 		//	Callbacks and call-results are queued automatically and are only
 		//	delivered/executed when your application calls SteamAPI_RunCallbacks().
+		//  回调函数和回调结果会自动排队，只有在您的应用程序调用 SteamAPI_RunCallbacks() 时才会进行传递/执行。
 		//
 		//	Note that there is an alternative, lower level callback dispatch mechanism.
+		//  请注意，还有一种更低层级的回调调度机制可供选择。
 		//	See SteamAPI_ManualDispatch_Init
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 		// Dispatch all queued Steamworks callbacks.
+		// 执行所有排队的 Steamworks 回调操作。
 		//
 		// This is safe to call from multiple threads simultaneously,
 		// but if you choose to do this, callback code could be executed on any thread.
 		// One alternative is to call SteamAPI_RunCallbacks from the main thread only,
 		// and call SteamAPI_ReleaseCurrentThreadMemory regularly on other threads.
+		// 从多个线程同时调用此函数是安全的，但如果您选择这样做，回调代码可能会在任何线程上执行。
+		// 一种可行的方法是仅在主线程中调用 SteamAPI_RunCallbacks 函数，
+		// 而在其他线程中定期调用 SteamAPI_ReleaseCurrentThreadMemory 函数。
 		public static void RunCallbacks() {
 			CallbackDispatcher.RunFrame(false);
 		}
 
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 		//	steamclient.dll private wrapper functions
+		//  steamclient.dll 私有包装函数
 		//
 		//	The following functions are part of abstracting API access to the steamclient.dll, but should only be used in very specific cases
+		//  以下功能是将 API 访问抽象化到 steamclient.dll 中的一部分，但仅应在非常特殊的情况下使用。
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 		// SteamAPI_IsSteamRunning() returns true if Steam is currently running
+		// SteamAPI_IsSteamRunning() 函数若检测到 Steam 正在运行，则返回值为真。
 		public static bool IsSteamRunning() {
 			InteropHelp.TestIfPlatformSupported();
 			return NativeMethods.SteamAPI_IsSteamRunning();
 		}
 
 		// returns the pipe we are communicating to Steam with
+		// 返回我们用于与 Steam 进行通信的管道
 		public static HSteamPipe GetHSteamPipe() {
 			InteropHelp.TestIfPlatformSupported();
 			return (HSteamPipe)NativeMethods.SteamAPI_GetHSteamPipe();
@@ -211,9 +255,12 @@ namespace Steamworks {
 
 	public static class GameServer {
 		// Initialize SteamGameServer client and interface objects, and set server properties which may not be changed.
+		// 初始化 SteamGameServer 客户端和接口对象，并设置一些不可更改的服务器属性。
 		//
 		// After calling this function, you should set any additional server parameters, and then
 		// call ISteamGameServer::LogOnAnonymous() or ISteamGameServer::LogOn()
+		// 调用此函数后，您需要设置任何其他服务器参数，
+		// 然后调用 ISteamGameServer::LogOnAnonymous() 或 ISteamGameServer::LogOn() 方法。
 		//
 		// - unIP will usually be zero.  If you are on a machine with multiple IP addresses, you can pass a non-zero
 		//   value here and the relevant sockets will be bound to that IP.  This can be used to ensure that
@@ -227,6 +274,13 @@ namespace Steamworks {
 		//		ISteamGameServer::GetNextOutgoingPacket.)
 		// - The version string should be in the form x.x.x.x, and is used by the master server to detect when the
 		//		server is out of date.  (Only servers with the latest version will be listed.)
+		// - unIP 通常为零值。如果您所使用的计算机具有多个 IP 地址，您可以在此处输入非零值，
+		//   这样相关的套接字就会绑定到该 IP 地址上。此功能可用于确保您所期望的 IP 地址正是服务器浏览器中所使用的那个。
+		// - usGamePort 是客户端进行游戏操作时所连接的端口。通常您需要打开自己的套接字，并将其绑定到此端口上。
+		// - “usQueryPort”是负责管理服务器浏览器相关任务以及接收客户端信息推送的端口。若将“STEAMGAMESERVER_QUERY_PORT_SHARED”
+		//   作为“usQueryPort”的值传递，则系统将采用“GameSocketShare”模式，这意味着游戏将负责为主服务器更新程序发送和接收 UDP 数据包。
+		//  （请参阅 ISteamGameServer::HandleIncomingPacket 和 ISteamGameServer::GetNextOutgoingPacket）
+		// - 版本字符串应采用“x.x.x.x”的格式，并且由主服务器使用，用于检测服务器是否已过时。（只有拥有最新版本的服务器才会被列出。）
 		public static ESteamAPIInitResult InitEx(uint unIP, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString, out string OutSteamErrMsg) {
 			InteropHelp.TestIfPlatformSupported();
 
@@ -252,6 +306,8 @@ namespace Steamworks {
 				// Steamworks.NET specific: We initialize the SteamAPI Context like this for now, but we need to do it
 				// every time that Unity reloads binaries, so we also check if the pointers are available and initialized
 				// before each call to any interface functions. That is in InteropHelp.cs
+				// 针对 Steamworks.NET 特性：目前我们是这样初始化 SteamAPI 上下文的，但每次 Unity 重新加载二进制文件时都需要进行此操作，
+				// 所以我们还会在每次调用任何接口函数之前检查指针是否可用且已初始化。这在 InteropHelp.cs 文件中有所体现。
 				if (initResult == ESteamAPIInitResult.k_ESteamAPIInitResult_OK)
 				{
 					bool ret = CSteamGameServerAPIContext.Init();
@@ -270,6 +326,7 @@ namespace Steamworks {
 
 		// This function is included for compatibility with older SDK.
 		// You can use it if you don't care about decent error handling
+		// 此功能的设置是为了与较旧的 SDK 兼容。如果您不关心良好的错误处理机制，也可以使用它。
 		public static bool Init(uint unIP, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, string pchVersionString) {
 			InteropHelp.TestIfPlatformSupported();
 
@@ -278,6 +335,7 @@ namespace Steamworks {
 		}
 
 		// Shutdown SteamGameSeverXxx interfaces, log out, and free resources.
+		// 关闭 Steam 游戏服务器 xxx 的接口，退出登录，并释放资源。
 		public static void Shutdown() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamGameServer_Shutdown();
@@ -294,6 +352,11 @@ namespace Steamworks {
 		// will free all API-related memory associated with the calling thread.
 		// This memory is released automatically by SteamGameServer_RunCallbacks(),
 		// so single-threaded servers do not need to explicitly call this function.
+		// 大多数 Steam API 函数都会为参数存储分配一定量的线程局部内存。
+		// 调用 SteamGameServer_ReleaseCurrentThreadMemory() 
+		// 将会释放与调用线程相关的所有与 API 相关的内存。
+		// 此内存会由 SteamGameServer_RunCallbacks() 自动释放，
+		// 因此单线程服务器无需显式调用此函数。
 		public static void ReleaseCurrentThreadMemory() {
 			InteropHelp.TestIfPlatformSupported();
 			NativeMethods.SteamGameServer_ReleaseCurrentThreadMemory();

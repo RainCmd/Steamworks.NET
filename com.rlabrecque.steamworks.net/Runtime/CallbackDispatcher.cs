@@ -21,8 +21,10 @@
 	#define WINDOWS_BUILD
 #elif STEAMWORKS_LIN_OSX
 	// So that we don't enter the else block below.
+	// 这样我们就不会进入下面的“else”代码块了。
 #else
 	#error You need to define STEAMWORKS_WIN, or STEAMWORKS_LIN_OSX. Refer to the readme for more details.
+	#error 您需要定义“STEAMWORKS_WIN”或者“STEAMWORKS_LIN_OSX”。有关更多详细信息，请参考“readme”文件。
 #endif
 
 using System;
@@ -32,8 +34,11 @@ using System.Runtime.InteropServices;
 namespace Steamworks {
 	public static class CallbackDispatcher {
 		// We catch exceptions inside callbacks and reroute them here.
+		// 我们在回调函数内部捕获异常，并将它们在此处重新处理。
 		// For some reason throwing an exception causes RunCallbacks() to break otherwise.
+		// 出于某种原因，抛出异常会导致 RunCallbacks() 函数出现故障，否则这种情况是不会发生的。
 		// If you have a custom ExceptionHandler in your engine you can register it here manually until we get something more elegant hooked up.
+		// 如果您在引擎中设置了自定义的异常处理程序，那么您可以在此处手动进行注册，直到我们能引入更完善的解决方案为止。
 		public static void ExceptionHandler(Exception e) {
 #if UNITY_STANDALONE
 			UnityEngine.Debug.LogException(e);
@@ -163,6 +168,7 @@ namespace Steamworks {
 				CallbackMsg_t callbackMsg = (CallbackMsg_t)Marshal.PtrToStructure(m_pCallbackMsg, typeof(CallbackMsg_t));
 				try {
 					// Check for dispatching API call results
+					// 检查调度 API 调用的结果
 					if (callbackMsg.m_iCallback == SteamAPICallCompleted_t.k_iCallback) {
 						SteamAPICallCompleted_t callCompletedCb = (SteamAPICallCompleted_t)Marshal.PtrToStructure(callbackMsg.m_pubParam, typeof(SteamAPICallCompleted_t));
 						IntPtr pTmpCallResult = Marshal.AllocHGlobal((int)callCompletedCb.m_cubParam);
@@ -221,8 +227,11 @@ namespace Steamworks {
 
 		/// <summary>
 		/// Creates a new Callback. You must be calling SteamAPI.RunCallbacks() to retrieve the callbacks.
+		/// 创建一个新的回调函数。您必须调用 SteamAPI.RunCallbacks() 方法才能获取这些回调信息。
 		/// <para>Returns a handle to the Callback.</para>
 		/// <para>This MUST be assigned to a member variable to prevent the GC from cleaning it up.</para>
+		/// <para>返回一个指向回调函数的句柄。</para>
+		/// <para>必须将此内容赋值给一个成员变量，以防止垃圾回收机制将其清理掉。</para>
 		/// </summary>
 		public static Callback<T> Create(DispatchDelegate func) {
 			return new Callback<T>(func, bGameServer: false);
@@ -230,8 +239,11 @@ namespace Steamworks {
 
 		/// <summary>
 		/// Creates a new GameServer Callback. You must be calling GameServer.RunCallbacks() to retrieve the callbacks.
+		/// 创建一个新的游戏服务器回调。您必须调用 GameServer.RunCallbacks() 才能获取这些回调。
 		/// <para>Returns a handle to the Callback.</para>
 		/// <para>This MUST be assigned to a member variable to prevent the GC from cleaning it up.</para>
+		/// <para>返回一个指向回调函数的句柄。</para>
+		/// <para>必须将此内容赋值给一个成员变量，以防止垃圾回收机制将其清理掉。</para>
 		/// </summary>
 		public static Callback<T> CreateGameServer(DispatchDelegate func) {
 			return new Callback<T>(func, bGameServer: true);
@@ -260,6 +272,7 @@ namespace Steamworks {
 		}
 
 		// Manual registration of the callback
+		// 回调的手动注册
 		public void Register(DispatchDelegate func) {
 			if (func == null) {
 				throw new Exception("Callback function must not be null.");
@@ -319,8 +332,11 @@ namespace Steamworks {
 
 		/// <summary>
 		/// Creates a new async CallResult. You must be calling SteamAPI.RunCallbacks() to retrieve the callback.
+		/// 创建一个新的异步调用结果对象。您必须调用 SteamAPI.RunCallbacks() 才能获取回调信息。
 		/// <para>Returns a handle to the CallResult.</para>
 		/// <para>This MUST be assigned to a member variable to prevent the GC from cleaning it up.</para>
+		/// <para>返回一个指向回调函数的句柄。</para>
+		/// <para>必须将此内容赋值给一个成员变量，以防止垃圾回收机制将其清理掉。</para>
 		/// </summary>
 		public static CallResult<T> Create(APIDispatchDelegate func = null) {
 			return new CallResult<T>(func);
@@ -349,6 +365,8 @@ namespace Steamworks {
 		public void Set(SteamAPICall_t hAPICall, APIDispatchDelegate func = null) {
 			// Unlike the official SDK we let the user assign a single function during creation,
 			// and allow them to skip having to do so every time that they call .Set()
+			// 与官方的 SDK 不同，我们允许用户在创建时指定一个单一的函数，
+			// 并且让他们能够省去每次调用 .Set() 时都进行此操作的步骤。
 			if (func != null) {
 				m_Func = func;
 			}

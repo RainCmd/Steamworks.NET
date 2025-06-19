@@ -43,6 +43,7 @@ namespace Steamworks {
 		}
 
 		// This continues to exist for both 'out string' and strings returned by Steamworks functions.
+		// 这种情况对于“外部字符串”以及由 Steamworks 函数返回的字符串而言，都是持续存在的。
 		public static string PtrToStringUTF8(IntPtr nativeUtf8) {
 			if (nativeUtf8 == IntPtr.Zero) {
 				return null;
@@ -80,7 +81,9 @@ namespace Steamworks {
 		}
 
 		// This is for 'const char *' arguments which we need to ensure do not get GC'd while Steam is using them.
+		// 这是针对“const char *”类型的参数而言的，我们需要确保在 Steam 使用这些参数时，它们不会被垃圾回收机制回收。
 		// We can't use an ICustomMarshaler because Unity crashes when a string between 96 and 127 characters long is defined/initialized at the top of class scope...
+		// 我们不能使用自定义序列化器，因为当在类作用域的顶部定义/初始化长度在 96 到 127 个字符之间的字符串时，Unity 会崩溃……
 #if UNITY_EDITOR || UNITY_STANDALONE || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX
 		public class UTF8StringHandle : Microsoft.Win32.SafeHandles.SafeHandleZeroOrMinusOneIsInvalid {
 			public UTF8StringHandle(string str)
@@ -115,12 +118,16 @@ namespace Steamworks {
 
 		// TODO - Should be IDisposable
 		// We can't use an ICustomMarshaler because Unity dies when MarshalManagedToNative() gets called with a generic type.
+		// 我们不能使用自定义序列化器，因为当调用 MarshalManagedToNative() 并传入泛型类型时，Unity 将会崩溃。
 		public class SteamParamStringArray {
 			// The pointer to each AllocHGlobal() string
+			// 每个调用 AllocHGlobal() 函数所生成字符串的指针
 			IntPtr[] m_Strings;
 			// The pointer to the condensed version of m_Strings
+			// 指向 m_Strings 简化版本的指针
 			IntPtr m_ptrStrings;
 			// The pointer to the StructureToPtr version of SteamParamStringArray_t that will get marshaled
+			// 指向将要进行序列化的“SteamParamStringArray_t”结构的“StructureToPtr”版本的指针
 			IntPtr m_pSteamParamStringArray;
 
 			public SteamParamStringArray(System.Collections.Generic.IList<string> strings) {
@@ -172,6 +179,7 @@ namespace Steamworks {
 
 	// TODO - Should be IDisposable
 	// MatchMaking Key-Value Pair Marshaller
+	// 配对制作键值对序列器
 	public class MMKVPMarshaller {
 		private IntPtr m_pNativeArray;
 		private IntPtr m_pArrayEntries;
@@ -217,6 +225,7 @@ namespace Steamworks {
 
 		/// <summary>
 		/// This is an optional runtime check to ensure that the dlls are the correct version. Returns false only if the steam_api.dll is found and it's the wrong size or version number.
+		/// 这是一个可选的运行时检查，用于确保这些动态链接库（dll）的版本正确无误。只有在找到“steam_api.dll”但其大小或版本号不正确的情况下，该函数才会返回“false”。
 		/// </summary>
 		public static bool Test() {
 #if DISABLED
@@ -248,6 +257,7 @@ namespace Steamworks {
 			string file = filePath.ToString();
 
 			// If we can not find the file we'll just skip it and let the DllNotFoundException take care of it.
+			// 如果找不到该文件，我们就直接跳过它，让“DllNotFoundException”异常来处理这个问题。
 			if (System.IO.File.Exists(file)) {
 				System.IO.FileInfo fInfo = new System.IO.FileInfo(file);
 				if (fInfo.Length != fileBytes) {

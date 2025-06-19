@@ -12,6 +12,8 @@
 #if !DISABLESTEAMWORKS
 
 // Unity 32bit Mono on Windows crashes with ThisCall for some reason, StdCall without the 'this' ptr is the only thing that works..?
+// 在 Windows 系统上运行的 32 位 Unity Mono 版本由于某种原因会出现崩溃现象，
+// 而使用“ThisCall”调用方式时会出现错误，而使用“StdCall”且不包含“this”指针的调用方式则是唯一可行的方法……？
 #if (UNITY_EDITOR_WIN && !UNITY_EDITOR_64) || (!UNITY_EDITOR && UNITY_STANDALONE_WIN && !UNITY_64)
 	#define NOTHISPTR
 #endif
@@ -23,19 +25,26 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback interface for receiving responses after a server list refresh
 	// or an individual server update.
+	// 用途：用于在服务器列表刷新或单个服务器更新后接收响应的回调接口。
 	//
 	// Since you get these callbacks after requesting full list refreshes you will
 	// usually implement this interface inside an object like CServerBrowser.  If that
 	// object is getting destructed you should use ISteamMatchMakingServers()->CancelQuery()
 	// to cancel any in-progress queries so you don't get a callback into the destructed
 	// object and crash.
+	// 由于您是在请求完成列表刷新后接收到这些回调，因此通常会在类似于 CServerBrowser 的对象内部实现此接口。
+	// 如果该对象即将被销毁，您应该使用 ISteamMatchMakingServers()->CancelQuery() 来取消任何正在进行的查询，
+	// 以免在已销毁的对象中接收到回调并导致程序崩溃。
 	//-----------------------------------------------------------------------------
 	public class ISteamMatchmakingServerListResponse {
 		// Server has responded ok with updated data
+		// 服务器已成功响应，并提供了更新的数据。
 		public delegate void ServerResponded(HServerListRequest hRequest, int iServer);
 		// Server has failed to respond
+		// 服务器未能响应。
 		public delegate void ServerFailedToRespond(HServerListRequest hRequest, int iServer);
 		// A list refresh you had initiated is now 100% completed
+		// 您所发起的列表更新现已 100% 完成。
 		public delegate void RefreshComplete(HServerListRequest hRequest, EMatchMakingServerResponse response);
 
 		private VTable m_VTable;
@@ -172,6 +181,7 @@ namespace Steamworks {
 
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback interface for receiving responses after pinging an individual server
+	// 目的：用于接收对单个服务器进行ping操作后的响应的回调接口
 	//
 	// These callbacks all occur in response to querying an individual server
 	// via the ISteamMatchmakingServers()->PingServer() call below.  If you are
@@ -179,12 +189,17 @@ namespace Steamworks {
 	// ISteamMatchmakingServers()->CancelServerQuery() passing in the handle to the query
 	// which is in progress.  Failure to cancel in progress queries when destructing
 	// a callback handler may result in a crash when a callback later occurs.
+	// 这些回调操作都是在通过下面的 ISteamMatchmakingServers()->PingServer() 调用查询单个服务器的过程中发生的。
+	// 如果您正在销毁一个实现了此接口的对象，那么您应当调用 ISteamMatchmakingServers()->CancelServerQuery() 函数，
+	// 并传入正在进行中的查询的句柄。如果在销毁回调处理程序时未能取消正在进行的查询，可能会导致后续回调发生时出现崩溃。
 	//-----------------------------------------------------------------------------
 	public class ISteamMatchmakingPingResponse {
 		// Server has responded successfully and has updated data
+		// 服务器已成功响应并更新了数据。
 		public delegate void ServerResponded(gameserveritem_t server);
 
 		// Server failed to respond to the ping request
+		// 服务器未能响应ping请求
 		public delegate void ServerFailedToRespond();
 
 		private VTable m_VTable;
@@ -263,6 +278,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback interface for receiving responses after requesting details on
 	// who is playing on a particular server.
+	// 目的：用于接收响应的回调接口，该接口用于在请求有关特定服务器上正在运行的玩家信息时接收响应结果。
 	//
 	// These callbacks all occur in response to querying an individual server
 	// via the ISteamMatchmakingServers()->PlayerDetails() call below.  If you are
@@ -270,17 +286,24 @@ namespace Steamworks {
 	// ISteamMatchmakingServers()->CancelServerQuery() passing in the handle to the query
 	// which is in progress.  Failure to cancel in progress queries when destructing
 	// a callback handler may result in a crash when a callback later occurs.
+	// 这些回调操作都是在通过以下的 ISteamMatchmakingServers()->PlayerDetails() 调用查询单个服务器的过程中发生的。
+	// 如果您正在销毁一个实现了此接口的对象，那么您应当调用 ISteamMatchmakingServers()->CancelServerQuery() 函数，
+	// 并传入正在进行中的查询的句柄。如果在销毁回调处理程序时未能取消正在进行的查询，可能会导致后续回调发生时出现崩溃。
 	//-----------------------------------------------------------------------------
 	public class ISteamMatchmakingPlayersResponse {
 		// Got data on a new player on the server -- you'll get this callback once per player
 		// on the server which you have requested player data on.
+		// 获取到了服务器上一位新玩家的相关信息——您每次请求获取某位玩家的数据时，
+		// 服务器都会向您发送此回调信息，而您所请求获取数据的玩家数量是有限定的。
 		public delegate void AddPlayerToList(string pchName, int nScore, float flTimePlayed);
 
 		// The server failed to respond to the request for player details
+		// 服务器未能响应获取玩家详细信息的请求。
 		public delegate void PlayersFailedToRespond();
 
 		// The server has finished responding to the player details request
 		// (ie, you won't get anymore AddPlayerToList callbacks)
+		// 服务器已完成对玩家详细信息请求的响应（也就是说，您将不再收到“添加玩家到列表”回调消息）
 		public delegate void PlayersRefreshComplete();
 
 		private VTable m_VTable;
@@ -376,6 +399,7 @@ namespace Steamworks {
 	//-----------------------------------------------------------------------------
 	// Purpose: Callback interface for receiving responses after requesting rules
 	// details on a particular server.
+	// 目的：用于在请求特定服务器的规则详情后接收响应的回调接口。
 	//
 	// These callbacks all occur in response to querying an individual server
 	// via the ISteamMatchmakingServers()->ServerRules() call below.  If you are
@@ -383,17 +407,23 @@ namespace Steamworks {
 	// ISteamMatchmakingServers()->CancelServerQuery() passing in the handle to the query
 	// which is in progress.  Failure to cancel in progress queries when destructing
 	// a callback handler may result in a crash when a callback later occurs.
+	// 这些回调操作都是在通过以下的 ISteamMatchmakingServers()->ServerRules() 调用查询单个服务器的过程中发生的。
+	// 如果您正在销毁一个实现了此接口的对象，那么您应当调用 ISteamMatchmakingServers()->CancelServerQuery() 函数，
+	// 并传入正在进行中的查询的句柄。如果在销毁回调处理程序时未能取消正在进行的查询，可能会导致后续回调发生时出现崩溃。
 	//-----------------------------------------------------------------------------
 	public class ISteamMatchmakingRulesResponse {
 		// Got data on a rule on the server -- you'll get one of these per rule defined on
 		// the server you are querying
+		// 在服务器上获取了有关某项规则的数据——您将根据所查询的服务器上定义的每项规则获得此类数据。
 		public delegate void RulesResponded(string pchRule, string pchValue);
 
 		// The server failed to respond to the request for rule details
+		// 服务器未能响应关于规则详情的请求。
 		public delegate void RulesFailedToRespond();
 
 		// The server has finished responding to the rule details request
 		// (ie, you won't get anymore RulesResponded callbacks)
+		// 服务器已完成对规则详情请求的响应（也就是说，您将不再收到 RulesResponded 回调消息）
 		public delegate void RulesRefreshComplete();
 
 		private VTable m_VTable;
