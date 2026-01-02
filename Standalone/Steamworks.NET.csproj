@@ -76,7 +76,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="../com.rlabrecque.steamworks.net/Runtime/**/*.cs" />
+		<Compile Include="../com.rain.steamworks.net/Runtime/**/*.cs" />
 	</ItemGroup>
 
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,7 +3,7 @@ Steamworks.NET CodeGen
 
 这是一种特殊的程序，它会生成“autogen/”和“types/”这两个目录。
 
-它使用 [SteamworksParser](https://github.com/rlabrecque/SteamworksParser) 先解析 Steamworks 的 C++ 头文件，然后将其转换为 C# 语言。
+它使用 [SteamworksParser](https://github.com/RainCmd/SteamworksParser) 先解析 Steamworks 的 C++ 头文件，然后将其转换为 C# 语言。
 
 用法
 -----

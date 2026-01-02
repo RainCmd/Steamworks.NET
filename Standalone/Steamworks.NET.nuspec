@@ -6,8 +6,8 @@
 		<description>Steamworks.NET</description>
 		<authors>rileylabrecque</authors>
 		<license type="expression">MIT</license>
-		<projectUrl>https://github.com/rlabrecque/Steamworks.NET</projectUrl>
-		<repository type="git" url="https://github.com/rlabrecque/Steamworks.NET.git" commit="15.0.1"/>
+		<projectUrl>https://github.com/RainCmd/Steamworks.NET</projectUrl>
+		<repository type="git" url="https://github.com/RainCmd/Steamworks.NET.git" commit="15.0.1"/>
 		<dependencies>
 			<group targetFramework="netstandard2.1">
 			</group>

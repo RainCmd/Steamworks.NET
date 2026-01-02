@@ -2,7 +2,7 @@
 
 这是一个针对[Steamworks](https://partner.steamgames.com/)头文件的简单解析器。
 
-SteamworksParser 用来生成 [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) 通过绑定 [Steamworks.NET-CodeGen](https://github.com/rlabrecque/Steamworks.NET-CodeGen).
+SteamworksParser 用来生成 [Steamworks.NET](https://github.com/RainCmd/Steamworks.NET) 通过绑定 [Steamworks.NET-CodeGen](https://github.com/RainCmd/Steamworks.NET-CodeGen).
 
 你可能会疑惑，为什么不直接使用像 libclang 这样的工具来解析 C++ 代码呢？主要的原因是，我希望能够保留注释和格式信息。
 

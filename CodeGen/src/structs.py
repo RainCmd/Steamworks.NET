@@ -108,7 +108,7 @@ def main(parser, translate_text = None):
     global g_translate_text
     g_translate_text = translate_text
     try:
-        os.makedirs("../com.rlabrecque.steamworks.net/Runtime/autogen/")
+        os.makedirs("../com.rain.steamworks.net/Runtime/autogen/")
     except OSError:
         pass
 
@@ -120,7 +120,7 @@ def main(parser, translate_text = None):
         for callback in f.callbacks:
             callbacklines.extend(parse(callback))
 
-    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamStructs.cs", "w", encoding= 'utf-8') as out:
+    with open("../com.rain.steamworks.net/Runtime/autogen/SteamStructs.cs", "w", encoding= 'utf-8') as out:
         with open("templates/header.txt", "r",encoding= 'utf-8') as f:
             out.write(f.read())
         out.write("namespace Steamworks {\n")
@@ -129,7 +129,7 @@ def main(parser, translate_text = None):
         out.write("}\n\n")
         out.write("#endif // !DISABLESTEAMWORKS\n")
 
-    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamCallbacks.cs", "w", encoding= 'utf-8') as out:
+    with open("../com.rain.steamworks.net/Runtime/autogen/SteamCallbacks.cs", "w", encoding= 'utf-8') as out:
         with open("templates/header.txt", "r", encoding= 'utf-8') as f:
             out.write(f.read())
         out.write("namespace Steamworks {\n")

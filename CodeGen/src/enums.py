@@ -61,7 +61,7 @@ def main(parser, translate_text = None):
     global g_translate_text
     g_translate_text = translate_text
     try:
-        os.makedirs("../com.rlabrecque.steamworks.net/Runtime/autogen/")
+        os.makedirs("../com.rain.steamworks.net/Runtime/autogen/")
     except OSError:
         pass
 
@@ -145,7 +145,7 @@ def main(parser, translate_text = None):
             lines.append("\t}")
             lines.append("")
 
-    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/SteamEnums.cs", "w", encoding= 'utf-8') as out:
+    with open("../com.rain.steamworks.net/Runtime/autogen/SteamEnums.cs", "w", encoding= 'utf-8') as out:
         with open("templates/header.txt", "r",encoding='utf-8') as f:
             out.write(f.read())
         out.write("using Flags = System.FlagsAttribute;\n\n")

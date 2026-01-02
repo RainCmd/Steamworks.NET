@@ -13,11 +13,11 @@
 	<PropertyGroup Label="Nuget PM">
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageId>Steamworks.NET</PackageId>
-		<Authors>rlabrecque</Authors>
+		<Authors>RainCmd</Authors>
 		<!--<PackageVersion>15.0.1</PackageVersion>-->
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/rlabrecque/Steamworks.NET</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/rlabrecque/Steamworks.NET.git</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/RainCmd/Steamworks.NET</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/RainCmd/Steamworks.NET.git</RepositoryUrl>
 		<PackgeReadmeFile>README.md</PackgeReadmeFile>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -69,7 +69,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Include="../com.rlabrecque.steamworks.net/Runtime/**/*.cs" />
+		<Compile Include="../com.rain.steamworks.net/Runtime/**/*.cs" />
 	</ItemGroup>
 
 	<Import Project="BuildPackages.targets" />

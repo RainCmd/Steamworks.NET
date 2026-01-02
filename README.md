@@ -7,11 +7,11 @@ _Steamworks.NET_ 其设计初衷是尽可能贴近原始的 C++ API，因此 Val
 
 _Steamworks.NET_ 完全支持 Windows（32 位和 64 位）、OSX 和 Linux 系统。目前基于 Steamworks SDK 1.61 进行开发。
 
-* Author: [Riley Labrecque](https://github.com/rlabrecque)
+* Author: [Riley Labrecque](https://github.com/RainCmd)
 * License: [MIT](https://www.opensource.org/licenses/mit-license.php)
 * [文档](https://steamworks.github.io/)
 * [论坛](https://steamcommunity.com/groups/steamworks/discussions/0/666827974770212954/)
-* [报告问题](https://github.com/rlabrecque/Steamworks.NET/issues)
+* [报告问题](https://github.com/RainCmd/Steamworks.NET/issues)
 请注意，仅需报告与 Steamworks.NET 相关的具体问题，一般性的 API 问题/疑问应向 [Steamworks discussion board](http://steamcommunity.com/groups/steamworks/discussions) 提出。
 
 [![Support via Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YFZZER8VNXKRC)

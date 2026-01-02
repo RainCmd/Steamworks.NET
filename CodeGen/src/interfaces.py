@@ -557,7 +557,7 @@ def main(parser, translate_text = None):
     global g_translate_text
     g_translate_text = translate_text
     try:
-        os.makedirs("../com.rlabrecque.steamworks.net/Runtime/autogen/")
+        os.makedirs("../com.rain.steamworks.net/Runtime/autogen/")
     except OSError:
         pass
 
@@ -570,7 +570,7 @@ def main(parser, translate_text = None):
     for f in parser.files:
         parse(f)
 
-    with open("../com.rlabrecque.steamworks.net/Runtime/autogen/NativeMethods.cs", "w", encoding= 'utf-8') as out:
+    with open("../com.rain.steamworks.net/Runtime/autogen/NativeMethods.cs", "w", encoding= 'utf-8') as out:
         #out.write(bytes(HEADER, "utf-8"))
         with open("templates/nativemethods.txt", "r", encoding= 'utf-8') as f:
             out.write(f.read())
@@ -594,7 +594,7 @@ def parse(f):
         parse_interface(f, interface)
 
     if g_Output:
-        with open('../com.rlabrecque.steamworks.net/Runtime/autogen/' + os.path.splitext(f.name)[0] + '.cs', 'w', encoding= 'utf-8') as out:
+        with open('../com.rain.steamworks.net/Runtime/autogen/' + os.path.splitext(f.name)[0] + '.cs', 'w', encoding= 'utf-8') as out:
             out.write(HEADER)
             out.write("namespace Steamworks {\n")
             for line in g_Output:
