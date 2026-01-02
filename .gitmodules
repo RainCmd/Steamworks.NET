@@ -1,0 +1,3 @@
+[submodule "com.rain.steamworks.net"]
+	path = com.rain.steamworks.net
+	url = https://github.com/RainCmd/Steamworks.Net-UnityPackage.git
